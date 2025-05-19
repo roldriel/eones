@@ -1,0 +1,33 @@
+# Normalize line endings to LF for all text files
+* text=auto eol=lf
+
+# Explicitly mark common text file types
+*.py     text
+*.md     text
+*.toml   text
+*.rst    text
+*.sh     text
+*.bat    text
+*.ini    text
+*.yml    text
+*.txt    text
+*.html   text
+*.css    text
+*.js     text
+
+# Treat binary files properly
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.svg    text  # SVGs are XML and can be treated as text
+
+# Improve linguist detection: ignore examples and docs in language stats
+examples/* linguist-documentation
+docs/*     linguist-documentation
+
+# Treat Python scripts with executable bit as executable
+*.py       text eol=lf
+
+# Avoid merge conflicts in lockfiles (if added in the future)
+*.lock     merge=union
