@@ -15,6 +15,7 @@ venv/
 *.swp
 
 # Distribution / packaging
+.pypirc
 build/
 dist/
 *.egg-info/

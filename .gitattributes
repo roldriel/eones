@@ -20,7 +20,6 @@
 *.jpg    binary
 *.jpeg   binary
 *.gif    binary
-*.svg    text  # SVGs are XML and can be treated as text
 
 # Improve linguist detection: ignore examples and docs in language stats
 examples/* linguist-documentation
