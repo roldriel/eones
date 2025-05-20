@@ -1,0 +1,15 @@
+[MASTER]
+ignore=integrations
+
+[MESSAGES CONTROL]
+disable=R0903
+
+[FORMAT]
+max-line-length=87
+
+[REPORTS]
+output-format=colorized
+score=yes
+
+[DESIGN]
+min-public-methods=0
