@@ -23,11 +23,11 @@ class EonesDate:
     """
     Encapsulates a precise moment in time, drawn from the infinite thread of eons.
 
-    This class offers a rich set of operations for navigating, formatting, and comparing
-    temporal instances, while remaining rooted in timezone-aware datetime logic.
-    It bridges raw timekeeping with semantic clarity, allowing you to reason about
-    durations, truncations, alignments, and transitions in a way that feels both practical
-    and timeless.
+    This class offers a rich set of operations for navigating,
+    formatting, and comparing temporal instances, while remaining rooted
+    in timezone-aware datetime logic.  It bridges raw timekeeping with
+    semantic clarity, allowing you to reason about durations, truncations,
+    alignments, and transitions in a way that feels both practical and timeless.
     """
 
     def __init__(self, dt: Optional[datetime] = None, tz: Optional[str] = "UTC"):
@@ -171,7 +171,8 @@ class EonesDate:
         return self._dt < other.to_datetime()
 
     def is_within(self, other: EonesDate, check_month: bool = True) -> bool:
-        """Check if the current date is within the same year/month as another EonesDate.
+        """Check if the current date is within the same
+        year/month as another EonesDate.
 
         Args:
             other (EonesDate): Date to compare.
@@ -316,7 +317,8 @@ class EonesDate:
 
         Args:
             other (EonesDate): The date to compare against.
-            unit (str): Unit for comparison: 'days', 'months', or 'years'. Defaults to 'days'.
+            unit (str): Unit for comparison: 'days',
+            'months', or 'years'. Defaults to 'days'.
 
         Returns:
             int: Absolute difference in the specified unit.

@@ -70,7 +70,8 @@ class Chronologer:
         """Build a EonesDate from a dictionary with date parts.
 
         Args:
-            data (Dict[str, int]): Dictionary with keys like 'year', 'month', 'day', etc.
+            data (Dict[str, int]): Dictionary with keys like
+            'year', 'month', 'day', etc.
 
         Returns:
             EonesDate: Parsed date.

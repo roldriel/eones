@@ -22,10 +22,9 @@ EonesLike = Union[str, datetime, Dict[str, int], EonesDate]
 class Eones:
     """
     Central entrypoint for time manipulation, reasoning, and exploration.
-
-    Acts as a façade for EonesDate and its helpers — abstracting parsing, formatting,
-    delta application, comparisons, and range boundaries. A natural interface for working
-    with time as a concept, not just a datatype.
+    Acts as a façade for EonesDate and its helpers — abstracting parsing,
+    formatting, delta application, comparisons, and range boundaries.
+    A natural interface for working with time as a concept, not just a datatype.
     """
 
     def __init__(
@@ -77,8 +76,8 @@ class Eones:
 
     def add(self, **kwargs: int) -> None:
         """Add a delta to the current date.
-
-        Accepts keyword arguments such as: years, months, days, hours, minutes, seconds.
+        Accepts keyword arguments such as:
+        years, months, days, hours, minutes, seconds.
         Updates the internal EonesDate in place.
 
         Args:
@@ -104,10 +103,12 @@ class Eones:
         unit: Literal["days", "months", "years"] = "days",
     ) -> int:
         """
-        Compute the difference between this date and another object in the specified unit.
+        Compute the difference between this date and another
+        object in the specified unit.
 
         Args:
-            other: A compatible date-like object (EonesDate, Eones, str, dict, datetime).
+            other: A compatible date-like object
+            (EonesDate, Eones, str, dict, datetime).
             unit: Unit for comparison. One of 'days', 'months', or 'years'.
 
         Returns:
