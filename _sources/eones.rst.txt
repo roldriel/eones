@@ -1,0 +1,51 @@
+eones package
+=============
+
+.. automodule:: eones
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   eones.core
+   eones.integrations
+
+Submodules
+----------
+
+eones.constants module
+----------------------
+
+.. automodule:: eones.constants
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+eones.errors module
+-------------------
+
+.. automodule:: eones.errors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+eones.formats module
+--------------------
+
+.. automodule:: eones.formats
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+eones.interface module
+----------------------
+
+.. automodule:: eones.interface
+   :members:
+   :undoc-members:
+   :show-inheritance:

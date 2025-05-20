@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>eones package &#8212; Eones 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=8d563738"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="eones.core package" href="eones.core.html" />
+    <link rel="prev" title="Welcome to Eones’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-eones">
+<span id="eones-package"></span><h1>eones package<a class="headerlink" href="#module-eones" title="Link to this heading">¶</a></h1>
+<p>Eones: Navigate time with elegance.</p>
+<p>This package provides a semantically rich interface for
+handling dates and temporal logic. From parsing and formatting
+to complex deltas and period framing, Eones offers tools to  handling
+reason about time — not just measure it.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="eones.Eones">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eones.</span></span><span class="sig-name descname"><span class="pre">Eones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'UTC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eones.Eones" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Central entrypoint for time manipulation, reasoning, and exploration.
+Acts as a façade for EonesDate and its helpers — abstracting parsing,
+formatting, delta application, comparisons, and range boundaries.
+A natural interface for working with time as a concept, not just a datatype.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.Eones.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#eones.Eones.add" title="Link to this definition">¶</a></dt>
+<dd><p>Add a delta to the current date.
+Accepts keyword arguments such as:
+years, months, days, hours, minutes, seconds.
+Updates the internal EonesDate in place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> – Components of the time delta.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.Eones.difference">
+<span class="sig-name descname"><span class="pre">difference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#eones.interface.Eones" title="eones.interface.Eones"><span class="pre">Eones</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'days'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'months'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'years'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'days'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#eones.Eones.difference" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the difference between this date and another
+object in the specified unit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> – A compatible date-like object</p></li>
+<li><p><strong>(</strong><strong>EonesDate</strong></p></li>
+<li><p><strong>Eones</strong></p></li>
+<li><p><strong>str</strong></p></li>
+<li><p><strong>dict</strong></p></li>
+<li><p><strong>datetime</strong><strong>)</strong><strong>.</strong></p></li>
+<li><p><strong>unit</strong> – Unit for comparison. One of ‘days’, ‘months’, or ‘years’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The absolute difference in the specified unit.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the unit is unsupported.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.Eones.format">
+<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#eones.Eones.format" title="Link to this definition">¶</a></dt>
+<dd><p>Return the current date formatted using the given format string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fmt</strong> – Format string compatible with datetime.strftime.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Formatted date string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.Eones.is_between">
+<span class="sig-name descname"><span class="pre">is_between</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#eones.Eones.is_between" title="Link to this definition">¶</a></dt>
+<dd><p>Check if the current date is between two given dates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> – Start date (EonesDate, str, dict, datetime).</p></li>
+<li><p><strong>end</strong> – End date (same formats as start).</p></li>
+<li><p><strong>inclusive</strong> – Whether to include the endpoints.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the current date is between start and end.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.Eones.is_same_week">
+<span class="sig-name descname"><span class="pre">is_same_week</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#eones.Eones.is_same_week" title="Link to this definition">¶</a></dt>
+<dd><p>Return True if this date and the other are in the same ISO week.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> – Another date in any supported input format.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if they share the same ISO week and year.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.Eones.is_within">
+<span class="sig-name descname"><span class="pre">is_within</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compare</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_month</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#eones.Eones.is_within" title="Link to this definition">¶</a></dt>
+<dd><p>Check if current date is within same month/year as ‘compare’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>compare</strong> – The other date to compare against.</p></li>
+<li><p><strong>check_month</strong> – Whether to compare month and year (True) or just year (False).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if in same period.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.Eones.next_weekday">
+<span class="sig-name descname"><span class="pre">next_weekday</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weekday</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></span><a class="headerlink" href="#eones.Eones.next_weekday" title="Link to this definition">¶</a></dt>
+<dd><p>Get the next occurrence of a given weekday from the current date.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>weekday</strong> – Integer (0=Monday, …, 6=Sunday).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new EonesDate representing that next weekday.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate">EonesDate</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.Eones.now">
+<span class="sig-name descname"><span class="pre">now</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></span><a class="headerlink" href="#eones.Eones.now" title="Link to this definition">¶</a></dt>
+<dd><p>Return the current internal EonesDate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current date object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate">EonesDate</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.Eones.range">
+<span class="sig-name descname"><span class="pre">range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'month'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">datetime</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#eones.Eones.range" title="Link to this definition">¶</a></dt>
+<dd><p>Return the datetime range for the given period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode</strong> – One of “day”, “month”, or “year”.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Start and end datetimes for the period.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[datetime, datetime]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the mode is invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.Eones.replace">
+<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#eones.Eones.replace" title="Link to this definition">¶</a></dt>
+<dd><p>Replace date parts of the internal EonesDate.</p>
+<p>Example: replace(day=1, month=1) sets the date to January 1st of same year.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> – Components to replace (year, month, day, etc).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="eones.core.html">eones.core package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="eones.core.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eones.core.html#module-eones.core.date">eones.core.date module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate"><code class="docutils literal notranslate"><span class="pre">EonesDate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.as_local"><code class="docutils literal notranslate"><span class="pre">EonesDate.as_local()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.as_utc"><code class="docutils literal notranslate"><span class="pre">EonesDate.as_utc()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.copy"><code class="docutils literal notranslate"><span class="pre">EonesDate.copy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.diff"><code class="docutils literal notranslate"><span class="pre">EonesDate.diff()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.end_of"><code class="docutils literal notranslate"><span class="pre">EonesDate.end_of()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.format"><code class="docutils literal notranslate"><span class="pre">EonesDate.format()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.from_iso"><code class="docutils literal notranslate"><span class="pre">EonesDate.from_iso()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.from_unix"><code class="docutils literal notranslate"><span class="pre">EonesDate.from_unix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.is_between"><code class="docutils literal notranslate"><span class="pre">EonesDate.is_between()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.is_same_week"><code class="docutils literal notranslate"><span class="pre">EonesDate.is_same_week()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.is_within"><code class="docutils literal notranslate"><span class="pre">EonesDate.is_within()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.next_weekday"><code class="docutils literal notranslate"><span class="pre">EonesDate.next_weekday()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.previous_weekday"><code class="docutils literal notranslate"><span class="pre">EonesDate.previous_weekday()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.replace"><code class="docutils literal notranslate"><span class="pre">EonesDate.replace()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.round"><code class="docutils literal notranslate"><span class="pre">EonesDate.round()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.start_of"><code class="docutils literal notranslate"><span class="pre">EonesDate.start_of()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.to_datetime"><code class="docutils literal notranslate"><span class="pre">EonesDate.to_datetime()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.to_iso"><code class="docutils literal notranslate"><span class="pre">EonesDate.to_iso()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.to_unix"><code class="docutils literal notranslate"><span class="pre">EonesDate.to_unix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate.truncate"><code class="docutils literal notranslate"><span class="pre">EonesDate.truncate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="eones.core.html#module-eones.core.delta">eones.core.delta module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="eones.core.html#eones.core.delta.EonSpan"><code class="docutils literal notranslate"><span class="pre">EonSpan</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.delta.EonSpan.apply"><code class="docutils literal notranslate"><span class="pre">EonSpan.apply()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="eones.core.html#module-eones.core.parser">eones.core.parser module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="eones.core.html#eones.core.parser.Chronologer"><code class="docutils literal notranslate"><span class="pre">Chronologer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.parser.Chronologer.parse"><code class="docutils literal notranslate"><span class="pre">Chronologer.parse()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="eones.core.html#module-eones.core.range">eones.core.range module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="eones.core.html#eones.core.range.EonFrame"><code class="docutils literal notranslate"><span class="pre">EonFrame</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.range.EonFrame.day_range"><code class="docutils literal notranslate"><span class="pre">EonFrame.day_range()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.range.EonFrame.month_range"><code class="docutils literal notranslate"><span class="pre">EonFrame.month_range()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.core.html#eones.core.range.EonFrame.year_range"><code class="docutils literal notranslate"><span class="pre">EonFrame.year_range()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="eones.integrations.html">eones.integrations package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="eones.integrations.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eones.integrations.html#module-eones.integrations.django">eones.integrations.django module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="eones.integrations.html#eones.integrations.django.EonesDateTimeField"><code class="docutils literal notranslate"><span class="pre">EonesDateTimeField</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="eones.integrations.html#eones.integrations.django.EonesDateTimeField.from_db_value"><code class="docutils literal notranslate"><span class="pre">EonesDateTimeField.from_db_value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.integrations.html#eones.integrations.django.EonesDateTimeField.get_prep_value"><code class="docutils literal notranslate"><span class="pre">EonesDateTimeField.get_prep_value()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="eones.integrations.html#module-eones.integrations.serializers">eones.integrations.serializers module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="eones.integrations.html#eones.integrations.serializers.eones_encoder"><code class="docutils literal notranslate"><span class="pre">eones_encoder()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="eones.integrations.html#module-eones.integrations.sqlalchemy">eones.integrations.sqlalchemy module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="eones.integrations.html#eones.integrations.sqlalchemy.EonesType"><code class="docutils literal notranslate"><span class="pre">EonesType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="eones.integrations.html#eones.integrations.sqlalchemy.EonesType.process_bind_param"><code class="docutils literal notranslate"><span class="pre">EonesType.process_bind_param()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="eones.integrations.html#eones.integrations.sqlalchemy.EonesType.process_result_value"><code class="docutils literal notranslate"><span class="pre">EonesType.process_result_value()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-eones.constants">
+<span id="eones-constants-module"></span><h2>eones.constants module<a class="headerlink" href="#module-eones.constants" title="Link to this heading">¶</a></h2>
+<p>Canonical values and formatting codes for traversing time.</p>
+<p>This module defines key constants used across the Eones library — such as accepted date
+components and default string formats. It acts as the unified contract of what is
+understood, valid, and canonical in the representation of time.</p>
+</section>
+<section id="module-eones.errors">
+<span id="eones-errors-module"></span><h2>eones.errors module<a class="headerlink" href="#module-eones.errors" title="Link to this heading">¶</a></h2>
+<p>Time, when misused, demands clarity.</p>
+<p>This module defines the custom exceptions raised throughout the Eones library.
+They provide precise signals for invalid inputs, unsupported operations, or
+semantic conflicts when reasoning about time.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="eones.errors.EonesError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eones.errors.</span></span><span class="sig-name descname"><span class="pre">EonesError</span></span><a class="headerlink" href="#eones.errors.EonesError" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Base exception class for all Eones errors.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="eones.errors.InvalidDateError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eones.errors.</span></span><span class="sig-name descname"><span class="pre">InvalidDateError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Invalid</span> <span class="pre">date</span> <span class="pre">format</span> <span class="pre">or</span> <span class="pre">value'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eones.errors.InvalidDateError" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#eones.errors.EonesError" title="eones.errors.EonesError"><code class="xref py py-class docutils literal notranslate"><span class="pre">EonesError</span></code></a></p>
+<p>Raised when a provided date is invalid or cannot be parsed.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="eones.errors.InvalidFormatError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eones.errors.</span></span><span class="sig-name descname"><span class="pre">InvalidFormatError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Invalid</span> <span class="pre">or</span> <span class="pre">unsupported</span> <span class="pre">date</span> <span class="pre">format'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eones.errors.InvalidFormatError" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#eones.errors.EonesError" title="eones.errors.EonesError"><code class="xref py py-class docutils literal notranslate"><span class="pre">EonesError</span></code></a></p>
+<p>Raised when an invalid or unsupported format string is used.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="eones.errors.UnsupportedInputError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eones.errors.</span></span><span class="sig-name descname"><span class="pre">UnsupportedInputError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Unsupported</span> <span class="pre">input</span> <span class="pre">type</span> <span class="pre">for</span> <span class="pre">date</span> <span class="pre">parsing'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eones.errors.UnsupportedInputError" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#eones.errors.EonesError" title="eones.errors.EonesError"><code class="xref py py-class docutils literal notranslate"><span class="pre">EonesError</span></code></a></p>
+<p>Raised when the input type is not supported by the parser.</p>
+</dd></dl>
+
+</section>
+<section id="module-eones.formats">
+<span id="eones-formats-module"></span><h2>eones.formats module<a class="headerlink" href="#module-eones.formats" title="Link to this heading">¶</a></h2>
+<p>Patterns that make time readable.</p>
+<p>This module defines supported string formats and utilities related to
+converting temporal values into human-friendly representations.</p>
+<p>Used primarily for parsing and formatting across the Eones interface.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="eones.formats.is_valid_format">
+<span class="sig-prename descclassname"><span class="pre">eones.formats.</span></span><span class="sig-name descname"><span class="pre">is_valid_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#eones.formats.is_valid_format" title="Link to this definition">¶</a></dt>
+<dd><p>Check if a date string matches any of the provided formats.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>date_str</strong> – The date string to validate.</p></li>
+<li><p><strong>formats</strong> – A list of accepted datetime format strings.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the string matches at least one format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="eones.formats.sanitize_formats">
+<span class="sig-prename descclassname"><span class="pre">eones.formats.</span></span><span class="sig-name descname"><span class="pre">sanitize_formats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">formats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#eones.formats.sanitize_formats" title="Link to this definition">¶</a></dt>
+<dd><p>Remove duplicates and ensure all formats are strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>formats</strong> – A list of format definitions.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Cleaned list with unique and valid format strings.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-eones.interface">
+<span id="eones-interface-module"></span><h2>eones.interface module<a class="headerlink" href="#module-eones.interface" title="Link to this heading">¶</a></h2>
+<p>The temporal façade.</p>
+<p>This module defines the Eones class, a high-level entrypoint for working with dates
+using expressive operations. It unifies parsing, time shifts, comparisons, and range
+generation under a cohesive interface that mirrors human understanding of time.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="eones.interface.Eones">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eones.interface.</span></span><span class="sig-name descname"><span class="pre">Eones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'UTC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eones.interface.Eones" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Central entrypoint for time manipulation, reasoning, and exploration.
+Acts as a façade for EonesDate and its helpers — abstracting parsing,
+formatting, delta application, comparisons, and range boundaries.
+A natural interface for working with time as a concept, not just a datatype.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.interface.Eones.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#eones.interface.Eones.add" title="Link to this definition">¶</a></dt>
+<dd><p>Add a delta to the current date.
+Accepts keyword arguments such as:
+years, months, days, hours, minutes, seconds.
+Updates the internal EonesDate in place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> – Components of the time delta.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.interface.Eones.difference">
+<span class="sig-name descname"><span class="pre">difference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#eones.interface.Eones" title="eones.interface.Eones"><span class="pre">Eones</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'days'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'months'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'years'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'days'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#eones.interface.Eones.difference" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the difference between this date and another
+object in the specified unit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> – A compatible date-like object</p></li>
+<li><p><strong>(</strong><strong>EonesDate</strong></p></li>
+<li><p><strong>Eones</strong></p></li>
+<li><p><strong>str</strong></p></li>
+<li><p><strong>dict</strong></p></li>
+<li><p><strong>datetime</strong><strong>)</strong><strong>.</strong></p></li>
+<li><p><strong>unit</strong> – Unit for comparison. One of ‘days’, ‘months’, or ‘years’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The absolute difference in the specified unit.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the unit is unsupported.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.interface.Eones.format">
+<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#eones.interface.Eones.format" title="Link to this definition">¶</a></dt>
+<dd><p>Return the current date formatted using the given format string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fmt</strong> – Format string compatible with datetime.strftime.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Formatted date string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.interface.Eones.is_between">
+<span class="sig-name descname"><span class="pre">is_between</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#eones.interface.Eones.is_between" title="Link to this definition">¶</a></dt>
+<dd><p>Check if the current date is between two given dates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> – Start date (EonesDate, str, dict, datetime).</p></li>
+<li><p><strong>end</strong> – End date (same formats as start).</p></li>
+<li><p><strong>inclusive</strong> – Whether to include the endpoints.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the current date is between start and end.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.interface.Eones.is_same_week">
+<span class="sig-name descname"><span class="pre">is_same_week</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#eones.interface.Eones.is_same_week" title="Link to this definition">¶</a></dt>
+<dd><p>Return True if this date and the other are in the same ISO week.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> – Another date in any supported input format.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if they share the same ISO week and year.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.interface.Eones.is_within">
+<span class="sig-name descname"><span class="pre">is_within</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compare</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_month</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#eones.interface.Eones.is_within" title="Link to this definition">¶</a></dt>
+<dd><p>Check if current date is within same month/year as ‘compare’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>compare</strong> – The other date to compare against.</p></li>
+<li><p><strong>check_month</strong> – Whether to compare month and year (True) or just year (False).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if in same period.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.interface.Eones.next_weekday">
+<span class="sig-name descname"><span class="pre">next_weekday</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weekday</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></span><a class="headerlink" href="#eones.interface.Eones.next_weekday" title="Link to this definition">¶</a></dt>
+<dd><p>Get the next occurrence of a given weekday from the current date.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>weekday</strong> – Integer (0=Monday, …, 6=Sunday).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new EonesDate representing that next weekday.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate">EonesDate</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.interface.Eones.now">
+<span class="sig-name descname"><span class="pre">now</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></span><a class="headerlink" href="#eones.interface.Eones.now" title="Link to this definition">¶</a></dt>
+<dd><p>Return the current internal EonesDate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current date object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="eones.core.html#eones.core.date.EonesDate" title="eones.core.date.EonesDate">EonesDate</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.interface.Eones.range">
+<span class="sig-name descname"><span class="pre">range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'month'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">datetime</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#eones.interface.Eones.range" title="Link to this definition">¶</a></dt>
+<dd><p>Return the datetime range for the given period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode</strong> – One of “day”, “month”, or “year”.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Start and end datetimes for the period.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[datetime, datetime]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the mode is invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.interface.Eones.replace">
+<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#eones.interface.Eones.replace" title="Link to this definition">¶</a></dt>
+<dd><p>Replace date parts of the internal EonesDate.</p>
+<p>Example: replace(day=1, month=1) sets the date to January 1st of same year.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> – Components to replace (year, month, day, etc).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Eones</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">eones package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#eones.Eones"><code class="docutils literal notranslate"><span class="pre">Eones</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-eones.constants">eones.constants module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-eones.errors">eones.errors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-eones.formats">eones.formats module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-eones.interface">eones.interface module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">MIT License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">📦 CHANGELOG</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Eones’s documentation!</a></li>
+      <li>Next: <a href="eones.core.html" title="next chapter">eones.core package</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Rodrigo Ezequiel Roldán.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/eones.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
