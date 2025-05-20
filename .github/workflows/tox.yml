@@ -1,0 +1,50 @@
+name: Run Tox (tests + lint)
+
+on:
+  push:
+    paths:
+      - "src/**.py"
+      - "tests/**.py"
+      - "tox.ini"
+      - "pyproject.toml"
+  pull_request:
+
+jobs:
+  tests:
+    name: Tox Tests (py38 → py312)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, 3.10, 3.11, 3.12]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install tox
+        run: pip install tox
+
+      - name: Run tox testenv
+        run: tox
+
+  lint:
+    name: Tox Lint Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install tox
+        run: pip install tox
+
+      - name: Run tox lint
+        run: tox -e lint
