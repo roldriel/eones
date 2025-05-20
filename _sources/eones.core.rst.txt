@@ -3,8 +3,8 @@ eones.core package
 
 .. automodule:: eones.core
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 Submodules
 ----------
@@ -14,29 +14,29 @@ eones.core.date module
 
 .. automodule:: eones.core.date
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 eones.core.delta module
 -----------------------
 
 .. automodule:: eones.core.delta
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 eones.core.parser module
 ------------------------
 
 .. automodule:: eones.core.parser
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 eones.core.range module
 -----------------------
 
 .. automodule:: eones.core.range
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
