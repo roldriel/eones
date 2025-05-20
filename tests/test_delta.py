@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import pytest
 
@@ -68,3 +68,22 @@ def test_eonspan_invalid_argument():
 def test_eonspan_equality_with_invalid_type():
     delta = EonSpan(days=1)
     assert (delta == "not-a-span") is False
+
+
+
+def test_str_with_full_delta():
+    d = EonSpan(years=2, months=5, days=3, hours=4, minutes=30, seconds=45)
+    assert str(d) == "2y 5mo 3d 4h 30m 45s"
+
+def test_str_with_partial_delta():
+    d = EonSpan(hours=1)
+    assert str(d) == "1h"
+
+def test_str_with_zero_delta():
+    d = EonSpan()
+    assert str(d) == "0s"
+
+def test_hash_is_computable():
+    d = EonSpan(years=1, months=2, days=3)
+    h = hash(d)
+    assert isinstance(h, int)
