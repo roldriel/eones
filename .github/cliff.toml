@@ -3,16 +3,18 @@ header = "# Changelog"
 body = """
 {% for group, commits in commits | group_by(attribute="group") %}
 ### {{ group | upper_first }}
+
 {% for commit in commits %}
 - {{ commit.message | trim }} ([`{{ commit.id | truncate(length=7) }}`](https://github.com/roldriel/eones/commit/{{ commit.id }}))
 {% endfor %}
+
 {% endfor %}
 """
 trim = true
 footer = ""
 
 [git]
-tag_pattern = "v[0-9]*"
+tag_pattern = "^v\\d+\\.\\d+\\.\\d+$"
 ignore_tags = false
 topo_order = false
 filter_unconventional = true
