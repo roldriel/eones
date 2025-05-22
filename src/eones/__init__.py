@@ -9,5 +9,5 @@ reason about time — not just measure it.
 
 from eones.interface import Eones
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 __all__ = ["Eones"]
