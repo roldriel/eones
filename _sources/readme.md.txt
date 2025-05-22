@@ -1,11 +1,10 @@
 # Eones
 ![Python](https://img.shields.io/badge/Python-3.8+-yellow?style=for-the-badge&logo=python)
-![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
-![Build](https://img.shields.io/badge/Build-manual-green?style=for-the-badge)
-![Coverage](https://img.shields.io/badge/Coverage-97%25-blue?style=for-the-badge)
-![Tox](https://img.shields.io/badge/Tested%20with-tox-yellowgreen?style=for-the-badge)
 ![PyPI](https://img.shields.io/pypi/v/eones?style=for-the-badge)
-![ChatGPT](https://img.shields.io/badge/ChatGPT-Collaborator-lightgrey?style=for-the-badge&logo=openai)
+![Pylint](https://img.shields.io/badge/pylint-10.00-green?style=for-the-badge)
+![Coverage](https://img.shields.io/badge/Coverage-100%25-red?style=for-the-badge)
+![Build](https://img.shields.io/badge/Build-manual-green?style=for-the-badge)
+![Tox](https://img.shields.io/badge/Tested%20tox-yellowgreen?style=for-the-badge)
 
 ---
 
@@ -42,8 +41,7 @@ pip install "eones"
 from eones import Eones
 
 z = Eones("2025-06-15")
-z.add(months=1, days=3)
-
+z.add(months=1, days=3)  # -> add 3 days and 1 month
 print(z.format("%Y-%m-%d"))  # → 2025-07-18
 ```
 
@@ -82,9 +80,9 @@ print(z.format("%Y-%m-%d"))  # → 2025-07-18
 
 You can find more usage examples in:
 
-- [examples/basic_usage.py](examples/basic_usage.py)
-- [examples/advanced_usage.py](examples/advanced_usage.py)
-- [examples/labor_calendar.py](examples/labor_calendar.py)
+- [examples/basic_usage.py](https://github.com/roldriel/eones/blob/master/examples/basic_usage.py)
+- [examples/advanced_usage.py](https://github.com/roldriel/eones/blob/master/examples/advanced_usage.py)
+- [examples/labor_calendar.py](https://github.com/roldriel/eones/blob/master/examples/labor_calendar.py)
 
 ---
 
@@ -110,4 +108,4 @@ coverage html && open htmlcov/index.html
 ## 📝 License
 
 MIT © 2025 — Rodrigo Ezequiel Roldán  
-[View full license](LICENSE.md)
+[View full license](https://github.com/roldriel/eones/blob/master/LICENSE.md)

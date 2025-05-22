@@ -12,6 +12,7 @@
     <script src="_static/documentation_options.js?v=8d563738"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="canonical" href="https://roldriel.github.io/eones/readme.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="MIT License" href="license.html" />
@@ -36,12 +37,11 @@
   <section id="eones">
 <h1>Eones<a class="headerlink" href="#eones" title="Link to this heading">¶</a></h1>
 <p><img alt="Python" src="https://img.shields.io/badge/Python-3.8+-yellow?style=for-the-badge&amp;logo=python" />
-<img alt="License" src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" />
-<img alt="Build" src="https://img.shields.io/badge/Build-manual-green?style=for-the-badge" />
-<img alt="Coverage" src="https://img.shields.io/badge/Coverage-97%25-blue?style=for-the-badge" />
-<img alt="Tox" src="https://img.shields.io/badge/Tested%20with-tox-yellowgreen?style=for-the-badge" />
 <img alt="PyPI" src="https://img.shields.io/pypi/v/eones?style=for-the-badge" />
-<img alt="ChatGPT" src="https://img.shields.io/badge/ChatGPT-Collaborator-lightgrey?style=for-the-badge&amp;logo=openai" /></p>
+<img alt="Pylint" src="https://img.shields.io/badge/pylint-10.00-green?style=for-the-badge" />
+<img alt="Coverage" src="https://img.shields.io/badge/Coverage-100%25-red?style=for-the-badge" />
+<img alt="Build" src="https://img.shields.io/badge/Build-manual-green?style=for-the-badge" />
+<img alt="Tox" src="https://img.shields.io/badge/Tested%20tox-yellowgreen?style=for-the-badge" /></p>
 <hr class="docutils" />
 <blockquote>
 <div><p>Compatible with Python 3.8+ · No external dependencies · Portable and lightweight</p>
@@ -75,8 +75,7 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">eones</span><span class="w"> </span><span class="kn">import</span> <span class="n">Eones</span>
 
 <span class="n">z</span> <span class="o">=</span> <span class="n">Eones</span><span class="p">(</span><span class="s2">&quot;2025-06-15&quot;</span><span class="p">)</span>
-<span class="n">z</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">days</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-
+<span class="n">z</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">days</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># -&gt; add 3 days and 1 month</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">))</span>  <span class="c1"># → 2025-07-18</span>
 </pre></div>
 </div>
@@ -190,9 +189,9 @@
 <h2>📚 Advanced Examples<a class="headerlink" href="#advanced-examples" title="Link to this heading">¶</a></h2>
 <p>You can find more usage examples in:</p>
 <ul class="simple">
-<li><p><a class="reference download internal" download="" href="_downloads/c1e08bcfa2aad428f0c0b5f5d23b42bd/basic_usage.py"><span class="xref download myst">examples/basic_usage.py</span></a></p></li>
-<li><p><a class="reference download internal" download="" href="_downloads/11cd553338060063fb5c720a73c0e9c3/advanced_usage.py"><span class="xref download myst">examples/advanced_usage.py</span></a></p></li>
-<li><p><a class="reference download internal" download="" href="_downloads/724c64b4cb5851d7c3c1119655865817/labor_calendar.py"><span class="xref download myst">examples/labor_calendar.py</span></a></p></li>
+<li><p><a class="reference external" href="https://github.com/roldriel/eones/blob/master/examples/basic_usage.py">examples/basic_usage.py</a></p></li>
+<li><p><a class="reference external" href="https://github.com/roldriel/eones/blob/master/examples/advanced_usage.py">examples/advanced_usage.py</a></p></li>
+<li><p><a class="reference external" href="https://github.com/roldriel/eones/blob/master/examples/labor_calendar.py">examples/labor_calendar.py</a></p></li>
 </ul>
 </section>
 <hr class="docutils" />
@@ -217,7 +216,7 @@
 <section id="license">
 <h2>📝 License<a class="headerlink" href="#license" title="Link to this heading">¶</a></h2>
 <p>MIT © 2025 — Rodrigo Ezequiel Roldán<br />
-<a class="reference internal" href="#LICENSE.md"><span class="xref myst">View full license</span></a></p>
+<a class="reference external" href="https://github.com/roldriel/eones/blob/master/LICENSE.md">View full license</a></p>
 </section>
 </section>
 
