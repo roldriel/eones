@@ -1,23 +1,23 @@
 # 📦 CHANGELOG
 
-Todas las versiones están documentadas en este archivo.
+All versions are documented in this file.
 
 ---
 
 ## [1.0.0] - 2025-05-19
 
 ### Added
-- Primera versión estable de la librería `eones`.
-- Parser unificado para `str`, `dict`, `datetime`.
-- Soporte de zonas horarias con `ZoneInfo`.
-- Métodos de truncamiento, agregación, comparación y rangos.
-- Integraciones opcionales con `Django`, `SQLAlchemy`, `Serializers`.
+- First stable release of the `eones` library.
+- Unified parser for `str`, `dict`, and `datetime`.
+- Timezone support using `ZoneInfo`.
+- Truncation, aggregation, comparison, and range methods.
+- Optional integrations for `Django`, `SQLAlchemy`, and `Serializers`.
 
 ### Changed
-- Interfaz centralizada en la clase `Eones`.
+- Centralized interface using the `Eones` class.
 
 ---
 
-## Histórico
+## History
 
-Este proyecto está diseñado para ser minimalista, multiplataforma y 100% basado en la biblioteca estándar de Python.
+This project is designed to be minimalist, cross-platform, and 100% based on Python’s standard library.

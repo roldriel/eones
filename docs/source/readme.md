@@ -1,94 +1,92 @@
 # Eones
 ![Python](https://img.shields.io/badge/Python-3.8+-yellow?style=for-the-badge&logo=python)
-![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
-![Build](https://img.shields.io/badge/Build-manual-green?style=for-the-badge)
-![Coverage](https://img.shields.io/badge/Coverage-97%25-blue?style=for-the-badge)
-![Tox](https://img.shields.io/badge/Tested%20with-tox-yellowgreen?style=for-the-badge)
 ![PyPI](https://img.shields.io/pypi/v/eones?style=for-the-badge)
-![ChatGPT](https://img.shields.io/badge/ChatGPT-Collaborator-lightgrey?style=for-the-badge&logo=openai)
+![Pylint](https://img.shields.io/badge/pylint-10.00-green?style=for-the-badge)
+![Coverage](https://img.shields.io/badge/Coverage-100%25-red?style=for-the-badge)
+![Build](https://img.shields.io/badge/Build-manual-green?style=for-the-badge)
+![Tox](https://img.shields.io/badge/Tested%20tox-yellowgreen?style=for-the-badge)
 
 ---
 
-> Compatible con Python 3.8+ · Sin dependencias externas · Portátil y liviana
+> Compatible with Python 3.8+ · No external dependencies · Portable and lightweight
 
 ---
 
-## ✨ ¿Qué es Eones?
+## ✨ What is Eones?
 
-Eones es una librería minimalista, sin dependencias externas, para trabajar con fechas y operaciones de tiempo de manera expresiva, clara y poderosa. Inspirada en la semántica natural del lenguaje, permite manipular, comparar y transformar fechas como si fueran entidades vivas.
+Eones is a minimalist, dependency-free library for expressive, clear, and powerful date/time manipulation. Inspired by natural language semantics, it allows you to manipulate, compare, and transform dates as if they were living entities.
 
-> *“No está muerto lo que yace eternamente, y con el paso de extraños eones, incluso la muerte puede morir.”*  
-> — *Abdul Alhazred*, Necronomicón
+> *“That is not dead which can eternal lie, and with strange aeons even death may die.”*  
+> — *Abdul Alhazred*, Necronomicon
 
 ---
 
-## 📦 Instalación
+## 📦 Installation
 
 ```bash
-pip install "eones>=1.0.0"
+pip install "eones"
 ```
 
-> Si vas a trabajar con zonas horarias en Windows o contenedores:  
-> ⚠️ Instala también `tzdata`:
+> If you're working with timezones on Windows or containers:  
+> ⚠️ Also install `tzdata`:
 > ```bash
 > pip install tzdata
 > ```
 
 ---
 
-## 🧪 Ejemplo básico
+## 🧪 Basic Example
 
 ```python
 from eones import Eones
 
 z = Eones("2025-06-15")
-z.add(months=1, days=3)
-
+z.add(months=1, days=3)  # -> add 3 days and 1 month
 print(z.format("%Y-%m-%d"))  # → 2025-07-18
 ```
 
 ---
 
-## 🔍 Características principales
+## 🔍 Key Features
 
-- ✅ Parsers automáticos para `str`, `dict`, `datetime`, `Eones`
-- ✅ Agregado de días, meses, años, minutos y segundos
-- ✅ Comparación de fechas (misma semana, dentro del año, entre rangos)
-- ✅ Rango de día / mes / año completo
-- ✅ Truncamiento y redondeo por unidad
-- ✅ Soporte completo para `ZoneInfo` (PEP 615)
-- ✅ Sin dependencias externas
-- ✅ Conversión a `datetime`, `date`, y tipos nativos
-
----
-
-## 🧾 Comparación con otras librerías
-
-| Característica                            | Eones | Pendulum | Arrow | Delorean | dateutil | pytz |
-|-------------------------------------------|:-----:|:--------:|:-----:|:--------:|:--------:|:----:|
-| API moderna y consistente                  | ✅    | ✅        | ✅    | ⚠️        | ❌        | ❌   |
-| Manipulación de fechas (add/subtract)     | ✅    | ✅        | ✅    | ✅        | ❌        | ❌   |
-| Parsing flexible (string, dict, datetime) | ✅    | ✅        | ✅    | ⚠️        | ✅        | ❌   |
-| Soporte nativo de zonas horarias          | ✅    | ✅        | ✅    | ✅        | ⚠️        | ✅   |
-| Sin dependencias externas                 | ✅    | ❌        | ❌    | ❌        | ❌        | ❌   |
-| Testeada con coverage ≥ 97%               | ✅    | ❓        | ❓    | ❌        | ❌        | ❌   |
-| Apta para reemplazar `datetime` directo   | ✅    | ✅        | ✅    | ❌        | ❌        | ❌   |
-| Licencia permisiva (MIT / BSD)            | ✅    | ✅        | ✅    | ✅        | ✅        | ✅   |
-| Mantenimiento activo                      | ✅    | ✅        | ✅    | ❌        | ✅        | ⚠️   |
+- ✅ Automatic parsing for `str`, `dict`, `datetime`, `Eones`
+- ✅ Add/subtract days, months, years, minutes, seconds
+- ✅ Date comparison (same week, within year, between ranges)
+- ✅ Full day/month/year ranges
+- ✅ Truncation and rounding by unit
+- ✅ Full support for `ZoneInfo` (PEP 615)
+- ✅ Zero external dependencies
+- ✅ Conversion to `datetime`, `date`, and native types
 
 ---
 
-## 📚 Ejemplos avanzados
+## 🧾 Comparison with other libraries
 
-Podés encontrar más ejemplos en:
-
-- [examples/basic_usage.py](examples/basic_usage.py)
-- [examples/advanced_usage.py](examples/advanced_usage.py)
-- [examples/labor_calendar.py](examples/labor_calendar.py)
+| Feature                                 | Eones | Pendulum | Arrow | Delorean | dateutil | pytz |
+|-----------------------------------------|:-----:|:--------:|:-----:|:--------:|:--------:|:----:|
+| Modern, consistent API                  | ✅    | ✅        | ✅    | ⚠️        | ❌        | ❌   |
+| Date arithmetic (add/subtract)          | ✅    | ✅        | ✅    | ✅        | ❌        | ❌   |
+| Flexible parsing (string, dict, dt)     | ✅    | ✅        | ✅    | ⚠️        | ✅        | ❌   |
+| Native timezone support                 | ✅    | ✅        | ✅    | ✅        | ⚠️        | ✅   |
+| No external dependencies                | ✅    | ❌        | ❌    | ❌        | ❌        | ❌   |
+| Coverage tested ≥ 97%                   | ✅    | ❓        | ❓    | ❌        | ❌        | ❌   |
+| Can replace native `datetime` directly  | ✅    | ✅        | ✅    | ❌        | ❌        | ❌   |
+| Permissive license (MIT / BSD)          | ✅    | ✅        | ✅    | ✅        | ✅        | ✅   |
+| Actively maintained                     | ✅    | ✅        | ✅    | ❌        | ✅        | ⚠️   |
 
 ---
 
-## 🔧 Tests y cobertura
+## 📚 Advanced Examples
+
+You can find more usage examples in:
+
+- [examples/basic_usage.py](https://github.com/roldriel/eones/blob/master/examples/basic_usage.py)
+- [examples/advanced_usage.py](https://github.com/roldriel/eones/blob/master/examples/advanced_usage.py)
+- [examples/labor_calendar.py](https://github.com/roldriel/eones/blob/master/examples/labor_calendar.py)
+
+---
+
+## 🔧 Tests & Coverage
 
 ```bash
 tox
@@ -100,14 +98,14 @@ coverage html && open htmlcov/index.html
 
 ---
 
-## 📖 Requisitos
+## 📖 Requirements
 
-- Python 3.8 o superior
-- (Opcional) `tzdata` si usás zonas horarias en sistemas sin base local
+- Python 3.8 or higher
+- (Optional) `tzdata` if using timezones in systems without a local zoneinfo database
 
 ---
 
-## 📝 Licencia
+## 📝 License
 
 MIT © 2025 — Rodrigo Ezequiel Roldán  
-[Ver licencia completa](LICENSE.md)
+[View full license](https://github.com/roldriel/eones/blob/master/LICENSE.md)

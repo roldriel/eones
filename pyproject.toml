@@ -6,11 +6,20 @@ build-backend = "setuptools.build_meta"
 name = "Eones"
 version = "1.0.1"
 description = "Elegant time manipulation and reasoning library"
-readme = "README.md"
+readme = {file = "README.md", content-type = "text/markdown"}
+license = {file = "LICENSE.md"}
 requires-python = ">=3.8"
-license = "MIT"
-authors = [{ name = "Rodrigo Ezequiel Roldán", email = "roldriel@gmail.com" }]
-keywords = ["datetime", "time", "calendar", "library", "dates", "timezones"]
+authors = [
+    { name = "Rodrigo Ezequiel Roldán", email = "roldriel@gmail.com" }
+]
+keywords = [
+    "datetime",
+    "time",
+    "calendar",
+    "library",
+    "dates",
+    "timezones"
+]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -23,7 +32,18 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
-dependencies = ["tzdata"]
+dependencies = [
+    "tzdata"
+]
+
+[project.optional-dependencies]
+docs = ["sphinx", "myst-parser"]
+test = ["pytest", "coverage"]
+
+[project.urls]
+repository = "https://github.com/roldriel/eones"
+documentation = "https://roldriel.github.io/eones/"
+"Bug Tracker" = "https://github.com/roldriel/eones/issues"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
