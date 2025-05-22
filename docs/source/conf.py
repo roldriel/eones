@@ -17,6 +17,19 @@ extensions = [
 templates_path = ['_templates']
 exclude_patterns = []
 
+html_baseurl = "https://roldriel.github.io/eones/"
+html_extra_path = ['extra']
 html_theme = 'alabaster'
 html_static_path = ['_static']
 autodoc_mock_imports = ["django", "sqlalchemy"]
+html_theme_options = {
+    "canonical_url": "https://roldriel.github.io/eones/",
+    'navigation_depth': 4,
+}
+html_context = {
+    "display_github": True,
+    "github_user": "roldriel",
+    "github_repo": "eones",
+    "github_version": "master",
+    "conf_py_path": "/docs/",
+}

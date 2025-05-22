@@ -1,7 +1,7 @@
 # examples/labor_calendar.py
 from datetime import datetime
 
-from zilean import Zilean
+from eones import Eones
 
 # Lista de feriados (puede venir de una base de datos externa)
 feriados = [
@@ -11,7 +11,7 @@ feriados = [
 ]
 
 # Verificar si una fecha es laborable
-fecha = Zilean("2025-05-01")
+fecha = Eones("2025-05-01")
 
 is_weekend = fecha.now().to_datetime().weekday() >= 5  # 5 = Sábado, 6 = Domingo
 is_feriado = fecha.format("%Y-%m-%d") in feriados
@@ -22,7 +22,7 @@ else:
     print("Laborable")
 
 # Calcular próximos 5 días laborables
-actual = Zilean("2025-05-01")
+actual = Eones("2025-05-01")
 proximos = []
 
 while len(proximos) < 5:

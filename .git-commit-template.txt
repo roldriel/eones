@@ -1,0 +1,32 @@
+# Commit message (follow Conventional Commits):
+#
+# <type>(<optional scope>): <short summary>
+# 
+# [optional body]
+# [optional footer(s)]
+
+# Types:
+#   feat      : A new feature
+#   fix       : A bug fix
+#   docs      : Documentation only changes
+#   refactor  : A code change that neither fixes a bug nor adds a feature
+#   test      : Adding or fixing tests
+#   perf      : A code change that improves performance
+#   ci        : Changes to CI/CD config or scripts
+#   build     : Changes that affect build system or external dependencies
+
+# Examples:
+#   feat(eones): add support for human-readable ranges
+#   fix: handle tzdata parsing on Windows containers
+#   docs: add Sphinx deploy instructions to README
+#   refactor: extract date parsing logic to utils
+#   ci: fix GitHub Pages deploy path for docs
+#   build: bump version to 1.0.2 in pyproject.toml
+
+# Breaking changes:
+#   Use `!` after type:
+#   feat!: remove deprecated method Eones.from_dict()
+#
+# Footer (for breaking changes or linked issues):
+#   BREAKING CHANGE: removed support for datetime < 3.8
+#   Closes: #123
