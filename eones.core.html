@@ -90,6 +90,12 @@ alignments, and transitions in a way that feels both practical and timeless.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="eones.core.date.EonesDate.ceil">
+<span class="sig-name descname"><span class="pre">ceil</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'year'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'month'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'week'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'day'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'hour'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'minute'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'second'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></span><a class="headerlink" href="#eones.core.date.EonesDate.ceil" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a new EonesDate advanced to the end of the given unit.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.EonesDate.copy">
 <span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></span><a class="headerlink" href="#eones.core.date.EonesDate.copy" title="Link to this definition">¶</a></dt>
 <dd><p>Return a new copy of the current EonesDate.</p>
@@ -131,19 +137,25 @@ in the specified unit.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.EonesDate.end_of">
-<span class="sig-name descname"><span class="pre">end_of</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">datetime</span></span></span><a class="headerlink" href="#eones.core.date.EonesDate.end_of" title="Link to this definition">¶</a></dt>
-<dd><p>Return the end of a given period.</p>
+<span class="sig-name descname"><span class="pre">end_of</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'year'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'month'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'week'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'day'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'hour'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'minute'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'second'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></span><a class="headerlink" href="#eones.core.date.EonesDate.end_of" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the datetime aligned to the end of the given unit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>period</strong> (<em>str</em>) – One of ‘day’, ‘week’, ‘month’, or ‘year’.</p>
+<dd class="field-odd"><p><strong>unit</strong> (<em>Literal</em>) – Temporal unit.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>End of the specified period.</p>
+<dd class="field-even"><p>Aligned datetime.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>datetime</p>
+<dd class="field-odd"><p><a class="reference internal" href="#eones.core.date.EonesDate" title="eones.core.date.EonesDate">EonesDate</a></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.core.date.EonesDate.floor">
+<span class="sig-name descname"><span class="pre">floor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'year'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'month'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'week'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'day'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'hour'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'minute'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'second'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></span><a class="headerlink" href="#eones.core.date.EonesDate.floor" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a new EonesDate truncated to the start of the given unit.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -316,7 +328,7 @@ year/month as another EonesDate.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.EonesDate.round">
-<span class="sig-name descname"><span class="pre">round</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></span><a class="headerlink" href="#eones.core.date.EonesDate.round" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">round</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'minute'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'hour'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'day'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></span><a class="headerlink" href="#eones.core.date.EonesDate.round" title="Link to this definition">¶</a></dt>
 <dd><p>Round the datetime to the nearest unit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -333,17 +345,17 @@ year/month as another EonesDate.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.EonesDate.start_of">
-<span class="sig-name descname"><span class="pre">start_of</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">datetime</span></span></span><a class="headerlink" href="#eones.core.date.EonesDate.start_of" title="Link to this definition">¶</a></dt>
-<dd><p>Return the start of a given period.</p>
+<span class="sig-name descname"><span class="pre">start_of</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'year'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'month'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'week'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'day'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'hour'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'minute'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'second'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eones.core.date.EonesDate" title="eones.core.date.EonesDate"><span class="pre">EonesDate</span></a></span></span><a class="headerlink" href="#eones.core.date.EonesDate.start_of" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the datetime aligned to the start of the given unit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>period</strong> (<em>str</em>) – One of ‘day’, ‘week’, ‘month’, or ‘year’.</p>
+<dd class="field-odd"><p><strong>unit</strong> (<em>Literal</em>) – Temporal unit.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Start of the specified period.</p>
+<dd class="field-even"><p>Aligned datetime.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>datetime</p>
+<dd class="field-odd"><p><a class="reference internal" href="#eones.core.date.EonesDate" title="eones.core.date.EonesDate">EonesDate</a></p>
 </dd>
 </dl>
 </dd></dl>
