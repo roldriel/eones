@@ -11,6 +11,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Dict, List, Literal, Optional, Union
 
+from eones.constants import DEFAULT_FORMATS
 from eones.core.date import EonesDate
 from eones.core.delta import EonSpan
 from eones.core.parser import Chronologer
@@ -32,6 +33,7 @@ class Eones:
         value: Optional[Union[str, Dict[str, int], datetime]] = None,
         tz: str = "UTC",
         formats: Optional[List[str]] = None,
+        additional_formats: Optional[List[str]] = None
     ):
         """Initialize a Eones instance.
 
@@ -40,7 +42,27 @@ class Eones:
             tz: Timezone for this date.
             formats: List of string formats for parsing if input is string.
         """
-        self._parser = Chronologer(tz=tz, formats=formats)
+        if formats and additional_formats:
+            raise ValueError(
+                "Use either 'formats' or 'additional_formats', not both."
+            )
+
+        if isinstance(formats, str):
+            formats = [formats]
+
+        if isinstance(additional_formats, str):
+            additional_formats = [additional_formats]
+
+        if formats:
+            resolved_formats = formats
+
+        elif additional_formats:
+            resolved_formats = DEFAULT_FORMATS + additional_formats
+
+        else:
+            resolved_formats = DEFAULT_FORMATS
+
+        self._parser = Chronologer(tz=tz, formats=resolved_formats)
         self._date = self._parser.parse(value)
 
     def __repr__(self) -> str:
@@ -138,6 +160,40 @@ class Eones:
         """
         self._date = self._date.replace(**kwargs)
 
+    def floor(
+        self,
+        unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
+    ) -> Eones:
+        """
+        Truncate the current date down to the start of the specified temporal unit.
+
+        Args:
+            unit (Literal): The unit to truncate to. Valid options are:
+                "year", "month", "week", "day", "hour", "minute", "second".
+
+        Returns:
+            Eones: The same instance, updated to the floored date.
+        """
+        self._date = self._date.floor(unit)
+        return self
+
+    def ceil(
+        self,
+        unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
+    ) -> Eones:
+        """
+        Advance the current date to the end of the specified temporal unit.
+
+        Args:
+            unit (Literal): The unit to ceil to. Valid options are:
+                "year", "month", "week", "day", "hour", "minute", "second".
+
+        Returns:
+            Eones: The same instance, updated to the ceiled date.
+        """
+        self._date = self._date.ceil(unit)
+        return self
+
     def is_between(
         self, start: EonesLike, end: EonesLike, inclusive: bool = True
     ) -> bool:
@@ -221,3 +277,45 @@ class Eones:
         if mode == "year":
             return r.year_range()
         raise ValueError("Invalid range mode. Choose from: day, month, year.")
+
+    def round(self, unit: Literal["minute", "hour", "day"]) -> Eones:
+        """
+        Round the datetime to the nearest unit ("minute", "hour", or "day").
+
+        Returns:
+            Eones: self, updated.
+        """
+        self._date = self._date.round(unit)
+        return self
+
+    def start_of(
+        self,
+        unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
+    ) -> Eones:
+        """
+        Set the datetime to the start of the specified unit.
+
+        Args:
+            unit (Literal): Unit to align to.
+
+        Returns:
+            Eones: Self, updated.
+        """
+        self._date = self._date.start_of(unit)
+        return self
+
+    def end_of(
+        self,
+        unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
+    ) -> Eones:
+        """
+        Set the datetime to the end of the specified unit.
+
+        Args:
+            unit (Literal): Unit to align to.
+
+        Returns:
+            Eones: Self, updated.
+        """
+        self._date = self._date.end_of(unit)
+        return self

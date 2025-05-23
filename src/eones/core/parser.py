@@ -67,6 +67,16 @@ class Chronologer:
         raise ValueError(f"Unsupported input type: {type(value)}")
 
     def _from_dict(self, data: Dict[str, int]) -> EonesDate:
+
+        filtered = {k: int(v) for k, v in data.items() if k in VALID_KEYS}
+        try:
+            dt = datetime(**filtered)
+            return EonesDate(dt, self._zone.key)
+
+        except Exception as e:
+            raise ValueError(f"Invalid dictionary date input: {e}") from e
+
+    def _from_dict(self, value: Dict[str, int]) -> EonesDate:
         """Build a EonesDate from a dictionary with date parts.
 
         Args:
@@ -75,17 +85,20 @@ class Chronologer:
 
         Returns:
             EonesDate: Parsed date.
-
-        Raises:
-            ValueError: If data can't be parsed into a datetime.
         """
-        filtered = {k: int(v) for k, v in data.items() if k in VALID_KEYS}
-        try:
-            dt = datetime(**filtered)
-            return EonesDate(dt, self._zone.key)
+        now = datetime.now(self._zone)
+        kwargs = {
+            "year": value.get("year", now.year),
+            "month": value.get("month", now.month),
+            "day": value.get("day", now.day),
+            "hour": value.get("hour", 0),
+            "minute": value.get("minute", 0),
+            "second": value.get("second", 0),
+            "microsecond": value.get("microsecond", 0),
+            "tzinfo": self._zone,
+        }
+        return EonesDate(datetime(**kwargs))
 
-        except Exception as e:
-            raise ValueError(f"Invalid dictionary date input: {e}") from e
 
     def _from_str(self, date_str: str) -> EonesDate:
         """Parse a string into a EonesDate using known formats.

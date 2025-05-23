@@ -89,6 +89,9 @@ class EonesDate:
         """
         return self._dt.isoformat()
 
+    def _clone(self, dt: datetime) -> EonesDate:
+        return EonesDate(dt=dt, tz=str(self._zone))
+
     def copy(self) -> EonesDate:
         """Return a new copy of the current EonesDate.
 
@@ -262,7 +265,10 @@ class EonesDate:
 
         raise ValueError("Invalid unit. Use 'second', 'minute', 'hour', or 'day'.")
 
-    def round(self, unit: str) -> EonesDate:
+    def round(
+        self,
+        unit: Literal["minute", "hour", "day"]
+    ) -> EonesDate:
         """Round the datetime to the nearest unit.
 
         Args:
@@ -272,10 +278,12 @@ class EonesDate:
             EonesDate: Rounded datetime.
         """
         dt = self._dt
-        if unit == "minute":
-            if dt.second >= 30:
-                dt += timedelta(minutes=1)
-            return EonesDate(dt.replace(second=0, microsecond=0), self._zone.key)
+        if unit == "day":
+            if dt.hour >= 12:
+                dt += timedelta(days=1)
+            return EonesDate(
+                dt.replace(hour=0, minute=0, second=0, microsecond=0), self._zone.key
+            )
 
         if unit == "hour":
             if dt.minute >= 30:
@@ -284,14 +292,17 @@ class EonesDate:
                 dt.replace(minute=0, second=0, microsecond=0), self._zone.key
             )
 
-        if unit == "day":
-            if dt.hour >= 12:
-                dt += timedelta(days=1)
-            return EonesDate(
-                dt.replace(hour=0, minute=0, second=0, microsecond=0), self._zone.key
-            )
+        if unit == "minute":
+            if dt.second >= 30:
+                dt += timedelta(minutes=1)
+            return EonesDate(dt.replace(second=0, microsecond=0), self._zone.key)
 
-        raise ValueError("Invalid unit. Use 'minute', 'hour', or 'day'.")
+        if unit == "second":
+            if dt.microsecond >= 500_000:
+                dt += timedelta(seconds=1)
+            return EonesDate(dt.replace(microsecond=0), self._zone.key)
+
+        raise ValueError("Invalid unit. Use 'second','minute', 'hour', or 'day'.")
 
     def replace(self, **kwargs: Any) -> EonesDate:
         """Return a new EonesDate with replaced datetime fields.
@@ -343,63 +354,6 @@ class EonesDate:
 
         raise ValueError("Unsupported unit. Use 'days', 'months' or 'years'.")
 
-    def start_of(self, period: str) -> datetime:
-        """Return the start of a given period.
-
-        Args:
-            period (str): One of 'day', 'week', 'month', or 'year'.
-
-        Returns:
-            datetime: Start of the specified period.
-        """
-        if period == "day":
-            return self._dt.replace(hour=0, minute=0, second=0, microsecond=0)
-
-        if period == "week":
-            weekday = self._dt.isoweekday()
-            return (self._dt - timedelta(days=weekday - 1)).replace(
-                hour=0, minute=0, second=0, microsecond=0
-            )
-
-        if period == "month":
-            return self._dt.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-
-        if period == "year":
-            return self._dt.replace(
-                month=1, day=1, hour=0, minute=0, second=0, microsecond=0
-            )
-
-        raise ValueError("Invalid period. Use 'day', 'week', 'month', or 'year'.")
-
-    def end_of(self, period: str) -> datetime:
-        """Return the end of a given period.
-
-        Args:
-            period (str): One of 'day', 'week', 'month', or 'year'.
-
-        Returns:
-            datetime: End of the specified period.
-        """
-        if period == "day":
-            return self._dt.replace(hour=23, minute=59, second=59, microsecond=999999)
-
-        if period == "week":
-            weekday = self._dt.isoweekday()
-            end_date = self._dt + timedelta(days=7 - weekday)
-            return end_date.replace(hour=23, minute=59, second=59, microsecond=999999)
-
-        if period == "month":
-            last_day = monthrange(self._dt.year, self._dt.month)[1]
-            return self._dt.replace(
-                day=last_day, hour=23, minute=59, second=59, microsecond=999999
-            )
-
-        if period == "year":
-            return self._dt.replace(
-                month=12, day=31, hour=23, minute=59, second=59, microsecond=999999
-            )
-        raise ValueError("Invalid period. Use 'day', 'week', 'month', or 'year'.")
-
     def next_weekday(self, weekday: int) -> EonesDate:
         """Return the next date matching the specified weekday.
 
@@ -427,3 +381,106 @@ class EonesDate:
         days_behind = (current_weekday - weekday + 7) % 7 or 7
         prev_date = self._dt - timedelta(days=days_behind)
         return EonesDate(prev_date, self._zone.key)
+
+    def floor(
+        self,
+        unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
+    ) -> EonesDate:
+        """
+        Returns a new EonesDate truncated to the start of the given unit.
+        """
+        dt = self._dt
+
+        if unit == "year":
+            dt = dt.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+
+        elif unit == "month":
+            dt = dt.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+
+        elif unit == "week":
+            weekday = dt.weekday()  # 0 = Monday
+            dt = dt.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=weekday)
+
+        elif unit == "day":
+            dt = dt.replace(hour=0, minute=0, second=0, microsecond=0)
+
+        elif unit == "hour":
+            dt = dt.replace(minute=0, second=0, microsecond=0)
+
+        elif unit == "minute":
+            dt = dt.replace(second=0, microsecond=0)
+
+        elif unit == "second":
+            dt = dt.replace(microsecond=0)
+
+        else:
+            raise ValueError(f"Unsupported unit: {unit}")
+
+        return self._clone(dt)
+
+    def ceil(
+        self,
+        unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
+    ) -> EonesDate:
+        """
+        Returns a new EonesDate advanced to the end of the given unit.
+        """
+        floored = self.floor(unit)._dt
+
+        if unit == "year":
+            dt = floored.replace(month=12, day=31, hour=23, minute=59, second=59, microsecond=999999)
+
+        elif unit == "month":
+            last_day = monthrange(floored.year, floored.month)[1]
+            dt = floored.replace(day=last_day, hour=23, minute=59, second=59, microsecond=999999)
+
+        elif unit == "week":
+            dt = floored + timedelta(days=6)
+            dt = dt.replace(hour=23, minute=59, second=59, microsecond=999999)
+
+        elif unit == "day":
+            dt = floored.replace(hour=23, minute=59, second=59, microsecond=999999)
+
+        elif unit == "hour":
+            dt = floored.replace(minute=59, second=59, microsecond=999999)
+
+        elif unit == "minute":
+            dt = floored.replace(second=59, microsecond=999999)
+
+        elif unit == "second":
+            dt = floored.replace(microsecond=999999)
+
+        else:
+            raise ValueError(f"Unsupported unit: {unit}")
+
+        return self._clone(dt)
+
+    def start_of(
+        self,
+        unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
+    ) -> EonesDate:
+        """
+        Returns the datetime aligned to the start of the given unit.
+
+        Args:
+            unit (Literal): Temporal unit.
+
+        Returns:
+            EonesDate: Aligned datetime.
+        """
+        return self.floor(unit)
+
+    def end_of(
+        self,
+        unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
+    ) -> EonesDate:
+        """
+        Returns the datetime aligned to the end of the given unit.
+
+        Args:
+            unit (Literal): Temporal unit.
+
+        Returns:
+            EonesDate: Aligned datetime.
+        """
+        return self.ceil(unit)
