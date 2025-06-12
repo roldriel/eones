@@ -1,3 +1,4 @@
+"""tests.test_integrations.py"""
 def test_import_django():
     import eones.integrations.django
 

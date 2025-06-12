@@ -1,11 +1,4 @@
-"""
-The art of interpreting time.
-
-This module defines the Chronologer class, a utility capable of parsing raw date
-expressions into EonesDate instances. It bridges human-readable strings and structured
-input into structured, timezone-aware temporal objects.
-"""
-
+"""core.parser.py"""
 from __future__ import annotations
 
 from datetime import datetime
@@ -13,20 +6,23 @@ from typing import Dict, List, Optional, Union
 from zoneinfo import ZoneInfo
 
 from eones.constants import VALID_KEYS
-from eones.core.date import EonesDate
+from eones.core.date import Date
+
+EonesLike = Union[str, datetime, Dict[str, int], Date]
 
 
-class Chronologer:
+class Parser:
     """
-    Converts unshaped temporal input into meaningful EonesDate form.
+    Converts unshaped temporal input into meaningful Date form.
 
-    Accepts strings, dictionaries, datetimes, or EonesDate instances, and interprets
+    Accepts strings, dictionaries, datetimes, or Date instances, and interprets
     them based on provided format patterns. Useful for transforming loose or
     user-provided values into structured time representations.
     """
 
     def __init__(self, tz: str = "UTC", formats: Optional[List[str]] = None) -> None:
-        """Initialize the parser with optional timezone and format list.
+        """
+        Initialize the parser with optional timezone and format list.
 
         Args:
             tz (str): Timezone string (e.g., 'UTC', 'America/New_York').
@@ -36,29 +32,30 @@ class Chronologer:
         self._formats = formats if formats else ["%Y-%m-%d", "%d/%m/%Y"]
 
     def parse(
-        self, value: Union[str, Dict[str, int], datetime, EonesDate, None]
-    ) -> EonesDate:
-        """Parse an input into a EonesDate.
+        self, value: Union[str, Dict[str, int], datetime, "Date", None]
+    ) -> "Date":
+        """
+        Parse an input into a Date.
 
         Args:
-            value: Input value (string, dict, datetime, EonesDate, or None).
+            value: Input value (string, dict, datetime, Date, or None).
 
         Returns:
-            EonesDate: Parsed EonesDate instance.
+            Date: Parsed Date instance.
 
         Raises:
             ValueError: If input type or content is not valid.
         """
         if value is None:
-            return EonesDate(tz=self._zone.key)
+            return Date(tz=self._zone.key)
 
         if isinstance(value, datetime):
-            return EonesDate(value, self._zone.key)
+            return Date(value, self._zone.key)
 
         if isinstance(value, dict):
             return self._from_dict(value)
 
-        if isinstance(value, EonesDate):
+        if isinstance(value, Date):
             return value
 
         if isinstance(value, str):
@@ -66,48 +63,44 @@ class Chronologer:
 
         raise ValueError(f"Unsupported input type: {type(value)}")
 
-    def _from_dict(self, data: Dict[str, int]) -> EonesDate:
-
-        filtered = {k: int(v) for k, v in data.items() if k in VALID_KEYS}
-        try:
-            dt = datetime(**filtered)
-            return EonesDate(dt, self._zone.key)
-
-        except Exception as e:
-            raise ValueError(f"Invalid dictionary date input: {e}") from e
-
-    def _from_dict(self, value: Dict[str, int]) -> EonesDate:
-        """Build a EonesDate from a dictionary with date parts.
+    def _from_dict(self, date_parts: Dict[str, int]) -> "Date":
+        """
+        Build a Date from a dictionary with date parts.
 
         Args:
-            data (Dict[str, int]): Dictionary with keys like
+            date_parts (Dict[str, int]): Dictionary with keys like
             'year', 'month', 'day', etc.
 
         Returns:
-            EonesDate: Parsed date.
+            Date: Parsed date.
         """
+
+        invalid_keys = set(date_parts) - VALID_KEYS
+        if invalid_keys:
+            raise ValueError(f"Invalid date part keys: {sorted(invalid_keys)}")
+
         now = datetime.now(self._zone)
-        kwargs = {
-            "year": value.get("year", now.year),
-            "month": value.get("month", now.month),
-            "day": value.get("day", now.day),
-            "hour": value.get("hour", 0),
-            "minute": value.get("minute", 0),
-            "second": value.get("second", 0),
-            "microsecond": value.get("microsecond", 0),
+        parts = {
+            "year": date_parts.get("year", now.year),
+            "month": date_parts.get("month", now.month),
+            "day": date_parts.get("day", now.day),
+            "hour": date_parts.get("hour", 0),
+            "minute": date_parts.get("minute", 0),
+            "second": date_parts.get("second", 0),
+            "microsecond": date_parts.get("microsecond", 0),
             "tzinfo": self._zone,
         }
-        return EonesDate(datetime(**kwargs))
+        return Date(datetime(**parts))
 
-
-    def _from_str(self, date_str: str) -> EonesDate:
-        """Parse a string into a EonesDate using known formats.
+    def _from_str(self, date_str: str) -> "Date":
+        """
+        Parse a string into a Date using known formats.
 
         Args:
             date_str (str): A date string.
 
         Returns:
-            EonesDate: Parsed date.
+            Date: Parsed date.
 
         Raises:
             ValueError: If string does not match any known formats.
@@ -115,7 +108,21 @@ class Chronologer:
         for fmt in self._formats:
             try:
                 dt = datetime.strptime(date_str, fmt)
-                return EonesDate(dt.replace(tzinfo=self._zone), self._zone.key)
+                return Date(dt.replace(tzinfo=self._zone), self._zone.key)
+
             except ValueError:
                 continue
+
         raise ValueError(f"Date string '{date_str}' does not match expected formats.")
+
+    def to_eones_date(self, value: EonesLike) -> Date:
+        """
+        Convert various types to a Date instance.
+
+        Args:
+            value (EonesLike): A value of type Eones, Date, or input parseable to Date.
+
+        Returns:
+            Date: Parsed or extracted Date.
+        """
+        return self.parse(value)

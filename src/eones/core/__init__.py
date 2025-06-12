@@ -1,1 +1,1 @@
-"""Core module initializer for Eones."""
+"""core.__init__.py"""

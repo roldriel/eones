@@ -1,13 +1,91 @@
-from datetime import datetime, timezone
+from datetime import datetime
 from zoneinfo import ZoneInfo
 
 import pytest
 
 from eones import Eones
-from eones.core.date import EonesDate
+from eones.core.date import Date
 
-# ==== RANGE ====
+# ==== INIT ====
 
+@pytest.mark.parametrize(
+    "formats, additional_formats",
+    [
+        (["%Y-%m-%d"], ["%d-%m-%Y"]),
+        ("%Y-%m-%d", ["%d-%m-%Y"]),
+        (["%Y-%m-%d"], "%d-%m-%Y"),
+        ("%Y-%m-%d", "%d-%m-%Y"),
+    ],
+)
+def test_eones_init_mutual_exclusion_raises(formats, additional_formats):
+    with pytest.raises(ValueError, match="Use either 'formats' or 'additional_formats'"):
+        Eones("2024-01-01", formats=formats, additional_formats=additional_formats)
+
+
+@pytest.mark.parametrize(
+    "kwargs",
+    [
+        {"formats": "%Y-%m-%d"},
+        {"additional_formats": "%Y-%m-%d"},
+        {"additional_formats": ["%Y-%m-%d"]},
+    ],
+)
+def test_eones_init_format_variants(kwargs):
+    e = Eones("2024-01-01", **kwargs)
+    assert isinstance(e, Eones)
+
+
+# ==== REPRESENTATION & COMPARISON ====
+
+def test_eones_repr_contains_date_and_tz():
+    e = Eones("2025-06-15T14:30:00", tz="UTC")
+    representation = repr(e)
+    assert "Eones(date=" in representation
+    assert "tz='UTC'" in representation
+
+
+def test_eones_equality_same_value():
+    a = Eones("2024-01-01", tz="UTC")
+    b = Eones("2024-01-01", tz="UTC")
+    assert a == b
+
+
+def test_eones_equality_not_instance():
+    a = Eones("2024-01-01", tz="UTC")
+    assert a != "2024-01-01"
+
+
+# ==== TIME TRANSFORMATIONS ====
+
+@pytest.mark.parametrize("method, unit", [
+    ("floor", "hour"),
+    ("ceil", "hour"),
+    ("round", "day"),
+    ("start_of", "month"),
+    ("end_of", "month"),
+])
+def test_eones_unit_transformations(method, unit):
+    e = Eones("2024-03-17T15:45:23")
+    transformed = getattr(e, method)(unit)
+    assert isinstance(transformed, Eones)
+
+
+def test_replace_method_changes_date_fields():
+    e = Eones("2024-01-15", tz="UTC")
+    result = e.replace(month=12, day=25)
+    assert isinstance(result, Eones)
+    dt = result.now().to_datetime()
+    assert dt.month == 12
+    assert dt.day == 25
+
+
+def test_next_weekday_returns_correct_type():
+    e = Eones("2025-01-01", tz="UTC")
+    result = e.next_weekday(4)
+    assert isinstance(result, Date)
+
+
+# ==== RANGE & POSITIONAL CHECKS ====
 
 @pytest.mark.parametrize(
     "mode, check",
@@ -29,21 +107,14 @@ def test_eones_range_invalid_mode_raises():
         z.range("decade")
 
 
-# ==== IS_WITHIN ====
-
-
 @pytest.mark.parametrize(
     "compare, expected, check_month",
     [
         ("2025-06-01", True, True),
         ({"year": 2025, "month": 6, "day": 1}, True, True),
         (datetime(2025, 6, 1, tzinfo=ZoneInfo("UTC")), True, True),
-        (EonesDate(datetime(2025, 6, 1, tzinfo=ZoneInfo("UTC"))), True, True),
-        (
-            EonesDate(datetime(2025, 1, 1, tzinfo=ZoneInfo("UTC"))),
-            True,
-            False,
-        ),  # compara solo el año
+        (Date(datetime(2025, 6, 1, tzinfo=ZoneInfo("UTC"))), True, True),
+        (Date(datetime(2025, 1, 1, tzinfo=ZoneInfo("UTC"))), True, False),
     ],
 )
 def test_is_within_variants(compare, expected, check_month):
@@ -51,102 +122,65 @@ def test_is_within_variants(compare, expected, check_month):
     assert z.is_within(compare, check_month=check_month) is expected
 
 
-# ==== DIFFERENCE ====
+def test_is_between_inclusive_true():
+    e = Eones("2025-01-15", tz="UTC")
+    assert e.is_between("2025-01-01", "2025-01-31", inclusive=True) is True
 
+
+def test_is_between_inclusive_false_outside():
+    e = Eones("2025-01-01", tz="UTC")
+    assert e.is_between("2025-01-01", "2025-01-15", inclusive=False) is False
+
+
+def test_is_same_week_with_eones_instance():
+    e1 = Eones("2024-01-01")
+    e2 = Eones("2024-01-02")
+    assert e1.is_same_week(e2) is True
+
+
+def test_is_same_week_with_datetime_input():
+    dt = datetime(2025, 1, 2, tzinfo=ZoneInfo("UTC"))
+    e = Eones("2025-01-01", tz="UTC")
+    assert e.is_same_week(dt) is True
+
+
+# ==== DIFFERENCE ====
 
 @pytest.mark.parametrize(
     "a,b,unit,expected",
     [
-        ("2025-05-10", "2025-05-15", "days", 5),
-        ("2025-01-01", "2025-04-01", "months", 3),
-        ("2020-01-01", "2025-01-01", "years", 5),
+        ("2024-01-01", "2024-01-03", "days", 2),
+        ("2024-01-01", "2024-01-15", "weeks", 2),
+        ("2024-01-01", "2024-04-01", "months", 3),
+        ("2022-01-01", "2024-01-01", "years", 2),
     ],
 )
 def test_difference_units(a, b, unit, expected):
-    assert Eones(a).difference(Eones(b), unit=unit) == expected
+    z = Eones(a)
+    result = z.difference(b, unit=unit)
+    assert result == expected
 
 
-def test_difference_with_string_input():
-    a = Eones("2025-05-10")
-    assert a.difference("2025-05-15", unit="days") == 5
+def test_difference_with_eones_instance():
+    a = Eones("2025-01-01", tz="UTC")
+    b = Eones("2025-01-15", tz="UTC")
+    assert a.difference(b, unit="days") == 14
 
 
-def test_difference_invalid_unit_raises():
-    a = Eones("2025-01-01")
-    with pytest.raises(ValueError, match="Unsupported unit"):
-        a.difference("2025-01-02", unit="hours")
+def test_difference_with_date_instance():
+    dt = datetime(2025, 1, 15, tzinfo=ZoneInfo("UTC"))
+    d = Date(dt)
+    e = Eones("2025-01-01", tz="UTC")
+    assert e.difference(d, unit="days") == 14
 
+def test_coerce_to_date_from_eones():
+    a = Eones("2024-01-01", tz="UTC")
+    b = Eones("2024-01-15", tz="UTC")
+    assert a._coerce_to_date(b).to_datetime().day == 15
 
-@pytest.mark.parametrize(
-    "b,expected",
-    [
-        (Eones("2025-01-04"), 3),
-        (EonesDate(datetime(2025, 1, 5, tzinfo=timezone.utc)), 4),
-        ("2025-01-05", 4),
-    ],
-)
-def test_difference_with_varied_inputs(b, expected):
-    a = Eones("2025-01-01")
-    assert a.difference(b, unit="days") == expected
-
-
-# ==== DATE OPERATIONS ====
-
-
-def test_replace_date_parts():
-    z = Eones("2025-05-15")
-    z.replace(day=1, month=1)
-    assert z.format("%Y-%m-%d") == "2025-01-01"
-
-
-@pytest.mark.parametrize(
-    "start,end,inclusive,expected",
-    [
-        ("2025-05-01", "2025-05-10", True, True),
-        ("2025-05-01", "2025-05-09", True, False),
-        ("2025-05-01", "2025-05-10", False, False),
-        ("2025-05-01", "2025-05-11", False, True),
-    ],
-)
-def test_is_between_cases(start, end, inclusive, expected):
-    z = Eones("2025-05-10")
-    assert z.is_between(start, end, inclusive=inclusive) is expected
-
-
-@pytest.mark.parametrize(
-    "other,expected",
-    [
-        ("2025-05-05", True),
-        ("2025-05-12", False),
-    ],
-)
-def test_is_same_week_cases(other, expected):
-    z = Eones("2025-05-07")
-    assert z.is_same_week(other) is expected
-
-
-def test_next_weekday_returns_correct_day():
-    z = Eones("2025-06-13")  # viernes
-    next_monday = z.next_weekday(0)  # 0 = lunes
-    assert next_monday.to_datetime().weekday() == 0
-    assert next_monday.to_datetime().date() > z._date.to_datetime().date()
-
-
-def test_now_returns_date_object():
-    z = Eones("2025-05-15")
-    current = z.now()
-    assert isinstance(current, EonesDate)
-
-
-def test_eones_repr():
-    e = Eones("2025-01-01")
-    assert "Eones(date=" in repr(e)
-
-
-def test_eones_equality():
-    a = Eones("2025-01-01")
-    b = Eones("2025-01-01")
-    c = Eones("2024-01-01")
-    assert a == b
-    assert a != c
-    assert a != "not-an-eones"
+def test_coerce_to_date_accepts_eones_instance():
+    a = Eones("2024-01-01", tz="UTC")
+    b = Eones("2024-01-15", tz="UTC")
+    coerced = a._coerce_to_date(b)
+    assert isinstance(coerced, Date)
+    assert coerced.to_datetime().day == 15

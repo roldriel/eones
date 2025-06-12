@@ -1,44 +1,37 @@
-"""
-Boundaries across temporal expanses.
-
-This module defines the EonFrame class, which produces start and end datetime
-boundaries for key temporal periods — days, months, and years — based on a
-reference EonesDate. Useful for queries, filters, and range logic.
-"""
-
+"""core.range.py"""
 from __future__ import annotations
 
 from calendar import monthrange
 from datetime import datetime, time
 from typing import Tuple
 
-from eones.core.date import EonesDate
+from eones.core.date import Date
 
 
-class EonFrame:
+class Range:
     """
     Generates the start and end bounds of a temporal window.
 
-    Based on a given EonesDate, this class exposes methods to calculate the exact
+    Based on a given Date, this class exposes methods to calculate the exact
     datetime boundaries of days, months, and years — including edge-aligned timestamps
     suitable for querying, slicing, and framing temporal datasets.
     """
 
-    def __init__(self, date: EonesDate):
-        """Initialize the range object with a base EonesDate.
+    def __init__(self, date: Date):
+        """Initialize the range object with a base Date.
 
         Args:
-            date (EonesDate): The reference date for range generation.
+            date (Date): The reference date for range generation.
         """
         self.date = date
 
     def __repr__(self) -> str:
-        """Return a string representation of the EonFrame instance.
+        """Return a string representation of the Range instance.
 
         Returns:
             str: Debug-friendly string showing the reference date.
         """
-        return f"EonFrame(date={repr(self.date)})"
+        return f"Range(date={repr(self.date)})"
 
     def day_range(self) -> Tuple[datetime, datetime]:
         """Return the start and end of the current day.

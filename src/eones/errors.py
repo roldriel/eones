@@ -1,10 +1,4 @@
-"""Time, when misused, demands clarity.
-
-This module defines the custom exceptions raised throughout the Eones library.
-They provide precise signals for invalid inputs, unsupported operations, or
-semantic conflicts when reasoning about time.
-"""
-
+"""errors.py"""
 
 class EonesError(Exception):
     """Base exception class for all Eones errors."""

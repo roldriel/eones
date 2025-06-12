@@ -1,29 +1,22 @@
-"""
-The temporal façade.
-
-This module defines the Eones class, a high-level entrypoint for working with dates
-using expressive operations. It unifies parsing, time shifts, comparisons, and range
-generation under a cohesive interface that mirrors human understanding of time.
-"""
-
+"""interface.py"""
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Dict, List, Literal, Optional, Union
+from typing import Any, Dict, List, Literal, Optional, Union
 
 from eones.constants import DEFAULT_FORMATS
-from eones.core.date import EonesDate
-from eones.core.delta import EonSpan
-from eones.core.parser import Chronologer
-from eones.core.range import EonFrame
+from eones.core.date import Date
+from eones.core.delta import Delta
+from eones.core.parser import Parser
+from eones.core.range import Range
 
-EonesLike = Union[str, datetime, Dict[str, int], EonesDate]
+EonesLike = Union[str, datetime, Dict[str, int], Date]
 
 
 class Eones:
     """
     Central entrypoint for time manipulation, reasoning, and exploration.
-    Acts as a façade for EonesDate and its helpers — abstracting parsing,
+    Acts as a façade for Date and its helpers — abstracting parsing,
     formatting, delta application, comparisons, and range boundaries.
     A natural interface for working with time as a concept, not just a datatype.
     """
@@ -62,7 +55,7 @@ class Eones:
         else:
             resolved_formats = DEFAULT_FORMATS
 
-        self._parser = Chronologer(tz=tz, formats=resolved_formats)
+        self._parser = Parser(tz=tz, formats=resolved_formats)
         self._date = self._parser.parse(value)
 
     def __repr__(self) -> str:
@@ -88,11 +81,11 @@ class Eones:
 
         return self._date == other._date
 
-    def now(self) -> EonesDate:
-        """Return the current internal EonesDate.
+    def now(self) -> Date:
+        """Return the current internal Date.
 
         Returns:
-            EonesDate: The current date object.
+            Date: The current date object.
         """
         return self._date
 
@@ -100,80 +93,49 @@ class Eones:
         """Add a delta to the current date.
         Accepts keyword arguments such as:
         years, months, days, hours, minutes, seconds.
-        Updates the internal EonesDate in place.
+        Updates the internal Date in place.
 
         Args:
             **kwargs: Components of the time delta.
         """
-        delta = EonSpan(**kwargs)
+        delta = Delta(**kwargs)
         self._date = delta.apply(self._date)
 
     def format(self, fmt: str) -> str:
-        """Return the current date formatted using the given format string.
-
-        Args:
-            fmt: Format string compatible with datetime.strftime.
-
-        Returns:
-            str: Formatted date string.
-        """
+        """Return the current date formatted using the given format string."""
         return self._date.format(fmt)
 
-    def difference(
-        self,
-        other: Union["Eones", "EonesDate", str, dict, datetime],
-        unit: Literal["days", "months", "years"] = "days",
-    ) -> int:
-        """
-        Compute the difference between this date and another
-        object in the specified unit.
+    def difference(self, other: Any, unit: Optional[str] = None) -> Delta:
+        """Calculate the difference between this date and another.
 
         Args:
-            other: A compatible date-like object
-            (EonesDate, Eones, str, dict, datetime).
-            unit: Unit for comparison. One of 'days', 'months', or 'years'.
+            other (Any): The date to compare with. Can be Eones, Date,
+                datetime, dict, or str.
+            unit (Optional[str]): The unit of difference to calculate.
+                Options are 'days', 'weeks', 'months', or 'years'.
 
         Returns:
-            int: The absolute difference in the specified unit.
-
-        Raises:
-            ValueError: If the unit is unsupported.
+            Delta: The time difference expressed in the specified unit.
         """
-        if isinstance(other, Eones):
-            other_parsed = other.now()
+        return self._date.diff(self._coerce_to_date(other), unit)
 
-        elif isinstance(other, EonesDate):
-            other_parsed = other
+    def replace(self, **kwargs: int) -> Eones:
+        """
+        Replace date parts and update internal Date instance.
 
-        else:
-            other_parsed = self._parser.parse(other)
-
-        return self._date.diff(other_parsed, unit)
-
-    def replace(self, **kwargs: int) -> None:
-        """Replace date parts of the internal EonesDate.
-
-        Example: replace(day=1, month=1) sets the date to January 1st of same year.
+        Example: e.replace(day=1, month=1)
 
         Args:
             **kwargs: Components to replace (year, month, day, etc).
-        """
-        self._date = self._date.replace(**kwargs)
-
-    def floor(
-        self,
-        unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
-    ) -> Eones:
-        """
-        Truncate the current date down to the start of the specified temporal unit.
-
-        Args:
-            unit (Literal): The unit to truncate to. Valid options are:
-                "year", "month", "week", "day", "hour", "minute", "second".
 
         Returns:
-            Eones: The same instance, updated to the floored date.
+            Eones: self, updated with new internal date.
         """
+        self._date = self._date.replace(**kwargs)
+        return self
+
+    def floor(self, unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]) -> "Eones":
+        """Truncate the current date down to the start of the specified temporal unit."""
         self._date = self._date.floor(unit)
         return self
 
@@ -194,43 +156,44 @@ class Eones:
         self._date = self._date.ceil(unit)
         return self
 
-    def is_between(
-        self, start: EonesLike, end: EonesLike, inclusive: bool = True
-    ) -> bool:
-        """Check if the current date is between two given dates.
+    def is_between(self, start: EonesLike, end: EonesLike, inclusive: bool = True) -> bool:
+        """
+        Check if the current date is between two given dates.
 
         Args:
-            start: Start date (EonesDate, str, dict, datetime).
+            start: Start date (str, dict, datetime, or Date).
             end: End date (same formats as start).
             inclusive: Whether to include the endpoints.
 
         Returns:
             bool: True if the current date is between start and end.
         """
-        start_dt = self._parser.parse(start).to_datetime()
-        end_dt = self._parser.parse(end).to_datetime()
-        return self._date.is_between(start_dt, end_dt, inclusive=inclusive)
+        parser = Parser(self._date._zone.key)
+        start_date = parser.parse(start)
+        end_date = parser.parse(end)
+        return self._date.is_between(start_date.to_datetime(), end_date.to_datetime(), inclusive=inclusive)
 
-    def is_same_week(self, other: EonesLike) -> bool:
-        """Return True if this date and the other are in the same ISO week.
+    def is_same_week(self, other: Any) -> bool:
+        """Check if another date falls within the same ISO week as this one.
 
         Args:
-            other: Another date in any supported input format.
+            other (Any): The date to compare with. Can be Eones, Date,
+                datetime, dict, or str.
 
         Returns:
-            bool: True if they share the same ISO week and year.
+            bool: True if both dates are in the same ISO week, False otherwise.
         """
-        other_parsed = self._parser.parse(other)
+        other_parsed = self._coerce_to_date(other)
         return self._date.is_same_week(other_parsed)
 
-    def next_weekday(self, weekday: int) -> EonesDate:
+    def next_weekday(self, weekday: int) -> "Date":
         """Get the next occurrence of a given weekday from the current date.
 
         Args:
             weekday: Integer (0=Monday, ..., 6=Sunday).
 
         Returns:
-            EonesDate: A new EonesDate representing that next weekday.
+            Date: A new Date representing that next weekday.
         """
         return self._date.next_weekday(weekday)
 
@@ -248,7 +211,7 @@ class Eones:
         Returns:
             bool: True if in same period.
         """
-        if isinstance(compare, EonesDate):
+        if isinstance(compare, Date):
             return self._date.is_within(compare, check_month=check_month)
 
         return self._date.is_within(
@@ -267,7 +230,7 @@ class Eones:
         Raises:
             ValueError: If the mode is invalid.
         """
-        r = EonFrame(self._date)
+        r = Range(self._date)
         if mode == "day":
             return r.day_range()
 
@@ -278,7 +241,7 @@ class Eones:
             return r.year_range()
         raise ValueError("Invalid range mode. Choose from: day, month, year.")
 
-    def round(self, unit: Literal["minute", "hour", "day"]) -> Eones:
+    def round(self, unit: Literal["minute", "hour", "day"]) -> "Eones":
         """
         Round the datetime to the nearest unit ("minute", "hour", or "day").
 
@@ -291,7 +254,7 @@ class Eones:
     def start_of(
         self,
         unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
-    ) -> Eones:
+    ) -> "Eones":
         """
         Set the datetime to the start of the specified unit.
 
@@ -307,7 +270,7 @@ class Eones:
     def end_of(
         self,
         unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
-    ) -> Eones:
+    ) -> "Eones":
         """
         Set the datetime to the end of the specified unit.
 
@@ -319,3 +282,12 @@ class Eones:
         """
         self._date = self._date.end_of(unit)
         return self
+
+    def _coerce_to_date(self, other) -> "Date":
+        if isinstance(other, Eones):
+            return other.now()
+
+        if isinstance(other, Date):
+            return other
+
+        return self._parser.parse(other)

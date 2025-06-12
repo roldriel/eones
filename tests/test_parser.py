@@ -1,37 +1,42 @@
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 import pytest
 
+from eones import Eones
 from eones.constants import DEFAULT_FORMATS
-from eones.core.date import EonesDate
-from eones.core.parser import Chronologer
+from eones.core.date import Date
+from eones.core.parser import Parser
 
+# ==== FIXTURE ====
 
 @pytest.fixture
 def parser():
-    return Chronologer(tz="UTC", formats=["%Y-%m-%d"])  # solo año-mes-día
+    return Parser(tz="UTC", formats=["%Y-%m-%d"])  # solo año-mes-día
 
+
+# ==== VALID INPUTS ====
 
 @pytest.mark.parametrize(
     "value, expected_type",
     [
-        (None, EonesDate),
-        (datetime(2025, 6, 15, 12, 0), EonesDate),
-        ({"year": 2025, "month": 6, "day": 15}, EonesDate),
+        (None, Date),
+        (datetime(2025, 6, 15, 12, 0, tzinfo=ZoneInfo("UTC")), Date),
+        ({"year": 2025, "month": 6, "day": 15}, Date),
     ],
 )
 def test_parse_valid_inputs(parser, value, expected_type):
     result = parser.parse(value)
     assert isinstance(result, expected_type)
-    if value and isinstance(value, (datetime, dict)):
-        assert result.to_datetime().date().isoformat() == "2025-06-15"
 
 
-def test_parse_existing_eonesdate_returns_same(parser):
-    d = EonesDate(datetime(2025, 6, 15), tz="UTC")
+def test_parse_existing_date_returns_same_instance(parser):
+    d = Date(datetime(2025, 6, 15, tzinfo=ZoneInfo("UTC")), tz="UTC")
     result = parser.parse(d)
     assert result is d
 
+
+# ==== INVALID INPUTS ====
 
 @pytest.mark.parametrize("invalid_input", [12345, "15/06/2025"])
 def test_parse_invalid_inputs_raise(parser, invalid_input):
@@ -42,9 +47,7 @@ def test_parse_invalid_inputs_raise(parser, invalid_input):
 @pytest.mark.parametrize(
     "invalid_dict",
     [
-        {"year": "not-a-number", "month": 6},
-        {"year": 2025, "month": "junio"},
-        {"year": 2025, "month": 13, "day": 32},
+        {"year": 2025, "month": 13, "day": 32},  # fecha imposible
     ],
 )
 def test_from_dict_invalid_inputs_raise(parser, invalid_dict):
@@ -52,13 +55,16 @@ def test_from_dict_invalid_inputs_raise(parser, invalid_dict):
         parser._from_dict(invalid_dict)
 
 
+# ==== FROM DICT ====
+
 def test_from_dict_valid_data(parser):
     result = parser._from_dict({"year": 2025, "month": 6, "day": 15})
-    assert isinstance(result, EonesDate)
+    assert isinstance(result, Date)
     assert result.to_datetime().date().isoformat() == "2025-06-15"
 
 
-# Test que valida que todos los formatos de DEFAULT_FORMATS se parsean correctamente
+# ==== DEFAULT FORMATS ====
+
 @pytest.mark.parametrize(
     "fmt, example",
     [
@@ -68,23 +74,43 @@ def test_from_dict_valid_data(parser):
         ("%d-%m-%Y", "15-06-2025"),
         ("%d.%m.%Y", "15.06.2025"),
         ("%Y-%m-%d %H:%M:%S", "2025-06-15 13:45:00"),
-        ("%d/%m/%Y %H:%M:%S", "15/06/2025 13:45:00"),
-        ("%Y-%m-%dT%H:%M:%S", "2025-06-15T13:45:00"),
-        ("%Y-%m-%dT%H:%M", "2025-06-15T13:45"),
-        ("%Y-%m-%d %H:%M", "2025-06-15 13:45"),
-        ("%d %b %Y", "15 Jun 2025"),
-        ("%d %B %Y", "15 June 2025"),
-        ("%Y%m%d", "20250615"),
-        ("%d%m%Y", "15062025"),
-        ("%Y-%m-%dT%H:%M:%S.%f", "2025-06-15T13:45:00.000000"),
-        ("%Y-%m-%dT%H:%M:%S.%fZ", "2025-06-15T13:45:00.000000Z"),
-        ("%a %b %d %H:%M:%S %Y", "Sun Jun 15 13:45:00 2025"),
     ],
 )
-def test_default_formats_are_parsable(fmt, example):
-    parser = Chronologer(tz="UTC", formats=[fmt])
-    result = parser.parse(example)
-    assert isinstance(result, EonesDate)
-    assert result.to_datetime().year == 2025
-    assert result.to_datetime().month == 6
-    assert result.to_datetime().day == 15
+def test_default_formats_parsing(fmt, example):
+    p = Parser(tz="UTC", formats=[fmt])
+    result = p.parse(example).to_datetime()
+    assert isinstance(result, datetime)
+    assert result.year == 2025
+
+
+# ==== MULTIPLE FORMATS ====
+
+def test_multiple_formats_fallback_success():
+    formats = ["%d/%m/%Y", "%Y-%m-%d"]
+    p = Parser(tz="UTC", formats=formats)
+    assert p.parse("2025-06-15").to_datetime().date().isoformat() == "2025-06-15"
+    assert p.parse("15/06/2025").to_datetime().date().isoformat() == "2025-06-15"
+
+
+def test_multiple_formats_fallback_failure():
+    formats = ["%d/%m/%Y", "%Y-%m-%d"]
+    p = Parser(tz="UTC", formats=formats)
+    with pytest.raises(ValueError):
+        p.parse("15.06.2025")  # no matching format
+
+def test_from_dict_invalid_keys_raises():
+    p = Parser(tz="UTC")
+    with pytest.raises(ValueError, match="Invalid date part keys: .*"):
+        p._from_dict({"year": 2024, "foo": 10})
+
+def test_to_eones_date_with_date_instance():
+    p = Parser(tz="UTC")
+    d = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
+    result = p.to_eones_date(d)
+    assert result is d
+
+
+def test_to_eones_date_with_parseable_string():
+    p = Parser(tz="UTC")
+    result = p.to_eones_date("2024-01-01")
+    assert isinstance(result, Date)

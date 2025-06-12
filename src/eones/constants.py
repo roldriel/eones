@@ -1,14 +1,4 @@
-"""
-Canonical values and formatting codes for traversing time.
-
-This module defines key constants used across the Eones library — such as accepted date
-components and default string formats. It acts as the unified contract of what is
-understood, valid, and canonical in the representation of time.
-"""
-
-# Valid keys for datetime dictionary parsing
-VALID_KEYS = {"year", "month", "day", "hour", "minute", "second"}
-
+"""contants.py"""
 # Default date formats (ISO and common human-readable)
 DEFAULT_FORMATS = [
     "%Y-%m-%d",  # 2025-06-15
@@ -32,3 +22,25 @@ DEFAULT_FORMATS = [
 
 # Default timezone
 DEFAULT_TIMEZONE = "UTC"
+
+# Valid keys for datetime dictionary parsing
+VALID_KEYS = {
+    "year",
+    "month",
+    "day",
+    "hour",
+    "minute",
+    "second",
+    "microsecond"
+}
+
+# Valid fields for delta specification
+DELTA_KEYS = {
+    "years",
+    "months",
+    "weeks",
+    "days",
+    "hours",
+    "minutes",
+    "seconds"
+}

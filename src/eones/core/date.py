@@ -1,25 +1,15 @@
-"""
-Core representation of temporal instants drawn from the fabric of the eons.
-
-This module defines the EonesDate class, a timezone-aware abstraction over Python's
-datetime, designed to traverse, transform, and evaluate time with expressive precision.
-It supports truncation, rounding, comparison, period bounds, and semantic operations
-that bring temporal logic closer to human intuition — yet grounded in rigor.
-
-All moments begin here.
-"""
-
+"""core.date.py"""
 from __future__ import annotations
 
 from calendar import monthrange
 from datetime import datetime, timedelta, timezone
-from typing import Any, Literal, Optional
+from typing import Any, Literal, Optional, Union
 from zoneinfo import ZoneInfo
 
 from eones.constants import VALID_KEYS
 
 
-class EonesDate:
+class Date:
     """
     Encapsulates a precise moment in time, drawn from the infinite thread of eons.
 
@@ -29,35 +19,43 @@ class EonesDate:
     semantic clarity, allowing you to reason about durations, truncations,
     alignments, and transitions in a way that feels both practical and timeless.
     """
-
-    def __init__(self, dt: Optional[datetime] = None, tz: Optional[str] = "UTC"):
-        """Initialize a EonesDate object.
-
-        Args:
-            dt (datetime, optional): A datetime object. Defaults to current time.
-            tz (str, optional): Timezone string. Defaults to "UTC".
-        """
+    def __init__(
+        self,
+        dt: Optional[datetime] = None,
+        tz: Optional[str] = "UTC",
+        naive: Literal["utc", "local"] = "raise"
+    ):
         self._zone = ZoneInfo(tz)
-        self._dt = dt.astimezone(self._zone) if dt else datetime.now(self._zone)
+
+        if dt is None:
+            self._dt = datetime.now(self._zone)
+            return
+
+        if naive not in {"utc", "local", "raise"}:
+            raise ValueError("Invalid 'naive' value. Use 'utc', 'local' or 'raise'.")
+
+        if dt.tzinfo is None:
+            if naive == "local":
+                dt = dt.replace(tzinfo=datetime.now().astimezone().tzinfo)
+
+            elif naive == "utc":
+                dt = dt.replace(tzinfo=ZoneInfo("UTC"))
+
+            else:
+                raise ValueError(
+                    "Naive datetime received. "
+                    "Use naive='utc' or 'local' to clarify intention."
+                )
+
+        self._dt = dt.astimezone(self._zone)
 
     def __repr__(self) -> str:
-        """Return a string representation of the EonesDate.
+        """Return a string representation of the Date.
 
         Returns:
             str: Debug-friendly string.
         """
-        return f"EonesDate({self._dt.isoformat()})"
-
-    def __getattr__(self, name: str) -> Any:
-        """Delegate attribute access to the internal datetime.
-
-        Args:
-            name (str): Name of the datetime attribute.
-
-        Returns:
-            Any: Value of the corresponding datetime attribute.
-        """
-        return getattr(self._dt, name)
+        return f"Date({self._dt.isoformat()})"
 
     def __hash__(self) -> int:
         """Return hash based on the internal datetime.
@@ -68,17 +66,13 @@ class EonesDate:
         return hash(self._dt)
 
     def __eq__(self, other: object) -> bool:
-        """Check equality with another EonesDate.
+        if isinstance(other, Date):
+            return self.as_utc() == other.as_utc()
+        return NotImplemented
 
-        Returns:
-            bool: True if datetime values are equal.
-        """
-        if isinstance(other, EonesDate):
-            return self._dt == other.to_datetime()
-
-        if isinstance(other, datetime):
-            return self._dt == other
-
+    def __lt__(self, other: object) -> bool:
+        if isinstance(other, Date):
+            return self.as_utc() < other.as_utc()
         return NotImplemented
 
     def __str__(self) -> str:
@@ -89,16 +83,126 @@ class EonesDate:
         """
         return self._dt.isoformat()
 
-    def _clone(self, dt: datetime) -> EonesDate:
-        return EonesDate(dt=dt, tz=str(self._zone))
+    def shift(self, delta: timedelta) -> Date:
+        return self._with(self._dt + delta)
 
-    def copy(self) -> EonesDate:
-        """Return a new copy of the current EonesDate.
+    def __add__(self, delta: timedelta) -> Date:
+        return self.shift(delta)
+
+    def __sub__(
+        self,
+        other: Union[Date, timedelta]
+    ) -> Union[Date, timedelta]:
+        if isinstance(other, timedelta):
+            return self.shift(-other)
+
+        if isinstance(other, Date):
+            return self._dt - other.to_datetime()
+        return NotImplemented
+
+    @classmethod
+    def now(
+        cls,
+        tz: str = "UTC",
+        naive: Literal["utc", "local", "raise"] = "raise"
+    ) -> Date:
+        """
+        Create a Date for the current moment.
+
+        Args:
+            tz (str): Timezone to apply.
+            naive (str): How to interpret if the datetime is naive.
+                        Only meaningful if tz is applied after generation.
 
         Returns:
-            EonesDate: A copy of the current date.
+            Date: Instance representing now.
         """
-        return EonesDate(self._dt, self._zone.key)
+        dt = datetime.now()
+
+        if naive == "utc":
+            dt = dt.replace(tzinfo=ZoneInfo("UTC"))
+
+        elif naive == "local":
+            dt = dt.replace(tzinfo=datetime.now().astimezone().tzinfo)
+
+        elif naive != "raise":
+            raise ValueError("Invalid 'naive' value. Use 'utc', 'local', or 'raise'.")
+
+        return cls(dt, tz=tz, naive=naive)
+
+    @property
+    def year(self) -> int:
+        return self._dt.year
+
+    @property
+    def month(self) -> int:
+        return self._dt.month
+
+    @property
+    def day(self) -> int:
+        return self._dt.day
+
+    @property
+    def hour(self) -> int:
+        return self._dt.hour
+
+    @property
+    def minute(self) -> int:
+        return self._dt.minute
+
+    @property
+    def second(self) -> int:
+        return self._dt.second
+
+    @property
+    def microsecond(self) -> int:
+        return self._dt.microsecond
+
+    def _replace_fields(self, **kwargs: Any) -> Date:
+        return self._with(self._dt.replace(**kwargs))
+
+    def _rounded(self, dt: datetime, unit: str) -> datetime:
+        thresholds = {
+            "microsecond": lambda d: d.microsecond >= 500_000,
+            "second": lambda d: d.microsecond >= 500_000,
+            "minute": lambda d: d.second >= 30,
+            "hour": lambda d: d.minute >= 30,
+            "day": lambda d: d.hour >= 12
+        }
+
+        increments = {
+            "microsecond": timedelta(microseconds=1),
+            "second": timedelta(seconds=1),
+            "minute": timedelta(minutes=1),
+            "hour": timedelta(hours=1),
+            "day": timedelta(days=1)
+        }
+
+        normalizers = {
+            "microsecond": lambda d: d.replace(microsecond=0),
+            "second": lambda d: d.replace(microsecond=0),
+            "minute": lambda d: d.replace(second=0, microsecond=0),
+            "hour": lambda d: d.replace(minute=0, second=0, microsecond=0),
+            "day": lambda d: d.replace(hour=0, minute=0, second=0, microsecond=0),
+        }
+
+        if unit not in thresholds:
+            raise ValueError("Invalid unit. Use 'microsecond', 'second', 'minute', 'hour', or 'day'.")
+
+        if thresholds[unit](dt):
+            dt += increments[unit]
+
+        return normalizers[unit](dt)
+
+    def round(self, unit: str) -> Date:
+        """Round the Date to the nearest specified unit."""
+        valid_units = {"second", "minute", "hour", "day"}
+        if unit not in valid_units:
+            raise ValueError(f"Unsupported round unit '{unit}'. Valid units: {valid_units}")
+        return self._with(self._rounded(self._dt, unit))
+
+    def _with(self, dt: datetime) -> Date:
+        return Date(dt=dt, tz=str(self._zone))
 
     def to_datetime(self) -> datetime:
         """Return the internal datetime object.
@@ -109,14 +213,7 @@ class EonesDate:
         return self._dt
 
     def format(self, fmt: str) -> str:
-        """Return formatted datetime as a string.
-
-        Args:
-            fmt (str): Datetime format string.
-
-        Returns:
-            str: Formatted datetime.
-        """
+        """Return formatted datetime as a string."""
         return self._dt.strftime(fmt)
 
     def to_iso(self) -> str:
@@ -136,15 +233,15 @@ class EonesDate:
         return self._dt.timestamp()
 
     @classmethod
-    def from_iso(cls, iso_str: str, tz: Optional[str] = "UTC") -> EonesDate:
-        """Create a EonesDate from an ISO 8601 string.
+    def from_iso(cls, iso_str: str, tz: Optional[str] = "UTC") -> Date:
+        """Create a Date from an ISO 8601 string.
 
         Args:
             iso_str (str): ISO date string.
             tz (str, optional): Timezone. Defaults to "UTC".
 
         Returns:
-            EonesDate: Parsed EonesDate.
+            Date: Parsed Date.
         """
         dt = datetime.fromisoformat(iso_str)
         if dt.tzinfo is None:
@@ -152,33 +249,25 @@ class EonesDate:
         return cls(dt, tz)
 
     @classmethod
-    def from_unix(cls, timestamp: float, tz: Optional[str] = "UTC") -> EonesDate:
-        """Create a EonesDate from a Unix timestamp.
+    def from_unix(cls, timestamp: float, tz: Optional[str] = "UTC") -> Date:
+        """Create a Date from a Unix timestamp.
 
         Args:
             timestamp (float): Seconds since epoch.
             tz (str, optional): Timezone. Defaults to "UTC".
 
         Returns:
-            EonesDate: Parsed EonesDate.
+            Date: Parsed Date.
         """
         dt = datetime.fromtimestamp(timestamp, tz=ZoneInfo(tz))
         return cls(dt, tz)
 
-    def __lt__(self, other: EonesDate) -> bool:
-        """Less-than comparison.
-
-        Returns:
-            bool: True if self is before other.
-        """
-        return self._dt < other.to_datetime()
-
-    def is_within(self, other: EonesDate, check_month: bool = True) -> bool:
+    def is_within(self, other: Date, check_month: bool = True) -> bool:
         """Check if the current date is within the same
-        year/month as another EonesDate.
+        year/month as another Date.
 
         Args:
-            other (EonesDate): Date to compare.
+            other (Date): Date to compare.
             check_month (bool): If True, also check that months match.
 
         Returns:
@@ -207,11 +296,11 @@ class EonesDate:
             return start <= self._dt <= end
         return start < self._dt < end
 
-    def is_same_week(self, other: EonesDate) -> bool:
+    def is_same_week(self, other: Date) -> bool:
         """Check if two dates fall in the same ISO calendar week.
 
         Args:
-            other (EonesDate): Date to compare.
+            other (Date): Date to compare.
 
         Returns:
             bool: True if both dates share the same ISO week.
@@ -237,193 +326,95 @@ class EonesDate:
         """
         return self._dt.astimezone(ZoneInfo(zone))
 
-    def truncate(self, unit: str) -> EonesDate:
-        """Truncate the datetime to the start of the specified unit.
+    def truncate(self, unit: str) -> Date:
+        """Truncate the Date to the specified unit (e.g., 'day', 'hour', etc.)."""
+        valid_units = {"second", "minute", "hour", "day"}
+        if unit not in valid_units:
+            raise ValueError(f"Unsupported truncate unit '{unit}'. Valid units: {valid_units}")
+        return self.floor(unit)
 
-        Args:
-            unit (str): One of "second", "minute", "hour", "day".
-
-        Returns:
-            EonesDate: Truncated datetime.
-        """
-        dt = self._dt
-        if unit == "second":
-            return EonesDate(dt.replace(microsecond=0), self._zone.key)
-
-        if unit == "minute":
-            return EonesDate(dt.replace(second=0, microsecond=0), self._zone.key)
-
-        if unit == "hour":
-            return EonesDate(
-                dt.replace(minute=0, second=0, microsecond=0), self._zone.key
-            )
-
-        if unit == "day":
-            return EonesDate(
-                dt.replace(hour=0, minute=0, second=0, microsecond=0), self._zone.key
-            )
-
-        raise ValueError("Invalid unit. Use 'second', 'minute', 'hour', or 'day'.")
-
-    def round(
+    def replace(
         self,
-        unit: Literal["minute", "hour", "day"]
-    ) -> EonesDate:
-        """Round the datetime to the nearest unit.
-
-        Args:
-            unit (str): One of "minute", "hour", or "day".
-
-        Returns:
-            EonesDate: Rounded datetime.
-        """
-        dt = self._dt
-        if unit == "day":
-            if dt.hour >= 12:
-                dt += timedelta(days=1)
-            return EonesDate(
-                dt.replace(hour=0, minute=0, second=0, microsecond=0), self._zone.key
-            )
-
-        if unit == "hour":
-            if dt.minute >= 30:
-                dt += timedelta(hours=1)
-            return EonesDate(
-                dt.replace(minute=0, second=0, microsecond=0), self._zone.key
-            )
-
-        if unit == "minute":
-            if dt.second >= 30:
-                dt += timedelta(minutes=1)
-            return EonesDate(dt.replace(second=0, microsecond=0), self._zone.key)
-
-        if unit == "second":
-            if dt.microsecond >= 500_000:
-                dt += timedelta(seconds=1)
-            return EonesDate(dt.replace(microsecond=0), self._zone.key)
-
-        raise ValueError("Invalid unit. Use 'second','minute', 'hour', or 'day'.")
-
-    def replace(self, **kwargs: Any) -> EonesDate:
-        """Return a new EonesDate with replaced datetime fields.
-
-        Allowed fields: year, month, day, hour, minute, second.
-
-        Args:
-            **kwargs: Fields to replace in the datetime.
-
-        Returns:
-            EonesDate: New date with specified fields replaced.
-        """
+        tz: Optional[str] = None,
+        naive: Optional[Literal["utc", "local"]] = None,
+        **kwargs: Any
+    ) -> Date:
         filtered = {k: v for k, v in kwargs.items() if k in VALID_KEYS}
         new_dt = self._dt.replace(**filtered)
-        return EonesDate(new_dt, self._zone.key)
+        return Date(new_dt, tz=tz or self._zone.key, naive=naive or "raise")
 
     def diff(
-        self, other: EonesDate, unit: Literal["days", "months", "years"] = "days"
+        self,
+        other: Date,
+        unit: Literal["days", "weeks", "months", "years"] = "days"
     ) -> int:
-        """
-        Calculate the absolute difference between this date and another EonesDate
-        in the specified unit.
-
-        Args:
-            other (EonesDate): The date to compare against.
-            unit (str): Unit for comparison: 'days',
-            'months', or 'years'. Defaults to 'days'.
-
-        Returns:
-            int: Absolute difference in the specified unit.
-
-        Raises:
-            ValueError: If an unsupported unit is provided.
-        """
-        self_dt = self.to_datetime()
-        other_dt = other.to_datetime()
-
         if unit == "days":
-            return abs((self_dt - other_dt).days)
+            return abs((self._dt - other._dt).days)
+
+        if unit == "weeks":
+            return abs((self._dt - other._dt).days) // 7
 
         if unit == "months":
-            years_diff = self_dt.year - other_dt.year
-            months_diff = self_dt.month - other_dt.month
-            total_months = years_diff * 12 + months_diff
-            return abs(total_months)
+            return abs(self.month_span_to(other))
 
         if unit == "years":
-            return abs(self_dt.year - other_dt.year)
+            return abs(self.year_span_to(other))
 
-        raise ValueError("Unsupported unit. Use 'days', 'months' or 'years'.")
+        raise ValueError("Unsupported unit. Use 'days', 'weeks', 'months', or 'years'.")
 
-    def next_weekday(self, weekday: int) -> EonesDate:
+    def next_weekday(self, weekday: int) -> Date:
         """Return the next date matching the specified weekday.
 
         Args:
             weekday (int): Target weekday (0 = Monday).
 
         Returns:
-            EonesDate: The next date matching the weekday.
+            Date: The next date matching the weekday.
         """
         current_weekday = self._dt.weekday()
         days_ahead = (weekday - current_weekday + 7) % 7 or 7
         next_date = self._dt + timedelta(days=days_ahead)
-        return EonesDate(next_date, self._zone.key)
+        return Date(next_date, self._zone.key)
 
-    def previous_weekday(self, weekday: int) -> EonesDate:
+    def previous_weekday(self, weekday: int) -> Date:
         """Return the previous date matching the specified weekday.
 
         Args:
             weekday (int): Target weekday (0 = Monday).
 
         Returns:
-            EonesDate: The previous date matching the weekday.
+            Date: The previous date matching the weekday.
         """
         current_weekday = self._dt.weekday()
         days_behind = (current_weekday - weekday + 7) % 7 or 7
         prev_date = self._dt - timedelta(days=days_behind)
-        return EonesDate(prev_date, self._zone.key)
+        return Date(prev_date, self._zone.key)
 
     def floor(
         self,
         unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
-    ) -> EonesDate:
-        """
-        Returns a new EonesDate truncated to the start of the given unit.
-        """
-        dt = self._dt
+    ) -> Date:
+        truncate_map = {
+            "year": dict(month=1, day=1, hour=0, minute=0, second=0, microsecond=0),
+            "month": dict(day=1, hour=0, minute=0, second=0, microsecond=0),
+            "week": dict(hour=0, minute=0, second=0, microsecond=0),
+            "day": dict(hour=0, minute=0, second=0, microsecond=0),
+            "hour": dict(minute=0, second=0, microsecond=0),
+            "minute": dict(second=0, microsecond=0),
+            "second": dict(microsecond=0),
+        }
 
-        if unit == "year":
-            dt = dt.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
-
-        elif unit == "month":
-            dt = dt.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-
-        elif unit == "week":
-            weekday = dt.weekday()  # 0 = Monday
-            dt = dt.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=weekday)
-
-        elif unit == "day":
-            dt = dt.replace(hour=0, minute=0, second=0, microsecond=0)
-
-        elif unit == "hour":
-            dt = dt.replace(minute=0, second=0, microsecond=0)
-
-        elif unit == "minute":
-            dt = dt.replace(second=0, microsecond=0)
-
-        elif unit == "second":
-            dt = dt.replace(microsecond=0)
-
-        else:
+        if unit not in truncate_map:
             raise ValueError(f"Unsupported unit: {unit}")
 
-        return self._clone(dt)
+        dt = self._dt
+        if unit == "week":
+            dt -= timedelta(days=dt.weekday())
+        return self._with(dt.replace(**truncate_map[unit]))
 
-    def ceil(
-        self,
-        unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
-    ) -> EonesDate:
+    def ceil(self, unit: str) -> Date:
         """
-        Returns a new EonesDate advanced to the end of the given unit.
+        Returns a new Date advanced to the end of the given unit.
         """
         floored = self.floor(unit)._dt
 
@@ -453,12 +444,12 @@ class EonesDate:
         else:
             raise ValueError(f"Unsupported unit: {unit}")
 
-        return self._clone(dt)
+        return self._with(dt)
 
     def start_of(
         self,
         unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
-    ) -> EonesDate:
+    ) -> Date:
         """
         Returns the datetime aligned to the start of the given unit.
 
@@ -466,14 +457,14 @@ class EonesDate:
             unit (Literal): Temporal unit.
 
         Returns:
-            EonesDate: Aligned datetime.
+            Date: Aligned datetime.
         """
         return self.floor(unit)
 
     def end_of(
         self,
         unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
-    ) -> EonesDate:
+    ) -> Date:
         """
         Returns the datetime aligned to the end of the given unit.
 
@@ -481,6 +472,111 @@ class EonesDate:
             unit (Literal): Temporal unit.
 
         Returns:
-            EonesDate: Aligned datetime.
+            Date: Aligned datetime.
         """
         return self.ceil(unit)
+
+    def month_span_to(self, other: Date) -> int:
+        """
+        Return the number of full calendar months between self and other.
+        Positive if `other` is later. Negative if `other` is earlier.
+        """
+        d1 = self.to_datetime()
+        d2 = other.to_datetime()
+
+        if d1 > d2:
+            d1, d2 = d2, d1
+            sign = -1
+        else:
+            sign = 1
+
+        years_diff = d2.year - d1.year
+        months_diff = d2.month - d1.month
+        total_months = years_diff * 12 + months_diff
+
+        if d2.day < d1.day:
+            total_months -= 1
+
+        return sign * total_months
+
+    def year_span_to(self, other: Date) -> int:
+        """
+        Return the number of full calendar years between self and other.
+        Positive if `other` is later. Negative if `other` is earlier.
+
+        Example:
+            Date("2020-05-20").year_span_to(Date("2024-05-19")) == 3
+            Date("2020-05-20").year_span_to(Date("2024-05-20")) == 4
+        """
+        d1, d2 = sorted([self.to_datetime(), other.to_datetime()])
+        span = d2.year - d1.year
+        if (d2.month, d2.day) < (d1.month, d1.day):
+            span -= 1
+        return span if self._dt <= other._dt else -span
+
+    def to_dict(self) -> dict:
+        return {
+            "year": self.year,
+            "month": self.month,
+            "day": self.day,
+            "hour": self.hour,
+            "minute": self.minute,
+            "second": self.second,
+            "microsecond": self.microsecond,
+            "timezone": self._zone.key,
+        }
+
+    def start_of_day(self) -> "Date":
+        """
+        Return a new Date instance representing the start of the current day (00:00:00 UTC).
+        """
+        return Date(self._dt.replace(hour=0, minute=0, second=0, microsecond=0))
+
+    def end_of_day(self) -> "Date":
+        """
+        Return a new Date instance representing the end of the current day (23:59:59.999999 UTC).
+        """
+        return Date(self._dt.replace(hour=23, minute=59, second=59, microsecond=999999))
+
+    def start_of_month(self) -> "Date":
+        """
+        Return a new Date instance representing the first day of the current month at 00:00:00 UTC.
+        """
+        return Date(
+            self._dt.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        )
+
+    def end_of_month(self) -> "Date":
+        """
+        Return a new Date instance representing the last moment of the current month
+        (23:59:59.999999 UTC).
+        """
+        year = self._dt.year
+        month = self._dt.month
+
+        # Calcular el primer día del mes siguiente
+        if month == 12:
+            next_month = datetime(year + 1, 1, 1, tzinfo=timezone.utc)
+        else:
+            next_month = datetime(year, month + 1, 1, tzinfo=timezone.utc)
+
+        # Restar un microsegundo para obtener el último instante del mes actual
+        last_instant = next_month - timedelta(microseconds=1)
+
+        return Date(last_instant)
+
+    def start_of_year(self) -> "Date":
+        """
+        Return a new Date instance representing January 1st of the current year at 00:00:00 UTC.
+        """
+        return Date(
+            self._dt.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+        )
+
+    def end_of_year(self) -> "Date":
+        """
+        Return a new Date instance representing December 31st of the current year at 23:59:59.999999 UTC.
+        """
+        next_year = datetime(self._dt.year + 1, 1, 1, tzinfo=timezone.utc)
+        last_instant = next_year - timedelta(microseconds=1)
+        return Date(last_instant)

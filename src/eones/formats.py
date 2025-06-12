@@ -1,12 +1,4 @@
-"""
-Patterns that make time readable.
-
-This module defines supported string formats and utilities related to
-converting temporal values into human-friendly representations.
-
-Used primarily for parsing and formatting across the Eones interface.
-"""
-
+"""formats.py"""
 from datetime import datetime
 from typing import List
 

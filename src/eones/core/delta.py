@@ -1,102 +1,104 @@
-"""
-Temporal displacements across the eons.
+"""core.delta.py"""
+import re
+from typing import Dict
 
-This module defines the EonSpan class, which allows calendar-accurate transformations
-on EonesDate objects. It supports year/month-based navigation as well as precise
-adjustments via seconds, minutes, hours, and days. Designed for composing temporal
-shifts that echo across time.
-"""
-
-import calendar
-from datetime import timedelta
-from typing import Any
-
-from eones.core.date import EonesDate
+from eones.core.date import Date
+from eones.core.delta_calendar import DeltaCalendar
+from eones.core.delta_duration import DeltaDuration
 
 
-class EonSpan:
+class Delta:
     """
-    Represents a time shift across calendar and chronological dimensions.
+    Represents a compound time delta composed of calendar (years, months)
+    and duration (weeks, days, hours, minutes, seconds) components.
 
-    Combines calendar-aware deltas (years, months) with precise timedelta shifts,
-    allowing flexible adjustments over EonesDate objects. Supports bidirectional
-    movement through time as well as comparison of temporal distance.
+    Calendar components are applied first, followed by duration components.
+    This order preserves intuitive behavior when transitioning across
+    irregular month lengths (e.g., Jan 31 + 1 month → Feb 28/29).
+
+    Examples:
+        >>> Delta(years=1, days=3)
+        >>> Delta.from_iso("P1Y3D")
+
+    Notes:
+        The original input dictionary is preserved for accurate inversion and scaling.
     """
 
-    def __init__(self, *, years: int = 0, months: int = 0, **kwargs: Any) -> None:
-        """Initialize a new EonSpan.
+    def __init__(self, **kwargs: int) -> None:
+        """
+        Initialize a Delta with calendar and/or duration parts.
 
         Args:
-            years (int): Number of years to offset.
-            months (int): Number of months to offset.
-            days (int): Number of days to offset.
-            hours (int): Number of hours to offset.
-            minutes (int): Number of minutes to offset.
-            seconds (int): Number of seconds to offset.
+            **kwargs: Fields like years, months, weeks, days, hours, minutes, seconds.
+
+        Raises:
+            ValueError: If invalid field names are used.
+            TypeError: If any value is not an int or is a bool.
         """
-        allowed = {"days", "hours", "minutes", "seconds"}
-        invalid_keys = set(kwargs) - allowed
+        from eones.constants import DELTA_KEYS
+
+        invalid_keys = set(kwargs) - DELTA_KEYS
         if invalid_keys:
             raise ValueError(
-                f"Invalid time arguments: {invalid_keys}. Allowed: {allowed}"
+                f"Invalid delta fields: {invalid_keys}. Allowed: {sorted(DELTA_KEYS)}"
             )
 
-        self.years = years
-        self.months = months
-        self.timedelta = timedelta(**kwargs)
+        for k, v in kwargs.items():
+            if not isinstance(v, int) or isinstance(v, bool):
+                raise TypeError(f"'{k}' must be int, got {type(v).__name__}")
+
+        self._input = {k: v for k, v in kwargs.items() if v != 0}
+
+        calendar_kwargs = {
+            "years": kwargs.get("years", 0),
+            "months": kwargs.get("months", 0)
+        }
+
+        duration_kwargs = {
+            "weeks": kwargs.get("weeks", 0),
+            "days": kwargs.get("days", 0),
+            "hours": kwargs.get("hours", 0),
+            "minutes": kwargs.get("minutes", 0),
+            "seconds": kwargs.get("seconds", 0)
+        }
+
+        self._calendar = DeltaCalendar(**calendar_kwargs)
+        self._duration = DeltaDuration(**duration_kwargs)
 
     def __repr__(self) -> str:
-        """Return a string representation of the EonSpan.
-
-        Returns:
-            str: A readable representation for debugging.
-        """
-        return (
-            f"EonSpan(years={self.years}, months={self.months}, "
-            f"timedelta={self.timedelta})"
-        )
+        if not self._input:
+            return "Delta(0s)"
+        parts = ", ".join(f"{k}={v}" for k, v in self._input.items())
+        return f"Delta({parts})"
 
     def __eq__(self, other: object) -> bool:
-        """Check equality with another EonSpan.
-
-        Args:
-            other: Object to compare.
-
-        Returns:
-            bool: True if both deltas have the same values.
-        """
-        if not isinstance(other, EonSpan):
+        if not isinstance(other, Delta):
             return False
-
-        return (
-            self.years == other.years
-            and self.months == other.months
-            and self.timedelta == other.timedelta
-        )
+        return self._calendar == other._calendar and self._duration == other._duration
 
     def __hash__(self) -> int:
-        """Compute hash based on internal components.
-
-        Returns:
-            int: Hash value.
-        """
-        return hash((self.years, self.months, self.timedelta))
+        return hash((self._calendar.years, self._calendar.months, self._duration.timedelta))
 
     def __str__(self) -> str:
-        """Human-readable string representation.
+        """
+        Return a human-readable string (e.g., '1y 2mo 3d 4h').
 
         Returns:
-            str: Description of the delta.
+            str: Compact description.
         """
         parts = []
-        if self.years:
-            parts.append(f"{self.years}y")
-        if self.months:
-            parts.append(f"{self.months}mo")
-        td = self.timedelta
-        if td.days:
-            parts.append(f"{td.days}d")
-        seconds = td.seconds
+        calendar = self._calendar
+        duration = self._duration.timedelta
+
+        if calendar.years:
+            parts.append(f"{calendar.years}y")
+        if calendar.months:
+            parts.append(f"{calendar.months}mo")
+
+        if duration.days:
+            parts.append(f"{duration.days}d")
+
+        seconds = duration.seconds
         hours, remainder = divmod(seconds, 3600)
         minutes, secs = divmod(remainder, 60)
         if hours:
@@ -105,45 +107,164 @@ class EonSpan:
             parts.append(f"{minutes}m")
         if secs:
             parts.append(f"{secs}s")
+
         return " ".join(parts) or "0s"
 
-    def apply(self, date: EonesDate) -> EonesDate:
-        """Apply the delta to a EonesDate and return the resulting date.
+    def apply(self, date: Date, calendar: bool = True, duration: bool = True) -> Date:
+        """
+        Apply this delta to a Date instance.
 
         Args:
-            date (EonesDate): The base date to apply the delta to.
+            date (Date): The reference date.
+            calendar (bool): Whether to apply calendar delta (years/months).
+            duration (bool): Whether to apply duration delta (weeks to seconds).
 
         Returns:
-            EonesDate: A new date adjusted by the delta.
+            Date: A new shifted Date instance.
+
+        Raises:
+            TypeError: If input is not a Date.
         """
+        if not isinstance(date, Date):
+            raise TypeError(f"'date' must be a Date instance, got {type(date).__name__}")
+
         dt = date.to_datetime()
+        if calendar:
+            dt = self._calendar.apply(dt)
+        if duration:
+            dt = self._duration.apply(dt)
 
-        # Convert everything to absolute month count, then back to year/month
-        total_months = (dt.year * 12 + dt.month - 1) + self.years * 12 + self.months
-        year = total_months // 12
-        month = (total_months % 12) + 1
+        tzname = getattr(dt.tzinfo, "key", None) or str(dt.tzinfo)
+        return Date(dt, tz=tzname)
 
-        # Build new datetime with adjusted year/month and apply timedelta
-        day = min(dt.day, self._last_day_of_month(year, month))
-        new_date = dt.replace(year=year, month=month, day=day)
-
-        # Add timedelta (days, hours, minutes, seconds)
-        new_date += self.timedelta
-
-        # Get timezone string safely
-        tzname = dt.tzinfo.key if hasattr(dt.tzinfo, "key") else None
-
-        return EonesDate(new_date, tz=tzname)
-
-    @staticmethod
-    def _last_day_of_month(year: int, month: int) -> int:
-        """Get the last day of a given month and year.
+    def apply_calendar(self, date: Date) -> Date:
+        """
+        Apply only the calendar part to a date.
 
         Args:
-            year (int): Year component.
-            month (int): Month component.
+            date (Date): The original date.
 
         Returns:
-            int: The last day (e.g., 28–31).
+            Date: Date with years/months applied.
         """
-        return calendar.monthrange(year, month)[1]
+        return self.apply(date, calendar=True, duration=False)
+
+    def apply_duration(self, date: Date) -> Date:
+        """
+        Apply only the duration part to a date.
+
+        Args:
+            date (Date): The original date.
+
+        Returns:
+            Date: Date with weeks to seconds applied.
+        """
+        return self.apply(date, calendar=False, duration=True)
+
+    def invert(self) -> "Delta":
+        """
+        Return the inverse of this delta.
+
+        Returns:
+            Delta: Negated delta.
+        """
+        return Delta(**{k: -v for k, v in self.to_input_dict().items()})
+
+    def scale(self, factor: int) -> "Delta":
+        """
+        Multiply the delta by a scalar.
+
+        Args:
+            factor (int): Scaling multiplier.
+
+        Returns:
+            Delta: A new instance.
+        """
+        return Delta(**{k: v * factor for k, v in self.to_input_dict().items()})
+
+    def is_zero(self) -> bool:
+        """
+        Check if the delta has no effect.
+
+        Returns:
+            bool: True if delta is zero.
+        """
+        return not self._input
+
+    def to_dict(self) -> Dict[str, int]:
+        """
+        Return a normalized dict combining calendar and duration.
+
+        Returns:
+            Dict[str, int]: Keys include 'years', 'months', 'days', 'hours', etc.
+        """
+        return self._calendar.to_dict() | self._duration.to_dict()
+
+    def to_input_dict(self) -> Dict[str, int]:
+        """
+        Return the original input dictionary.
+
+        Returns:
+            Dict[str, int]: User-specified delta components.
+        """
+        return self._input.copy()
+
+    def to_iso(self) -> str:
+        """
+        Return ISO 8601-compliant string representation.
+
+        Returns:
+            str: Serialized delta (e.g., 'P1Y2M3DT4H30M').
+        """
+        calendar = self._calendar.to_dict()
+        duration = self._duration.to_dict()
+
+        parts = []
+        if calendar["years"]:
+            parts.append(f"{calendar['years']}Y")
+
+        if calendar["months"]:
+            parts.append(f"{calendar['months']}M")
+
+        if duration.get("days"):
+            parts.append(f"{duration['days']}D")
+
+        time_parts = []
+        if duration.get("hours"):
+            time_parts.append(f"{duration['hours']}H")
+
+        if duration.get("minutes"):
+            time_parts.append(f"{duration['minutes']}M")
+
+        if duration.get("seconds"):
+            time_parts.append(f"{duration['seconds']}S")
+
+        iso = "P" + "".join(parts)
+        if time_parts:
+            iso += "T" + "".join(time_parts)
+
+        return iso or "P0D"
+
+    @classmethod
+    def from_iso(cls, iso: str) -> "Delta":
+        """
+        Parse ISO 8601 delta string.
+
+        Args:
+            iso (str): ISO-compliant duration string.
+
+        Returns:
+            Delta: Parsed instance.
+
+        Raises:
+            ValueError: If the format is invalid.
+        """
+        pattern = (
+            r"P(?:(?P<years>\d+)Y)?(?:(?P<months>\d+)M)?(?:(?P<days>\d+)D)?"
+            r"(?:T(?:(?P<hours>\d+)H)?(?:(?P<minutes>\d+)M)?(?:(?P<seconds>\d+)S)?)?"
+        )
+        match = re.fullmatch(pattern, iso)
+        if not match:
+            raise ValueError(f"Invalid ISO delta: {iso}")
+        parts = {k: int(v) for k, v in match.groupdict().items() if v is not None}
+        return cls(**parts)
