@@ -21,7 +21,7 @@
 #   docs: add Sphinx deploy instructions to README
 #   refactor: extract date parsing logic to utils
 #   ci: fix GitHub Pages deploy path for docs
-#   build: bump version to 1.0.2 in pyproject.toml
+#   build: bump version to 1.1.0 in pyproject.toml
 
 # Breaking changes:
 #   Use `!` after type:
