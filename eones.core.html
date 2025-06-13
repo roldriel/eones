@@ -93,12 +93,14 @@ alignments, and transitions in a way that feels both practical and timeless.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="eones.core.date.Date.day">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">day</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#eones.core.date.Date.day" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Day component of the date.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.Date.diff">
 <span class="sig-name descname"><span class="pre">diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#eones.core.date.Date" title="eones.core.date.Date"><span class="pre">Date</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'days'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'weeks'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'months'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'years'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'days'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#eones.core.date.Date.diff" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return the absolute difference in the specified unit.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.Date.end_of">
@@ -133,13 +135,14 @@ alignments, and transitions in a way that feels both practical and timeless.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.Date.end_of_year">
 <span class="sig-name descname"><span class="pre">end_of_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eones.core.date.Date" title="eones.core.date.Date"><span class="pre">Date</span></a></span></span><a class="headerlink" href="#eones.core.date.Date.end_of_year" title="Link to this definition">¶</a></dt>
-<dd><p>Return a new Date instance representing December 31st of the current year at 23:59:59.999999 UTC.</p>
+<dd><p>Return a Date for the last moment of the current year.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.Date.floor">
 <span class="sig-name descname"><span class="pre">floor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'year'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'month'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'week'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'day'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'hour'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'minute'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'second'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eones.core.date.Date" title="eones.core.date.Date"><span class="pre">Date</span></a></span></span><a class="headerlink" href="#eones.core.date.Date.floor" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return a new Date aligned to the start of the given unit.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.Date.format">
@@ -190,7 +193,8 @@ alignments, and transitions in a way that feels both practical and timeless.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="eones.core.date.Date.hour">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hour</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#eones.core.date.Date.hour" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Hour component of the date.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.Date.is_between">
@@ -254,17 +258,20 @@ year/month as another Date.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="eones.core.date.Date.microsecond">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">microsecond</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#eones.core.date.Date.microsecond" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Microsecond component of the date.</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="eones.core.date.Date.minute">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">minute</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#eones.core.date.Date.minute" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Minute component of the date.</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="eones.core.date.Date.month">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">month</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#eones.core.date.Date.month" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Month component of the date.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.Date.month_span_to">
@@ -332,7 +339,8 @@ after generation.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.Date.replace">
 <span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">naive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'utc'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'local'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'raise'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eones.core.date.Date" title="eones.core.date.Date"><span class="pre">Date</span></a></span></span><a class="headerlink" href="#eones.core.date.Date.replace" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return a new Date with specific fields replaced.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.Date.round">
@@ -343,12 +351,14 @@ after generation.</p></li>
 <dl class="py property">
 <dt class="sig sig-object py" id="eones.core.date.Date.second">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">second</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#eones.core.date.Date.second" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Second component of the date.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.Date.shift">
 <span class="sig-name descname"><span class="pre">shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">timedelta</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eones.core.date.Date" title="eones.core.date.Date"><span class="pre">Date</span></a></span></span><a class="headerlink" href="#eones.core.date.Date.shift" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return a new Date shifted by the given timedelta.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.Date.start_of">
@@ -385,6 +395,12 @@ after generation.</p></li>
 <dd><p>Return a new Date instance for the first moment of the current year.</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="eones.core.date.Date.timezone">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">timezone</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#eones.core.date.Date.timezone" title="Link to this definition">¶</a></dt>
+<dd><p>Return the key of the timezone in use.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.Date.to_datetime">
 <span class="sig-name descname"><span class="pre">to_datetime</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">datetime</span></span></span><a class="headerlink" href="#eones.core.date.Date.to_datetime" title="Link to this definition">¶</a></dt>
@@ -402,7 +418,8 @@ after generation.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.Date.to_dict">
 <span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#eones.core.date.Date.to_dict" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return a dictionary representation of the Date.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.Date.to_iso">
@@ -441,7 +458,8 @@ after generation.</p></li>
 <dl class="py property">
 <dt class="sig sig-object py" id="eones.core.date.Date.year">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">year</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#eones.core.date.Date.year" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Year component of the date.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eones.core.date.Date.year_span_to">
