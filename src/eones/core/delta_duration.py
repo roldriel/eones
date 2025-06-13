@@ -1,4 +1,5 @@
 """core.delta_duration.py"""
+
 from __future__ import annotations
 
 import re
@@ -38,11 +39,14 @@ class DeltaDuration:
                 raise TypeError(f"'{key}' must be int, got {type(value).__name__}")
 
         self._input = {
-            key: value for key, value in kwargs.items()
+            key: value
+            for key, value in kwargs.items()
             if key in {"weeks", "days", "hours", "minutes", "seconds"} and value != 0
         }
 
-        self.timedelta = timedelta(**{key: self._input.get(key, 0) for key in self._input})
+        self.timedelta = timedelta(
+            **{key: self._input.get(key, 0) for key in self._input}
+        )
 
     def apply(self, base_datetime: datetime) -> datetime:
         """
@@ -76,12 +80,7 @@ class DeltaDuration:
         days, remaining_seconds = divmod(total_seconds, 86400)
         hours, remaining_seconds = divmod(remaining_seconds, 3600)
         minutes, seconds = divmod(remaining_seconds, 60)
-        return {
-            "days": days,
-            "hours": hours,
-            "minutes": minutes,
-            "seconds": seconds
-        }
+        return {"days": days, "hours": hours, "minutes": minutes, "seconds": seconds}
 
     def to_input_dict(self) -> Dict[str, int]:
         """
@@ -102,7 +101,9 @@ class DeltaDuration:
         Returns:
             DeltaDuration: A new instance with scaled values.
         """
-        return DeltaDuration(**{key: value * factor for key, value in self._input.items()})
+        return DeltaDuration(
+            **{key: value * factor for key, value in self._input.items()}
+        )
 
     def is_zero(self) -> bool:
         """
@@ -169,4 +170,6 @@ class DeltaDuration:
         hours = int(match.group(3)) if match.group(3) else 0
         minutes = int(match.group(4)) if match.group(4) else 0
         seconds = int(match.group(5)) if match.group(5) else 0
-        return cls(weeks=weeks, days=days, hours=hours, minutes=minutes, seconds=seconds)
+        return cls(
+            weeks=weeks, days=days, hours=hours, minutes=minutes, seconds=seconds
+        )

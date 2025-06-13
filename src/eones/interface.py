@@ -1,4 +1,5 @@
 """interface.py"""
+
 from __future__ import annotations
 
 from datetime import datetime
@@ -26,7 +27,7 @@ class Eones:
         value: Optional[Union[str, Dict[str, int], datetime]] = None,
         tz: str = "UTC",
         formats: Optional[List[str]] = None,
-        additional_formats: Optional[List[str]] = None
+        additional_formats: Optional[List[str]] = None,
     ):
         """Initialize a Eones instance.
 
@@ -36,9 +37,7 @@ class Eones:
             formats: List of string formats for parsing if input is string.
         """
         if formats and additional_formats:
-            raise ValueError(
-                "Use either 'formats' or 'additional_formats', not both."
-            )
+            raise ValueError("Use either 'formats' or 'additional_formats', not both.")
 
         if isinstance(formats, str):
             formats = [formats]
@@ -134,14 +133,15 @@ class Eones:
         self._date = self._date.replace(**kwargs)
         return self
 
-    def floor(self, unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]) -> "Eones":
+    def floor(
+        self, unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
+    ) -> "Eones":
         """Truncate the current date down to the start of the specified temporal unit."""
         self._date = self._date.floor(unit)
         return self
 
     def ceil(
-        self,
-        unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
+        self, unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
     ) -> Eones:
         """
         Advance the current date to the end of the specified temporal unit.
@@ -156,7 +156,9 @@ class Eones:
         self._date = self._date.ceil(unit)
         return self
 
-    def is_between(self, start: EonesLike, end: EonesLike, inclusive: bool = True) -> bool:
+    def is_between(
+        self, start: EonesLike, end: EonesLike, inclusive: bool = True
+    ) -> bool:
         """
         Check if the current date is between two given dates.
 
@@ -171,7 +173,9 @@ class Eones:
         parser = Parser(self._date._zone.key)
         start_date = parser.parse(start)
         end_date = parser.parse(end)
-        return self._date.is_between(start_date.to_datetime(), end_date.to_datetime(), inclusive=inclusive)
+        return self._date.is_between(
+            start_date.to_datetime(), end_date.to_datetime(), inclusive=inclusive
+        )
 
     def is_same_week(self, other: Any) -> bool:
         """Check if another date falls within the same ISO week as this one.
@@ -252,8 +256,7 @@ class Eones:
         return self
 
     def start_of(
-        self,
-        unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
+        self, unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
     ) -> "Eones":
         """
         Set the datetime to the start of the specified unit.
@@ -268,8 +271,7 @@ class Eones:
         return self
 
     def end_of(
-        self,
-        unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
+        self, unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
     ) -> "Eones":
         """
         Set the datetime to the end of the specified unit.

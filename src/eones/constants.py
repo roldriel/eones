@@ -1,4 +1,5 @@
 """contants.py"""
+
 # Default date formats (ISO and common human-readable)
 DEFAULT_FORMATS = [
     "%Y-%m-%d",  # 2025-06-15
@@ -24,23 +25,7 @@ DEFAULT_FORMATS = [
 DEFAULT_TIMEZONE = "UTC"
 
 # Valid keys for datetime dictionary parsing
-VALID_KEYS = {
-    "year",
-    "month",
-    "day",
-    "hour",
-    "minute",
-    "second",
-    "microsecond"
-}
+VALID_KEYS = {"year", "month", "day", "hour", "minute", "second", "microsecond"}
 
 # Valid fields for delta specification
-DELTA_KEYS = {
-    "years",
-    "months",
-    "weeks",
-    "days",
-    "hours",
-    "minutes",
-    "seconds"
-}
+DELTA_KEYS = {"years", "months", "weeks", "days", "hours", "minutes", "seconds"}

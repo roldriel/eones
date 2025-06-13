@@ -1,4 +1,5 @@
 """core.delta.py"""
+
 import re
 from typing import Dict
 
@@ -51,7 +52,7 @@ class Delta:
 
         calendar_kwargs = {
             "years": kwargs.get("years", 0),
-            "months": kwargs.get("months", 0)
+            "months": kwargs.get("months", 0),
         }
 
         duration_kwargs = {
@@ -59,7 +60,7 @@ class Delta:
             "days": kwargs.get("days", 0),
             "hours": kwargs.get("hours", 0),
             "minutes": kwargs.get("minutes", 0),
-            "seconds": kwargs.get("seconds", 0)
+            "seconds": kwargs.get("seconds", 0),
         }
 
         self._calendar = DeltaCalendar(**calendar_kwargs)
@@ -77,7 +78,9 @@ class Delta:
         return self._calendar == other._calendar and self._duration == other._duration
 
     def __hash__(self) -> int:
-        return hash((self._calendar.years, self._calendar.months, self._duration.timedelta))
+        return hash(
+            (self._calendar.years, self._calendar.months, self._duration.timedelta)
+        )
 
     def __str__(self) -> str:
         """
@@ -126,7 +129,9 @@ class Delta:
             TypeError: If input is not a Date.
         """
         if not isinstance(date, Date):
-            raise TypeError(f"'date' must be a Date instance, got {type(date).__name__}")
+            raise TypeError(
+                f"'date' must be a Date instance, got {type(date).__name__}"
+            )
 
         dt = date.to_datetime()
         if calendar:

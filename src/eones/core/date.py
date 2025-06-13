@@ -1,4 +1,5 @@
 """core.date.py"""
+
 from __future__ import annotations
 
 from calendar import monthrange
@@ -19,11 +20,12 @@ class Date:
     semantic clarity, allowing you to reason about durations, truncations,
     alignments, and transitions in a way that feels both practical and timeless.
     """
+
     def __init__(
         self,
         dt: Optional[datetime] = None,
         tz: Optional[str] = "UTC",
-        naive: Literal["utc", "local"] = "raise"
+        naive: Literal["utc", "local", "raise"] = "raise",
     ):
         self._zone = ZoneInfo(tz)
 
@@ -89,10 +91,7 @@ class Date:
     def __add__(self, delta: timedelta) -> Date:
         return self.shift(delta)
 
-    def __sub__(
-        self,
-        other: Union[Date, timedelta]
-    ) -> Union[Date, timedelta]:
+    def __sub__(self, other: Union[Date, timedelta]) -> Union[Date, timedelta]:
         if isinstance(other, timedelta):
             return self.shift(-other)
 
@@ -102,17 +101,16 @@ class Date:
 
     @classmethod
     def now(
-        cls,
-        tz: str = "UTC",
-        naive: Literal["utc", "local", "raise"] = "raise"
+        cls, tz: str = "UTC", naive: Literal["utc", "local", "raise"] = "raise"
     ) -> Date:
         """
         Create a Date for the current moment.
 
         Args:
             tz (str): Timezone to apply.
-            naive (str): How to interpret if the datetime is naive.
-                        Only meaningful if tz is applied after generation.
+            naive (str): How to interpret if the datetime is naive. Accepts
+                "utc", "local", or "raise". Only meaningful if tz is applied
+                after generation.
 
         Returns:
             Date: Instance representing now.
@@ -167,7 +165,7 @@ class Date:
             "second": lambda d: d.microsecond >= 500_000,
             "minute": lambda d: d.second >= 30,
             "hour": lambda d: d.minute >= 30,
-            "day": lambda d: d.hour >= 12
+            "day": lambda d: d.hour >= 12,
         }
 
         increments = {
@@ -175,7 +173,7 @@ class Date:
             "second": timedelta(seconds=1),
             "minute": timedelta(minutes=1),
             "hour": timedelta(hours=1),
-            "day": timedelta(days=1)
+            "day": timedelta(days=1),
         }
 
         normalizers = {
@@ -187,7 +185,9 @@ class Date:
         }
 
         if unit not in thresholds:
-            raise ValueError("Invalid unit. Use 'microsecond', 'second', 'minute', 'hour', or 'day'.")
+            raise ValueError(
+                "Invalid unit. Use 'microsecond', 'second', 'minute', 'hour', or 'day'."
+            )
 
         if thresholds[unit](dt):
             dt += increments[unit]
@@ -198,7 +198,9 @@ class Date:
         """Round the Date to the nearest specified unit."""
         valid_units = {"second", "minute", "hour", "day"}
         if unit not in valid_units:
-            raise ValueError(f"Unsupported round unit '{unit}'. Valid units: {valid_units}")
+            raise ValueError(
+                f"Unsupported round unit '{unit}'. Valid units: {valid_units}"
+            )
         return self._with(self._rounded(self._dt, unit))
 
     def _with(self, dt: datetime) -> Date:
@@ -330,23 +332,23 @@ class Date:
         """Truncate the Date to the specified unit (e.g., 'day', 'hour', etc.)."""
         valid_units = {"second", "minute", "hour", "day"}
         if unit not in valid_units:
-            raise ValueError(f"Unsupported truncate unit '{unit}'. Valid units: {valid_units}")
+            raise ValueError(
+                f"Unsupported truncate unit '{unit}'. Valid units: {valid_units}"
+            )
         return self.floor(unit)
 
     def replace(
         self,
         tz: Optional[str] = None,
-        naive: Optional[Literal["utc", "local"]] = None,
-        **kwargs: Any
+        naive: Optional[Literal["utc", "local", "raise"]] = None,
+        **kwargs: Any,
     ) -> Date:
         filtered = {k: v for k, v in kwargs.items() if k in VALID_KEYS}
         new_dt = self._dt.replace(**filtered)
         return Date(new_dt, tz=tz or self._zone.key, naive=naive or "raise")
 
     def diff(
-        self,
-        other: Date,
-        unit: Literal["days", "weeks", "months", "years"] = "days"
+        self, other: Date, unit: Literal["days", "weeks", "months", "years"] = "days"
     ) -> int:
         if unit == "days":
             return abs((self._dt - other._dt).days)
@@ -391,8 +393,7 @@ class Date:
         return Date(prev_date, self._zone.key)
 
     def floor(
-        self,
-        unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
+        self, unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
     ) -> Date:
         truncate_map = {
             "year": dict(month=1, day=1, hour=0, minute=0, second=0, microsecond=0),
@@ -419,11 +420,15 @@ class Date:
         floored = self.floor(unit)._dt
 
         if unit == "year":
-            dt = floored.replace(month=12, day=31, hour=23, minute=59, second=59, microsecond=999999)
+            dt = floored.replace(
+                month=12, day=31, hour=23, minute=59, second=59, microsecond=999999
+            )
 
         elif unit == "month":
             last_day = monthrange(floored.year, floored.month)[1]
-            dt = floored.replace(day=last_day, hour=23, minute=59, second=59, microsecond=999999)
+            dt = floored.replace(
+                day=last_day, hour=23, minute=59, second=59, microsecond=999999
+            )
 
         elif unit == "week":
             dt = floored + timedelta(days=6)
@@ -447,8 +452,7 @@ class Date:
         return self._with(dt)
 
     def start_of(
-        self,
-        unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
+        self, unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
     ) -> Date:
         """
         Returns the datetime aligned to the start of the given unit.
@@ -462,8 +466,7 @@ class Date:
         return self.floor(unit)
 
     def end_of(
-        self,
-        unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
+        self, unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
     ) -> Date:
         """
         Returns the datetime aligned to the end of the given unit.
@@ -527,22 +530,18 @@ class Date:
         }
 
     def start_of_day(self) -> "Date":
-        """
-        Return a new Date instance representing the start of the current day (00:00:00 UTC).
-        """
-        return Date(self._dt.replace(hour=0, minute=0, second=0, microsecond=0))
+        """Return a new Date instance representing the start of the current day."""
+        return self._with(self._dt.replace(hour=0, minute=0, second=0, microsecond=0))
 
     def end_of_day(self) -> "Date":
-        """
-        Return a new Date instance representing the end of the current day (23:59:59.999999 UTC).
-        """
-        return Date(self._dt.replace(hour=23, minute=59, second=59, microsecond=999999))
+        """Return a new Date instance representing the end of the current day."""
+        return self._with(
+            self._dt.replace(hour=23, minute=59, second=59, microsecond=999999)
+        )
 
     def start_of_month(self) -> "Date":
-        """
-        Return a new Date instance representing the first day of the current month at 00:00:00 UTC.
-        """
-        return Date(
+        """Return a new Date instance for the first moment of the current month."""
+        return self._with(
             self._dt.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
         )
 
@@ -556,20 +555,17 @@ class Date:
 
         # Calcular el primer día del mes siguiente
         if month == 12:
-            next_month = datetime(year + 1, 1, 1, tzinfo=timezone.utc)
+            next_month = datetime(year + 1, 1, 1, tzinfo=self._dt.tzinfo)
         else:
-            next_month = datetime(year, month + 1, 1, tzinfo=timezone.utc)
+            next_month = datetime(year, month + 1, 1, tzinfo=self._dt.tzinfo)
 
         # Restar un microsegundo para obtener el último instante del mes actual
         last_instant = next_month - timedelta(microseconds=1)
-
-        return Date(last_instant)
+        return self._with(last_instant)
 
     def start_of_year(self) -> "Date":
-        """
-        Return a new Date instance representing January 1st of the current year at 00:00:00 UTC.
-        """
-        return Date(
+        """Return a new Date instance for the first moment of the current year."""
+        return self._with(
             self._dt.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
         )
 
@@ -577,6 +573,6 @@ class Date:
         """
         Return a new Date instance representing December 31st of the current year at 23:59:59.999999 UTC.
         """
-        next_year = datetime(self._dt.year + 1, 1, 1, tzinfo=timezone.utc)
+        next_year = datetime(self._dt.year + 1, 1, 1, tzinfo=self._dt.tzinfo)
         last_instant = next_year - timedelta(microseconds=1)
-        return Date(last_instant)
+        return self._with(last_instant)

@@ -232,13 +232,6 @@ def test_date_hash():
     dt = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
     assert isinstance(hash(dt), int)
 
-from datetime import datetime
-from zoneinfo import ZoneInfo
-
-import pytest
-
-from eones.core.date import Date
-
 
 @pytest.mark.parametrize(
     "unit, dt_kwargs, expected",
@@ -327,3 +320,22 @@ def test_date_naive_raise_mode_without_tzinfo():
     dt = datetime(2024, 1, 1, 12, 0)  # naive
     with pytest.raises(ValueError, match="Naive datetime received"):
         Date(dt, tz="UTC", naive="raise")
+
+@pytest.mark.parametrize(
+    "method",
+    [
+        "start_of_day",
+        "end_of_day",
+        "start_of_month",
+        "end_of_month",
+        "start_of_year",
+        "end_of_year",
+    ],
+)
+def test_start_end_preserve_timezone(method):
+    zone = "America/Argentina/Buenos_Aires"
+    base = Date(
+        datetime(2025, 6, 15, 12, 0, tzinfo=ZoneInfo(zone)), tz=zone
+    )
+    result = getattr(base, method)()
+    assert result.to_datetime().tzinfo.key == zone

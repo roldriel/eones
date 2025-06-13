@@ -1,4 +1,5 @@
 """core.range.py"""
+
 from __future__ import annotations
 
 from calendar import monthrange

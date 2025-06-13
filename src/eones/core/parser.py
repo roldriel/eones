@@ -1,4 +1,5 @@
 """core.parser.py"""
+
 from __future__ import annotations
 
 from datetime import datetime
@@ -90,7 +91,7 @@ class Parser:
             "microsecond": date_parts.get("microsecond", 0),
             "tzinfo": self._zone,
         }
-        return Date(datetime(**parts))
+        return Date(datetime(**parts), tz=self._zone.key)
 
     def _from_str(self, date_str: str) -> "Date":
         """

@@ -62,6 +62,10 @@ def test_from_dict_valid_data(parser):
     assert isinstance(result, Date)
     assert result.to_datetime().date().isoformat() == "2025-06-15"
 
+def test_parse_dict_keeps_timezone():
+    p = Parser(tz="America/Argentina/Buenos_Aires", formats=["%Y-%m-%d"])
+    d = p.parse({"year": 2025, "month": 6, "day": 15})
+    assert d.to_datetime().tzinfo.key == "America/Argentina/Buenos_Aires"
 
 # ==== DEFAULT FORMATS ====
 

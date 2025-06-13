@@ -1,4 +1,5 @@
 """core.calendar.py"""
+
 from __future__ import annotations
 
 import calendar
@@ -60,7 +61,7 @@ class DeltaCalendar:
         Returns:
             datetime: A new datetime with the delta applied.
         """
-        total_months = (base_datetime.year * 12 + base_datetime.month - 1)
+        total_months = base_datetime.year * 12 + base_datetime.month - 1
         total_months += self.years * 12 + self.months
         new_year = total_months // 12
         new_month = (total_months % 12) + 1

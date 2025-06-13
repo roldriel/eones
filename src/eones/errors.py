@@ -1,5 +1,6 @@
 """errors.py"""
 
+
 class EonesError(Exception):
     """Base exception class for all Eones errors."""
 
