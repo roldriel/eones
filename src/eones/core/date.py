@@ -10,7 +10,7 @@ from zoneinfo import ZoneInfo
 from eones.constants import VALID_KEYS
 
 
-class Date:
+class Date:  # pylint: disable=too-many-public-methods
     """
     Encapsulates a precise moment in time, drawn from the infinite thread of eons.
 
@@ -86,6 +86,7 @@ class Date:
         return self._dt.isoformat()
 
     def shift(self, delta: timedelta) -> Date:
+        """Return a new Date shifted by the given timedelta."""
         return self._with(self._dt + delta)
 
     def __add__(self, delta: timedelta) -> Date:
@@ -130,31 +131,43 @@ class Date:
 
     @property
     def year(self) -> int:
+        """Year component of the date."""
         return self._dt.year
 
     @property
     def month(self) -> int:
+        """Month component of the date."""
         return self._dt.month
 
     @property
     def day(self) -> int:
+        """Day component of the date."""
         return self._dt.day
 
     @property
     def hour(self) -> int:
+        """Hour component of the date."""
         return self._dt.hour
 
     @property
     def minute(self) -> int:
+        """Minute component of the date."""
         return self._dt.minute
 
     @property
     def second(self) -> int:
+        """Second component of the date."""
         return self._dt.second
 
     @property
     def microsecond(self) -> int:
+        """Microsecond component of the date."""
         return self._dt.microsecond
+
+    @property
+    def timezone(self) -> str:
+        """Return the key of the timezone in use."""
+        return self._zone.key
 
     def _replace_fields(self, **kwargs: Any) -> Date:
         return self._with(self._dt.replace(**kwargs))
@@ -186,7 +199,8 @@ class Date:
 
         if unit not in thresholds:
             raise ValueError(
-                "Invalid unit. Use 'microsecond', 'second', 'minute', 'hour', or 'day'."
+                "Invalid unit. Use 'microsecond', 'second', 'minute', 'hour', or "
+                "'day'."
             )
 
         if thresholds[unit](dt):
@@ -343,6 +357,7 @@ class Date:
         naive: Optional[Literal["utc", "local", "raise"]] = None,
         **kwargs: Any,
     ) -> Date:
+        """Return a new Date with specific fields replaced."""
         filtered = {k: v for k, v in kwargs.items() if k in VALID_KEYS}
         new_dt = self._dt.replace(**filtered)
         return Date(new_dt, tz=tz or self._zone.key, naive=naive or "raise")
@@ -350,11 +365,12 @@ class Date:
     def diff(
         self, other: Date, unit: Literal["days", "weeks", "months", "years"] = "days"
     ) -> int:
+        """Return the absolute difference in the specified unit."""
         if unit == "days":
-            return abs((self._dt - other._dt).days)
+            return abs((self._dt - other.to_datetime()).days)
 
         if unit == "weeks":
-            return abs((self._dt - other._dt).days) // 7
+            return abs((self._dt - other.to_datetime()).days) // 7
 
         if unit == "months":
             return abs(self.month_span_to(other))
@@ -395,14 +411,28 @@ class Date:
     def floor(
         self, unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
     ) -> Date:
+        """Return a new Date aligned to the start of the given unit."""
         truncate_map = {
-            "year": dict(month=1, day=1, hour=0, minute=0, second=0, microsecond=0),
-            "month": dict(day=1, hour=0, minute=0, second=0, microsecond=0),
-            "week": dict(hour=0, minute=0, second=0, microsecond=0),
-            "day": dict(hour=0, minute=0, second=0, microsecond=0),
-            "hour": dict(minute=0, second=0, microsecond=0),
-            "minute": dict(second=0, microsecond=0),
-            "second": dict(microsecond=0),
+            "year": {
+                "month": 1,
+                "day": 1,
+                "hour": 0,
+                "minute": 0,
+                "second": 0,
+                "microsecond": 0,
+            },
+            "month": {
+                "day": 1,
+                "hour": 0,
+                "minute": 0,
+                "second": 0,
+                "microsecond": 0,
+            },
+            "week": {"hour": 0, "minute": 0, "second": 0, "microsecond": 0},
+            "day": {"hour": 0, "minute": 0, "second": 0, "microsecond": 0},
+            "hour": {"minute": 0, "second": 0, "microsecond": 0},
+            "minute": {"second": 0, "microsecond": 0},
+            "second": {"microsecond": 0},
         }
 
         if unit not in truncate_map:
@@ -417,7 +447,7 @@ class Date:
         """
         Returns a new Date advanced to the end of the given unit.
         """
-        floored = self.floor(unit)._dt
+        floored = self.floor(unit).to_datetime()
 
         if unit == "year":
             dt = floored.replace(
@@ -515,9 +545,10 @@ class Date:
         span = d2.year - d1.year
         if (d2.month, d2.day) < (d1.month, d1.day):
             span -= 1
-        return span if self._dt <= other._dt else -span
+        return span if self._dt <= other.to_datetime() else -span
 
     def to_dict(self) -> dict:
+        """Return a dictionary representation of the Date."""
         return {
             "year": self.year,
             "month": self.month,
@@ -570,9 +601,7 @@ class Date:
         )
 
     def end_of_year(self) -> "Date":
-        """
-        Return a new Date instance representing December 31st of the current year at 23:59:59.999999 UTC.
-        """
+        """Return a Date for the last moment of the current year."""
         next_year = datetime(self._dt.year + 1, 1, 1, tzinfo=self._dt.tzinfo)
         last_instant = next_year - timedelta(microseconds=1)
         return self._with(last_instant)

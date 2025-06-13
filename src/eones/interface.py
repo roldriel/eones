@@ -136,7 +136,7 @@ class Eones:
     def floor(
         self, unit: Literal["year", "month", "week", "day", "hour", "minute", "second"]
     ) -> "Eones":
-        """Truncate the current date down to the start of the specified temporal unit."""
+        """Truncate the current date down to the start of the unit."""
         self._date = self._date.floor(unit)
         return self
 
@@ -170,7 +170,7 @@ class Eones:
         Returns:
             bool: True if the current date is between start and end.
         """
-        parser = Parser(self._date._zone.key)
+        parser = Parser(self._date.timezone)
         start_date = parser.parse(start)
         end_date = parser.parse(end)
         return self._date.is_between(

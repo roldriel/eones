@@ -3,6 +3,7 @@
 import re
 from typing import Dict
 
+from eones.constants import DELTA_KEYS
 from eones.core.date import Date
 from eones.core.delta_calendar import DeltaCalendar
 from eones.core.delta_duration import DeltaDuration
@@ -26,18 +27,7 @@ class Delta:
     """
 
     def __init__(self, **kwargs: int) -> None:
-        """
-        Initialize a Delta with calendar and/or duration parts.
-
-        Args:
-            **kwargs: Fields like years, months, weeks, days, hours, minutes, seconds.
-
-        Raises:
-            ValueError: If invalid field names are used.
-            TypeError: If any value is not an int or is a bool.
-        """
-        from eones.constants import DELTA_KEYS
-
+        """Initialize a Delta with calendar and/or duration parts."""
         invalid_keys = set(kwargs) - DELTA_KEYS
         if invalid_keys:
             raise ValueError(

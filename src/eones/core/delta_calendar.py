@@ -87,7 +87,8 @@ class DeltaCalendar:
         Returns:
             DeltaCalendar: A new scaled instance.
         """
-        return DeltaCalendar(**{k: v * factor for k, v in self.to_input_dict().items()})
+        items = self.to_input_dict().items()
+        return DeltaCalendar(**{k: v * factor for k, v in items})
 
     def to_dict(self) -> Dict[str, int]:
         """
