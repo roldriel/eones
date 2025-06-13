@@ -378,7 +378,7 @@ class Date:  # pylint: disable=too-many-public-methods
         if unit == "years":
             return abs(self.year_span_to(other))
 
-        raise ValueError("Unsupported unit. Use 'days', 'weeks', 'months', or 'years'.")
+        raise ValueError("Unsupported unit. Use 'days', 'weeks', 'months', 'years'.")
 
     def next_weekday(self, weekday: int) -> Date:
         """Return the next date matching the specified weekday.
