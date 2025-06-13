@@ -8,6 +8,7 @@ from eones.core.date import Date
 
 # ==== INIT ====
 
+
 @pytest.mark.parametrize(
     "formats, additional_formats",
     [
@@ -18,7 +19,9 @@ from eones.core.date import Date
     ],
 )
 def test_eones_init_mutual_exclusion_raises(formats, additional_formats):
-    with pytest.raises(ValueError, match="Use either 'formats' or 'additional_formats'"):
+    with pytest.raises(
+        ValueError, match="Use either 'formats' or 'additional_formats'"
+    ):
         Eones("2024-01-01", formats=formats, additional_formats=additional_formats)
 
 
@@ -36,6 +39,7 @@ def test_eones_init_format_variants(kwargs):
 
 
 # ==== REPRESENTATION & COMPARISON ====
+
 
 def test_eones_repr_contains_date_and_tz():
     e = Eones("2025-06-15T14:30:00", tz="UTC")
@@ -57,13 +61,17 @@ def test_eones_equality_not_instance():
 
 # ==== TIME TRANSFORMATIONS ====
 
-@pytest.mark.parametrize("method, unit", [
-    ("floor", "hour"),
-    ("ceil", "hour"),
-    ("round", "day"),
-    ("start_of", "month"),
-    ("end_of", "month"),
-])
+
+@pytest.mark.parametrize(
+    "method, unit",
+    [
+        ("floor", "hour"),
+        ("ceil", "hour"),
+        ("round", "day"),
+        ("start_of", "month"),
+        ("end_of", "month"),
+    ],
+)
 def test_eones_unit_transformations(method, unit):
     e = Eones("2024-03-17T15:45:23")
     transformed = getattr(e, method)(unit)
@@ -86,6 +94,7 @@ def test_next_weekday_returns_correct_type():
 
 
 # ==== RANGE & POSITIONAL CHECKS ====
+
 
 @pytest.mark.parametrize(
     "mode, check",
@@ -146,6 +155,7 @@ def test_is_same_week_with_datetime_input():
 
 # ==== DIFFERENCE ====
 
+
 @pytest.mark.parametrize(
     "a,b,unit,expected",
     [
@@ -173,10 +183,12 @@ def test_difference_with_date_instance():
     e = Eones("2025-01-01", tz="UTC")
     assert e.difference(d, unit="days") == 14
 
+
 def test_coerce_to_date_from_eones():
     a = Eones("2024-01-01", tz="UTC")
     b = Eones("2024-01-15", tz="UTC")
     assert a._coerce_to_date(b).to_datetime().day == 15
+
 
 def test_coerce_to_date_accepts_eones_instance():
     a = Eones("2024-01-01", tz="UTC")
