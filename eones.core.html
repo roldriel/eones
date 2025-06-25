@@ -609,6 +609,12 @@ irregular month lengths (e.g., Jan 31 + 1 month → Feb 28/29).</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="eones.core.delta.Delta.from_timedelta">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_timedelta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">td</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">timedelta</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eones.core.delta.Delta" title="eones.core.delta.Delta"><span class="pre">Delta</span></a></span></span><a class="headerlink" href="#eones.core.delta.Delta.from_timedelta" title="Link to this definition">¶</a></dt>
+<dd><p>Create a Delta instance from <code class="xref py py-class docutils literal notranslate"><span class="pre">datetime.timedelta</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="eones.core.delta.Delta.invert">
 <span class="sig-name descname"><span class="pre">invert</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eones.core.delta.Delta" title="eones.core.delta.Delta"><span class="pre">Delta</span></a></span></span><a class="headerlink" href="#eones.core.delta.Delta.invert" title="Link to this definition">¶</a></dt>
 <dd><p>Return the inverse of this delta.</p>
@@ -693,6 +699,18 @@ irregular month lengths (e.g., Jan 31 + 1 month → Feb 28/29).</p>
 <dd class="field-even"><p>str</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="eones.core.delta.Delta.total_months">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_months</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#eones.core.delta.Delta.total_months" title="Link to this definition">¶</a></dt>
+<dd><p>Return the calendar component expressed as total months.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="eones.core.delta.Delta.total_seconds">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_seconds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#eones.core.delta.Delta.total_seconds" title="Link to this definition">¶</a></dt>
+<dd><p>Return the duration component expressed as total seconds.</p>
 </dd></dl>
 
 </dd></dl>
@@ -847,6 +865,12 @@ If the resulting month has fewer days, the day is truncated.</p>
 </dl>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="eones.core.delta_calendar.DeltaCalendar.total_months">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_months</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#eones.core.delta_calendar.DeltaCalendar.total_months" title="Link to this definition">¶</a></dt>
+<dd><p>Return the delta expressed as total months.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -907,6 +931,12 @@ preserves original input granularity for semantic clarity.</p>
 <dd class="field-even"><p><strong>ValueError</strong> – If the format is invalid.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eones.core.delta_duration.DeltaDuration.from_timedelta">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_timedelta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">td</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">timedelta</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eones.core.delta_duration.DeltaDuration" title="eones.core.delta_duration.DeltaDuration"><span class="pre">DeltaDuration</span></a></span></span><a class="headerlink" href="#eones.core.delta_duration.DeltaDuration.from_timedelta" title="Link to this definition">¶</a></dt>
+<dd><p>Create a DeltaDuration from a <code class="xref py py-class docutils literal notranslate"><span class="pre">datetime.timedelta</span></code>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -994,6 +1024,12 @@ preserves original input granularity for semantic clarity.</p>
 <dd class="field-even"><p>str</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="eones.core.delta_duration.DeltaDuration.total_seconds">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_seconds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#eones.core.delta_duration.DeltaDuration.total_seconds" title="Link to this definition">¶</a></dt>
+<dd><p>Return the duration expressed in total seconds.</p>
 </dd></dl>
 
 </dd></dl>
