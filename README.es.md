@@ -56,7 +56,7 @@ print(z.diff_for_humans("2025-06-20", locale="es"))  # → hace 5 días
 - ✅ Parsers automáticos para `str`, `dict`, `datetime`, `Eones`
 - ✅ Agregado de días, meses, años, minutos y segundos
 - ✅ Comparación de fechas (misma semana, dentro del año, entre rangos)
-- ✅ Rango de día / mes / año completo
+- ✅ Rango de día / semana / mes / trimestre / año completo
 - ✅ Truncamiento y redondeo por unidad
 - ✅ Soporte completo para `ZoneInfo` (PEP 615)
 - ✅ Sin dependencias externas

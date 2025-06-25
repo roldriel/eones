@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from calendar import monthrange
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 from typing import Tuple
 
 from eones.core.date import Date
@@ -69,3 +69,56 @@ class Range:
         start = datetime(dt.year, 1, 1, 0, 0, 0, tzinfo=dt.tzinfo)
         end = datetime(dt.year, 12, 31, 23, 59, 59, 999999, tzinfo=dt.tzinfo)
         return start, end
+
+    def week_range(self) -> Tuple[datetime, datetime]:
+        """Return the start (Monday) and end (Sunday) of the current ISO week.
+
+        Returns:
+            Tuple[datetime, datetime]: Start and end of the week.
+        """
+        dt = self.date.to_datetime()
+        start_date = dt - timedelta(days=dt.weekday())
+        start = datetime.combine(start_date.date(), time.min).replace(tzinfo=dt.tzinfo)
+        end_date = start_date + timedelta(days=6)
+        end = datetime.combine(end_date.date(), time.max).replace(tzinfo=dt.tzinfo)
+        return start, end
+
+    def quarter_range(self) -> Tuple[datetime, datetime]:
+        """Return the start and end of the current quarter.
+
+        Returns:
+            Tuple[datetime, datetime]: Start and end of the quarter.
+        """
+        dt = self.date.to_datetime()
+        quarter = (dt.month - 1) // 3
+        start_month = quarter * 3 + 1
+        end_month = start_month + 2
+        start = datetime(dt.year, start_month, 1, 0, 0, 0, tzinfo=dt.tzinfo)
+        _, last_day = monthrange(dt.year, end_month)
+        end = datetime(
+            dt.year, end_month, last_day, 23, 59, 59, 999999, tzinfo=dt.tzinfo
+        )
+        return start, end
+
+    def custom_range(
+        self, start_delta: "Delta", end_delta: "Delta"
+    ) -> Tuple[datetime, datetime]:
+        """Return a range defined by applying deltas to the base date.
+
+        Args:
+            start_delta (Delta): Delta applied to generate the start.
+            end_delta (Delta): Delta applied to generate the end.
+
+        Returns:
+            Tuple[datetime, datetime]: Resulting start and end datetimes.
+        """
+        from eones.core.delta import Delta  # local import to avoid circular
+
+        if not isinstance(start_delta, Delta) or not isinstance(end_delta, Delta):
+            raise TypeError("start_delta and end_delta must be Delta instances")
+
+        start_dt = start_delta.apply(self.date).to_datetime()
+        end_dt = end_delta.apply(self.date).to_datetime()
+        if start_dt > end_dt:
+            start_dt, end_dt = end_dt, start_dt
+        return start_dt, end_dt

@@ -55,7 +55,7 @@ print(z.diff_for_humans("2025-06-20", locale="es"))  # → hace 5 días
 - ✅ Automatic parsing for `str`, `dict`, `datetime`, `Eones`
 - ✅ Add/subtract days, months, years, minutes, seconds
 - ✅ Date comparison (same week, within year, between ranges)
-- ✅ Full day/month/year ranges
+- ✅ Full day/week/month/quarter/year ranges
 - ✅ Truncation and rounding by unit
 - ✅ Full support for `ZoneInfo` (PEP 615)
 - ✅ Zero external dependencies
