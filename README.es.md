@@ -1,5 +1,5 @@
 # Eones
-![Python](https://img.shields.io/badge/Python-3.8+-yellow?style=for-the-badge&logo=python)
+![Python](https://img.shields.io/badge/Python-3.9+-yellow?style=for-the-badge&logo=python)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 ![Build](https://img.shields.io/badge/Build-manual-green?style=for-the-badge)
 ![Coverage](https://img.shields.io/badge/Coverage-97%25-blue?style=for-the-badge)
@@ -9,7 +9,7 @@
 
 ---
 
-> Compatible con Python 3.8+ · Sin dependencias externas · Portátil y liviana
+> Compatible con Python 3.9+ · Sin dependencias externas · Portátil y liviana
 
 ---
 
