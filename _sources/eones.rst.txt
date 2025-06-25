@@ -14,6 +14,7 @@ Subpackages
 
    eones.core
    eones.integrations
+   eones.locales
 
 Submodules
 ----------
@@ -38,6 +39,14 @@ eones.formats module
 --------------------
 
 .. automodule:: eones.formats
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+eones.humanize module
+---------------------
+
+.. automodule:: eones.humanize
    :members:
    :show-inheritance:
    :undoc-members:

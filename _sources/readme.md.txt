@@ -1,5 +1,5 @@
 # Eones
-![Python](https://img.shields.io/badge/Python-3.8+-yellow?style=for-the-badge&logo=python)
+![Python](https://img.shields.io/badge/Python-3.9+-yellow?style=for-the-badge&logo=python)
 ![PyPI](https://img.shields.io/pypi/v/eones?style=for-the-badge)
 ![Pylint](https://img.shields.io/badge/pylint-10.00-green?style=for-the-badge)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25-red?style=for-the-badge)
@@ -8,7 +8,7 @@
 
 ---
 
-> Compatible with Python 3.8+ · No external dependencies · Portable and lightweight
+> Compatible with Python 3.9+ · No external dependencies · Portable and lightweight
 
 ---
 
@@ -42,7 +42,10 @@ from eones import Eones
 
 z = Eones("2025-06-15")
 z.add(months=1, days=3)  # -> add 3 days and 1 month
+
 print(z.format("%Y-%m-%d"))  # → 2025-07-18
+print(z.diff_for_humans("2025-06-10"))  # → in 5 days
+print(z.diff_for_humans("2025-06-20", locale="es"))  # → hace 5 días
 ```
 
 ---
@@ -57,6 +60,10 @@ print(z.format("%Y-%m-%d"))  # → 2025-07-18
 - ✅ Full support for `ZoneInfo` (PEP 615)
 - ✅ Zero external dependencies
 - ✅ Conversion to `datetime`, `date`, and native types
+- ✅ Human-friendly differences via `diff_for_humans` with locale support
+
+You can add more languages by creating a new file in `eones/locales/` with the
+translations for your locale. For example, `fr.py` for French.
 
 ---
 
@@ -100,7 +107,7 @@ coverage html && open htmlcov/index.html
 
 ## 📖 Requirements
 
-- Python 3.8 or higher
+- Python 3.9 or higher
 - (Optional) `tzdata` if using timezones in systems without a local zoneinfo database
 
 ---

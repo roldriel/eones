@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>📦 CHANGELOG &#8212; Eones 1.1.0 documentation</title>
+    <title>📦 CHANGELOG &#8212; Eones 1.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
     <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
-    <script src="_static/documentation_options.js?v=fc837d61"></script>
+    <script src="_static/documentation_options.js?v=6efca38a"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="canonical" href="https://roldriel.github.io/eones/changelog.html" />
@@ -37,7 +37,20 @@
 <h1>📦 CHANGELOG<a class="headerlink" href="#changelog" title="Link to this heading">¶</a></h1>
 <p>All versions are documented in this file.</p>
 <section id="id1">
-<h2>[1.1.0] - 2025-06-13<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<h2>[1.2.0] - 2025-06-25<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Added locale-aware <code class="docutils literal notranslate"><span class="pre">diff_for_humans</span></code> via the new <code class="docutils literal notranslate"><span class="pre">humanize</span></code> module.</p></li>
+<li><p>Introduced <code class="docutils literal notranslate"><span class="pre">eones/locales/</span></code> package for language messages.</p></li>
+<li><p>Exposed <code class="docutils literal notranslate"><span class="pre">diff_for_humans</span></code> on <code class="docutils literal notranslate"><span class="pre">Date</span></code> and <code class="docutils literal notranslate"><span class="pre">Eones</span></code> classes.</p></li>
+<li><p>Documented language extensibility and added tests.</p></li>
+<li><p>Added comparison helpers <code class="docutils literal notranslate"><span class="pre">Date.is_same_day</span></code>, <code class="docutils literal notranslate"><span class="pre">Date.is_before</span></code>, <code class="docutils literal notranslate"><span class="pre">Date.is_after</span></code> and <code class="docutils literal notranslate"><span class="pre">Date.days_until</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">Date.as_local</span></code> property and renamed timezone conversion method to <code class="docutils literal notranslate"><span class="pre">as_zone</span></code></p></li>
+<li><p>Integration tests now skip if Django or SQLAlchemy are not installed</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="id2">
+<h2>[1.1.0] - 2025-06-13<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Updated <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> to <code class="docutils literal notranslate"><span class="pre">1.1.0</span></code>.</p></li>
 <li><p>Updated <code class="docutils literal notranslate"><span class="pre">README.md</span></code> to <code class="docutils literal notranslate"><span class="pre">1.1.0</span></code>.</p></li>
@@ -50,8 +63,8 @@
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id2">
-<h2>[1.0.0] - 2025-05-19<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<section id="id3">
+<h2>[1.0.0] - 2025-05-19<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
 <section id="added">
 <h3>Added<a class="headerlink" href="#added" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -108,8 +121,9 @@
 <li class="toctree-l1"><a class="reference internal" href="readme.html">Eones</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">MIT License</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">📦 CHANGELOG</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">[1.1.0] - 2025-06-13</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">[1.0.0] - 2025-05-19</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">[1.2.0] - 2025-06-25</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">[1.1.0] - 2025-06-13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">[1.0.0] - 2025-05-19</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#history">History</a></li>
 </ul>
 </li>
