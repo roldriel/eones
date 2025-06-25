@@ -1,3 +1,5 @@
+"""English messages used by ``diff_for_humans``."""
+
 MESSAGES = {
     "past": "ago",
     "future": "in",

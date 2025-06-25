@@ -23,9 +23,9 @@ def diff_for_humans(
     """
     messages = get_messages(locale)
 
-    from eones.core.date import Date
-
     if other is None:
+        from eones.core.date import Date  # pylint: disable=import-outside-toplevel
+
         other = Date.now(tz=date.timezone)
 
     diff_seconds = (date.to_datetime() - other.to_datetime()).total_seconds()

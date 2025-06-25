@@ -11,7 +11,7 @@ on:
 
 jobs:
   tests:
-    name: Tox Tests (py38 → py312)
+    name: Tox Tests (py39 → py312)
     runs-on: ubuntu-latest
     strategy:
       matrix:

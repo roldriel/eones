@@ -1,3 +1,5 @@
+"""Mensajes en español para ``diff_for_humans``."""
+
 MESSAGES = {
     "past": "hace",
     "future": "en",
