@@ -8,6 +8,7 @@ from typing import Any, Literal, Optional, Union
 from zoneinfo import ZoneInfo
 
 from eones.constants import VALID_KEYS
+from eones.humanize import diff_for_humans as _diff_for_humans
 
 
 class Date:  # pylint: disable=too-many-public-methods
@@ -323,6 +324,26 @@ class Date:  # pylint: disable=too-many-public-methods
         """
         return self._dt.isocalendar()[:2] == other.to_datetime().isocalendar()[:2]
 
+    def is_same_day(self, other: Date) -> bool:
+        """Return True if both dates fall on the same calendar day."""
+        return self.to_datetime().date() == other.to_datetime().date()
+
+    def is_before(self, other: Date) -> bool:
+        """Return True if the current date is before ``other``."""
+        return self.as_utc() < other.as_utc()
+
+    def is_after(self, other: Date) -> bool:
+        """Return True if the current date is after ``other``."""
+        return self.as_utc() > other.as_utc()
+
+    def days_until(self, other: Date) -> int:
+        """Return the number of days until ``other``.
+
+        Positive if ``other`` is later; negative if earlier.
+        """
+        delta = other.as_utc() - self.as_utc()
+        return delta.days
+
     def as_utc(self) -> datetime:
         """Convert to UTC timezone.
 
@@ -331,8 +352,13 @@ class Date:  # pylint: disable=too-many-public-methods
         """
         return self._dt.astimezone(timezone.utc)
 
-    def as_local(self, zone: str) -> datetime:
-        """Convert to a local timezone.
+    @property
+    def as_local(self) -> datetime:
+        """Return the datetime converted to the system's local timezone."""
+        return self._dt.astimezone()
+
+    def as_zone(self, zone: str) -> datetime:
+        """Convert to a specific timezone.
 
         Args:
             zone (str): Target timezone name.
@@ -379,6 +405,15 @@ class Date:  # pylint: disable=too-many-public-methods
             return abs(self.year_span_to(other))
 
         raise ValueError("Unsupported unit. Use 'days', 'weeks', 'months', 'years'.")
+
+    def diff_for_humans(
+        self, other: Optional["Date"] = None, locale: str = "en"
+    ) -> str:
+        """Return a human-readable difference between two dates."""
+        if other is not None and not isinstance(other, Date):
+            raise TypeError("'other' must be a Date instance")
+
+        return _diff_for_humans(self, other, locale)
 
     def next_weekday(self, weekday: int) -> Date:
         """Return the next date matching the specified weekday.

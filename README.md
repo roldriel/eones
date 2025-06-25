@@ -1,5 +1,5 @@
 # Eones
-![Python](https://img.shields.io/badge/Python-3.8+-yellow?style=for-the-badge&logo=python)
+![Python](https://img.shields.io/badge/Python-3.9+-yellow?style=for-the-badge&logo=python)
 ![PyPI](https://img.shields.io/pypi/v/eones?style=for-the-badge)
 ![Pylint](https://img.shields.io/badge/pylint-10.00-green?style=for-the-badge)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25-red?style=for-the-badge)
@@ -8,7 +8,7 @@
 
 ---
 
-> Compatible with Python 3.8+ · No external dependencies · Portable and lightweight
+> Compatible with Python 3.9+ · No external dependencies · Portable and lightweight
 
 ---
 
@@ -100,7 +100,7 @@ coverage html && open htmlcov/index.html
 
 ## 📖 Requirements
 
-- Python 3.8 or higher
+- Python 3.9 or higher
 - (Optional) `tzdata` if using timezones in systems without a local zoneinfo database
 
 ---

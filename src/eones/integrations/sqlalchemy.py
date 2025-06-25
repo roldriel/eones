@@ -1,4 +1,11 @@
-from sqlalchemy.types import DateTime, TypeDecorator
+try:  # pragma: no cover - optional dependency
+    from sqlalchemy.types import DateTime, TypeDecorator
+except Exception:  # pragma: no cover - sqlalchemy not installed
+    DateTime = object  # type: ignore
+
+    class TypeDecorator:  # type: ignore
+        pass
+
 
 from eones import Eones
 

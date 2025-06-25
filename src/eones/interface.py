@@ -118,6 +118,11 @@ class Eones:
         """
         return self._date.diff(self._coerce_to_date(other), unit)
 
+    def diff_for_humans(self, other: Any | None = None, locale: str = "en") -> str:
+        """Return a human-readable difference between dates."""
+        other_date = self._coerce_to_date(other) if other is not None else None
+        return self._date.diff_for_humans(other_date, locale=locale)
+
     def replace(self, **kwargs: int) -> Eones:
         """
         Replace date parts and update internal Date instance.

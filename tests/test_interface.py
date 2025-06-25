@@ -196,3 +196,14 @@ def test_coerce_to_date_accepts_eones_instance():
     coerced = a._coerce_to_date(b)
     assert isinstance(coerced, Date)
     assert coerced.to_datetime().day == 15
+
+
+def test_diff_for_humans_english_and_spanish():
+    start = Eones("2025-01-10", tz="UTC")
+    end = Eones("2025-01-17", tz="UTC")
+
+    assert start.diff_for_humans(end, locale="en") == "1 week ago"
+    assert end.diff_for_humans(start, locale="en") == "in 1 week"
+
+    assert start.diff_for_humans(end, locale="es") == "hace 1 semana"
+    assert end.diff_for_humans(start, locale="es") == "en 1 semana"

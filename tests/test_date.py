@@ -210,9 +210,9 @@ def test_date_naive_raises_without_tzinfo():
         Date(datetime(2024, 1, 1, 12, 0), tz="UTC", naive="raise")
 
 
-def test_as_local_changes_timezone():
+def test_as_zone_changes_timezone():
     d = Date(datetime(2024, 1, 1, 12, 0, tzinfo=ZoneInfo("UTC")))
-    local_dt = d.as_local("America/Argentina/Buenos_Aires")
+    local_dt = d.as_zone("America/Argentina/Buenos_Aires")
     assert local_dt.tzinfo.key == "America/Argentina/Buenos_Aires"
 
 
@@ -428,3 +428,35 @@ def test_start_end_preserve_timezone(method):
     base = Date(datetime(2025, 6, 15, 12, 0, tzinfo=ZoneInfo(zone)), tz=zone)
     result = getattr(base, method)()
     assert result.to_datetime().tzinfo.key == zone
+
+
+def test_is_same_day_true():
+    d1 = Date(datetime(2024, 1, 1, 5, 0, tzinfo=ZoneInfo("UTC")))
+    d2 = Date(datetime(2024, 1, 1, 23, 0, tzinfo=ZoneInfo("UTC")))
+    assert d1.is_same_day(d2)
+
+
+def test_is_same_day_false():
+    d1 = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
+    d2 = Date(datetime(2024, 1, 2, tzinfo=ZoneInfo("UTC")))
+    assert not d1.is_same_day(d2)
+
+
+def test_is_before_and_is_after():
+    earlier = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
+    later = Date(datetime(2024, 1, 2, tzinfo=ZoneInfo("UTC")))
+    assert earlier.is_before(later)
+    assert later.is_after(earlier)
+
+
+def test_days_until():
+    start = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
+    end = Date(datetime(2024, 1, 5, tzinfo=ZoneInfo("UTC")))
+    assert start.days_until(end) == 4
+    assert end.days_until(start) == -4
+
+
+def test_as_local_property():
+    d = Date(datetime(2024, 1, 1, 12, 0, tzinfo=ZoneInfo("UTC")))
+    local_dt = d.as_local
+    assert local_dt.tzinfo == datetime.now().astimezone().tzinfo
