@@ -42,9 +42,11 @@ pip install "eones"
 from eones import Eones
 
 z = Eones("2025-06-15")
-z.add(months=1, days=3)
+z.add(months=1, days=3)  # -> agregar 3 dias and 1 mes
 
 print(z.format("%Y-%m-%d"))  # → 2025-07-18
+print(z.diff_for_humans("2025-06-10"))  # → en 5 días
+print(z.diff_for_humans("2025-06-20", locale="es"))  # → hace 5 días
 ```
 
 ---
@@ -59,6 +61,10 @@ print(z.format("%Y-%m-%d"))  # → 2025-07-18
 - ✅ Soporte completo para `ZoneInfo` (PEP 615)
 - ✅ Sin dependencias externas
 - ✅ Conversión a `datetime`, `date`, y tipos nativos
+- ✅ Diferencias expresivas con `diff_for_humans` y soporte de idiomas
+
+Podés agregar más idiomas creando un archivo en `eones/locales/` con las
+traducciones para tu idioma. Por ejemplo, `fr.py` para francés.
 
 ---
 

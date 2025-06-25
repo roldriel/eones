@@ -42,7 +42,10 @@ from eones import Eones
 
 z = Eones("2025-06-15")
 z.add(months=1, days=3)  # -> add 3 days and 1 month
+
 print(z.format("%Y-%m-%d"))  # → 2025-07-18
+print(z.diff_for_humans("2025-06-10"))  # → in 5 days
+print(z.diff_for_humans("2025-06-20", locale="es"))  # → hace 5 días
 ```
 
 ---
@@ -57,6 +60,10 @@ print(z.format("%Y-%m-%d"))  # → 2025-07-18
 - ✅ Full support for `ZoneInfo` (PEP 615)
 - ✅ Zero external dependencies
 - ✅ Conversion to `datetime`, `date`, and native types
+- ✅ Human-friendly differences via `diff_for_humans` with locale support
+
+You can add more languages by creating a new file in `eones/locales/` with the
+translations for your locale. For example, `fr.py` for French.
 
 ---
 
