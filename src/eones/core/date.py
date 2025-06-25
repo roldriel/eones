@@ -4,11 +4,14 @@ from __future__ import annotations
 
 from calendar import monthrange
 from datetime import datetime, timedelta, timezone
-from typing import Any, Literal, Optional, Union
+from typing import TYPE_CHECKING, Any, Literal, Optional, Union
 from zoneinfo import ZoneInfo
 
 from eones.constants import VALID_KEYS
 from eones.humanize import diff_for_humans as _diff_for_humans
+
+if TYPE_CHECKING:  # pragma: no cover - import for type checking only
+    from eones.core.delta import Delta
 
 
 class Date:  # pylint: disable=too-many-public-methods
@@ -90,15 +93,49 @@ class Date:  # pylint: disable=too-many-public-methods
         """Return a new Date shifted by the given timedelta."""
         return self._with(self._dt + delta)
 
-    def __add__(self, delta: timedelta) -> Date:
-        return self.shift(delta)
+    def __add__(self, delta: Union[timedelta, "Delta"]) -> Date:
+        """Return a new :class:`Date` offset by ``delta``.
 
-    def __sub__(self, other: Union[Date, timedelta]) -> Union[Date, timedelta]:
+        Both :class:`datetime.timedelta` and :class:`eones.core.delta.Delta`
+        instances are accepted. The operation returns a new ``Date`` shifted
+        forward by the provided amount.
+
+        Returns:
+            Date: The resulting shifted date.
+        """
+        from eones.core.delta import Delta
+
+        if isinstance(delta, Delta):
+            return delta.apply(self)
+
+        if isinstance(delta, timedelta):
+            return self.shift(delta)
+
+        return NotImplemented
+
+    def __sub__(self, other: Union[Date, timedelta, "Delta"]) -> Union[Date, timedelta]:
+        """Subtract ``other`` from this date.
+
+        ``other`` may be a :class:`datetime.timedelta` or a
+        :class:`eones.core.delta.Delta`. Timedelta or Delta instances yield a new
+        ``Date`` shifted backward. When another ``Date`` is provided, the result
+        is the difference as a ``timedelta``.
+
+        Returns:
+            Union[Date, timedelta]: ``Date`` or time difference depending on the
+            operand type.
+        """
+        from eones.core.delta import Delta
+
+        if isinstance(other, Delta):
+            return other.invert().apply(self)
+
         if isinstance(other, timedelta):
             return self.shift(-other)
 
         if isinstance(other, Date):
             return self._dt - other.to_datetime()
+
         return NotImplemented
 
     @classmethod

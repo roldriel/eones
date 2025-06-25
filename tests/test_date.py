@@ -5,6 +5,7 @@ from zoneinfo import ZoneInfo
 import pytest
 
 from eones.core.date import Date
+from eones.core.delta import Delta
 
 # ==== Fixtures ====
 
@@ -35,9 +36,6 @@ def test_previous_weekday_variants(start, target, expected_day):
     prev = d.previous_weekday(target)
     assert prev.to_datetime().weekday() == target
     assert prev.to_datetime().day == expected_day
-
-
-# (todo el resto del archivo como ya está, pero sin repeticiones)
 
 
 # ==== truncate / round ====
@@ -156,6 +154,14 @@ def test_date_shift_and_add_operator():
     assert added.to_datetime().day == 6
 
 
+def test_date_add_delta():
+    d = Date(datetime(2024, 1, 31, tzinfo=ZoneInfo("UTC")))
+    result = d + Delta(months=1)
+    dt = result.to_datetime()
+    assert dt.month == 2
+    assert dt.day == 29
+
+
 def test_date_subtract_timedelta():
     d = Date(datetime(2024, 1, 10, tzinfo=ZoneInfo("UTC")))
     result = d - timedelta(days=3)
@@ -167,6 +173,14 @@ def test_date_subtract_another_date():
     d2 = Date(datetime(2024, 1, 5, tzinfo=ZoneInfo("UTC")))
     delta = d1 - d2
     assert delta.days == 5
+
+
+def test_date_subtract_delta():
+    d = Date(datetime(2024, 3, 31, tzinfo=ZoneInfo("UTC")))
+    result = d - Delta(months=1)
+    dt = result.to_datetime()
+    assert dt.month == 2
+    assert dt.day == 29
 
 
 def test_date_sub_invalid_type_triggers_not_implemented():
@@ -264,7 +278,7 @@ def test_date_less_than_another():
 def test_date_less_than_invalid_type():
     dt = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
     with pytest.raises(TypeError):
-        _ = dt < "2024-01-02"  # activa NotImplemented
+        _ = dt < "2024-01-02"
 
 
 def test_date_equality_with_another_date():
@@ -275,7 +289,7 @@ def test_date_equality_with_another_date():
 
 def test_date_equality_with_other_type():
     dt = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
-    assert (dt == "2024-01-01") is False  # activa return NotImplemented
+    assert (dt == "2024-01-01") is False
 
 
 def test_date_hash():
@@ -286,49 +300,41 @@ def test_date_hash():
 @pytest.mark.parametrize(
     "unit, dt_kwargs, expected",
     [
-        # Año
         (
             "year",
             {"year": 2024, "month": 1, "day": 1},
             {"month": 12, "day": 31, "hour": 23, "minute": 59},
         ),
-        # Mes normal
         (
             "month",
             {"year": 2024, "month": 4, "day": 1},
             {"day": 30, "hour": 23, "minute": 59},
         ),
-        # Mes bisiesto febrero
         (
             "month",
             {"year": 2024, "month": 2, "day": 1},
             {"day": 29, "hour": 23, "minute": 59},
         ),
-        # Semana que arranca lunes y debe terminar domingo
         (
             "week",
             {"year": 2024, "month": 4, "day": 1},
             {"weekday": 6, "hour": 23, "minute": 59},
         ),
-        # Día
         (
             "day",
             {"year": 2024, "month": 4, "day": 1, "hour": 10},
             {"hour": 23, "minute": 59, "second": 59},
         ),
-        # Hora
         (
             "hour",
             {"year": 2024, "month": 4, "day": 1, "hour": 10},
             {"minute": 59, "second": 59},
         ),
-        # Minuto
         (
             "minute",
             {"year": 2024, "month": 4, "day": 1, "hour": 10, "minute": 25},
             {"second": 59},
         ),
-        # Segundo
         (
             "second",
             {
@@ -346,18 +352,13 @@ def test_date_hash():
 def test_ceil_units(unit, dt_kwargs, expected):
     base = Date(datetime(**dt_kwargs, tzinfo=ZoneInfo("UTC")))
     result = base.ceil(unit).to_datetime()
-
-    # Validación del tipo de retorno
     assert isinstance(result, datetime)
-
-    # Validaciones específicas por atributo
     for attr, value in expected.items():
         if attr == "weekday":
             assert result.weekday() == value
         else:
             assert getattr(result, attr) == value
 
-    # Validación general: el resultado debe ser igual o posterior
     assert result >= base.to_datetime()
 
 
@@ -382,9 +383,8 @@ def test_ceil_second_sets_microsecond():
 
 
 def test_ceil_invalid_unit_only_in_ceil():
-    # "decade" es aceptado por floor() si no lo valida, pero no por ceil()
     d = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
-    d._dt = d._dt.replace(tzinfo=ZoneInfo("UTC"))  # asegurar zona válida
+    d._dt = d._dt.replace(tzinfo=ZoneInfo("UTC"))
     with pytest.raises(ValueError, match="Unsupported unit: decade"):
         d.ceil("decade")
 
@@ -392,7 +392,6 @@ def test_ceil_invalid_unit_only_in_ceil():
 def test_ceil_final_else_branch_direct():
     class Dummy(Date):
         def floor(self, unit):
-            # Simula un floor válido para forzar ejecución del bloque final de ceil
             return self
 
     d = Dummy(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
@@ -401,7 +400,7 @@ def test_ceil_final_else_branch_direct():
 
 
 def test_date_naive_unknown_mode_raises():
-    dt = datetime(2024, 1, 1, 12, 0)  # sin tzinfo
+    dt = datetime(2024, 1, 1, 12, 0)
     with pytest.raises(ValueError, match="Invalid 'naive' value"):
         Date(dt, tz="UTC", naive="xyz")
 
