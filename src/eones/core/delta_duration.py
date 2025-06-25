@@ -105,6 +105,11 @@ class DeltaDuration:
             **{key: value * factor for key, value in self._input.items()}
         )
 
+    @property
+    def total_seconds(self) -> int:
+        """Return the duration expressed in total seconds."""
+        return int(self.timedelta.total_seconds())
+
     def is_zero(self) -> bool:
         """
         Check if the duration is equivalent to zero.
@@ -143,6 +148,29 @@ class DeltaDuration:
             result += "T" + "".join(time_parts)
 
         return result or "P0D"
+
+    @classmethod
+    def from_timedelta(cls, td: timedelta) -> "DeltaDuration":
+        """Create a DeltaDuration from a :class:`datetime.timedelta`."""
+        if not isinstance(td, timedelta):
+            raise TypeError(f"'td' must be timedelta, got {type(td).__name__}")
+
+        total_seconds = int(td.total_seconds())
+        sign = -1 if total_seconds < 0 else 1
+        total_seconds = abs(total_seconds)
+
+        days, rem = divmod(total_seconds, 86400)
+        weeks, days = divmod(days, 7)
+        hours, rem = divmod(rem, 3600)
+        minutes, seconds = divmod(rem, 60)
+
+        return cls(
+            weeks=weeks * sign,
+            days=days * sign,
+            hours=hours * sign,
+            minutes=minutes * sign,
+            seconds=seconds * sign,
+        )
 
     @classmethod
     def from_iso(cls, iso: str) -> "DeltaDuration":

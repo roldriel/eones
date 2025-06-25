@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 import pytest
@@ -245,3 +245,18 @@ def test_from_iso_time_only():
 def test_from_iso_invalid():
     with pytest.raises(ValueError):
         Delta.from_iso("XYZ")
+
+
+def test_total_properties_and_from_timedelta():
+    td = timedelta(days=1, hours=2, minutes=3, seconds=4)
+    delta = Delta.from_timedelta(td)
+    assert delta.to_input_dict() == {
+        "days": 1,
+        "hours": 2,
+        "minutes": 3,
+        "seconds": 4,
+    }
+
+    combined = Delta(years=1, months=2, days=1, hours=1)
+    assert combined.total_months == 14
+    assert combined.total_seconds == timedelta(days=1, hours=1).total_seconds()

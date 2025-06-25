@@ -177,6 +177,16 @@ class Delta:
         """
         return Delta(**{k: v * factor for k, v in self.to_input_dict().items()})
 
+    @property
+    def total_months(self) -> int:
+        """Return the calendar component expressed as total months."""
+        return self._calendar.total_months
+
+    @property
+    def total_seconds(self) -> int:
+        """Return the duration component expressed as total seconds."""
+        return self._duration.total_seconds
+
     def is_zero(self) -> bool:
         """
         Check if the delta has no effect.
@@ -263,3 +273,14 @@ class Delta:
             raise ValueError(f"Invalid ISO delta: {iso}")
         parts = {k: int(v) for k, v in match.groupdict().items() if v is not None}
         return cls(**parts)
+
+    @classmethod
+    def from_timedelta(cls, td: "timedelta") -> "Delta":
+        """Create a Delta instance from :class:`datetime.timedelta`."""
+        from datetime import timedelta
+
+        if not isinstance(td, timedelta):
+            raise TypeError(f"'td' must be timedelta, got {type(td).__name__}")
+
+        duration = DeltaDuration.from_timedelta(td)
+        return cls(**duration.to_input_dict())

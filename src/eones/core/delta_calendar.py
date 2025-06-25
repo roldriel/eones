@@ -90,6 +90,11 @@ class DeltaCalendar:
         items = self.to_input_dict().items()
         return DeltaCalendar(**{k: v * factor for k, v in items})
 
+    @property
+    def total_months(self) -> int:
+        """Return the delta expressed as total months."""
+        return self.years * 12 + self.months
+
     def to_dict(self) -> Dict[str, int]:
         """
         Return a normalized version of the delta.
