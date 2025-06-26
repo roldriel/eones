@@ -4,10 +4,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from typing import Dict, List, Optional, Union
-from zoneinfo import ZoneInfo
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from eones.constants import VALID_KEYS
 from eones.core.date import Date
+from eones.errors import InvalidFormatError, InvalidTimezoneError
 
 EonesLike = Union[str, datetime, Dict[str, int], Date]
 
@@ -29,7 +30,12 @@ class Parser:
             tz (str): Timezone string (e.g., 'UTC', 'America/New_York').
             formats (Optional[List[str]]): List of datetime string formats to try.
         """
-        self._zone = ZoneInfo(tz)
+        try:
+            self._zone = ZoneInfo(tz)
+
+        except ZoneInfoNotFoundError as exc:
+            raise InvalidTimezoneError(tz) from exc
+
         self._formats = formats if formats else ["%Y-%m-%d", "%d/%m/%Y"]
 
     def parse(
@@ -114,7 +120,9 @@ class Parser:
             except ValueError:
                 continue
 
-        raise ValueError(f"Date string '{date_str}' does not match expected formats.")
+        raise InvalidFormatError(
+            f"Date string '{date_str}' does not match expected formats {self._formats}"
+        )
 
     def to_eones_date(self, value: EonesLike) -> Date:
         """

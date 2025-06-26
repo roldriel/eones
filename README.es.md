@@ -66,6 +66,10 @@ print(z.diff_for_humans("2025-06-20", locale="es"))  # → hace 5 días
 Podés agregar más idiomas creando un archivo en `eones/locales/` con las
 traducciones para tu idioma. Por ejemplo, `fr.py` para francés.
 
+Manejo de errores
+
+Eones muestra excepciones claras derivadas de `EonesError`. Las zonas horarias no válidas generan `InvalidTimezoneError`, mientras que las cadenas no analizables generan `InvalidFormatError`.
+
 ---
 
 ## 🧾 Comparación con otras librerías

@@ -7,6 +7,7 @@ from eones import Eones
 from eones.constants import DEFAULT_FORMATS
 from eones.core.date import Date
 from eones.core.parser import Parser
+from eones.errors import InvalidFormatError, InvalidTimezoneError
 
 # ==== FIXTURE ====
 
@@ -14,6 +15,11 @@ from eones.core.parser import Parser
 @pytest.fixture
 def parser():
     return Parser(tz="UTC", formats=["%Y-%m-%d"])  # solo año-mes-día
+
+
+def test_invalid_timezone_raises():
+    with pytest.raises(InvalidTimezoneError):
+        Parser(tz="Mars/Phobos")
 
 
 # ==== VALID INPUTS ====
@@ -41,9 +47,11 @@ def test_parse_existing_date_returns_same_instance(parser):
 # ==== INVALID INPUTS ====
 
 
-@pytest.mark.parametrize("invalid_input", [12345, "15/06/2025"])
-def test_parse_invalid_inputs_raise(parser, invalid_input):
-    with pytest.raises(ValueError):
+@pytest.mark.parametrize(
+    "invalid_input, exc", [(12345, ValueError), ("15/06/2025", InvalidFormatError)]
+)
+def test_parse_invalid_inputs_raise(parser, invalid_input, exc):
+    with pytest.raises(exc):
         parser.parse(invalid_input)
 
 
@@ -107,7 +115,7 @@ def test_multiple_formats_fallback_success():
 def test_multiple_formats_fallback_failure():
     formats = ["%d/%m/%Y", "%Y-%m-%d"]
     p = Parser(tz="UTC", formats=formats)
-    with pytest.raises(ValueError):
+    with pytest.raises(InvalidFormatError):
         p.parse("15.06.2025")  # no matching format
 
 

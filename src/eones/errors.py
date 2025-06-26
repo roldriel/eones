@@ -21,6 +21,14 @@ class InvalidFormatError(EonesError):
         super().__init__(message)
 
 
+class InvalidTimezoneError(EonesError):
+    """Raised when an invalid timezone string is provided."""
+
+    def __init__(self, tz: str) -> None:
+        """Initialize InvalidTimezoneError with the problematic timezone."""
+        super().__init__(f"Invalid timezone: {tz}")
+
+
 class UnsupportedInputError(EonesError):
     """Raised when the input type is not supported by the parser."""
 

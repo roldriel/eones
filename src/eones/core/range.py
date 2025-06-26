@@ -7,6 +7,7 @@ from datetime import datetime, time, timedelta
 from typing import Tuple
 
 from eones.core.date import Date
+from eones.core.delta import Delta
 
 
 class Range:
@@ -112,8 +113,6 @@ class Range:
         Returns:
             Tuple[datetime, datetime]: Resulting start and end datetimes.
         """
-        from eones.core.delta import Delta  # local import to avoid circular
-
         if not isinstance(start_delta, Delta) or not isinstance(end_delta, Delta):
             raise TypeError("start_delta and end_delta must be Delta instances")
 

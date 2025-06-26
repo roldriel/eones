@@ -1,6 +1,7 @@
 """core.delta.py"""
 
 import re
+from datetime import timedelta
 from typing import Dict
 
 from eones.constants import DELTA_KEYS
@@ -277,8 +278,6 @@ class Delta:
     @classmethod
     def from_timedelta(cls, td: "timedelta") -> "Delta":
         """Create a Delta instance from :class:`datetime.timedelta`."""
-        from datetime import timedelta
-
         if not isinstance(td, timedelta):
             raise TypeError(f"'td' must be timedelta, got {type(td).__name__}")
 

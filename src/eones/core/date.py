@@ -5,9 +5,10 @@ from __future__ import annotations
 from calendar import monthrange
 from datetime import datetime, timedelta, timezone
 from typing import TYPE_CHECKING, Any, Literal, Optional, Union
-from zoneinfo import ZoneInfo
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from eones.constants import VALID_KEYS
+from eones.errors import InvalidTimezoneError
 from eones.humanize import diff_for_humans as _diff_for_humans
 
 if TYPE_CHECKING:  # pragma: no cover - import for type checking only
@@ -31,7 +32,11 @@ class Date:  # pylint: disable=too-many-public-methods
         tz: Optional[str] = "UTC",
         naive: Literal["utc", "local", "raise"] = "raise",
     ):
-        self._zone = ZoneInfo(tz)
+        try:
+            self._zone = ZoneInfo(tz)
+
+        except ZoneInfoNotFoundError as exc:
+            raise InvalidTimezoneError(tz) from exc
 
         if dt is None:
             self._dt = datetime.now(self._zone)
@@ -103,7 +108,7 @@ class Date:  # pylint: disable=too-many-public-methods
         Returns:
             Date: The resulting shifted date.
         """
-        from eones.core.delta import Delta
+        from eones.core.delta import Delta  # pylint: disable=import-outside-toplevel
 
         if isinstance(delta, Delta):
             return delta.apply(self)
@@ -113,7 +118,10 @@ class Date:  # pylint: disable=too-many-public-methods
 
         return NotImplemented
 
-    def __sub__(self, other: Union[Date, timedelta, "Delta"]) -> Union[Date, timedelta]:
+    def __sub__(
+        self,
+        other: Union[Date, timedelta, "Delta"],
+    ) -> Union[Date, timedelta]:
         """Subtract ``other`` from this date.
 
         ``other`` may be a :class:`datetime.timedelta` or a
@@ -125,7 +133,7 @@ class Date:  # pylint: disable=too-many-public-methods
             Union[Date, timedelta]: ``Date`` or time difference depending on the
             operand type.
         """
-        from eones.core.delta import Delta
+        from eones.core.delta import Delta  # pylint: disable=import-outside-toplevel
 
         if isinstance(other, Delta):
             return other.invert().apply(self)
@@ -297,7 +305,12 @@ class Date:  # pylint: disable=too-many-public-methods
         Returns:
             Date: Parsed Date.
         """
-        dt = datetime.fromisoformat(iso_str)
+        try:
+            dt = datetime.fromisoformat(iso_str)
+
+        except ZoneInfoNotFoundError as exc:
+            raise InvalidTimezoneError(tz) from exc
+
         if dt.tzinfo is None:
             dt = dt.replace(tzinfo=ZoneInfo(tz))
         return cls(dt, tz)
@@ -313,7 +326,12 @@ class Date:  # pylint: disable=too-many-public-methods
         Returns:
             Date: Parsed Date.
         """
-        dt = datetime.fromtimestamp(timestamp, tz=ZoneInfo(tz))
+        try:
+            dt = datetime.fromtimestamp(timestamp, tz=ZoneInfo(tz))
+
+        except ZoneInfoNotFoundError as exc:
+            raise InvalidTimezoneError(tz) from exc
+
         return cls(dt, tz)
 
     def is_within(self, other: Date, check_month: bool = True) -> bool:
@@ -403,7 +421,11 @@ class Date:  # pylint: disable=too-many-public-methods
         Returns:
             datetime: Datetime in the new timezone.
         """
-        return self._dt.astimezone(ZoneInfo(zone))
+        try:
+            return self._dt.astimezone(ZoneInfo(zone))
+
+        except ZoneInfoNotFoundError as exc:
+            raise InvalidTimezoneError(zone) from exc
 
     def truncate(self, unit: str) -> Date:
         """Truncate the Date to the specified unit (e.g., 'day', 'hour', etc.)."""
