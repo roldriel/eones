@@ -65,6 +65,12 @@ print(z.diff_for_humans("2025-06-20", locale="es"))  # → hace 5 días
 You can add more languages by creating a new file in `eones/locales/` with the
 translations for your locale. For example, `fr.py` for French.
 
+Error Handling
+
+Eones surfaces clear exceptions derived from `EonesError`. Invalid timezones
+raise `InvalidTimezoneError`, while unparsable strings raise
+`InvalidFormatError`.
+
 ---
 
 ## 🧾 Comparison with other libraries

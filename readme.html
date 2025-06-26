@@ -99,6 +99,10 @@
 </ul>
 <p>You can add more languages by creating a new file in <code class="docutils literal notranslate"><span class="pre">eones/locales/</span></code> with the
 translations for your locale. For example, <code class="docutils literal notranslate"><span class="pre">fr.py</span></code> for French.</p>
+<p>Error Handling</p>
+<p>Eones surfaces clear exceptions derived from <code class="docutils literal notranslate"><span class="pre">EonesError</span></code>. Invalid timezones
+raise <code class="docutils literal notranslate"><span class="pre">InvalidTimezoneError</span></code>, while unparsable strings raise
+<code class="docutils literal notranslate"><span class="pre">InvalidFormatError</span></code>.</p>
 </section>
 <hr class="docutils" />
 <section id="comparison-with-other-libraries">
