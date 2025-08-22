@@ -40,6 +40,15 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="eones.html">eones package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="eones.html#eones.Eones"><code class="docutils literal notranslate"><span class="pre">Eones</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="eones.html#eones.InvalidFormatError"><code class="docutils literal notranslate"><span class="pre">InvalidFormatError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="eones.html#eones.InvalidTimezoneError"><code class="docutils literal notranslate"><span class="pre">InvalidTimezoneError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="eones.html#eones.add_days"><code class="docutils literal notranslate"><span class="pre">add_days()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="eones.html#eones.date_diff_days"><code class="docutils literal notranslate"><span class="pre">date_diff_days()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="eones.html#eones.date_range"><code class="docutils literal notranslate"><span class="pre">date_range()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="eones.html#eones.format_date"><code class="docutils literal notranslate"><span class="pre">format_date()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="eones.html#eones.from_timestamp"><code class="docutils literal notranslate"><span class="pre">from_timestamp()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="eones.html#eones.parse_date"><code class="docutils literal notranslate"><span class="pre">parse_date()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="eones.html#eones.to_timestamp"><code class="docutils literal notranslate"><span class="pre">to_timestamp()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="eones.html#subpackages">Subpackages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="eones.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="eones.html#module-eones.constants">eones.constants module</a></li>
@@ -55,7 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="readme.html#basic-example">🧪 Basic Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#key-features">🔍 Key Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#comparison-with-other-libraries">🧾 Comparison with other libraries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#advanced-examples">📚 Advanced Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#documentation-examples">📚 Documentation &amp; Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#tests-coverage">🔧 Tests &amp; Coverage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#requirements">📖 Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#license">📝 License</a></li>
@@ -67,6 +76,71 @@
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">[1.1.0] - 2025-06-13</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">[1.0.0] - 2025-05-19</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#history">History</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html">Basic Usage of Eones</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/basic_usage.html#import">Import</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/basic_usage.html#creating-dates">Creating Dates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/basic_usage.html#date-formatting">Date Formatting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/basic_usage.html#adding-and-subtracting-time">Adding and Subtracting Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/basic_usage.html#differences-between-dates">Differences Between Dates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/basic_usage.html#custom-parsing">Custom Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/basic_usage.html#localization">Localization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/advanced_usage.html">Advanced Usage of Eones</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/advanced_usage.html#advanced-date-manipulation">Advanced Date Manipulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/advanced_usage.html#comparisons-and-validations">Comparisons and Validations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/advanced_usage.html#date-ranges">Date Ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/advanced_usage.html#additional-methods-of-the-date-class">Additional Methods of the Date Class</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/complete_deltas.html">Working with Deltas in Eones</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/complete_deltas.html#dual-delta-architecture">Dual Delta Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/complete_deltas.html#main-delta-class">Main <code class="docutils literal notranslate"><span class="pre">Delta</span></code> Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/complete_deltas.html#deltacalendar-calendar-intervals"><code class="docutils literal notranslate"><span class="pre">DeltaCalendar</span></code> - Calendar Intervals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/complete_deltas.html#deltaduration-duration-intervals"><code class="docutils literal notranslate"><span class="pre">DeltaDuration</span></code> - Duration Intervals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/complete_deltas.html#when-to-use-each-type">When to Use Each Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/complete_deltas.html#practical-examples">Practical Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/error_handling.html">Error Handling in Eones</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/error_handling.html#exception-hierarchy">Exception Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/error_handling.html#eoneserror-base-exception"><code class="docutils literal notranslate"><span class="pre">EonesError</span></code> - Base Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/error_handling.html#invalidtimezoneerror"><code class="docutils literal notranslate"><span class="pre">InvalidTimezoneError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/error_handling.html#invaliddateformaterror"><code class="docutils literal notranslate"><span class="pre">InvalidDateFormatError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/error_handling.html#invaliddurationformaterror"><code class="docutils literal notranslate"><span class="pre">InvalidDurationFormatError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/error_handling.html#robust-error-handling">Robust Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/error_handling.html#exception-usage-contexts">Exception Usage Contexts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/error_handling.html#best-practices">Best Practices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/formatting_serialization.html">Advanced Formatting and Serialization in Eones</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/formatting_serialization.html#date-formatting">Date Formatting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/formatting_serialization.html#duration-serialization">Duration Serialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/formatting_serialization.html#common-use-cases">Common Use Cases</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/use_cases.html">Common Use Cases with Eones</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/use_cases.html#calculate-age">1. Calculate Age</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/use_cases.html#due-dates">2. Due Dates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/use_cases.html#monthly-reports">3. Monthly Reports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/use_cases.html#work-schedules">4. Work Schedules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/use_cases.html#invoice-validation">5. Invoice Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/use_cases.html#calculate-remaining-days">6. Calculate Remaining Days</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/use_cases.html#fiscal-quarter-detection">7. Fiscal Quarter Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/use_cases.html#period-report">8. Period Report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/use_cases.html#next-cutoff-date">9. Next Cutoff Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/use_cases.html#work-calendar">10. Work Calendar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/use_cases.html#calculate-next-working-days">11. Calculate Next Working Days</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/use_cases.html#api-formatting">12. API Formatting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/use_cases.html#database-storage">13. Database Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/use_cases.html#structured-logs">14. Structured Logs</a></li>
 </ul>
 </li>
 </ul>
@@ -112,6 +186,15 @@
 <li class="toctree-l1"><a class="reference internal" href="readme.html">Eones</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">MIT License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">📦 CHANGELOG</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html">Basic Usage of Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/advanced_usage.html">Advanced Usage of Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/complete_deltas.html">Working with Deltas in Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/error_handling.html">Error Handling in Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/formatting_serialization.html">Advanced Formatting and Serialization in Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/use_cases.html">Common Use Cases with Eones</a></li>
 </ul>
 
 <div class="relations">

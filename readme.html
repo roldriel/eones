@@ -54,6 +54,25 @@
 <div><p><em>“That is not dead which can eternal lie, and with strange aeons even death may die.”</em><br />
 — <em>Abdul Alhazred</em>, Necronomicon</p>
 </div></blockquote>
+<section id="philosophy">
+<h3>Philosophy<a class="headerlink" href="#philosophy" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p><strong>Eones is not a datetime replacement. It’s a temporal reasoning layer.</strong></p>
+</div></blockquote>
+<p>Eones exists to fill the gap between Python’s low-level <code class="docutils literal notranslate"><span class="pre">datetime</span></code> and the need for semantic, calendar-aware date manipulation:</p>
+<ul class="simple">
+<li><p>Using <strong>only the standard library</strong> (Python 3.9+)</p></li>
+<li><p>Providing a <strong>semantically rich and consistent API</strong></p></li>
+<li><p>Supporting modern timezone-aware design with <code class="docutils literal notranslate"><span class="pre">zoneinfo</span></code></p></li>
+<li><p>Maintaining <strong>modular and composable</strong> architecture through clear separation of responsibilities (<code class="docutils literal notranslate"><span class="pre">Date</span></code>, <code class="docutils literal notranslate"><span class="pre">Delta</span></code>, <code class="docutils literal notranslate"><span class="pre">Range</span></code>)</p></li>
+</ul>
+<p><strong>Eones is for:</strong></p>
+<ul class="simple">
+<li><p>Developers who want to reason about time semantically, not just manipulate timestamps</p></li>
+<li><p>Teams that want <strong>zero external dependencies</strong> for maximum portability</p></li>
+<li><p>Projects where <strong>timezones, truncation, deltas and ranges</strong> are central domain logic</p></li>
+</ul>
+</section>
 </section>
 <hr class="docutils" />
 <section id="installation">
@@ -87,26 +106,31 @@
 <section id="key-features">
 <h2>🔍 Key Features<a class="headerlink" href="#key-features" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>✅ Automatic parsing for <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">dict</span></code>, <code class="docutils literal notranslate"><span class="pre">datetime</span></code>, <code class="docutils literal notranslate"><span class="pre">Eones</span></code></p></li>
-<li><p>✅ Add/subtract days, months, years, minutes, seconds</p></li>
-<li><p>✅ Date comparison (same week, within year, between ranges)</p></li>
-<li><p>✅ Full day/week/month/quarter/year ranges</p></li>
-<li><p>✅ Truncation and rounding by unit</p></li>
-<li><p>✅ Full support for <code class="docutils literal notranslate"><span class="pre">ZoneInfo</span></code> (PEP 615)</p></li>
-<li><p>✅ Zero external dependencies</p></li>
-<li><p>✅ Conversion to <code class="docutils literal notranslate"><span class="pre">datetime</span></code>, <code class="docutils literal notranslate"><span class="pre">date</span></code>, and native types</p></li>
-<li><p>✅ Human-friendly differences via <code class="docutils literal notranslate"><span class="pre">diff_for_humans</span></code> with locale support</p></li>
+<li><p>✅ <strong>Zero external dependencies</strong>: Pure Python (Python 3.9+)</p></li>
+<li><p>✅ <strong>Intuitive interface</strong>: Simple, semantically rich and easy-to-use API</p></li>
+<li><p>✅ <strong>Modern timezone support</strong>: Robust handling with <code class="docutils literal notranslate"><span class="pre">zoneinfo</span></code> (not <code class="docutils literal notranslate"><span class="pre">pytz</span></code>)</p></li>
+<li><p>✅ <strong>Flexible parsing</strong>: Accepts multiple date formats automatically</p></li>
+<li><p>✅ <strong>Advanced temporal operations</strong>: Deltas, ranges and semantic comparisons</p></li>
+<li><p>✅ <strong>Modular architecture</strong>: Clear separation between <code class="docutils literal notranslate"><span class="pre">Date</span></code>, <code class="docutils literal notranslate"><span class="pre">Delta</span></code>, <code class="docutils literal notranslate"><span class="pre">Range</span></code> and utilities</p></li>
+<li><p>✅ <strong>Localization</strong>: Support for multiple languages</p></li>
+<li><p>✅ <strong>Humanization</strong>: Converts time differences to readable text</p></li>
+<li><p>✅ <strong>Complete type hinting</strong>: Fully typed following PEP 561</p></li>
+<li><p>✅ <strong>Interoperability</strong>: Compatible with Python’s standard <code class="docutils literal notranslate"><span class="pre">datetime</span></code></p></li>
 </ul>
+<section id="localization-error-handling">
+<h3>Localization &amp; Error Handling<a class="headerlink" href="#localization-error-handling" title="Link to this heading">¶</a></h3>
 <p>You can add more languages by creating a new file in <code class="docutils literal notranslate"><span class="pre">eones/locales/</span></code> with the
 translations for your locale. For example, <code class="docutils literal notranslate"><span class="pre">fr.py</span></code> for French.</p>
-<p>Error Handling</p>
 <p>Eones surfaces clear exceptions derived from <code class="docutils literal notranslate"><span class="pre">EonesError</span></code>. Invalid timezones
 raise <code class="docutils literal notranslate"><span class="pre">InvalidTimezoneError</span></code>, while unparsable strings raise
 <code class="docutils literal notranslate"><span class="pre">InvalidFormatError</span></code>.</p>
 </section>
+</section>
 <hr class="docutils" />
 <section id="comparison-with-other-libraries">
 <h2>🧾 Comparison with other libraries<a class="headerlink" href="#comparison-with-other-libraries" title="Link to this heading">¶</a></h2>
+<section id="why-not-pendulum-or-arrow">
+<h3>Why not Pendulum or Arrow?<a class="headerlink" href="#why-not-pendulum-or-arrow" title="Link to this heading">¶</a></h3>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Feature</p></th>
@@ -119,13 +143,45 @@ raise <code class="docutils literal notranslate"><span class="pre">InvalidTimezo
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Modern, consistent API</p></td>
+<tr class="row-even"><td><p>Modern timezone support</p></td>
+<td class="text-center"><p>✅ (<code class="docutils literal notranslate"><span class="pre">zoneinfo</span></code>)</p></td>
+<td class="text-center"><p>❌ (<code class="docutils literal notranslate"><span class="pre">pytz</span></code>)</p></td>
+<td class="text-center"><p>❌ (<code class="docutils literal notranslate"><span class="pre">pytz</span></code>)</p></td>
 <td class="text-center"><p>✅</p></td>
+<td class="text-center"><p>⚠️</p></td>
 <td class="text-center"><p>✅</p></td>
-<td class="text-center"><p>✅</p></td>
+</tr>
+<tr class="row-odd"><td><p>External dependencies</p></td>
+<td class="text-center"><p>✅ None</p></td>
+<td class="text-center"><p>❌ Yes</p></td>
+<td class="text-center"><p>❌ Yes</p></td>
+<td class="text-center"><p>❌ Yes</p></td>
+<td class="text-center"><p>❌ Yes</p></td>
+<td class="text-center"><p>❌ Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>Semantically rich API</p></td>
+<td class="text-center"><p>✅ Rich</p></td>
+<td class="text-center"><p>✅ Medium</p></td>
+<td class="text-center"><p>✅ Medium</p></td>
 <td class="text-center"><p>⚠️</p></td>
 <td class="text-center"><p>❌</p></td>
 <td class="text-center"><p>❌</p></td>
+</tr>
+<tr class="row-odd"><td><p>Modular/facade architecture</p></td>
+<td class="text-center"><p>✅ Yes</p></td>
+<td class="text-center"><p>❌ No</p></td>
+<td class="text-center"><p>❌ No</p></td>
+<td class="text-center"><p>❌ No</p></td>
+<td class="text-center"><p>❌ No</p></td>
+<td class="text-center"><p>❌ No</p></td>
+</tr>
+<tr class="row-even"><td><p>Complete type hinting &amp; PEP 561</p></td>
+<td class="text-center"><p>✅ Yes</p></td>
+<td class="text-center"><p>❌ Limited</p></td>
+<td class="text-center"><p>❌ Limited</p></td>
+<td class="text-center"><p>❌ No</p></td>
+<td class="text-center"><p>❌ No</p></td>
+<td class="text-center"><p>❌ No</p></td>
 </tr>
 <tr class="row-odd"><td><p>Date arithmetic (add/subtract)</p></td>
 <td class="text-center"><p>✅</p></td>
@@ -141,22 +197,6 @@ raise <code class="docutils literal notranslate"><span class="pre">InvalidTimezo
 <td class="text-center"><p>✅</p></td>
 <td class="text-center"><p>⚠️</p></td>
 <td class="text-center"><p>✅</p></td>
-<td class="text-center"><p>❌</p></td>
-</tr>
-<tr class="row-odd"><td><p>Native timezone support</p></td>
-<td class="text-center"><p>✅</p></td>
-<td class="text-center"><p>✅</p></td>
-<td class="text-center"><p>✅</p></td>
-<td class="text-center"><p>✅</p></td>
-<td class="text-center"><p>⚠️</p></td>
-<td class="text-center"><p>✅</p></td>
-</tr>
-<tr class="row-even"><td><p>No external dependencies</p></td>
-<td class="text-center"><p>✅</p></td>
-<td class="text-center"><p>❌</p></td>
-<td class="text-center"><p>❌</p></td>
-<td class="text-center"><p>❌</p></td>
-<td class="text-center"><p>❌</p></td>
 <td class="text-center"><p>❌</p></td>
 </tr>
 <tr class="row-odd"><td><p>Coverage tested ≥ 97%</p></td>
@@ -194,15 +234,30 @@ raise <code class="docutils literal notranslate"><span class="pre">InvalidTimezo
 </tbody>
 </table>
 </section>
+</section>
 <hr class="docutils" />
-<section id="advanced-examples">
-<h2>📚 Advanced Examples<a class="headerlink" href="#advanced-examples" title="Link to this heading">¶</a></h2>
-<p>You can find more usage examples in:</p>
+<section id="documentation-examples">
+<h2>📚 Documentation &amp; Examples<a class="headerlink" href="#documentation-examples" title="Link to this heading">¶</a></h2>
+<p>Comprehensive examples and documentation are available:</p>
+<section id="core-examples">
+<h3>📖 Core Examples<a class="headerlink" href="#core-examples" title="Link to this heading">¶</a></h3>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/roldriel/eones/blob/master/examples/basic_usage.py">examples/basic_usage.py</a></p></li>
-<li><p><a class="reference external" href="https://github.com/roldriel/eones/blob/master/examples/advanced_usage.py">examples/advanced_usage.py</a></p></li>
-<li><p><a class="reference external" href="https://github.com/roldriel/eones/blob/master/examples/labor_calendar.py">examples/labor_calendar.py</a></p></li>
+<li><p><strong><a class="reference internal" href="examples/basic_usage.html"><span class="std std-doc">Basic Usage</span></a></strong> - Library import, date creation, formatting, basic operations</p></li>
+<li><p><strong><a class="reference internal" href="examples/advanced_usage.html"><span class="std std-doc">Advanced Usage</span></a></strong> - Truncation, rounding, period ranges, comparisons</p></li>
+<li><p><strong><a class="reference internal" href="examples/complete_deltas.html"><span class="std std-doc">Complete Deltas</span></a></strong> - Dual delta architecture, calendar vs duration intervals</p></li>
+<li><p><strong><a class="reference internal" href="examples/use_cases.html"><span class="std std-doc">Use Cases</span></a></strong> - Real-world examples: age calculation, billing cycles, reports</p></li>
+<li><p><strong><a class="reference internal" href="examples/error_handling.html"><span class="std std-doc">Error Handling</span></a></strong> - Exception hierarchy, safe date creation, validation</p></li>
+<li><p><strong><a class="reference internal" href="examples/formatting_serialization.html"><span class="std std-doc">Formatting &amp; Serialization</span></a></strong> - ISO 8601, JSON export/import, API integration</p></li>
 </ul>
+</section>
+<section id="integration-examples">
+<h3>🔗 Integration Examples<a class="headerlink" href="#integration-examples" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Django</strong>: Custom model fields</p></li>
+<li><p><strong>SQLAlchemy</strong>: Specialized column types</p></li>
+<li><p><strong>REST APIs</strong>: Serialization utilities</p></li>
+</ul>
+</section>
 </section>
 <hr class="docutils" />
 <section id="tests-coverage">
@@ -265,7 +320,7 @@ raise <code class="docutils literal notranslate"><span class="pre">InvalidTimezo
 <li class="toctree-l2"><a class="reference internal" href="#basic-example">🧪 Basic Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#key-features">🔍 Key Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#comparison-with-other-libraries">🧾 Comparison with other libraries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#advanced-examples">📚 Advanced Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation-examples">📚 Documentation &amp; Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#tests-coverage">🔧 Tests &amp; Coverage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#requirements">📖 Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#license">📝 License</a></li>
@@ -273,6 +328,15 @@ raise <code class="docutils literal notranslate"><span class="pre">InvalidTimezo
 </li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">MIT License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">📦 CHANGELOG</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html">Basic Usage of Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/advanced_usage.html">Advanced Usage of Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/complete_deltas.html">Working with Deltas in Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/error_handling.html">Error Handling in Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/formatting_serialization.html">Advanced Formatting and Serialization in Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/use_cases.html">Common Use Cases with Eones</a></li>
 </ul>
 
 <div class="relations">
