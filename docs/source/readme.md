@@ -1,5 +1,5 @@
 # Eones
-![Python](https://img.shields.io/badge/Python-3.8+-yellow?style=for-the-badge&logo=python)
+![Python](https://img.shields.io/badge/Python-3.9+-yellow?style=for-the-badge&logo=python)
 ![PyPI](https://img.shields.io/pypi/v/eones?style=for-the-badge)
 ![Pylint](https://img.shields.io/badge/pylint-10.00-green?style=for-the-badge)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25-red?style=for-the-badge)
@@ -8,7 +8,7 @@
 
 ---
 
-> Compatible with Python 3.8+ · No external dependencies · Portable and lightweight
+> Compatible with Python 3.9+ · No external dependencies · Portable and lightweight
 
 ---
 
@@ -16,8 +16,24 @@
 
 Eones is a minimalist, dependency-free library for expressive, clear, and powerful date/time manipulation. Inspired by natural language semantics, it allows you to manipulate, compare, and transform dates as if they were living entities.
 
-> *“That is not dead which can eternal lie, and with strange aeons even death may die.”*  
+> *"That is not dead which can eternal lie, and with strange aeons even death may die."*  
 > — *Abdul Alhazred*, Necronomicon
+
+### Philosophy
+
+> **Eones is not a datetime replacement. It's a temporal reasoning layer.**
+
+Eones exists to fill the gap between Python's low-level `datetime` and the need for semantic, calendar-aware date manipulation:
+
+- Using **only the standard library** (Python 3.9+)
+- Providing a **semantically rich and consistent API**
+- Supporting modern timezone-aware design with `zoneinfo`
+- Maintaining **modular and composable** architecture through clear separation of responsibilities (`Date`, `Delta`, `Range`)
+
+**Eones is for:**
+- Developers who want to reason about time semantically, not just manipulate timestamps
+- Teams that want **zero external dependencies** for maximum portability
+- Projects where **timezones, truncation, deltas and ranges** are central domain logic
 
 ---
 
@@ -42,33 +58,51 @@ from eones import Eones
 
 z = Eones("2025-06-15")
 z.add(months=1, days=3)  # -> add 3 days and 1 month
+
 print(z.format("%Y-%m-%d"))  # → 2025-07-18
+print(z.diff_for_humans("2025-06-10"))  # → in 5 days
+print(z.diff_for_humans("2025-06-20", locale="es"))  # → hace 5 días
 ```
 
 ---
 
 ## 🔍 Key Features
 
-- ✅ Automatic parsing for `str`, `dict`, `datetime`, `Eones`
-- ✅ Add/subtract days, months, years, minutes, seconds
-- ✅ Date comparison (same week, within year, between ranges)
-- ✅ Full day/month/year ranges
-- ✅ Truncation and rounding by unit
-- ✅ Full support for `ZoneInfo` (PEP 615)
-- ✅ Zero external dependencies
-- ✅ Conversion to `datetime`, `date`, and native types
+- ✅ **Zero external dependencies**: Pure Python (Python 3.9+)
+- ✅ **Intuitive interface**: Simple, semantically rich and easy-to-use API
+- ✅ **Modern timezone support**: Robust handling with `zoneinfo` (not `pytz`)
+- ✅ **Flexible parsing**: Accepts multiple date formats automatically
+- ✅ **Advanced temporal operations**: Deltas, ranges and semantic comparisons
+- ✅ **Modular architecture**: Clear separation between `Date`, `Delta`, `Range` and utilities
+- ✅ **Localization**: Support for multiple languages
+- ✅ **Humanization**: Converts time differences to readable text
+- ✅ **Complete type hinting**: Fully typed following PEP 561
+- ✅ **Interoperability**: Compatible with Python's standard `datetime`
+
+### Localization & Error Handling
+
+You can add more languages by creating a new file in `eones/locales/` with the
+translations for your locale. For example, `fr.py` for French.
+
+Eones surfaces clear exceptions derived from `EonesError`. Invalid timezones
+raise `InvalidTimezoneError`, while unparsable strings raise
+`InvalidFormatError`.
 
 ---
 
 ## 🧾 Comparison with other libraries
 
+### Why not Pendulum or Arrow?
+
 | Feature                                 | Eones | Pendulum | Arrow | Delorean | dateutil | pytz |
 |-----------------------------------------|:-----:|:--------:|:-----:|:--------:|:--------:|:----:|
-| Modern, consistent API                  | ✅    | ✅        | ✅    | ⚠️        | ❌        | ❌   |
+| Modern timezone support                | ✅ (`zoneinfo`) | ❌ (`pytz`) | ❌ (`pytz`) | ✅ | ⚠️ | ✅ |
+| External dependencies                   | ✅ None | ❌ Yes | ❌ Yes | ❌ Yes | ❌ Yes | ❌ Yes |
+| Semantically rich API                   | ✅ Rich | ✅ Medium | ✅ Medium | ⚠️ | ❌ | ❌ |
+| Modular/facade architecture             | ✅ Yes | ❌ No | ❌ No | ❌ No | ❌ No | ❌ No |
+| Complete type hinting & PEP 561         | ✅ Yes | ❌ Limited | ❌ Limited | ❌ No | ❌ No | ❌ No |
 | Date arithmetic (add/subtract)          | ✅    | ✅        | ✅    | ✅        | ❌        | ❌   |
 | Flexible parsing (string, dict, dt)     | ✅    | ✅        | ✅    | ⚠️        | ✅        | ❌   |
-| Native timezone support                 | ✅    | ✅        | ✅    | ✅        | ⚠️        | ✅   |
-| No external dependencies                | ✅    | ❌        | ❌    | ❌        | ❌        | ❌   |
 | Coverage tested ≥ 97%                   | ✅    | ❓        | ❓    | ❌        | ❌        | ❌   |
 | Can replace native `datetime` directly  | ✅    | ✅        | ✅    | ❌        | ❌        | ❌   |
 | Permissive license (MIT / BSD)          | ✅    | ✅        | ✅    | ✅        | ✅        | ✅   |
@@ -76,13 +110,22 @@ print(z.format("%Y-%m-%d"))  # → 2025-07-18
 
 ---
 
-## 📚 Advanced Examples
+## 📚 Documentation & Examples
 
-You can find more usage examples in:
+Comprehensive examples and documentation are available:
 
-- [examples/basic_usage.py](https://github.com/roldriel/eones/blob/master/examples/basic_usage.py)
-- [examples/advanced_usage.py](https://github.com/roldriel/eones/blob/master/examples/advanced_usage.py)
-- [examples/labor_calendar.py](https://github.com/roldriel/eones/blob/master/examples/labor_calendar.py)
+### 📖 Core Examples
+- **[Basic Usage](examples/basic_usage.md)** - Library import, date creation, formatting, basic operations
+- **[Advanced Usage](examples/advanced_usage.md)** - Truncation, rounding, period ranges, comparisons
+- **[Complete Deltas](examples/complete_deltas.md)** - Dual delta architecture, calendar vs duration intervals
+- **[Use Cases](examples/use_cases.md)** - Real-world examples: age calculation, billing cycles, reports
+- **[Error Handling](examples/error_handling.md)** - Exception hierarchy, safe date creation, validation
+- **[Formatting & Serialization](examples/formatting_serialization.md)** - ISO 8601, JSON export/import, API integration
+
+### 🔗 Integration Examples
+- **Django**: Custom model fields
+- **SQLAlchemy**: Specialized column types  
+- **REST APIs**: Serialization utilities
 
 ---
 
@@ -100,7 +143,7 @@ coverage html && open htmlcov/index.html
 
 ## 📖 Requirements
 
-- Python 3.8 or higher
+- Python 3.9 or higher
 - (Optional) `tzdata` if using timezones in systems without a local zoneinfo database
 
 ---

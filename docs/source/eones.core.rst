@@ -25,6 +25,22 @@ eones.core.delta module
    :show-inheritance:
    :undoc-members:
 
+eones.core.delta\_calendar module
+---------------------------------
+
+.. automodule:: eones.core.delta_calendar
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+eones.core.delta\_duration module
+---------------------------------
+
+.. automodule:: eones.core.delta_duration
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 eones.core.parser module
 ------------------------
 
