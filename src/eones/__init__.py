@@ -58,10 +58,9 @@ def format_date(date: Union[Date, datetime], fmt: str) -> str:
     """
     if isinstance(date, Date):
         return date.format(fmt)
-    elif isinstance(date, datetime):
+    if isinstance(date, datetime):
         return date.strftime(fmt)
-    else:
-        raise TypeError(f"Expected Date or datetime object, got {type(date).__name__}")
+    raise TypeError(f"Expected Date or datetime object, got {type(date).__name__}")
 
 
 def add_days(date: Date, days: int) -> Date:
@@ -129,10 +128,9 @@ def to_timestamp(date: Union[Date, datetime]) -> int:
     """
     if isinstance(date, Date):
         return int(date.to_unix())
-    elif isinstance(date, datetime):
+    if isinstance(date, datetime):
         return int(date.timestamp())
-    else:
-        raise ValueError("Expected Date or datetime object")
+    raise ValueError("Expected Date or datetime object")
 
 
 def from_timestamp(timestamp: Union[int, float], tz: str = "UTC") -> Date:
