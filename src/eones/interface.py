@@ -298,3 +298,44 @@ class Eones:
             return other
 
         return self._parser.parse(other)
+
+    @staticmethod
+    def is_valid_format(date_str: str, formats: List[str]) -> bool:
+        """Check if a date string matches any of the provided formats.
+
+        Args:
+            date_str: Date string to validate
+            formats: List of format strings to try
+
+        Returns:
+            bool: True if the string matches any format
+        """
+        from datetime import datetime
+
+        for fmt in formats:
+            try:
+                datetime.strptime(date_str, fmt)
+                return True
+            except ValueError:
+                continue
+        return False
+
+    @staticmethod
+    def sanitize_formats(formats: List[Any]) -> List[str]:
+        """Remove duplicates and invalid formats from a format list.
+
+        Args:
+            formats: List of format strings (may contain duplicates or invalid types)
+
+        Returns:
+            List[str]: Clean list of unique format strings
+        """
+        seen = set()
+        result = []
+
+        for fmt in formats:
+            if isinstance(fmt, str) and fmt not in seen:
+                seen.add(fmt)
+                result.append(fmt)
+
+        return result

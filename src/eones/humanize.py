@@ -26,7 +26,7 @@ def diff_for_humans(
     if other is None:
         from eones.core.date import Date  # pylint: disable=import-outside-toplevel
 
-        other = Date.now(tz=date.timezone)
+        other = Date.now(tz=date.timezone, naive="utc")
 
     diff_seconds = (date.to_datetime() - other.to_datetime()).total_seconds()
     future = diff_seconds > 0

@@ -308,7 +308,7 @@ class Date:  # pylint: disable=too-many-public-methods
         try:
             dt = datetime.fromisoformat(iso_str)
 
-        except ZoneInfoNotFoundError as exc:
+        except ValueError as exc:
             raise InvalidTimezoneError(tz) from exc
 
         if dt.tzinfo is None:
