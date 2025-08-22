@@ -14,25 +14,24 @@ SECTION_MAP = {
     "chore": "### Maintenance",
     "style": "### Style",
     "ci": "### CI",
-    "build": "### Build"
+    "build": "### Build",
 }
+
 
 def get_commits_since(tag: str) -> list[dict]:
     log_cmd = [
-        "git", "log", f"{tag}..HEAD",
+        "git",
+        "log",
+        f"{tag}..HEAD",
         "--pretty=format:%H|%ad|%s",
-        "--date=short"
+        "--date=short",
     ]
     result = subprocess.run(log_cmd, capture_output=True, text=True, check=True)
     lines = result.stdout.strip().splitlines()
     commits = []
     for line in lines:
         commit_hash, date, message = line.split("|", 2)
-        commits.append({
-            "hash": commit_hash,
-            "date": date,
-            "message": message.strip()
-        })
+        commits.append({"hash": commit_hash, "date": date, "message": message.strip()})
     # Ordenar por fecha (ascendente)
     return sorted(commits, key=lambda c: c["date"])
 

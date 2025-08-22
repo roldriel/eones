@@ -112,7 +112,7 @@ coverage html && open htmlcov/index.html
 
 ## 📖 Requisitos
 
-- Python 3.8 o superior
+- Python 3.9 o superior
 - (Opcional) `tzdata` si usás zonas horarias en sistemas sin base local
 
 ---
