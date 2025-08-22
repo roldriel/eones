@@ -44,6 +44,7 @@ def test_format_date():
 def test_is_valid_format_valid():
     """Test is_valid_format with valid format."""
     from eones.formats import is_valid_format
+
     result = is_valid_format("2023-01-01", ["%Y-%m-%d"])
     assert result is True
 
@@ -51,6 +52,7 @@ def test_is_valid_format_valid():
 def test_is_valid_format_invalid():
     """Test is_valid_format with invalid format."""
     from eones.formats import is_valid_format
+
     result = is_valid_format("invalid-date", ["%Y-%m-%d"])
     assert result is False
 
@@ -58,6 +60,7 @@ def test_is_valid_format_invalid():
 def test_is_valid_format_multiple_formats():
     """Test is_valid_format with multiple formats."""
     from eones.formats import is_valid_format
+
     result = is_valid_format("01/01/2023", ["%Y-%m-%d", "%m/%d/%Y"])
     assert result is True
 
@@ -65,6 +68,7 @@ def test_is_valid_format_multiple_formats():
 def test_sanitize_formats_with_duplicates():
     """Test sanitize_formats removes duplicates."""
     from eones.formats import sanitize_formats
+
     formats = ["%Y-%m-%d", "%m/%d/%Y", "%Y-%m-%d"]
     result = sanitize_formats(formats)
     assert len(result) == 2
@@ -75,6 +79,7 @@ def test_sanitize_formats_with_duplicates():
 def test_sanitize_formats_with_non_strings():
     """Test sanitize_formats filters non-strings."""
     from eones.formats import sanitize_formats
+
     formats = ["%Y-%m-%d", 123, None, "%m/%d/%Y", []]
     result = sanitize_formats(formats)
     assert len(result) == 2

@@ -467,6 +467,7 @@ def test_as_local_property():
 def test_invalid_timezone_in_init():
     """Test InvalidTimezoneError in Date.__init__ (lines 38-39)."""
     from eones.errors import InvalidTimezoneError
+
     with pytest.raises(InvalidTimezoneError):
         Date(tz="Invalid/Timezone")
 
@@ -481,6 +482,7 @@ def test_add_unsupported_type():
 def test_from_iso_invalid_timezone():
     """Test InvalidTimezoneError in from_iso (lines 311-312)."""
     from eones.errors import InvalidTimezoneError
+
     # This test should trigger the ZoneInfoNotFoundError -> InvalidTimezoneError conversion
     # But since the exception is caught and re-raised as InvalidTimezoneError,
     # we need to create a scenario where ZoneInfo is actually called
@@ -492,6 +494,7 @@ def test_from_iso_invalid_timezone():
 def test_from_unix_invalid_timezone():
     """Test ZoneInfoNotFoundError in from_unix (lines 332-333)."""
     from eones.errors import InvalidTimezoneError
+
     with pytest.raises(InvalidTimezoneError):
         Date.from_unix(1640995200, tz="Invalid/Timezone")
 
@@ -499,6 +502,7 @@ def test_from_unix_invalid_timezone():
 def test_as_zone_invalid_timezone():
     """Test InvalidTimezoneError in as_zone (lines 427-428)."""
     from eones.errors import InvalidTimezoneError
+
     date = Date.now(tz="UTC", naive="utc")
     with pytest.raises(InvalidTimezoneError):
         date.as_zone("Invalid/Timezone")

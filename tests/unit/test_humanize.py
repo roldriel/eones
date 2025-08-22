@@ -1,6 +1,7 @@
 """Tests for humanize module."""
 
 import pytest
+
 from eones.core.date import Date
 from eones.humanize import diff_for_humans
 
