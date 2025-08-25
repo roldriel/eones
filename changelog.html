@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changelog &#8212; Eones 1.3.0 documentation</title>
+    <title>Changelog &#8212; Eones 1.3.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
     <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
-    <script src="_static/documentation_options.js?v=1f29e9d3"></script>
+    <script src="_static/documentation_options.js?v=bb516dca"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="canonical" href="https://roldriel.github.io/eones/changelog.html" />
@@ -41,12 +41,30 @@
 and this project adheres to <a class="reference external" href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
 <section id="unreleased">
 <h2>[Unreleased]<a class="headerlink" href="#unreleased" title="Link to this heading">¶</a></h2>
-<section id="changes-since-v1-3-0">
-<h3>Changes since v1.3.0<a class="headerlink" href="#changes-since-v1-3-0" title="Link to this heading">¶</a></h3>
+<section id="changes-since-v1-3-1">
+<h3>Changes since v1.3.1<a class="headerlink" href="#changes-since-v1-3-1" title="Link to this heading">¶</a></h3>
 </section>
 </section>
 <section id="id1">
-<h2>[1.3.0] - 2025-08-25<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<h2>[1.3.1] - 2025-08-25<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<section id="fixed">
+<h3>Fixed<a class="headerlink" href="#fixed" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Add missing is_valid_format static method to Eones class</p></li>
+<li><p>Fix import-outside-toplevel pylint warning</p></li>
+<li><p>Fix docstring syntax error</p></li>
+</ul>
+</section>
+<section id="changed">
+<h3>Changed<a class="headerlink" href="#changed" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Update git-cliff-action from v2 to v3 for better stability</p></li>
+<li><p>Add OUTPUT environment variable to release workflow</p></li>
+</ul>
+</section>
+</section>
+<section id="id2">
+<h2>[1.3.0] - 2025-08-25<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
 <section id="added">
 <h3>Added<a class="headerlink" href="#added" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -55,14 +73,14 @@ and this project adheres to <a class="reference external" href="https://semver.o
 <li><p>Support for delta in <code class="docutils literal notranslate"><span class="pre">__add__</span></code> and <code class="docutils literal notranslate"><span class="pre">__sub__</span></code> operations (<a class="reference external" href="https://github.com/roldriel/eones/commit/6252687">6252687</a>)</p></li>
 </ul>
 </section>
-<section id="fixed">
-<h3>Fixed<a class="headerlink" href="#fixed" title="Link to this heading">¶</a></h3>
+<section id="id3">
+<h3>Fixed<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Removed duplicate function (<a class="reference external" href="https://github.com/roldriel/eones/commit/77cddba">77cddba</a>)</p></li>
 </ul>
 </section>
-<section id="changed">
-<h3>Changed<a class="headerlink" href="#changed" title="Link to this heading">¶</a></h3>
+<section id="id4">
+<h3>Changed<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Updated documentation and added new examples (<a class="reference external" href="https://github.com/roldriel/eones/commit/e41ffcc">e41ffcc</a>)</p></li>
 <li><p>Updated main README and Spanish README (<a class="reference external" href="https://github.com/roldriel/eones/commit/bc12e9a">bc12e9a</a>)</p></li>
@@ -95,10 +113,10 @@ and this project adheres to <a class="reference external" href="https://semver.o
 </section>
 </section>
 <hr class="docutils" />
-<section id="id2">
-<h2>[1.2.0] - 2025-06-25<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
-<section id="id3">
-<h3>Added<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<section id="id5">
+<h2>[1.2.0] - 2025-06-25<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
+<section id="id6">
+<h3>Added<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Locale-aware <code class="docutils literal notranslate"><span class="pre">diff_for_humans</span></code> via the new <code class="docutils literal notranslate"><span class="pre">humanize</span></code> module</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">eones/locales/</span></code> package for language messages</p></li>
@@ -106,26 +124,26 @@ and this project adheres to <a class="reference external" href="https://semver.o
 <li><p><code class="docutils literal notranslate"><span class="pre">Date.as_local</span></code> property for local timezone conversion</p></li>
 </ul>
 </section>
-<section id="id4">
-<h3>Changed<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<section id="id7">
+<h3>Changed<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Exposed <code class="docutils literal notranslate"><span class="pre">diff_for_humans</span></code> on <code class="docutils literal notranslate"><span class="pre">Date</span></code> and <code class="docutils literal notranslate"><span class="pre">Eones</span></code> classes</p></li>
 <li><p>Renamed timezone conversion method to <code class="docutils literal notranslate"><span class="pre">as_zone</span></code></p></li>
 <li><p>Integration tests now skip if Django or SQLAlchemy are not installed</p></li>
 </ul>
 </section>
-<section id="id5">
-<h3>Documentation<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<section id="id8">
+<h3>Documentation<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Documented language extensibility and added comprehensive tests</p></li>
 </ul>
 </section>
 </section>
 <hr class="docutils" />
-<section id="id6">
-<h2>[1.1.0] - 2025-06-13<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h2>
-<section id="id7">
-<h3>Added<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
+<section id="id9">
+<h2>[1.1.0] - 2025-06-13<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h2>
+<section id="id10">
+<h3>Added<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Docstrings to all methods and classes in source code and tests</p></li>
 <li><p>Comprehensive tests for all methods and classes</p></li>
@@ -133,15 +151,15 @@ and this project adheres to <a class="reference external" href="https://semver.o
 <li><p>Test coverage reaching 99%</p></li>
 </ul>
 </section>
-<section id="id8">
-<h3>Changed<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
+<section id="id11">
+<h3>Changed<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Updated <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> to version 1.1.0</p></li>
 <li><p>Updated <code class="docutils literal notranslate"><span class="pre">README.md</span></code> to version 1.1.0</p></li>
 </ul>
 </section>
-<section id="id9">
-<h3>Fixed<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
+<section id="id12">
+<h3>Fixed<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Bugs in comparison methods</p></li>
 </ul>
@@ -154,10 +172,10 @@ and this project adheres to <a class="reference external" href="https://semver.o
 </section>
 </section>
 <hr class="docutils" />
-<section id="id10">
-<h2>[1.0.0] - 2025-05-19<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h2>
-<section id="id11">
-<h3>Added<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h3>
+<section id="id13">
+<h2>[1.0.0] - 2025-05-19<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h2>
+<section id="id14">
+<h3>Added<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>First stable release of the <code class="docutils literal notranslate"><span class="pre">eones</span></code> library</p></li>
 <li><p>Unified parser for <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">dict</span></code>, and <code class="docutils literal notranslate"><span class="pre">datetime</span></code> objects</p></li>
@@ -211,10 +229,11 @@ and this project adheres to <a class="reference external" href="https://semver.o
 <li class="toctree-l1"><a class="reference internal" href="license.html">MIT License</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#unreleased">[Unreleased]</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id1">[1.3.0] - 2025-08-25</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">[1.2.0] - 2025-06-25</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">[1.1.0] - 2025-06-13</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id10">[1.0.0] - 2025-05-19</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">[1.3.1] - 2025-08-25</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">[1.3.0] - 2025-08-25</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">[1.2.0] - 2025-06-25</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">[1.1.0] - 2025-06-13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">[1.0.0] - 2025-05-19</a></li>
 </ul>
 </li>
 </ul>
