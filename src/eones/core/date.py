@@ -32,6 +32,9 @@ class Date:  # pylint: disable=too-many-public-methods
         tz: Optional[str] = "UTC",
         naive: Literal["utc", "local", "raise"] = "raise",
     ):
+        if tz is None:
+            tz = "UTC"
+
         try:
             self._zone = ZoneInfo(tz)
 
@@ -309,9 +312,11 @@ class Date:  # pylint: disable=too-many-public-methods
             dt = datetime.fromisoformat(iso_str)
 
         except ValueError as exc:
-            raise InvalidTimezoneError(tz) from exc
+            raise InvalidTimezoneError(tz or "UTC") from exc
 
         if dt.tzinfo is None:
+            if tz is None:
+                tz = "UTC"
             dt = dt.replace(tzinfo=ZoneInfo(tz))
         return cls(dt, tz)
 
@@ -326,6 +331,9 @@ class Date:  # pylint: disable=too-many-public-methods
         Returns:
             Date: Parsed Date.
         """
+        if tz is None:
+            tz = "UTC"
+
         try:
             dt = datetime.fromtimestamp(timestamp, tz=ZoneInfo(tz))
 
@@ -429,12 +437,18 @@ class Date:  # pylint: disable=too-many-public-methods
 
     def truncate(self, unit: str) -> Date:
         """Truncate the Date to the specified unit (e.g., 'day', 'hour', etc.)."""
+        from typing import cast
+
         valid_units = {"second", "minute", "hour", "day"}
         if unit not in valid_units:
             raise ValueError(
                 f"Unsupported truncate unit '{unit}'. Valid units: {valid_units}"
             )
-        return self.floor(unit)
+        # Cast to the expected Literal type for floor method
+        unit_literal = cast(
+            Literal["year", "month", "week", "day", "hour", "minute", "second"], unit
+        )
+        return self.floor(unit_literal)
 
     def replace(
         self,
@@ -535,13 +549,22 @@ class Date:  # pylint: disable=too-many-public-methods
         dt = self._dt
         if unit == "week":
             dt -= timedelta(days=dt.weekday())
-        return self._with(dt.replace(**truncate_map[unit]))
+        from typing import cast
+
+        replace_kwargs = cast(dict, truncate_map[unit])
+        return self._with(dt.replace(**replace_kwargs))
 
     def ceil(self, unit: str) -> Date:
         """
         Returns a new Date advanced to the end of the given unit.
         """
-        floored = self.floor(unit).to_datetime()
+        from typing import cast
+
+        # Cast to the expected Literal type for floor method
+        unit_literal = cast(
+            Literal["year", "month", "week", "day", "hour", "minute", "second"], unit
+        )
+        floored = self.floor(unit_literal).to_datetime()
 
         if unit == "year":
             dt = floored.replace(

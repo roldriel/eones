@@ -8,7 +8,7 @@ reason about time — not just measure it.
 """
 
 from datetime import datetime, timedelta
-from typing import Any, List, Union
+from typing import Any, List, Union, Optional
 
 from eones.core.date import Date
 from eones.core.parser import Parser
@@ -18,7 +18,9 @@ from eones.interface import Eones
 
 # Utility functions for backward compatibility and convenience
 def parse_date(
-    value: Union[str, dict, datetime], tz: str = "UTC", formats: List[str] = None
+    value: Union[str, dict, datetime],
+    tz: str = "UTC",
+    formats: Optional[List[str]] = None,
 ) -> Date:
     """Parse a date from various input formats.
 
