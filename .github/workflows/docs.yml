@@ -106,31 +106,29 @@ jobs:
       - name: Build documentation
         run: |
           echo "📚 Building documentation..."
-          cd docs
           
-          # Limpiar build anterior
-          make clean
+          # Limpiar build anterior si existe
+          rm -rf docs/_build
           
-          # Construir documentación con warnings como errores
-          make html SPHINXOPTS="-W --keep-going"
+          # Construir documentación directamente con sphinx-build
+          python -m sphinx -b html -W --keep-going docs/source docs/_build/html
           
           echo "✅ Documentation built successfully"
           
           # Mostrar estadísticas
           echo "📊 Documentation statistics:"
-          find _build/html -name "*.html" | wc -l | xargs echo "  HTML files:"
-          du -sh _build/html | cut -f1 | xargs echo "  Total size:"
+          find docs/_build/html -name "*.html" | wc -l | xargs echo "  HTML files:"
+          du -sh docs/_build/html | cut -f1 | xargs echo "  Total size:"
 
       - name: Test documentation
         run: |
           echo "🧪 Testing documentation..."
-          cd docs/_build/html
           
           # Verificar que index.html existe
-          test -f index.html && echo "✅ Index page exists"
+          test -f docs/_build/html/index.html && echo "✅ Index page exists"
           
           # Verificar que no hay páginas vacías
-          find . -name "*.html" -size -1k | head -5 | while read file; do
+          find docs/_build/html -name "*.html" -size -1k | head -5 | while read file; do
             echo "⚠️ Small file detected: $file ($(stat -c%s "$file" 2>/dev/null || echo "unknown") bytes)"
           done || true
 
