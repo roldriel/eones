@@ -1,0 +1,2 @@
+# This file ensures the _static directory is tracked by git
+# and prevents Sphinx from failing when html_static_path references an empty directory
