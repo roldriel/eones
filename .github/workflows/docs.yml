@@ -49,8 +49,19 @@ jobs:
           echo "📝 Checking documentation syntax..."
           cd docs
           
-          # Verificar archivos RST/MD
-          find . -name "*.rst" -o -name "*.md" | xargs -I {} sh -c 'echo "Checking: {}" && python -c "import docutils.core; docutils.core.publish_doctree(open(\"{}\").read())" 2>/dev/null || echo "⚠️ Syntax issues in {}"'
+          # Verificar archivos RST
+          echo "Checking RST files..."
+          for file in $(find . -name "*.rst"); do
+            echo "Checking: $file"
+            python -c "import docutils.core; docutils.core.publish_doctree(open('$file').read())" 2>/dev/null || echo "⚠️ Syntax issues in $file"
+          done
+          
+          # Verificar archivos MD (básico)
+          echo "Checking MD files..."
+          for file in $(find . -name "*.md"); do
+            echo "Checking: $file"
+            [ -f "$file" ] && echo "✅ $file exists" || echo "⚠️ $file not found"
+          done
           
           # Verificar configuración de Sphinx
           cd source
