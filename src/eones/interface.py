@@ -331,4 +331,5 @@ class Eones:
             bool: True if the string matches at least one format
         """
         from eones.formats import is_valid_format
+
         return is_valid_format(date_str, formats)
