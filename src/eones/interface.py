@@ -116,7 +116,8 @@ class Eones:
         Returns:
             int: The time difference expressed in the specified unit.
         """
-        unit_literal = cast(Literal["days", "weeks", "months", "years"], unit or "days")
+        unit_type = Literal["days", "weeks", "months", "years"]
+        unit_literal = cast(unit_type, unit or "days")
         return self._date.diff(self._coerce_to_date(other), unit_literal)
 
     def diff_for_humans(self, other: Any | None = None, locale: str = "en") -> str:
