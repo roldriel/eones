@@ -117,14 +117,26 @@ class Eones:
         Returns:
             Delta: The time difference expressed in the specified unit.
         """
-        return self._date.diff(self._coerce_to_date(other), unit)
+        from typing import cast
+
+        unit_literal = cast(Literal["days", "weeks", "months", "years"], unit or "days")
+        diff_value = self._date.diff(self._coerce_to_date(other), unit_literal)
+        # Convert the integer difference to a Delta object
+        if unit == "years":
+            return Delta(years=diff_value)
+        elif unit == "months":
+            return Delta(months=diff_value)
+        elif unit == "weeks":
+            return Delta(weeks=diff_value)
+        else:  # days or None (default to days)
+            return Delta(days=diff_value)
 
     def diff_for_humans(self, other: Any | None = None, locale: str = "en") -> str:
         """Return a human-readable difference between dates."""
         other_date = self._coerce_to_date(other) if other is not None else None
         return self._date.diff_for_humans(other_date, locale=locale)
 
-    def replace(self, **kwargs: int) -> Eones:
+    def replace(self, **kwargs: Any) -> Eones:
         """
         Replace date parts and update internal Date instance.
 

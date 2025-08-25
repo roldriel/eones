@@ -87,17 +87,20 @@ class Parser:
             raise ValueError(f"Invalid date part keys: {sorted(invalid_keys)}")
 
         now = datetime.now(self._zone)
-        parts = {
-            "year": date_parts.get("year", now.year),
-            "month": date_parts.get("month", now.month),
-            "day": date_parts.get("day", now.day),
-            "hour": date_parts.get("hour", 0),
-            "minute": date_parts.get("minute", 0),
-            "second": date_parts.get("second", 0),
-            "microsecond": date_parts.get("microsecond", 0),
+        from typing import cast, Any
+
+        parts: Dict[str, Any] = {
+            "year": int(date_parts.get("year", now.year)),
+            "month": int(date_parts.get("month", now.month)),
+            "day": int(date_parts.get("day", now.day)),
+            "hour": int(date_parts.get("hour", 0)),
+            "minute": int(date_parts.get("minute", 0)),
+            "second": int(date_parts.get("second", 0)),
+            "microsecond": int(date_parts.get("microsecond", 0)),
             "tzinfo": self._zone,
         }
-        return Date(datetime(**parts), tz=self._zone.key)
+        datetime_kwargs = cast(dict, parts)
+        return Date(datetime(**datetime_kwargs), tz=self._zone.key)
 
     def _from_str(self, date_str: str) -> "Date":
         """
