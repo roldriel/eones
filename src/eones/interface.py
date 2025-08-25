@@ -318,3 +318,17 @@ class Eones:
                 result.append(fmt)
 
         return result
+
+    @staticmethod
+    def is_valid_format(date_str: str, formats: List[str]) -> bool:
+        """Check if a date string matches any of the provided formats.
+
+        Args:
+            date_str: The date string to validate
+            formats: List of accepted datetime format strings
+
+        Returns:
+            bool: True if the string matches at least one format
+        """
+        from eones.formats import is_valid_format
+        return is_valid_format(date_str, formats)

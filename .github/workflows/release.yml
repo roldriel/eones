@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
   changelog:
@@ -35,6 +36,43 @@ jobs:
           args: --latest --strip header
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update CHANGELOG.md
+        run: |
+          # Obtener la versión sin 'v'
+          VERSION=${GITHUB_REF_NAME#v}
+          DATE=$(date +"%Y-%m-%d")
+
+          echo "Updating CHANGELOG.md for version $VERSION"
+
+          # Verificar si existe sección [Unreleased]
+          if grep -q "## \[Unreleased\]" CHANGELOG.md; then
+            # Crear backup del changelog
+            cp CHANGELOG.md CHANGELOG.md.bak
+
+            # Reemplazar [Unreleased] con la nueva versión
+            sed -i "s/## \[Unreleased\]/## [$VERSION] - $DATE/" CHANGELOG.md
+            sed -i "s/### Cambios desde v.*/### Changes in this version/" CHANGELOG.md
+
+            # Verificar si hubo cambios
+            if ! diff -q CHANGELOG.md CHANGELOG.md.bak > /dev/null; then
+              echo "CHANGELOG.md updated successfully"
+
+              # Commit y push los cambios
+              git config --local user.email "action@github.com"
+              git config --local user.name "GitHub Action"
+              git add CHANGELOG.md
+              git commit -m "docs: update CHANGELOG.md for release $VERSION"
+              git push origin HEAD:master
+            else
+              echo "No changes detected in CHANGELOG.md"
+            fi
+
+            # Limpiar backup
+            rm -f CHANGELOG.md.bak
+          else
+            echo "No [Unreleased] section found in CHANGELOG.md"
+          fi
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
