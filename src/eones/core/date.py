@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from calendar import monthrange
 from datetime import datetime, timedelta, timezone
-from typing import TYPE_CHECKING, Any, Literal, Optional, Union
+from typing import TYPE_CHECKING, Any, Literal, Optional, Union, cast
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from eones.constants import VALID_KEYS
@@ -437,8 +437,6 @@ class Date:  # pylint: disable=too-many-public-methods
 
     def truncate(self, unit: str) -> Date:
         """Truncate the Date to the specified unit (e.g., 'day', 'hour', etc.)."""
-        from typing import cast
-
         valid_units = {"second", "minute", "hour", "day"}
         if unit not in valid_units:
             raise ValueError(
@@ -549,8 +547,6 @@ class Date:  # pylint: disable=too-many-public-methods
         dt = self._dt
         if unit == "week":
             dt -= timedelta(days=dt.weekday())
-        from typing import cast
-
         replace_kwargs = cast(dict, truncate_map[unit])
         return self._with(dt.replace(**replace_kwargs))
 
@@ -558,8 +554,6 @@ class Date:  # pylint: disable=too-many-public-methods
         """
         Returns a new Date advanced to the end of the given unit.
         """
-        from typing import cast
-
         # Cast to the expected Literal type for floor method
         unit_literal = cast(
             Literal["year", "month", "week", "day", "hour", "minute", "second"], unit

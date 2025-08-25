@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Literal, Optional, Union
+from typing import Any, Dict, List, Literal, Optional, Union, cast
 
 from eones.constants import DEFAULT_FORMATS
 from eones.core.date import Date
@@ -116,8 +116,6 @@ class Eones:
         Returns:
             int: The time difference expressed in the specified unit.
         """
-        from typing import cast
-
         unit_literal = cast(Literal["days", "weeks", "months", "years"], unit or "days")
         return self._date.diff(self._coerce_to_date(other), unit_literal)
 

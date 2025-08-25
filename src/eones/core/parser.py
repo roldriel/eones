@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Union, cast
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from eones.constants import VALID_KEYS
@@ -87,7 +87,6 @@ class Parser:
             raise ValueError(f"Invalid date part keys: {sorted(invalid_keys)}")
 
         now = datetime.now(self._zone)
-        from typing import cast, Any
 
         parts: Dict[str, Any] = {
             "year": int(date_parts.get("year", now.year)),

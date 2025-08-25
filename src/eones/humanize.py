@@ -32,6 +32,7 @@ def diff_for_humans(
     future = diff_seconds > 0
     seconds = abs(int(diff_seconds))
 
+    # Define time units in descending order
     units = [
         ("year", 31536000),
         ("month", 2592000),
@@ -42,24 +43,23 @@ def diff_for_humans(
         ("second", 1),
     ]
 
+    # Find the appropriate unit and count
     for unit, unit_seconds in units:
         if seconds >= unit_seconds:
             count = seconds // unit_seconds
+            unit_labels = cast(Tuple[str, str], messages[unit])
+            label = unit_labels[0] if count == 1 else unit_labels[1]
             break
     else:
         return str(messages["just_now"])
 
-    unit_labels = cast(Tuple[str, str], messages[unit])
-    label = unit_labels[0] if count == 1 else unit_labels[1]
-
+    # Format the phrase based on locale
     if locale == "en":
-        phrase = (
+        return (
             f"{str(messages['future'])} {count} {label}"
             if future
             else f"{count} {label} {str(messages['past'])}"
         )
-    else:
-        prefix = str(messages["future"]) if future else str(messages["past"])
-        phrase = f"{prefix} {count} {label}"
 
-    return phrase
+    prefix = str(messages["future"]) if future else str(messages["past"])
+    return f"{prefix} {count} {label}"
