@@ -4,13 +4,13 @@ from __future__ import annotations
 
 from functools import lru_cache
 from importlib import import_module
-from typing import Dict
+from typing import Dict, Union, Tuple
 
 DEFAULT_LOCALE = "en"
 
 
 @lru_cache(maxsize=None)
-def get_messages(locale: str) -> Dict[str, object]:
+def get_messages(locale: str) -> Dict[str, Union[str, Tuple[str, str]]]:
     """Load locale messages dynamically from ``eones.locales`` modules.
 
     Falls back to English if the given locale is not available.
