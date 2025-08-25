@@ -3,4 +3,4 @@ import eones
 
 
 def test_version():
-    assert eones.__version__ == "1.3.0"
+    assert eones.__version__ == "1.3.1"
