@@ -105,31 +105,21 @@ class Eones:
         """Return the current date formatted using the given format string."""
         return self._date.format(fmt)
 
-    def difference(self, other: Any, unit: Optional[str] = None) -> Delta:
+    def difference(self, other: EonesLike, unit: Optional[str] = None) -> int:
         """Calculate the difference between this date and another.
 
         Args:
-            other (Any): The date to compare with. Can be Eones, Date,
-                datetime, dict, or str.
-            unit (Optional[str]): The unit of difference to calculate.
+            other: The other date to compare with.
+            unit: The unit for the difference calculation.
                 Options are 'days', 'weeks', 'months', or 'years'.
 
         Returns:
-            Delta: The time difference expressed in the specified unit.
+            int: The time difference expressed in the specified unit.
         """
         from typing import cast
 
         unit_literal = cast(Literal["days", "weeks", "months", "years"], unit or "days")
-        diff_value = self._date.diff(self._coerce_to_date(other), unit_literal)
-        # Convert the integer difference to a Delta object
-        if unit == "years":
-            return Delta(years=diff_value)
-        elif unit == "months":
-            return Delta(months=diff_value)
-        elif unit == "weeks":
-            return Delta(weeks=diff_value)
-        else:  # days or None (default to days)
-            return Delta(days=diff_value)
+        return self._date.diff(self._coerce_to_date(other), unit_literal)
 
     def diff_for_humans(self, other: Any | None = None, locale: str = "en") -> str:
         """Return a human-readable difference between dates."""
