@@ -53,6 +53,7 @@ jobs:
           find . -name "*.rst" -o -name "*.md" | xargs -I {} sh -c 'echo "Checking: {}" && python -c "import docutils.core; docutils.core.publish_doctree(open(\"{}\").read())" 2>/dev/null || echo "⚠️ Syntax issues in {}"'
           
           # Verificar configuración de Sphinx
+          cd source
           python -c "import conf; print('✅ Sphinx configuration is valid')"
 
       - name: Check for broken links
@@ -117,7 +118,7 @@ jobs:
           
           # Verificar que no hay páginas vacías
           find . -name "*.html" -size -1k | head -5 | while read file; do
-            echo "⚠️ Small file detected: $file ($(stat -f%z "$file" 2>/dev/null || stat -c%s "$file") bytes)"
+            echo "⚠️ Small file detected: $file ($(stat -c%s "$file" 2>/dev/null || echo "unknown") bytes)"
           done || true
 
       - name: Upload documentation artifacts
