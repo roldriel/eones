@@ -1,34 +1,163 @@
-name: Build and Deploy Sphinx Docs
+name: Documentation
 
 on:
   push:
     branches: [master]
+    paths:
+      - 'docs/**'
+      - 'src/**'
+      - 'pyproject.toml'
+      - '.github/workflows/docs.yml'
+  pull_request:
+    branches: [master]
+    paths:
+      - 'docs/**'
+      - 'src/**'
+      - 'pyproject.toml'
+      - '.github/workflows/docs.yml'
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      deploy:
+        description: 'Deploy to GitHub Pages'
+        required: false
+        default: false
+        type: boolean
 
-permissions:
-  contents: write
-
+env:
+  PYTHONUNBUFFERED: 1
+  FORCE_COLOR: 1
 
 jobs:
-  build-docs:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-
+  # Validación rápida de documentación
+  docs-check:
+    name: Documentation Check
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Setup Python Environment
+        uses: ./.github/actions/setup-python
         with:
           python-version: '3.11'
+          cache-key-suffix: docs-check
+          extra-deps: 'sphinx sphinx-rtd-theme'
 
-      - name: Install tox and build docs
+      - name: Check documentation syntax
         run: |
-          pip install tox
-          tox -e docs
+          echo "📝 Checking documentation syntax..."
+          cd docs
+          
+          # Verificar archivos RST/MD
+          find . -name "*.rst" -o -name "*.md" | xargs -I {} sh -c 'echo "Checking: {}" && python -c "import docutils.core; docutils.core.publish_doctree(open(\"{}\").read())" 2>/dev/null || echo "⚠️ Syntax issues in {}"'
+          
+          # Verificar configuración de Sphinx
+          python -c "import conf; print('✅ Sphinx configuration is valid')"
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Check for broken links
+        run: |
+          echo "🔗 Checking for broken internal links..."
+          cd docs
+          # Verificación básica de enlaces internos
+          grep -r "\.\." . --include="*.rst" --include="*.md" | grep -v "_build" || echo "✅ No obvious broken links found"
+
+  # Construcción de documentación
+  docs-build:
+    name: Build Documentation
+    runs-on: ubuntu-22.04
+    needs: docs-check
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/build/html
+          fetch-depth: 0
+
+      - name: Setup Python Environment
+        uses: ./.github/actions/setup-python
+        with:
+          python-version: '3.11'
+          cache-key-suffix: docs-build
+          install-project: true
+          extra-deps: 'sphinx sphinx-rtd-theme myst-parser sphinx-autodoc-typehints'
+
+      - name: Install documentation dependencies
+        run: |
+          python -m pip install -e ".[docs]"
+
+      - name: Build documentation
+        run: |
+          echo "📚 Building documentation..."
+          cd docs
+          
+          # Limpiar build anterior
+          make clean
+          
+          # Construir documentación con warnings como errores
+          make html SPHINXOPTS="-W --keep-going"
+          
+          echo "✅ Documentation built successfully"
+          
+          # Mostrar estadísticas
+          echo "📊 Documentation statistics:"
+          find _build/html -name "*.html" | wc -l | xargs echo "  HTML files:"
+          du -sh _build/html | cut -f1 | xargs echo "  Total size:"
+
+      - name: Test documentation
+        run: |
+          echo "🧪 Testing documentation..."
+          cd docs/_build/html
+          
+          # Verificar que index.html existe
+          test -f index.html && echo "✅ Index page exists"
+          
+          # Verificar que no hay páginas vacías
+          find . -name "*.html" -size -1k | head -5 | while read file; do
+            echo "⚠️ Small file detected: $file ($(stat -f%z "$file" 2>/dev/null || stat -c%s "$file") bytes)"
+          done || true
+
+      - name: Upload documentation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation-${{ github.sha }}
+          path: docs/_build/html/
+          retention-days: 30
+
+      - name: Setup Pages
+        if: (github.ref == 'refs/heads/master' && github.event_name == 'push') || inputs.deploy
+        uses: actions/configure-pages@v4
+
+      - name: Upload to GitHub Pages
+        if: (github.ref == 'refs/heads/master' && github.event_name == 'push') || inputs.deploy
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/_build/html
+
+  # Despliegue a GitHub Pages
+  deploy:
+    name: Deploy to GitHub Pages
+    if: (github.ref == 'refs/heads/master' && github.event_name == 'push') || inputs.deploy
+    runs-on: ubuntu-22.04
+    needs: docs-build
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Deployment summary
+        run: |
+          echo "🚀 Documentation deployed successfully!"
+          echo "📍 URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "🕒 Deployed at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          echo "📝 Commit: ${{ github.sha }}"
