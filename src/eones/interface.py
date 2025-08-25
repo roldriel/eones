@@ -10,6 +10,7 @@ from eones.core.date import Date
 from eones.core.delta import Delta
 from eones.core.parser import Parser
 from eones.core.range import Range
+from eones.formats import is_valid_format
 
 EonesLike = Union[str, datetime, Dict[str, int], Date]
 
@@ -330,6 +331,4 @@ class Eones:
         Returns:
             bool: True if the string matches at least one format
         """
-        from eones.formats import is_valid_format
-
         return is_valid_format(date_str, formats)
