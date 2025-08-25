@@ -1,0 +1,82 @@
+name: 'Security Scan'
+description: 'Run security scans with bandit and safety'
+inputs:
+  python-version:
+    description: 'Python version for security tools'
+    required: false
+    default: '3.11'
+  source-path:
+    description: 'Path to source code'
+    required: false
+    default: 'src/'
+  fail-on-error:
+    description: 'Whether to fail on security issues'
+    required: false
+    default: 'true'
+  upload-results:
+    description: 'Whether to upload scan results as artifacts'
+    required: false
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Python for security tools
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Cache security tools
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-security-tools-${{ inputs.python-version }}
+        restore-keys: |
+          ${{ runner.os }}-security-tools-
+
+    - name: Install security tools
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        pip install bandit[toml] safety pip-audit
+
+    - name: Run Bandit security scan
+      shell: bash
+      run: |
+        echo "🔍 Running Bandit security scan..."
+        bandit -r ${{ inputs.source-path }} -f json -o bandit-report.json || true
+        bandit -r ${{ inputs.source-path }} -f txt
+        if [[ "${{ inputs.fail-on-error }}" == "true" ]]; then
+          bandit -r ${{ inputs.source-path }} --severity-level medium
+        fi
+
+    - name: Run Safety vulnerability check
+      shell: bash
+      run: |
+        echo "🛡️ Running Safety vulnerability check..."
+        safety check --json --output safety-report.json || true
+        safety check
+        if [[ "${{ inputs.fail-on-error }}" == "true" ]]; then
+          safety check --exit-code
+        fi
+
+    - name: Run pip-audit
+      shell: bash
+      run: |
+        echo "🔎 Running pip-audit..."
+        pip-audit --format=json --output=pip-audit-report.json || true
+        pip-audit
+        if [[ "${{ inputs.fail-on-error }}" == "true" ]]; then
+          pip-audit --require-hashes --disable-pip
+        fi
+
+    - name: Upload security scan results
+      if: inputs.upload-results == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: security-scan-results
+        path: |
+          bandit-report.json
+          safety-report.json
+          pip-audit-report.json
+        retention-days: 30
