@@ -45,6 +45,7 @@ jobs:
           extra-deps: 'sphinx sphinx-rtd-theme'
 
       - name: Check documentation syntax
+        shell: bash
         run: |
           echo "📝 Checking documentation syntax..."
           cd docs
@@ -68,6 +69,7 @@ jobs:
           python -c "import conf; print('✅ Sphinx configuration is valid')"
 
       - name: Check for broken links
+        shell: bash
         run: |
           echo "🔗 Checking for broken internal links..."
           cd docs
