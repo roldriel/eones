@@ -30,11 +30,12 @@ jobs:
 
       - name: Generate changelog
         id: changelog
-        uses: orhun/git-cliff-action@v2
+        uses: orhun/git-cliff-action@v3
         with:
           config: .github/cliff.toml
           args: --latest --strip header
         env:
+          OUTPUT: CHANGELOG.md
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update CHANGELOG.md
