@@ -1,0 +1,218 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main ]
+
+env:
+  PYTHONUNBUFFERED: 1
+  FORCE_COLOR: 1
+
+jobs:
+  # Job de validación rápida
+  validate:
+    name: Quick Validation
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    outputs:
+      should-run-tests: ${{ steps.changes.outputs.python }}
+      should-run-docs: ${{ steps.changes.outputs.docs }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for changes
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            python:
+              - 'src/**'
+              - 'tests/**'
+              - 'pyproject.toml'
+              - 'tox.ini'
+              - '.github/workflows/ci.yml'
+            docs:
+              - 'docs/**'
+              - 'README*.md'
+              - 'CHANGELOG*.md'
+
+      - name: Validate project structure
+        run: |
+          echo "✅ Validating project structure..."
+          test -f pyproject.toml || (echo "❌ pyproject.toml not found" && exit 1)
+          test -d src/eones || (echo "❌ src/eones directory not found" && exit 1)
+          test -d tests || (echo "❌ tests directory not found" && exit 1)
+          echo "✅ Project structure is valid"
+
+  # Tests en múltiples versiones de Python
+  test:
+    name: Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-22.04
+    needs: validate
+    if: needs.validate.outputs.should-run-tests == 'true'
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update system packages
+        run: |
+          sudo apt-get update || true
+          sudo apt-get install -y software-properties-common || true
+
+      - name: Setup Python Environment
+        uses: ./.github/actions/setup-python
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache-key-suffix: tests
+          install-tox: true
+
+      - name: Run tests with coverage
+        run: |
+          echo "🧪 Running tests for Python ${{ matrix.python-version }}..."
+          tox -e py
+
+      - name: Upload coverage to Codecov
+        if: matrix.python-version == '3.11'
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+
+      - name: Upload coverage reports
+        if: matrix.python-version == '3.11'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-${{ matrix.python-version }}
+          path: |
+            htmlcov/
+            coverage.xml
+          retention-days: 30
+
+  # Linting y formateo
+  lint:
+    name: Code Quality
+    runs-on: ubuntu-22.04
+    needs: validate
+    if: needs.validate.outputs.should-run-tests == 'true'
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update system packages
+        run: |
+          sudo apt-get update || true
+          sudo apt-get install -y software-properties-common || true
+
+      - name: Setup Python Environment
+        uses: ./.github/actions/setup-python
+        with:
+          python-version: '3.11'
+          cache-key-suffix: lint
+          install-tox: true
+
+      - name: Run linting
+        run: |
+          echo "🔍 Running code quality checks..."
+          tox -e lint
+
+      - name: Check code formatting
+        run: |
+          echo "📝 Checking code formatting..."
+          pip install black isort
+          black --check --diff src/ tests/
+          isort --check-only --diff src/ tests/
+
+      - name: Type checking
+        run: |
+          echo "🔎 Running type checking..."
+          pip install mypy
+          mypy src/ --ignore-missing-imports || true
+
+  # Escaneos de seguridad
+  security:
+    name: Security Scan
+    runs-on: ubuntu-22.04
+    needs: validate
+    if: needs.validate.outputs.should-run-tests == 'true'
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Security Scan
+        uses: ./.github/actions/security-scan
+        with:
+          python-version: '3.11'
+          source-path: 'src/'
+          fail-on-error: false
+          upload-results: true
+
+  # Build y verificación de distribución
+  build:
+    name: Build Distribution
+    runs-on: ubuntu-22.04
+    needs: [test, lint]
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python Environment
+        uses: ./.github/actions/setup-python
+        with:
+          python-version: '3.11'
+          cache-key-suffix: build
+          extra-deps: 'build twine'
+
+      - name: Build distribution
+        run: |
+          echo "📦 Building distribution packages..."
+          python -m build
+
+      - name: Verify distribution
+        run: |
+          echo "✅ Verifying distribution packages..."
+          twine check dist/*
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-packages
+          path: dist/
+          retention-days: 30
+
+  # Resumen final
+  ci-success:
+    name: CI Success
+    runs-on: ubuntu-22.04
+    needs: [validate, test, lint, security, build]
+    if: always()
+    steps:
+      - name: Check all jobs status
+        run: |
+          echo "📊 CI Pipeline Results:"
+          echo "- Validate: ${{ needs.validate.result }}"
+          echo "- Tests: ${{ needs.test.result }}"
+          echo "- Lint: ${{ needs.lint.result }}"
+          echo "- Security: ${{ needs.security.result }}"
+          echo "- Build: ${{ needs.build.result }}"
+          
+          if [[ "${{ needs.validate.result }}" != "success" ]] || 
+             [[ "${{ needs.test.result }}" != "success" ]] || 
+             [[ "${{ needs.lint.result }}" != "success" ]] || 
+             [[ "${{ needs.build.result }}" != "success" ]]; then
+            echo "❌ CI Pipeline failed"
+            exit 1
+          else
+            echo "✅ CI Pipeline completed successfully"
+          fi
