@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, Tuple, Union, cast
 
 from eones.locales import get_messages
 
@@ -47,18 +47,19 @@ def diff_for_humans(
             count = seconds // unit_seconds
             break
     else:
-        return messages["just_now"]
+        return str(messages["just_now"])
 
-    label = messages[unit][0] if count == 1 else messages[unit][1]
+    unit_labels = cast(Tuple[str, str], messages[unit])
+    label = unit_labels[0] if count == 1 else unit_labels[1]
 
     if locale == "en":
         phrase = (
-            f"{messages['future']} {count} {label}"
+            f"{str(messages['future'])} {count} {label}"
             if future
-            else f"{count} {label} {messages['past']}"
+            else f"{count} {label} {str(messages['past'])}"
         )
     else:
-        prefix = messages["future"] if future else messages["past"]
+        prefix = str(messages["future"]) if future else str(messages["past"])
         phrase = f"{prefix} {count} {label}"
 
     return phrase
