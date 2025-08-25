@@ -1,85 +1,309 @@
-name: Generate Release Changelog
+name: Release Pipeline
 
 on:
   push:
     tags:
-      - "v*.*.*"
+      - 'v*.*.*'
 
-permissions:
-  contents: write
-  actions: read
+env:
+  PYTHONUNBUFFERED: 1
+  FORCE_COLOR: 1
 
 jobs:
-  changelog:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
+  # Validación pre-release
+  validate-release:
+    name: Validate Release
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    outputs:
+      tag-name: ${{ steps.tag.outputs.tag }}
+      version: ${{ steps.tag.outputs.version }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Validate tag format
+      - name: Update system packages
         run: |
-          if [[ ! "${{ github.ref_name }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Error: Tag format is invalid. Expected format: v*.*.* (e.g., v1.2.3)"
+          sudo apt-get update || true
+          sudo apt-get install -y software-properties-common || true
+
+      - name: Validate tag format
+        id: tag
+        run: |
+          TAG_NAME="${{ github.ref_name }}"
+          echo "🏷️ Validating tag: $TAG_NAME"
+          
+          if [[ ! "$TAG_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "❌ Error: Tag format must be v*.*.* (e.g., v1.0.0)"
             exit 1
           fi
-          echo "Tag format is valid: ${{ github.ref_name }}"
+          
+          VERSION=${TAG_NAME#v}
+          echo "✅ Tag format is valid: $TAG_NAME (version: $VERSION)"
+          echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Generate changelog
-        id: changelog
-        uses: orhun/git-cliff-action@v3
+      - name: Check if tag exists in git history
+        run: |
+          if ! git tag --list | grep -q "^${{ steps.tag.outputs.tag }}$"; then
+            echo "❌ Tag ${{ steps.tag.outputs.tag }} not found in git history"
+            exit 1
+          fi
+          echo "✅ Tag exists in git history"
+
+      - name: Verify version in pyproject.toml
+        run: |
+          PYPROJECT_VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+          if [[ "$PYPROJECT_VERSION" != "${{ steps.tag.outputs.version }}" ]]; then
+            echo "❌ Version mismatch: tag=${{ steps.tag.outputs.version }}, pyproject.toml=$PYPROJECT_VERSION"
+            exit 1
+          fi
+          echo "✅ Version matches in pyproject.toml: $PYPROJECT_VERSION"
+
+  # Tests finales antes del release
+  pre-release-tests:
+    name: Pre-Release Tests
+    runs-on: ubuntu-22.04
+    needs: validate-release
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update system packages
+        run: |
+          sudo apt-get update || true
+          sudo apt-get install -y software-properties-common || true
+
+      - name: Setup Python Environment
+        uses: ./.github/actions/setup-python
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache-key-suffix: release-tests
+          install-tox: true
+
+      - name: Run comprehensive tests
+        run: |
+          echo "🧪 Running comprehensive tests for release..."
+          tox -e py
+
+      - name: Run integration tests
+        run: |
+          echo "🔗 Running integration tests..."
+          python -m pytest tests/integration/ -v
+
+  # Build de la distribución
+  build-distribution:
+    name: Build Distribution
+    runs-on: ubuntu-22.04
+    needs: [validate-release, pre-release-tests]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update system packages
+        run: |
+          sudo apt-get update || true
+          sudo apt-get install -y software-properties-common || true
+
+      - name: Setup Python Environment
+        uses: ./.github/actions/setup-python
+        with:
+          python-version: '3.11'
+          cache-key-suffix: build
+          extra-deps: 'build twine'
+
+      - name: Build distribution packages
+        run: |
+          echo "📦 Building distribution packages..."
+          python -m build
+
+      - name: Verify distribution
+        run: |
+          echo "✅ Verifying distribution packages..."
+          twine check dist/*
+          ls -la dist/
+
+      - name: Upload distribution artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-dist-${{ needs.validate-release.outputs.version }}
+          path: dist/
+          retention-days: 90
+
+  # Generación de changelog
+  generate-changelog:
+    name: Generate Changelog
+    runs-on: ubuntu-22.04
+    needs: validate-release
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update system packages
+        run: |
+          sudo apt-get update || true
+          sudo apt-get install -y software-properties-common || true
+
+      - name: Generate Changelog
+        uses: orhun/git-cliff-action@v4
         with:
           config: .github/cliff.toml
-          args: --latest --strip header
+          args: --verbose --tag ${{ needs.validate-release.outputs.tag }}
         env:
           OUTPUT: CHANGELOG.md
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
 
-      - name: Update CHANGELOG.md
+      - name: Upload changelog artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: changelog-${{ needs.validate-release.outputs.version }}
+          path: CHANGELOG.md
+          retention-days: 90
+
+  # Publicación a PyPI
+  publish-pypi:
+    name: Publish to PyPI
+    runs-on: ubuntu-22.04
+    needs: [validate-release, build-distribution, generate-changelog]
+    timeout-minutes: 15
+    environment: release
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Download distribution artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-dist-${{ needs.validate-release.outputs.version }}
+          path: dist/
+
+      - name: Verify artifacts
         run: |
-          # Obtener la versión sin 'v'
-          VERSION=${GITHUB_REF_NAME#v}
-          DATE=$(date +"%Y-%m-%d")
+          echo "📋 Distribution artifacts:"
+          ls -la dist/
+          echo "📊 Artifact details:"
+          for file in dist/*; do
+            echo "  - $(basename $file): $(stat -c%s $file) bytes"
+          done
 
-          echo "Updating CHANGELOG.md for version $VERSION"
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          print-hash: true
+          verbose: true
 
-          # Verificar si existe sección [Unreleased]
-          if grep -q "## \[Unreleased\]" CHANGELOG.md; then
-            # Crear backup del changelog
-            cp CHANGELOG.md CHANGELOG.md.bak
+      - name: Verify PyPI publication
+        run: |
+          echo "✅ Package published to PyPI successfully!"
+          echo "🔗 Package URL: https://pypi.org/project/eones/${{ needs.validate-release.outputs.version }}/"
 
-            # Reemplazar [Unreleased] con la nueva versión
-            sed -i "s/## \[Unreleased\]/## [$VERSION] - $DATE/" CHANGELOG.md
-            sed -i "s/### Cambios desde v.*/### Changes in this version/" CHANGELOG.md
+  # Actualización de documentación
+  update-docs:
+    name: Update Documentation
+    runs-on: ubuntu-22.04
+    needs: [validate-release, publish-pypi]
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
 
-            # Verificar si hubo cambios
-            if ! diff -q CHANGELOG.md CHANGELOG.md.bak > /dev/null; then
-              echo "CHANGELOG.md updated successfully"
+      - name: Update system packages
+        run: |
+          sudo apt-get update || true
+          sudo apt-get install -y software-properties-common || true
 
-              # Commit y push los cambios
-              git config --local user.email "action@github.com"
-              git config --local user.name "GitHub Action"
-              git add CHANGELOG.md
-              git commit -m "docs: update CHANGELOG.md for release $VERSION"
-              git push origin HEAD:master
-            else
-              echo "No changes detected in CHANGELOG.md"
-            fi
+      - name: Setup Python Environment
+        uses: ./.github/actions/setup-python
+        with:
+          python-version: '3.11'
+          cache-key-suffix: docs
+          install-tox: true
 
-            # Limpiar backup
-            rm -f CHANGELOG.md.bak
-          else
-            echo "No [Unreleased] section found in CHANGELOG.md"
-          fi
+      - name: Build documentation
+        run: |
+          echo "📚 Building documentation for release..."
+          tox -e docs
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/_build/html
+          commit_message: 'docs: update for release ${{ needs.validate-release.outputs.tag }}'
+
+  # Creación de GitHub Release
+  create-github-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-22.04
+    needs: [validate-release, publish-pypi, generate-changelog]
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download changelog
+        uses: actions/download-artifact@v4
+        with:
+          name: changelog-${{ needs.validate-release.outputs.version }}
+
+      - name: Download distribution
+        uses: actions/download-artifact@v4
+        with:
+          name: release-dist-${{ needs.validate-release.outputs.version }}
+          path: dist/
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.ref_name }}
-          body: ${{ steps.changelog.outputs.content }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ needs.validate-release.outputs.tag }}
+          name: Release ${{ needs.validate-release.outputs.tag }}
+          body_path: CHANGELOG.md
+          files: |
+            dist/*.tar.gz
+            dist/*.whl
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+
+  # Resumen del release
+  release-summary:
+    name: Release Summary
+    runs-on: ubuntu-22.04
+    needs: [validate-release, publish-pypi, update-docs, create-github-release]
+    if: always()
+    steps:
+      - name: Release Summary
+        run: |
+          echo "🎉 Release Pipeline Summary for ${{ needs.validate-release.outputs.tag }}"
+          echo "================================"
+          echo "📋 Results:"
+          echo "  - Validation: ${{ needs.validate-release.result }}"
+          echo "  - PyPI Publication: ${{ needs.publish-pypi.result }}"
+          echo "  - Documentation: ${{ needs.update-docs.result }}"
+          echo "  - GitHub Release: ${{ needs.create-github-release.result }}"
+          echo ""
+          echo "🔗 Links:"
+          echo "  - PyPI: https://pypi.org/project/eones/${{ needs.validate-release.outputs.version }}/"
+          echo "  - GitHub Release: https://github.com/${{ github.repository }}/releases/tag/${{ needs.validate-release.outputs.tag }}"
+          echo "  - Documentation: https://${{ github.repository_owner }}.github.io/eones/"
+          
+          if [[ "${{ needs.publish-pypi.result }}" == "success" ]] && 
+             [[ "${{ needs.create-github-release.result }}" == "success" ]]; then
+            echo "✅ Release completed successfully!"
+          else
+            echo "❌ Release completed with some failures"
+            exit 1
+          fi
