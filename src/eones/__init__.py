@@ -8,7 +8,7 @@ reason about time — not just measure it.
 """
 
 from datetime import datetime, timedelta
-from typing import Any, List, Union, Optional
+from typing import Any, List, Optional, Union
 
 from eones.core.date import Date
 from eones.core.parser import Parser

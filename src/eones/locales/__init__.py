@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from functools import lru_cache
 from importlib import import_module
-from typing import Dict, Union, Tuple
+from typing import Dict, Tuple, Union
 
 DEFAULT_LOCALE = "en"
 
