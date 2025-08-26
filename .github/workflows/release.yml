@@ -85,6 +85,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache-key-suffix: release-tests
           install-tox: true
+          extra-deps: 'pytest coverage tzdata django sqlalchemy'
 
       - name: Run comprehensive tests
         run: |
@@ -94,7 +95,8 @@ jobs:
       - name: Run integration tests
         run: |
           echo "🔗 Running integration tests..."
-          tox -e py -- tests/integration/ -v
+          pip install -e .
+          python -m pytest tests/integration/ -v
 
   # Build de la distribución
   build-distribution:
