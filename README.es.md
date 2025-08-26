@@ -113,12 +113,12 @@ Eones muestra excepciones claras derivadas de `EonesError`. Las zonas horarias n
 Ejemplos completos y documentación disponibles:
 
 ### 📖 Ejemplos Principales
-- **[Uso Básico](examples/es/uso_basico.md)** - Importación de librería, creación de fechas, formateo, operaciones básicas
-- **[Uso Avanzado](examples/es/uso_avanzado.md)** - Truncamiento, redondeo, rangos de períodos, comparaciones
-- **[Deltas Completos](examples/es/deltas_completo.md)** - Arquitectura dual de deltas, intervalos de calendario vs duración
-- **[Casos de Uso](examples/es/casos_de_uso.md)** - Ejemplos del mundo real: cálculo de edad, ciclos de facturación, reportes
-- **[Manejo de Errores](examples/es/manejo_errores.md)** - Jerarquía de excepciones, creación segura de fechas, validación
-- **[Formateo y Serialización](examples/es/formateo_serializacion.md)** - ISO 8601, exportación/importación JSON, integración con APIs
+- **[Uso Básico](https://github.com/roldriel/eones/blob/master/examples/es/uso_basico.md)** - Importación de librería, creación de fechas, formateo, operaciones básicas
+- **[Uso Avanzado](https://github.com/roldriel/eones/blob/master/examples/es/uso_avanzado.md)** - Truncamiento, redondeo, rangos de períodos, comparaciones
+- **[Deltas Completos](https://github.com/roldriel/eones/blob/master/examples/es/deltas_completo.md)** - Arquitectura dual de deltas, intervalos de calendario vs duración
+- **[Casos de Uso](https://github.com/roldriel/eones/blob/master/examples/es/casos_de_uso.md)** - Ejemplos del mundo real: cálculo de edad, ciclos de facturación, reportes
+- **[Manejo de Errores](https://github.com/roldriel/eones/blob/master/examples/es/manejo_errores.md)** - Jerarquía de excepciones, creación segura de fechas, validación
+- **[Formateo y Serialización](https://github.com/roldriel/eones/blob/master/examples/es/formateo_serializacion.md)** - ISO 8601, exportación/importación JSON, integración con APIs
 
 ### 🔗 Ejemplos de Integración
 - **Django**: Campos personalizados para modelos
