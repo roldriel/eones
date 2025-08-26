@@ -2,6 +2,18 @@
 
 Todas las versiones están documentadas en este archivo.
 
+## [1.3.5] - 17-01-2025
+
+### Corregido
+- Se actualizaron los enlaces de ejemplos a URLs completas de GitHub para compatibilidad con PyPI
+- Se corrigieron enlaces relativos rotos en archivos README cuando se muestran en PyPI
+
+### Cambiado
+- Se actualizó la versión a 1.3.5 en todos los archivos del proyecto
+- Se mejoró la accesibilidad de la documentación en PyPI
+
+---
+
 ## [1.3.3] - 26-08-2025
 
 ### Corregido

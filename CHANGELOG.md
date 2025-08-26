@@ -6,7 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Changes since v1.3.3
+### Changes since v1.3.5
+
+## [1.3.5] - 2025-01-17
+
+### Fixed
+- Updated example links to full GitHub URLs for PyPI compatibility
+- Fixed broken relative links in README files when displayed on PyPI
+
+### Changed
+- Updated version to 1.3.5 across all project files ([0a2a63e](https://github.com/roldriel/eones/commit/0a2a63e))
+- Improved documentation accessibility on PyPI
 
 ## [1.3.3] - 2025-08-26
 
