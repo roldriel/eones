@@ -89,12 +89,24 @@ jobs:
       - name: Run comprehensive tests
         run: |
           echo "🧪 Running comprehensive tests for release..."
-          tox -e py
+          python -m tox -e py
+
+      - name: Debug tox environment
+        run: |
+          echo "🔍 Debugging tox environment..."
+          python -m tox --version
+          python -m tox -l
+          ls -la
+          cat tox.ini | grep -A 10 "\[testenv:integration\]"
 
       - name: Run integration tests
         run: |
           echo "🔗 Running integration tests..."
-          tox -e integration
+          python -m tox -e integration || {
+            echo "⚠️ Tox integration environment failed, trying direct approach..."
+            pip install -e .[test]
+            python -m pytest tests/integration/ -v
+          }
 
   # Build de la distribución
   build-distribution:
@@ -234,7 +246,7 @@ jobs:
       - name: Build documentation
         run: |
           echo "📚 Building documentation for release..."
-          tox -e docs
+          python -m tox -e docs
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
