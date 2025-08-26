@@ -94,7 +94,7 @@ jobs:
       - name: Run integration tests
         run: |
           echo "🔗 Running integration tests..."
-          python -m pytest tests/integration/ -v
+          tox -e py -- tests/integration/ -v
 
   # Build de la distribución
   build-distribution:
