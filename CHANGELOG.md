@@ -6,12 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Changes since v1.3.2
+### Changes since v1.3.3
+
+## [1.3.3] - 2025-08-26
+
+### Fixed
+- Correct import formatting errors detected by isort ([19752e6](https://github.com/roldriel/eones/commit/19752e6))
+
+### Changed
+- Updated version to 1.3.3
+- Improved code quality and formatting consistency
 
 ## [1.3.2] - 2025-08-25
 
 ### Changed
-- Version bump for development
+- Version bump for development ([652c2ac](https://github.com/roldriel/eones/commit/652c2ac))
 
 ## [1.3.1] - 2025-08-25
 
@@ -23,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Update git-cliff-action from v2 to v3 for better stability
 - Add OUTPUT environment variable to release workflow
+- Version bump to 1.3.1 ([288752f](https://github.com/roldriel/eones/commit/288752f))
 
 ## [1.3.0] - 2025-08-25
 

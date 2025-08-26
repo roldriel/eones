@@ -2,6 +2,38 @@
 
 Todas las versiones están documentadas en este archivo.
 
+## [1.3.3] - 26-08-2025
+
+### Corregido
+- Se corrigieron errores de formato de imports detectados por isort ([19752e6](https://github.com/roldriel/eones/commit/19752e6))
+
+### Cambiado
+- Se actualizó la versión a 1.3.3
+- Se mejoró la calidad y consistencia del formato del código
+
+---
+
+## [1.3.2] - 25-08-2025
+
+### Cambiado
+- Actualización de versión para desarrollo ([652c2ac](https://github.com/roldriel/eones/commit/652c2ac))
+
+---
+
+## [1.3.1] - 25-08-2025
+
+### Corregido
+- Se agregó el método estático is_valid_format faltante a la clase Eones
+- Se corrigió la advertencia de pylint import-outside-toplevel
+- Se corrigió error de sintaxis en docstring
+
+### Cambiado
+- Se actualizó git-cliff-action de v2 a v3 para mayor estabilidad
+- Se agregó variable de entorno OUTPUT al flujo de trabajo de release
+- Actualización de versión a 1.3.1 ([288752f](https://github.com/roldriel/eones/commit/288752f))
+
+---
+
 ## [1.2.0] - 25-06-2025
 - Se añadió `diff_for_humans` con reconocimiento de configuración regional mediante el nuevo módulo `humanize`.
 - Se introdujo el paquete `eones/locales/` para mensajes de idioma.

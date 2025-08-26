@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath("../../src"))
 project = "Eones"
 copyright = "2025, Rodrigo Ezequiel Roldán"
 author = "Rodrigo Ezequiel Roldán"
-release = "1.3.2"
+release = "1.3.3"
 
 extensions = [
     "sphinx.ext.autodoc",
