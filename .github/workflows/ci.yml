@@ -3,6 +3,7 @@ name: CI Pipeline
 on:
   push:
     branches: [ master, main, develop ]
+    tags: [ '*' ]
   pull_request:
     branches: [ master, main ]
 
@@ -207,11 +208,11 @@ jobs:
           echo "- Security: ${{ needs.security.result }}"
           echo "- Build: ${{ needs.build.result }}"
           
-          if [[ "${{ needs.validate.result }}" != "success" ]] || 
-             [[ "${{ needs.test.result }}" != "success" ]] || 
-             [[ "${{ needs.lint.result }}" != "success" ]] || 
-             [[ "${{ needs.security.result }}" != "success" ]] || 
-             [[ "${{ needs.build.result }}" != "success" ]]; then
+          if [[ ! "${{ needs.validate.result }}" =~ ^(success|skipped)$ ]] || \
+            [[ ! "${{ needs.test.result }}" =~ ^(success|skipped)$ ]] || \
+            [[ ! "${{ needs.lint.result }}" =~ ^(success|skipped)$ ]] || \
+            [[ ! "${{ needs.security.result }}" =~ ^(success|skipped)$ ]] || \
+            [[ ! "${{ needs.build.result }}" =~ ^(success|skipped)$ ]]; then
             echo "❌ CI Pipeline failed"
             exit 1
           else
