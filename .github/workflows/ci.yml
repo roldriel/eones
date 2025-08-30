@@ -18,8 +18,8 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 5
     outputs:
-      should-run-tests: ${{ steps.changes.outputs.python }}
-      should-run-docs: ${{ steps.changes.outputs.docs }}
+      should-run-tests: ${{ steps.changes.conclusion == 'success' && steps.changes.outputs.python || 'false' }}
+      should-run-docs: ${{ steps.changes.conclusion == 'success' && steps.changes.outputs.docs || 'false' }}
     steps:
       - uses: actions/checkout@v4
 

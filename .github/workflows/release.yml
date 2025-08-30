@@ -169,7 +169,7 @@ jobs:
         uses: orhun/git-cliff-action@v4
         with:
           config: .github/cliff.toml
-          args: --verbose --tag ${{ needs.validate-release.outputs.tag }}
+          args: --verbose --tag ${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag || 'v0.0.0' }}
         env:
           OUTPUT: CHANGELOG.md
           GITHUB_REPO: ${{ github.repository }}
@@ -177,7 +177,7 @@ jobs:
       - name: Upload changelog artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: changelog-${{ needs.validate-release.outputs.version }}
+          name: changelog-${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.version || '0.0.0' }}
           path: CHANGELOG.md
           retention-days: 90
 
@@ -253,7 +253,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/_build/html
-          commit_message: 'docs: update for release ${{ needs.validate-release.outputs.tag }}'
+          commit_message: "docs: update for release ${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag || 'v0.0.0' }}"
 
   # Creación de GitHub Release
   create-github-release:
@@ -280,8 +280,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ needs.validate-release.outputs.tag }}
-          name: Release ${{ needs.validate-release.outputs.tag }}
+          tag_name: ${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag || 'v0.0.0' }}
+          name: Release ${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag || 'v0.0.0' }}
           body_path: CHANGELOG.md
           files: |
             dist/*.tar.gz
@@ -299,7 +299,7 @@ jobs:
     steps:
       - name: Release Summary
         run: |
-          echo "🎉 Release Pipeline Summary for ${{ needs.validate-release.outputs.tag }}"
+          echo "🎉 Release Pipeline Summary for ${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag || 'v0.0.0' }}"
           echo "================================"
           echo "📋 Results:"
           echo "  - Validation: ${{ needs.validate-release.result }}"
@@ -308,8 +308,8 @@ jobs:
           echo "  - GitHub Release: ${{ needs.create-github-release.result }}"
           echo ""
           echo "🔗 Links:"
-          echo "  - PyPI: https://pypi.org/project/eones/${{ needs.validate-release.outputs.version }}/"
-          echo "  - GitHub Release: https://github.com/${{ github.repository }}/releases/tag/${{ needs.validate-release.outputs.tag }}"
+          echo "  - PyPI: https://pypi.org/project/eones/${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.version || '0.0.0' }}/"
+          echo "  - GitHub Release: https://github.com/${{ github.repository }}/releases/tag/${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag || 'v0.0.0' }}"
           echo "  - Documentation: https://${{ github.repository_owner }}.github.io/eones/"
           
           if [[ "${{ needs.publish-pypi.result }}" == "success" ]] && 
