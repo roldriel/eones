@@ -6,9 +6,9 @@ from calendar import monthrange
 from datetime import datetime, time, timedelta
 from typing import Tuple
 
+from eones.constants import FIRST_DAY_OF_WEEK
 from eones.core.date import Date
 from eones.core.delta import Delta
-from eones.constants import FIRST_DAY_OF_WEEK
 
 
 class Range:

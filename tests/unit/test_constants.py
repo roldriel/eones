@@ -4,9 +4,9 @@ import pytest
 
 from eones.constants import (
     FIRST_DAY_OF_WEEK,
+    is_weekend_day,
     iso_to_us_weekday,
     us_to_iso_weekday,
-    is_weekend_day,
 )
 
 
