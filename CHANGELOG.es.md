@@ -2,6 +2,19 @@
 
 Todas las versiones están documentadas en este archivo.
 
+## [1.3.6] - 19-01-2025
+
+### Corregido
+- Se resolvieron las advertencias de acceso a contexto en los workflows de GitHub Actions ([13069b4](https://github.com/roldriel/eones/commit/13069b4))
+- Se corrigió el error de sintaxis de comillas anidadas en el mensaje de commit del workflow de release
+- Se agregaron verificaciones condicionales para outputs de jobs para prevenir acceso a contexto inválido
+
+### Cambiado
+- Se actualizó la versión a 1.3.6 en todos los archivos del proyecto
+- Se mejoró la robustez de los workflows con valores de respaldo para outputs de tag y versión
+
+---
+
 ## [1.3.5] - 17-01-2025
 
 ### Corregido

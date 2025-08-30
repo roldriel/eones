@@ -6,7 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Changes since v1.3.5
+### Changes since v1.3.6
+
+## [1.3.6] - 2025-01-19
+
+### Fixed
+- Resolved context access warnings in GitHub Actions workflows ([13069b4](https://github.com/roldriel/eones/commit/13069b4))
+- Fixed nested quotes syntax error in release workflow commit message
+- Added conditional checks for job outputs to prevent invalid context access
+
+### Changed
+- Updated version to 1.3.6 across all project files
+- Improved workflow robustness with fallback values for tag and version outputs
 
 ## [1.3.5] - 2025-01-17
 
