@@ -775,8 +775,8 @@ class Date:  # pylint: disable=too-many-public-methods
             next_month = datetime(year, month + 1, 1, tzinfo=self._dt.tzinfo)
 
         # Restar un microsegundo para obtener el último instante del mes actual
-        last_instant = next_month - timedelta(microseconds=1)
-        return self._with(last_instant)
+        next_month_date = self._with(next_month)
+        return cast("Date", next_month_date - timedelta(microseconds=1))
 
     def start_of_year(self) -> "Date":
         """Return a new Date instance for the first moment of the current year."""
@@ -787,5 +787,5 @@ class Date:  # pylint: disable=too-many-public-methods
     def end_of_year(self) -> "Date":
         """Return a Date for the last moment of the current year."""
         next_year = datetime(self._dt.year + 1, 1, 1, tzinfo=self._dt.tzinfo)
-        last_instant = next_year - timedelta(microseconds=1)
-        return self._with(last_instant)
+        next_year_date = self._with(next_year)
+        return cast("Date", next_year_date - timedelta(microseconds=1))

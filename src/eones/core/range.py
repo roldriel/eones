@@ -130,8 +130,8 @@ class Range:
         if not isinstance(start_delta, Delta) or not isinstance(end_delta, Delta):
             raise TypeError("start_delta and end_delta must be Delta instances")
 
-        start_dt = start_delta.apply(self.date).to_datetime()
-        end_dt = end_delta.apply(self.date).to_datetime()
+        start_dt = (self.date + start_delta).to_datetime()
+        end_dt = (self.date + end_delta).to_datetime()
         if start_dt > end_dt:
             start_dt, end_dt = end_dt, start_dt
         return start_dt, end_dt

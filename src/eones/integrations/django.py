@@ -1,7 +1,7 @@
 """Django integration helpers (optional)."""
 
 try:  # pragma: no cover - optional dependency
-    from django.db import models
+    from django.db import models  # type: ignore[import-untyped]
 except Exception:  # pragma: no cover - django not installed
     models = None  # type: ignore
 

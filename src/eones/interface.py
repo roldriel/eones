@@ -99,7 +99,7 @@ class Eones:
             **kwargs: Components of the time delta.
         """
         delta = Delta(**kwargs)
-        self._date = delta.apply(self._date)
+        self._date = self._date + delta
 
     def format(self, fmt: str) -> str:
         """Return the current date formatted using the given format string."""
