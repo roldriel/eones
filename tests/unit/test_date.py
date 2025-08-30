@@ -525,3 +525,137 @@ def test_end_of_month_december():
     assert end_date.hour == 23
     assert end_date.minute == 59
     assert end_date.second == 59
+
+
+# ==== Semantic Calendar Methods Tests ====
+
+
+@pytest.mark.parametrize(
+    "year, expected",
+    [
+        (2020, True),  # Divisible by 4 and 400
+        (2021, False),  # Not divisible by 4
+        (2000, True),  # Divisible by 400
+        (1900, False),  # Divisible by 100 but not 400
+        (2024, True),  # Divisible by 4 but not 100
+        (1996, True),  # Divisible by 4 but not 100
+        (1800, False),  # Divisible by 100 but not 400
+    ],
+)
+def test_is_leap_year(year, expected):
+    """Test is_leap_year method with various years."""
+    date = Date(datetime(year, 6, 15), naive="utc")
+    assert date.is_leap_year() == expected
+
+
+@pytest.mark.parametrize(
+    "weekday, expected",
+    [
+        (0, False),  # Monday
+        (1, False),  # Tuesday
+        (2, False),  # Wednesday
+        (3, False),  # Thursday
+        (4, False),  # Friday
+        (5, True),  # Saturday
+        (6, True),  # Sunday
+    ],
+)
+def test_is_weekend(weekday, expected):
+    """Test is_weekend method with different weekdays."""
+    # Create a date for each weekday (2024-01-01 is Monday)
+    base_date = datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC"))  # Monday
+    target_date = base_date + timedelta(days=weekday)
+    date = Date(target_date)
+    assert date.is_weekend() == expected
+
+
+@pytest.mark.parametrize(
+    "weekday, method_name, expected",
+    [
+        (0, "is_monday", True),
+        (1, "is_monday", False),
+        (0, "is_tuesday", False),
+        (1, "is_tuesday", True),
+        (2, "is_wednesday", True),
+        (3, "is_wednesday", False),
+        (3, "is_thursday", True),
+        (4, "is_thursday", False),
+        (4, "is_friday", True),
+        (5, "is_friday", False),
+        (5, "is_saturday", True),
+        (6, "is_saturday", False),
+        (6, "is_sunday", True),
+        (0, "is_sunday", False),
+    ],
+)
+def test_weekday_methods(weekday, method_name, expected):
+    """Test individual weekday methods (is_monday, is_tuesday, etc.)."""
+    # Create a date for each weekday (2024-01-01 is Monday)
+    base_date = datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC"))  # Monday
+    target_date = base_date + timedelta(days=weekday)
+    date = Date(target_date)
+    method = getattr(date, method_name)
+    assert method() == expected
+
+
+def test_semantic_methods_integration():
+    """Test integration of semantic methods with real dates."""
+    # Test with a known leap year Saturday
+    leap_saturday = Date(datetime(2024, 2, 10), naive="utc")  # Saturday in leap year
+    assert leap_saturday.is_leap_year() is True
+    assert leap_saturday.is_weekend() is True
+    assert leap_saturday.is_saturday() is True
+    assert leap_saturday.is_sunday() is False
+
+    # Test with a non-leap year weekday
+    non_leap_tuesday = Date(
+        datetime(2023, 3, 14), naive="utc"
+    )  # Tuesday in non-leap year
+    assert non_leap_tuesday.is_leap_year() is False
+    assert non_leap_tuesday.is_weekend() is False
+    assert non_leap_tuesday.is_tuesday() is True
+    assert non_leap_tuesday.is_monday() is False
+
+
+@pytest.mark.parametrize(
+    "weekday, first_day_of_week, expected",
+    [
+        # ISO standard (Monday first) - Saturday and Sunday are weekend
+        (5, 0, True),  # Saturday
+        (6, 0, True),  # Sunday
+        (0, 0, False),  # Monday
+        (4, 0, False),  # Friday
+        # US standard (Sunday first) - Friday and Saturday are weekend
+        (5, 6, True),  # Saturday
+        (4, 6, True),  # Friday
+        (6, 6, False),  # Sunday
+        (0, 6, False),  # Monday
+    ],
+)
+def test_is_weekend_with_first_day_config(weekday, first_day_of_week, expected):
+    """Test is_weekend() with different first day of week configurations."""
+    # Create a date for each weekday (2024-01-01 is Monday)
+    base_date = datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC"))  # Monday
+    target_date = base_date + timedelta(days=weekday)
+    date = Date(target_date)
+
+    # Test the is_weekend_day function directly with different configurations
+    from eones.constants import is_weekend_day
+
+    result = is_weekend_day(date._dt.weekday(), first_day_of_week)
+    assert result == expected
+
+
+def test_is_weekend_default_iso_behavior():
+    """Test that is_weekend() uses ISO standard by default."""
+    # Saturday should be weekend
+    saturday = Date(datetime(2024, 1, 6), naive="utc")  # Saturday
+    assert saturday.is_weekend() is True
+
+    # Sunday should be weekend
+    sunday = Date(datetime(2024, 1, 7), naive="utc")  # Sunday
+    assert sunday.is_weekend() is True
+
+    # Friday should not be weekend
+    friday = Date(datetime(2024, 1, 5), naive="utc")  # Friday
+    assert friday.is_weekend() is False

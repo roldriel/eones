@@ -8,6 +8,7 @@ from typing import Tuple
 
 from eones.core.date import Date
 from eones.core.delta import Delta
+from eones.constants import FIRST_DAY_OF_WEEK
 
 
 class Range:
@@ -71,14 +72,27 @@ class Range:
         end = datetime(dt.year, 12, 31, 23, 59, 59, 999999, tzinfo=dt.tzinfo)
         return start, end
 
-    def week_range(self) -> Tuple[datetime, datetime]:
-        """Return the start (Monday) and end (Sunday) of the current ISO week.
+    def week_range(
+        self, first_day_of_week: int = FIRST_DAY_OF_WEEK
+    ) -> Tuple[datetime, datetime]:
+        """Return the start and end of the current week.
+
+        Args:
+            first_day_of_week (int): First day of week (0=Monday, 6=Sunday)
 
         Returns:
             Tuple[datetime, datetime]: Start and end of the week.
         """
         dt = self.date.to_datetime()
-        start_date = dt - timedelta(days=dt.weekday())
+
+        if first_day_of_week == 0:  # ISO standard (Monday first)
+            days_from_start = dt.weekday()
+        else:  # US standard (Sunday first)
+            # Convert to US weekday (0=Sunday) and calculate days from Sunday
+            us_weekday = (dt.weekday() + 1) % 7
+            days_from_start = us_weekday
+
+        start_date = dt - timedelta(days=days_from_start)
         start = datetime.combine(start_date.date(), time.min).replace(tzinfo=dt.tzinfo)
         end_date = start_date + timedelta(days=6)
         end = datetime.combine(end_date.date(), time.max).replace(tzinfo=dt.tzinfo)

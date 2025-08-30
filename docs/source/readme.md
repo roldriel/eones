@@ -115,12 +115,13 @@ raise `InvalidTimezoneError`, while unparsable strings raise
 Comprehensive examples and documentation are available:
 
 ### 📖 Core Examples
-- **[Basic Usage](examples/basic_usage.md)** - Library import, date creation, formatting, basic operations
-- **[Advanced Usage](examples/advanced_usage.md)** - Truncation, rounding, period ranges, comparisons
-- **[Complete Deltas](examples/complete_deltas.md)** - Dual delta architecture, calendar vs duration intervals
-- **[Use Cases](examples/use_cases.md)** - Real-world examples: age calculation, billing cycles, reports
-- **[Error Handling](examples/error_handling.md)** - Exception hierarchy, safe date creation, validation
-- **[Formatting & Serialization](examples/formatting_serialization.md)** - ISO 8601, JSON export/import, API integration
+- **[Basic Usage](https://github.com/roldriel/eones/blob/master/examples/basic_usage.md)** - Library import, date creation, formatting, basic operations
+- **[Advanced Usage](https://github.com/roldriel/eones/blob/master/examples/advanced_usage.md)** - Truncation, rounding, period ranges, comparisons
+- **[Complete Deltas](https://github.com/roldriel/eones/blob/master/examples/complete_deltas.md)** - Dual delta architecture, calendar vs duration intervals
+- **[Use Cases](https://github.com/roldriel/eones/blob/master/examples/use_cases.md)** - Real-world examples: age calculation, billing cycles, reports
+- **[Error Handling](https://github.com/roldriel/eones/blob/master/examples/error_handling.md)** - Exception hierarchy, safe date creation, validation
+- **[Formatting & Serialization](https://github.com/roldriel/eones/blob/master/examples/formatting_serialization.md)** - ISO 8601, JSON export/import, API integration
+- **[Week Configuration](https://github.com/roldriel/eones/blob/master/examples/week_configuration.md)** - First day of week configuration, ISO vs US standards, weekend detection
 
 ### 🔗 Integration Examples
 - **Django**: Custom model fields

@@ -47,6 +47,95 @@ def test_week_range():
     assert end.hour == 23 and end.minute == 59 and end.second == 59
 
 
+def test_week_range_iso_standard():
+    """Test week_range with ISO standard (Monday first)."""
+    # Tuesday, June 10, 2025
+    d = Date(datetime(2025, 6, 10, tzinfo=ZoneInfo("UTC")), tz="UTC")
+    r = Range(d)
+    start, end = r.week_range(first_day_of_week=0)  # ISO standard
+
+    # Week should start on Monday (June 9) and end on Sunday (June 15)
+    assert start.weekday() == 0  # Monday
+    assert end.weekday() == 6  # Sunday
+    assert start.day == 9  # June 9
+    assert end.day == 15  # June 15
+    assert start.hour == 0 and start.minute == 0
+    assert end.hour == 23 and end.minute == 59 and end.second == 59
+
+
+def test_week_range_us_standard():
+    """Test week_range with US standard (Sunday first)."""
+    # Tuesday, June 10, 2025
+    d = Date(datetime(2025, 6, 10, tzinfo=ZoneInfo("UTC")), tz="UTC")
+    r = Range(d)
+    start, end = r.week_range(first_day_of_week=6)  # US standard
+
+    # Week should start on Sunday (June 8) and end on Saturday (June 14)
+    assert start.weekday() == 6  # Sunday
+    assert end.weekday() == 5  # Saturday
+    assert start.day == 8  # June 8
+    assert end.day == 14  # June 14
+    assert start.hour == 0 and start.minute == 0
+    assert end.hour == 23 and end.minute == 59 and end.second == 59
+
+
+@pytest.mark.parametrize(
+    "test_date, first_day_of_week, expected_start_weekday, expected_end_weekday",
+    [
+        # ISO standard (Monday first)
+        (
+            datetime(2025, 6, 8, tzinfo=ZoneInfo("UTC")),
+            0,
+            0,
+            6,
+        ),  # Sunday -> Mon-Sun week
+        (
+            datetime(2025, 6, 9, tzinfo=ZoneInfo("UTC")),
+            0,
+            0,
+            6,
+        ),  # Monday -> Mon-Sun week
+        (
+            datetime(2025, 6, 14, tzinfo=ZoneInfo("UTC")),
+            0,
+            0,
+            6,
+        ),  # Saturday -> Mon-Sun week
+        # US standard (Sunday first)
+        (
+            datetime(2025, 6, 8, tzinfo=ZoneInfo("UTC")),
+            6,
+            6,
+            5,
+        ),  # Sunday -> Sun-Sat week
+        (
+            datetime(2025, 6, 9, tzinfo=ZoneInfo("UTC")),
+            6,
+            6,
+            5,
+        ),  # Monday -> Sun-Sat week
+        (
+            datetime(2025, 6, 14, tzinfo=ZoneInfo("UTC")),
+            6,
+            6,
+            5,
+        ),  # Saturday -> Sun-Sat week
+    ],
+)
+def test_week_range_parametrized(
+    test_date, first_day_of_week, expected_start_weekday, expected_end_weekday
+):
+    """Test week_range with various dates and first day of week settings."""
+    d = Date(test_date, tz="UTC")
+    r = Range(d)
+    start, end = r.week_range(first_day_of_week=first_day_of_week)
+
+    assert start.weekday() == expected_start_weekday
+    assert end.weekday() == expected_end_weekday
+    assert start.hour == 0 and start.minute == 0
+    assert end.hour == 23 and end.minute == 59 and end.second == 59
+
+
 def test_quarter_range():
     d = Date(datetime(2025, 11, 15, tzinfo=ZoneInfo("UTC")), tz="UTC")
     r = Range(d)

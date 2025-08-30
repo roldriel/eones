@@ -119,6 +119,7 @@ Ejemplos completos y documentación disponibles:
 - **[Casos de Uso](https://github.com/roldriel/eones/blob/master/examples/es/casos_de_uso.md)** - Ejemplos del mundo real: cálculo de edad, ciclos de facturación, reportes
 - **[Manejo de Errores](https://github.com/roldriel/eones/blob/master/examples/es/manejo_errores.md)** - Jerarquía de excepciones, creación segura de fechas, validación
 - **[Formateo y Serialización](https://github.com/roldriel/eones/blob/master/examples/es/formateo_serializacion.md)** - ISO 8601, exportación/importación JSON, integración con APIs
+- **[Configuración de Semana](https://github.com/roldriel/eones/blob/master/examples/es/configuracion_semana.md)** - Configuración del primer día de semana, estándares ISO vs US, detección de fin de semana
 
 ### 🔗 Ejemplos de Integración
 - **Django**: Campos personalizados para modelos

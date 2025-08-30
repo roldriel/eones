@@ -20,6 +20,7 @@ Welcome to Eones's documentation!
    examples/error_handling
    examples/formatting_serialization
    examples/use_cases
+   examples/week_configuration
 
 Indices and tables
 ==================

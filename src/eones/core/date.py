@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, timezone
 from typing import TYPE_CHECKING, Any, Literal, Optional, Union, cast
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-from eones.constants import VALID_KEYS
+from eones.constants import VALID_KEYS, is_weekend_day
 from eones.errors import InvalidTimezoneError
 from eones.humanize import diff_for_humans as _diff_for_humans
 
@@ -398,6 +398,79 @@ class Date:  # pylint: disable=too-many-public-methods
     def is_after(self, other: Date) -> bool:
         """Return True if the current date is after ``other``."""
         return self.as_utc() > other.as_utc()
+
+    def is_leap_year(self) -> bool:
+        """Return True if the current year is a leap year.
+
+        Returns:
+            bool: True if the year is a leap year, False otherwise.
+        """
+        year = self._dt.year
+        return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
+
+    def is_weekend(self) -> bool:
+        """Return True if the current date falls on a weekend (Saturday or Sunday).
+
+        Returns:
+            bool: True if the date is Saturday (5) or Sunday (6), False otherwise.
+        """
+        return is_weekend_day(self._dt.weekday())
+
+    def is_monday(self) -> bool:
+        """Return True if the current date is a Monday.
+
+        Returns:
+            bool: True if the date is Monday, False otherwise.
+        """
+        return self._dt.weekday() == 0
+
+    def is_tuesday(self) -> bool:
+        """Return True if the current date is a Tuesday.
+
+        Returns:
+            bool: True if the date is Tuesday, False otherwise.
+        """
+        return self._dt.weekday() == 1
+
+    def is_wednesday(self) -> bool:
+        """Return True if the current date is a Wednesday.
+
+        Returns:
+            bool: True if the date is Wednesday, False otherwise.
+        """
+        return self._dt.weekday() == 2
+
+    def is_thursday(self) -> bool:
+        """Return True if the current date is a Thursday.
+
+        Returns:
+            bool: True if the date is Thursday, False otherwise.
+        """
+        return self._dt.weekday() == 3
+
+    def is_friday(self) -> bool:
+        """Return True if the current date is a Friday.
+
+        Returns:
+            bool: True if the date is Friday, False otherwise.
+        """
+        return self._dt.weekday() == 4
+
+    def is_saturday(self) -> bool:
+        """Return True if the current date is a Saturday.
+
+        Returns:
+            bool: True if the date is Saturday, False otherwise.
+        """
+        return self._dt.weekday() == 5
+
+    def is_sunday(self) -> bool:
+        """Return True if the current date is a Sunday.
+
+        Returns:
+            bool: True if the date is Sunday, False otherwise.
+        """
+        return self._dt.weekday() == 6
 
     def days_until(self, other: Date) -> int:
         """Return the number of days until ``other``.

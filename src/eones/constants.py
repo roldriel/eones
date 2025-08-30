@@ -29,3 +29,47 @@ VALID_KEYS = {"year", "month", "day", "hour", "minute", "second", "microsecond"}
 
 # Valid fields for delta specification
 DELTA_KEYS = {"years", "months", "weeks", "days", "hours", "minutes", "seconds"}
+
+# First day of the week configuration
+# 0 = Monday (ISO standard), 6 = Sunday (US standard)
+FIRST_DAY_OF_WEEK = 0  # Default to ISO standard (Monday)
+
+
+def iso_to_us_weekday(iso_weekday: int) -> int:
+    """Convert ISO weekday (0=Monday) to US weekday (0=Sunday).
+
+    Args:
+        iso_weekday (int): ISO weekday number (0=Monday, 6=Sunday)
+
+    Returns:
+        int: US weekday number (0=Sunday, 6=Saturday)
+    """
+    return (iso_weekday + 1) % 7
+
+
+def us_to_iso_weekday(us_weekday: int) -> int:
+    """Convert US weekday (0=Sunday) to ISO weekday (0=Monday).
+
+    Args:
+        us_weekday (int): US weekday number (0=Sunday, 6=Saturday)
+
+    Returns:
+        int: ISO weekday number (0=Monday, 6=Sunday)
+    """
+    return (us_weekday + 6) % 7
+
+
+def is_weekend_day(weekday: int, first_day_of_week: int = FIRST_DAY_OF_WEEK) -> bool:
+    """Check if a given weekday is a weekend day.
+
+    Args:
+        weekday (int): ISO weekday number (0=Monday, 6=Sunday)
+        first_day_of_week (int): First day of week (0=Monday, 6=Sunday)
+
+    Returns:
+        bool: True if the weekday is a weekend day
+    """
+    if first_day_of_week == 0:  # ISO standard (Monday first)
+        return weekday in (5, 6)  # Saturday, Sunday
+    # US standard (Sunday first)
+    return weekday in (4, 5)  # Friday, Saturday in ISO numbering
