@@ -67,7 +67,7 @@ runs:
         pip-audit --format=json --output=pip-audit-report.json || true
         pip-audit
         if [[ "${{ inputs.fail-on-error }}" == "true" ]]; then
-          pip-audit --require-hashes --disable-pip
+          pip-audit
         fi
 
     - name: Upload security scan results
