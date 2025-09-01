@@ -34,10 +34,10 @@ jobs:
   docs-check:
     name: Documentation Check
     runs-on: ubuntu-22.04
+    permissions: {}
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup Python Environment
         uses: ./.github/actions/setup-python
         with:
@@ -81,6 +81,7 @@ jobs:
   docs-build:
     name: Build Documentation
     runs-on: ubuntu-22.04
+    permissions: {}
     needs: docs-check
     timeout-minutes: 15
     permissions:
@@ -155,6 +156,7 @@ jobs:
     name: Deploy to GitHub Pages
     if: inputs.deploy == true
     runs-on: ubuntu-22.04
+    permissions: {}
     needs: docs-build
     timeout-minutes: 10
     environment:

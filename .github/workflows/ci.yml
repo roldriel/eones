@@ -16,13 +16,13 @@ jobs:
   validate:
     name: Quick Validation
     runs-on: ubuntu-22.04
+    permissions: {}
     timeout-minutes: 5
     outputs:
       should-run-tests: ${{ steps.changes.conclusion == 'success' && steps.changes.outputs.python || 'false' }}
       should-run-docs: ${{ steps.changes.conclusion == 'success' && steps.changes.outputs.docs || 'false' }}
     steps:
       - uses: actions/checkout@v4
-
       - name: Check for changes
         uses: dorny/paths-filter@v3
         id: changes
@@ -51,6 +51,7 @@ jobs:
   test:
     name: Tests (Python ${{ matrix.python-version }})
     runs-on: ubuntu-22.04
+    permissions: {}
     needs: validate
     if: needs.validate.outputs.should-run-tests == 'true'
     timeout-minutes: 15
@@ -61,7 +62,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
       - name: Update system packages
         run: |
           sudo apt-get update || true
@@ -102,13 +102,13 @@ jobs:
   lint:
     name: Code Quality
     runs-on: ubuntu-22.04
+    permissions: {}
     needs: validate
     if: needs.validate.outputs.should-run-tests == 'true'
     timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v4
-
       - name: Update system packages
         run: |
           sudo apt-get update || true
@@ -143,13 +143,13 @@ jobs:
   security:
     name: Security Scan
     runs-on: ubuntu-22.04
+    permissions: {}
     needs: validate
     if: needs.validate.outputs.should-run-tests == 'true'
     timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v4
-
       - name: Run Security Scan
         uses: ./.github/actions/security-scan
         with:
@@ -162,12 +162,12 @@ jobs:
   build:
     name: Build Distribution
     runs-on: ubuntu-22.04
+    permissions: {}
     needs: [test, lint]
     timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup Python Environment
         uses: ./.github/actions/setup-python
         with:
@@ -196,6 +196,7 @@ jobs:
   ci-success:
     name: CI Success
     runs-on: ubuntu-22.04
+    permissions: {}
     needs: [validate, test, lint, security, build]
     if: always()
     steps:
