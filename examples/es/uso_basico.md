@@ -29,6 +29,12 @@ fecha5 = Eones({"year": 2024, "month": 12, "day": 25, "hour": 15})
 from datetime import datetime
 fecha6 = Eones(datetime.now())
 
+# Desde cadenas ISO 8601 (con soporte de zona horaria)
+fecha7 = Eones("2024-12-25T15:30:00Z")           # UTC
+fecha8 = Eones("2024-12-25T15:30:00+03:00")      # Con offset positivo
+fecha9 = Eones("2024-12-25T15:30:00-05:00")      # Con offset negativo
+fecha10 = Eones("2024-12-25T15:30:00.123456+02:30")  # Con microsegundos y offset
+
 # Con zona horaria específica
 fecha_madrid = Eones("2024-12-25", tz="Europe/Madrid")
 fecha_mexico = Eones("2024-12-25", tz="America/Mexico_City")

@@ -231,3 +231,120 @@ def validate_date_format(date_str, format_str):
 print(validate_date_format("2024-06-15", "%Y-%m-%d"))  # True
 print(validate_date_format("15/06/2024", "%Y-%m-%d"))  # False
 ```
+
+## ISO 8601 Parsing with Timezone Offsets
+
+Eones provides comprehensive support for parsing ISO 8601 formatted strings with timezone offsets, both through the `Date.from_iso()` method and the `Parser` class.
+
+### Using Date.from_iso()
+
+```python
+from eones import Date
+
+# Basic ISO 8601 with UTC
+date1 = Date.from_iso("2024-01-15T10:30:00Z")
+print(date1)  # 2024-01-15T10:30:00+00:00
+
+# ISO 8601 with positive offset
+date2 = Date.from_iso("2024-01-15T10:30:00+03:00")
+print(date2)  # 2024-01-15T10:30:00+03:00
+print(date2.timezone)  # UTC+03:00
+
+# ISO 8601 with negative offset
+date3 = Date.from_iso("2024-01-15T10:30:00-05:00")
+print(date3)  # 2024-01-15T10:30:00-05:00
+print(date3.timezone)  # UTC-05:00
+
+# ISO 8601 with microseconds and offset
+date4 = Date.from_iso("2024-01-15T10:30:00.123456+02:30")
+print(date4)  # 2024-01-15T10:30:00.123456+02:30
+```
+
+### Supported Offset Formats
+
+```python
+# Various offset formats are supported
+formats = [
+    "2024-01-15T10:30:00Z",           # UTC (Zulu time)
+    "2024-01-15T10:30:00+00:00",      # UTC with explicit offset
+    "2024-01-15T10:30:00+03:00",      # Positive offset with colon
+    "2024-01-15T10:30:00-05:00",      # Negative offset with colon
+    "2024-01-15T10:30:00+0300",       # Positive offset without colon
+    "2024-01-15T10:30:00-0500",       # Negative offset without colon
+    "2024-01-15T10:30:00.123+01:00",  # With milliseconds
+    "2024-01-15T10:30:00.123456-02:00" # With microseconds
+]
+
+for fmt in formats:
+    date = Date.from_iso(fmt)
+    print(f"{fmt:<35} -> {date} (TZ: {date.timezone})")
+```
+
+### Using Parser with ISO 8601 Formats
+
+```python
+from eones import Parser
+
+# Create a parser (default formats now include ISO 8601 with offsets)
+parser = Parser()
+
+# Parse various ISO 8601 formats
+iso_strings = [
+    "2024-01-15T10:30:00Z",
+    "2024-01-15T10:30:00+03:00",
+    "2024-01-15T10:30:00.123456-05:00"
+]
+
+for iso_str in iso_strings:
+    date = parser.parse(iso_str)
+    print(f"Parsed: {date} (Timezone: {date.timezone})")
+```
+
+### Custom Timezone for Naive ISO Strings
+
+```python
+# When parsing naive ISO strings, you can specify a default timezone
+naive_iso = "2024-01-15T10:30:00"
+
+# Using Date.from_iso() with custom timezone
+date_ny = Date.from_iso(naive_iso, tz="America/New_York")
+print(f"New York: {date_ny} (TZ: {date_ny.timezone})")
+
+# Using Parser with custom default timezone
+parser_tokyo = Parser(tz="Asia/Tokyo")
+date_tokyo = parser_tokyo.parse(naive_iso)
+print(f"Tokyo: {date_tokyo} (TZ: {date_tokyo.timezone})")
+```
+
+### Timezone Preservation
+
+```python
+# When an ISO string contains timezone information, it's preserved
+# even if you specify a different default timezone
+
+iso_with_offset = "2024-01-15T10:30:00+05:30"
+
+# The +05:30 offset is preserved, not overridden by America/New_York
+date = Date.from_iso(iso_with_offset, tz="America/New_York")
+print(f"Original offset preserved: {date} (TZ: {date.timezone})")
+# Output: 2024-01-15T10:30:00+05:30 (TZ: UTC+05:30)
+```
+
+### Error Handling for Invalid Offsets
+
+```python
+from eones.errors import InvalidFormatError
+
+# Invalid offset formats will raise InvalidFormatError
+invalid_formats = [
+    "2024-01-15T10:30:00+25:00",  # Invalid hour offset
+    "2024-01-15T10:30:00+03:70",  # Invalid minute offset
+    "2024-01-15T10:30:00+abc",    # Non-numeric offset
+]
+
+for invalid_fmt in invalid_formats:
+    try:
+        date = Date.from_iso(invalid_fmt)
+    except InvalidFormatError as e:
+        print(f"Invalid format '{invalid_fmt}': {e}")
+```

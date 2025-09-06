@@ -71,7 +71,7 @@ print(z.diff_for_humans("2025-06-20", locale="es"))  # → hace 5 días
 - ✅ **Zero external dependencies**: Pure Python (Python 3.9+)
 - ✅ **Intuitive interface**: Simple, semantically rich and easy-to-use API
 - ✅ **Modern timezone support**: Robust handling with `zoneinfo` (not `pytz`)
-- ✅ **Flexible parsing**: Accepts multiple date formats automatically
+- ✅ **Flexible parsing**: Accepts multiple date formats automatically, including ISO 8601 with timezone offsets
 - ✅ **Advanced temporal operations**: Deltas, ranges and semantic comparisons
 - ✅ **Modular architecture**: Clear separation between `Date`, `Delta`, `Range` and utilities
 - ✅ **Localization**: Support for multiple languages
