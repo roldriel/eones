@@ -1,5 +1,5 @@
 try:  # pragma: no cover - optional dependency
-    from sqlalchemy.types import DateTime, TypeDecorator
+    from sqlalchemy.types import DateTime, TypeDecorator  # type: ignore
 except Exception:  # pragma: no cover - sqlalchemy not installed
     DateTime = object  # type: ignore
 

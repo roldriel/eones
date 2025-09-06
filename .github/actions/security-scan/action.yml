@@ -1,5 +1,5 @@
 name: 'Security Scan'
-description: 'Run security scans with bandit and safety'
+description: 'Run security scans with bandit and pip-audit'
 inputs:
   python-version:
     description: 'Python version for security tools'
@@ -38,7 +38,7 @@ runs:
       shell: bash
       run: |
         python -m pip install --upgrade pip
-        pip install bandit[toml] safety pip-audit
+        pip install bandit[toml] pip-audit
 
     - name: Run Bandit security scan
       shell: bash
@@ -48,16 +48,6 @@ runs:
         bandit -r ${{ inputs.source-path }} -f txt
         if [[ "${{ inputs.fail-on-error }}" == "true" ]]; then
           bandit -r ${{ inputs.source-path }} --severity-level medium
-        fi
-
-    - name: Run Safety vulnerability check
-      shell: bash
-      run: |
-        echo "🛡️ Running Safety vulnerability check..."
-        safety check --json --output safety-report.json || true
-        safety check
-        if [[ "${{ inputs.fail-on-error }}" == "true" ]]; then
-          safety check --exit-code
         fi
 
     - name: Run pip-audit
@@ -77,6 +67,5 @@ runs:
         name: security-scan-results
         path: |
           bandit-report.json
-          safety-report.json
           pip-audit-report.json
         retention-days: 30
