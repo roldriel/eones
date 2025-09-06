@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from calendar import monthrange
 from datetime import datetime, timedelta, timezone
 from typing import TYPE_CHECKING, Any, Literal, Optional, Union, cast
@@ -298,27 +299,201 @@ class Date:  # pylint: disable=too-many-public-methods
         return self._dt.timestamp()
 
     @classmethod
+    def _normalize_iso_format(cls, iso_str: str) -> str:
+        """Normalize ISO 8601 string to be compatible with datetime.fromisoformat().
+
+        Args:
+            iso_str (str): Original ISO 8601 string.
+
+        Returns:
+            str: Normalized ISO 8601 string.
+        """
+        # Handle 'Z' suffix (Zulu time = UTC)
+        if iso_str.endswith("Z"):
+            iso_str = iso_str[:-1] + "+00:00"
+
+        # Handle offset formats without colon (e.g., +0000, -0500)
+
+        # Match timezone offset patterns like +HHMM or -HHMM at the end
+        offset_pattern = r"([+-])(\d{2})(\d{2})$"
+        match = re.search(offset_pattern, iso_str)
+        if match:
+            sign, hours, minutes = match.groups()
+            # Replace with colon format
+            iso_str = re.sub(offset_pattern, f"{sign}{hours}:{minutes}", iso_str)
+
+        return iso_str
+
+    @classmethod
+    def _create_date_with_timezone_info(cls, dt: datetime) -> "Date":
+        """Create a Date instance preserving timezone info from a datetime.
+
+        Args:
+            dt: A timezone-aware datetime object
+
+        Returns:
+            Date: A Date instance with preserved timezone
+        """
+        tz_name = cls._get_timezone_name(dt)
+
+        # Create Date with the original datetime (preserving timezone)
+        date_instance = cls.__new__(cls)
+        date_instance._dt = dt
+
+        # Create appropriate zone object
+        has_tzinfo = dt.tzinfo is not None
+        has_tzname = has_tzinfo and hasattr(dt.tzinfo, "tzname")
+        has_key = has_tzinfo and hasattr(dt.tzinfo, "key")
+
+        if has_tzinfo and has_tzname and not has_key:
+            # For fixed offsets, store the timezone name
+            date_instance._zone = type(
+                "FixedOffset",
+                (),
+                {"key": tz_name, "tzname": lambda self, dt: tz_name},
+            )()
+        else:
+            date_instance._zone = ZoneInfo(tz_name)
+
+        return date_instance
+
+    @classmethod
+    def _get_timezone_name(cls, dt: datetime) -> str:
+        """Get timezone name from a datetime object.
+
+        Args:
+            dt: A timezone-aware datetime object
+
+        Returns:
+            str: Timezone name
+        """
+        if dt.tzinfo is None:
+            return "UTC"  # Default fallback for naive datetime
+            
+        if hasattr(dt.tzinfo, "key"):
+            # ZoneInfo object
+            return dt.tzinfo.key
+
+        if dt.tzinfo == timezone.utc:
+            # UTC timezone
+            return "UTC"
+
+        # Fixed offset timezone - use a generic name but preserve the offset
+        return cls._format_offset_timezone_name(dt)
+
+    @classmethod
+    def _format_offset_timezone_name(cls, dt: datetime) -> str:
+        """Format timezone name for fixed offset timezones.
+
+        Args:
+            dt: A timezone-aware datetime object with fixed offset
+
+        Returns:
+            str: Formatted timezone name like 'UTC+03:00'
+        """
+        if dt.tzinfo is None:
+            return "UTC"  # Default fallback for naive datetime
+            
+        offset = dt.tzinfo.utcoffset(dt)
+        if not offset:
+            return "UTC"
+
+        total_seconds = int(offset.total_seconds())
+        hours, remainder = divmod(abs(total_seconds), 3600)
+        minutes = remainder // 60
+        sign = "+" if total_seconds >= 0 else "-"
+
+        if minutes == 0:
+            return f"UTC{sign}{hours:02d}"
+        return f"UTC{sign}{hours:02d}:{minutes:02d}"
+
+    @classmethod
+    def from_timezone_aware_datetime(cls, dt: datetime) -> "Date":
+        """Create a Date from a timezone-aware datetime, preserving the timezone.
+
+        This is an internal method to handle timezone-aware datetimes without
+        accessing protected members directly.
+
+        Args:
+            dt: A timezone-aware datetime object
+
+        Returns:
+            Date: A Date instance preserving the original timezone
+        """
+        if dt.tzinfo is None:
+            raise ValueError("datetime must be timezone-aware")
+
+        # For ZoneInfo objects, we can use the normal constructor
+        if hasattr(dt.tzinfo, "key"):
+            return cls(dt, tz=dt.tzinfo.key, naive="raise")
+
+        # For UTC timezone
+        if dt.tzinfo == timezone.utc:
+            return cls(dt, tz="UTC", naive="raise")
+
+        # For fixed offset timezones, we need special handling
+        # Create the instance using __new__ and set attributes directly
+        # This is the only case where we need to access protected members
+        date_instance = cls.__new__(cls)
+        date_instance._dt = dt
+
+        # Create a timezone name for the offset
+        offset = dt.tzinfo.utcoffset(dt)
+        if offset:
+            total_seconds = int(offset.total_seconds())
+            hours, remainder = divmod(abs(total_seconds), 3600)
+            minutes = remainder // 60
+            sign = "+" if total_seconds >= 0 else "-"
+            if minutes == 0:
+                tz_name = f"UTC{sign}{hours:02d}"
+            else:
+                tz_name = f"UTC{sign}{hours:02d}:{minutes:02d}"
+        else:
+            tz_name = "UTC"
+
+        # Create a mock zone object for fixed offsets
+        date_instance._zone = type(
+            "FixedOffset",
+            (),
+            {"key": tz_name, "tzname": lambda self, dt: tz_name},
+        )()
+
+        return date_instance
+
+    @classmethod
     def from_iso(cls, iso_str: str, tz: Optional[str] = "UTC") -> Date:
         """Create a Date from an ISO 8601 string.
 
         Args:
-            iso_str (str): ISO date string.
-            tz (str, optional): Timezone. Defaults to "UTC".
+            iso_str (str): ISO date string. If it contains timezone info,
+                          that timezone will be preserved. Otherwise, the tz parameter
+                          will be used.
+            tz (str, optional): Timezone to use if the ISO string doesn't contain
+                               timezone info. Defaults to "UTC".
 
         Returns:
-            Date: Parsed Date.
+            Date: Parsed Date with appropriate timezone.
         """
         try:
-            dt = datetime.fromisoformat(iso_str)
+            # Normalize the ISO string to be compatible with fromisoformat
+            normalized_iso = cls._normalize_iso_format(iso_str)
+            dt = datetime.fromisoformat(normalized_iso)
 
         except ValueError as exc:
             raise InvalidTimezoneError(tz or "UTC") from exc
 
         if dt.tzinfo is None:
+            # No timezone info in the ISO string, use the provided tz parameter
             if tz is None:
                 tz = "UTC"
-            dt = dt.replace(tzinfo=ZoneInfo(tz))
-        return cls(dt, tz)
+            try:
+                dt = dt.replace(tzinfo=ZoneInfo(tz))
+            except ZoneInfoNotFoundError as exc:
+                raise InvalidTimezoneError(tz) from exc
+            return cls(dt, tz)
+
+        # Timezone info present in ISO string, preserve it
+        return cls._create_date_with_timezone_info(dt)
 
     @classmethod
     def from_unix(cls, timestamp: float, tz: Optional[str] = "UTC") -> Date:

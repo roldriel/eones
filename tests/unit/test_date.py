@@ -480,13 +480,11 @@ def test_add_unsupported_type():
 
 
 def test_from_iso_invalid_timezone():
-    """Test InvalidTimezoneError in from_iso (lines 311-312)."""
+    """Test InvalidTimezoneError in from_iso when tz parameter is invalid."""
     from eones.errors import InvalidTimezoneError
 
-    # This test should trigger the ZoneInfoNotFoundError -> InvalidTimezoneError conversion
-    # But since the exception is caught and re-raised as InvalidTimezoneError,
-    # we need to create a scenario where ZoneInfo is actually called
-    iso_str = "2024-01-01T12:00:00+00:00"  # ISO with timezone info
+    # Use ISO string without timezone info so the tz parameter is actually used
+    iso_str = "2024-01-01T12:00:00"  # ISO without timezone info
     with pytest.raises(InvalidTimezoneError):
         Date.from_iso(iso_str, tz="Invalid/Timezone")
 
@@ -659,3 +657,279 @@ def test_is_weekend_default_iso_behavior():
     # Friday should not be weekend
     friday = Date(datetime(2024, 1, 5), naive="utc")  # Friday
     assert friday.is_weekend() is False
+
+
+# ==== ISO 8601 PARSING TESTS ====
+
+
+class TestDateFromIso:
+    """Test Date.from_iso() method with various ISO 8601 formats."""
+
+    @pytest.mark.parametrize(
+        "iso_string, expected_offset",
+        [
+            # Basic formats without timezone
+            ("2024-01-15", "+00:00"),
+            ("2024-01-15T10:30:00", "+00:00"),
+            ("2024-01-15T10:30:00.123", "+00:00"),
+            ("2024-01-15T10:30:00.123456", "+00:00"),
+            # UTC formats
+            ("2024-01-15T10:30:00Z", "+00:00"),
+            ("2024-01-15T10:30:00.123Z", "+00:00"),
+            ("2024-01-15T10:30:00.123456Z", "+00:00"),
+            # Zero offset formats
+            ("2024-01-15T10:30:00+00:00", "+00:00"),
+            ("2024-01-15T10:30:00-00:00", "+00:00"),
+            # Positive offsets with colon
+            ("2024-01-15T10:30:00+03:00", "+03:00"),
+            ("2024-01-15T10:30:00+05:30", "+05:30"),
+            ("2024-01-15T10:30:00+09:00", "+09:00"),
+            ("2024-01-15T10:30:00+12:00", "+12:00"),
+            # Negative offsets with colon
+            ("2024-01-15T10:30:00-05:00", "-05:00"),
+            ("2024-01-15T10:30:00-08:00", "-08:00"),
+            ("2024-01-15T10:30:00-03:30", "-03:30"),
+            ("2024-01-15T10:30:00-11:00", "-11:00"),
+            # Offsets without colon
+            ("2024-01-15T10:30:00+0300", "+03:00"),
+            ("2024-01-15T10:30:00-0500", "-05:00"),
+            ("2024-01-15T10:30:00+0000", "+00:00"),
+            # With microseconds and offsets
+            ("2024-01-15T10:30:00.123456+03:00", "+03:00"),
+            ("2024-01-15T10:30:00.123456-05:00", "-05:00"),
+        ],
+    )
+    def test_from_iso_preserves_timezone_offset(self, iso_string, expected_offset):
+        """Test that from_iso preserves timezone offsets correctly."""
+        date = Date.from_iso(iso_string)
+        assert str(date).endswith(expected_offset)
+
+    @pytest.mark.parametrize(
+        "iso_string, expected_year, expected_month, expected_day, expected_hour, expected_minute",
+        [
+            ("2024-01-15", 2024, 1, 15, 0, 0),
+            ("2024-12-31T23:59:59+05:30", 2024, 12, 31, 23, 59),
+            ("2023-06-15T14:30:45-08:00", 2023, 6, 15, 14, 30),
+            ("2025-03-10T08:15:30.123456Z", 2025, 3, 10, 8, 15),
+        ],
+    )
+    def test_from_iso_parses_datetime_components_correctly(
+        self,
+        iso_string,
+        expected_year,
+        expected_month,
+        expected_day,
+        expected_hour,
+        expected_minute,
+    ):
+        """Test that datetime components are parsed correctly."""
+        date = Date.from_iso(iso_string)
+        dt = date.to_datetime()
+        assert dt.year == expected_year
+        assert dt.month == expected_month
+        assert dt.day == expected_day
+        assert dt.hour == expected_hour
+        assert dt.minute == expected_minute
+
+    def test_from_iso_with_custom_timezone_for_naive_strings(self):
+        """Test that custom timezone is applied to naive ISO strings."""
+        date = Date.from_iso("2024-01-15T10:30:00", tz="America/New_York")
+        # Should have New York timezone for naive string
+        assert (
+            "America/New_York" in date.timezone
+            or "EST" in date.timezone
+            or "EDT" in date.timezone
+        )
+
+    def test_from_iso_preserves_existing_timezone_info(self):
+        """Test that existing timezone info in ISO string is preserved."""
+        date = Date.from_iso("2024-01-15T10:30:00+03:00", tz="America/New_York")
+        # Should preserve the +03:00 offset, not use New York timezone
+        assert "+03:00" in str(date)
+
+
+class TestIso8601EdgeCases:
+    """Test edge cases for ISO 8601 parsing."""
+
+    def test_leap_year_february_29(self):
+        """Test parsing February 29 in leap years."""
+        # 2024 is a leap year
+        date = Date.from_iso("2024-02-29T12:00:00+00:00")
+        assert date.month == 2
+        assert date.day == 29
+        assert date.year == 2024
+
+    def test_end_of_year_with_timezone(self):
+        """Test parsing end of year with timezone offset."""
+        date = Date.from_iso("2024-12-31T23:59:59.999999+14:00")
+        assert date.year == 2024
+        assert date.month == 12
+        assert date.day == 31
+        assert "+14:00" in str(date)
+
+    def test_beginning_of_year_with_negative_timezone(self):
+        """Test parsing beginning of year with negative timezone offset."""
+        date = Date.from_iso("2024-01-01T00:00:00.000000-12:00")
+        assert date.year == 2024
+        assert date.month == 1
+        assert date.day == 1
+        assert "-12:00" in str(date)
+
+    @pytest.mark.parametrize(
+        "offset_format, expected_offset",
+        [
+            ("+0000", "+00:00"),
+            ("-0000", "+00:00"),
+            ("+0100", "+01:00"),
+            ("-0100", "-01:00"),
+            ("+1400", "+14:00"),
+            ("-1200", "-12:00"),
+        ],
+    )
+    def test_offset_format_normalization(self, offset_format, expected_offset):
+        """Test that different offset formats are normalized correctly."""
+        iso_string = f"2024-01-15T10:30:00{offset_format}"
+        date = Date.from_iso(iso_string)
+        assert expected_offset in str(date)
+
+    def test_microseconds_precision_preservation(self):
+        """Test that microseconds precision is preserved."""
+        date = Date.from_iso("2024-01-15T10:30:00.123456+03:00")
+        dt = date.to_datetime()
+        assert dt.microsecond == 123456
+
+    def test_timezone_name_generation_for_fixed_offsets(self):
+        """Test that timezone names are generated correctly for fixed offsets."""
+        # Positive offset with minutes
+        date1 = Date.from_iso("2024-01-15T10:30:00+05:30")
+        assert "UTC+05:30" in date1.timezone
+
+        # Negative offset without minutes
+        date2 = Date.from_iso("2024-01-15T10:30:00-08:00")
+        assert "UTC-08" in date2.timezone
+
+        # Zero offset
+        date3 = Date.from_iso("2024-01-15T10:30:00+00:00")
+        assert date3.timezone == "UTC"
+
+
+# ==== COVERAGE IMPROVEMENTS TESTS ====
+
+
+class TestDateCoverageImprovements:
+    """Tests to cover uncovered lines in Date class."""
+
+    def test_date_constructor_with_none_tz(self):
+        """Test Date constructor when tz=None (line 36)."""
+        # This should default to UTC
+        date = Date(tz=None)
+        assert date._zone.key == "UTC"
+
+    def test_now_invalid_naive_value(self):
+        """Test Date.now with invalid naive parameter (lines 176-179)."""
+        with pytest.raises(ValueError, match="Invalid 'naive' value"):
+            Date.now(naive="invalid")
+
+    def test_from_iso_with_invalid_format_causing_value_error(self):
+        """Test from_iso with format that causes ValueError (lines 345-346)."""
+        from unittest.mock import patch
+        from eones.errors import InvalidTimezoneError
+
+        # Mock datetime.fromisoformat to raise ValueError
+        with patch("eones.core.date.datetime") as mock_datetime:
+            mock_datetime.fromisoformat.side_effect = ValueError("Invalid format")
+
+            with pytest.raises(InvalidTimezoneError):
+                Date.from_iso("invalid-format")
+
+    def test_from_iso_with_invalid_timezone(self):
+        """Test from_iso with invalid timezone causing ZoneInfoNotFoundError (line 351)."""
+        from eones.errors import InvalidTimezoneError
+
+        # Test with naive datetime and invalid timezone
+        with pytest.raises(InvalidTimezoneError):
+            Date.from_iso("2024-01-01T12:00:00", tz="Invalid/Timezone")
+
+    def test_from_iso_with_utc_timezone(self):
+        """Test from_iso with datetime having timezone.utc (line 363)."""
+        from unittest.mock import patch
+        from datetime import timezone
+
+        # Create a datetime with timezone.utc
+        dt_with_utc = datetime(2024, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
+
+        # Mock fromisoformat to return this datetime
+        with patch("eones.core.date.datetime") as mock_datetime:
+            mock_datetime.fromisoformat.return_value = dt_with_utc
+            mock_datetime.now.return_value = datetime.now()
+
+            date = Date.from_iso("2024-01-01T12:00:00Z")
+            assert date is not None
+
+    def test_from_iso_with_offset_having_minutes(self):
+        """Test from_iso with timezone offset having non-zero minutes (line 380)."""
+        # Test with offset like +05:30 (India Standard Time)
+        date = Date.from_iso("2024-01-01T12:00:00+05:30")
+        assert date is not None
+        # The timezone name should include minutes
+        assert "30" in date._zone.key
+
+    def test_from_unix_with_none_tz_explicit(self):
+        """Test from_unix with tz=None explicitly to trigger line 395."""
+        # This should trigger the tz = "UTC" assignment on line 395
+        date = Date.from_unix(1640995200.0, tz=None)
+        assert date is not None
+        assert date._zone.key == "UTC"
+
+    def test_from_unix_with_invalid_timezone(self):
+        """Test from_unix with invalid timezone (line 410)."""
+        from eones.errors import InvalidTimezoneError
+
+        timestamp = 1704110400.0  # 2024-01-01 12:00:00 UTC
+
+        with pytest.raises(InvalidTimezoneError):
+            Date.from_unix(timestamp, tz="Invalid/Timezone")
+
+    def test_from_iso_naive_datetime_with_invalid_tz_precise(self):
+        """Test from_iso with naive datetime and invalid timezone (line 351)."""
+        from eones.errors import InvalidTimezoneError
+
+        # Test with ISO string without timezone info and invalid tz parameter
+        # This should trigger the ZoneInfoNotFoundError and line 351
+        with pytest.raises(InvalidTimezoneError):
+            Date.from_iso("2024-01-01T12:00:00", tz="Invalid/Timezone/Name")
+
+    def test_from_iso_with_fixed_offset_timezone(self):
+        """Test from_iso with fixed offset timezone to trigger line 363."""
+        from unittest.mock import patch
+        from datetime import timezone, timedelta
+
+        # Create a datetime with a fixed offset (not timezone.utc)
+        fixed_offset = timezone(timedelta(hours=5))
+        dt_with_fixed = datetime(2024, 1, 1, 12, 0, 0, tzinfo=fixed_offset)
+
+        # Mock fromisoformat to return this datetime with fixed offset
+        with patch("eones.core.date.datetime") as mock_datetime:
+            mock_datetime.fromisoformat.return_value = dt_with_fixed
+
+            date = Date.from_iso("2024-01-01T12:00:00+05:00")
+            assert date is not None
+
+    def test_from_iso_with_timezone_utc_object_direct(self):
+        """Test from_iso with timezone.utc object (line 363)."""
+        # Test with actual ISO string that has timezone info
+        # This should parse to a datetime with timezone.utc
+        date = Date.from_iso("2024-01-01T12:00:00+00:00")
+        assert date is not None
+        # The datetime should have timezone info and trigger line 363
+        assert date._zone.key == "UTC"
+
+    def test_from_iso_offset_with_nonzero_minutes_precise(self):
+        """Test from_iso with offset having non-zero minutes (line 380)."""
+        # Test with actual ISO string that has timezone offset with minutes
+        # This should trigger the line 380 condition where minutes != 0
+        date = Date.from_iso("2024-01-01T12:00:00+05:30")
+        assert date is not None
+        # Should create a timezone name with minutes
+        assert ":30" in date._zone.key
+        assert date._zone.key == "UTC+05:30"

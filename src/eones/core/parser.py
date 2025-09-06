@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional, Union, cast
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-from eones.constants import VALID_KEYS
+from eones.constants import VALID_KEYS, DEFAULT_FORMATS
 from eones.core.date import Date
 from eones.errors import InvalidFormatError, InvalidTimezoneError
 
@@ -36,7 +36,8 @@ class Parser:
         except ZoneInfoNotFoundError as exc:
             raise InvalidTimezoneError(tz) from exc
 
-        self._formats = formats if formats else ["%Y-%m-%d", "%d/%m/%Y"]
+        # Use centralized default formats from constants
+        self._formats = formats if formats else DEFAULT_FORMATS
 
     def parse(
         self, value: Union[str, Dict[str, int], datetime, "Date", None]
@@ -117,6 +118,13 @@ class Parser:
         for fmt in self._formats:
             try:
                 dt = datetime.strptime(date_str, fmt)
+
+                # If the parsed datetime has timezone info, preserve it
+                if dt.tzinfo is not None:
+                    # Handle timezone-aware datetime - preserve original timezone
+                    return Date.from_timezone_aware_datetime(dt)
+
+                # No timezone info, use parser's default timezone
                 return Date(dt.replace(tzinfo=self._zone), self._zone.key)
 
             except ValueError:
