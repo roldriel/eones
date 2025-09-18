@@ -369,7 +369,7 @@ class Date:  # pylint: disable=too-many-public-methods
         """
         if dt.tzinfo is None:
             return "UTC"  # Default fallback for naive datetime
-            
+
         if hasattr(dt.tzinfo, "key"):
             # ZoneInfo object
             return dt.tzinfo.key
@@ -393,7 +393,7 @@ class Date:  # pylint: disable=too-many-public-methods
         """
         if dt.tzinfo is None:
             return "UTC"  # Default fallback for naive datetime
-            
+
         offset = dt.tzinfo.utcoffset(dt)
         if not offset:
             return "UTC"
