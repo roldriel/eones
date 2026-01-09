@@ -99,12 +99,18 @@ Eones muestra excepciones claras derivadas de `EonesError`. Las zonas horarias n
 | API semánticamente rica                 | ✅ Rica | ✅ Media | ✅ Media | ⚠️ | ❌ | ❌ |
 | Arquitectura modular/facade             | ✅ Sí | ❌ No | ❌ No | ❌ No | ❌ No | ❌ No |
 | Type hinting completo y PEP 561         | ✅ Sí | ❌ Limitado | ❌ Limitado | ❌ No | ❌ No | ❌ No |
+| **Alto Rendimiento (~1M ops/sec)**      | **✅ Sí** | ❌ No | ❌ No | ❌ No | ❌ No | ❌ No |
+| **Memoria Optimizada (`__slots__`)**    | **✅ Sí** | ❌ No | ❌ No | ❌ No | ❌ No | ❌ No |
+| Localización nativa (Sin Babel)         | ✅ Sí | ❌ No | ❌ No | ❌ No | ❌ No | ❌ No |
+| API dedicada de Rangos/Periodos         | ✅ Sí | ✅ Sí | ⚠️ Básico | ⚠️ Básico | ❌ No | ❌ No |
 | Aritmética de fechas (suma/resta)       | ✅    | ✅        | ✅    | ✅        | ❌        | ❌   |
 | Parsing flexible (string, dict, dt)     | ✅    | ✅        | ✅    | ⚠️        | ✅        | ❌   |
 | Testeada con coverage ≥ 97%             | ✅    | ❓        | ❓    | ❌        | ❌        | ❌   |
 | Puede reemplazar `datetime` nativo      | ✅    | ✅        | ✅    | ❌        | ❌        | ❌   |
 | Licencia permisiva (MIT / BSD)          | ✅    | ✅        | ✅    | ✅        | ✅        | ✅   |
 | Mantenimiento activo                    | ✅    | ✅        | ✅    | ❌        | ✅        | ⚠️   |
+
+> **Mirá los números:** Para métricas detalladas de rendimiento (Velocidad, Memoria, Perfilado), revisá nuestra **[Suite de Benchmarks](benchmarks/README.md)**.
 
 ---
 
