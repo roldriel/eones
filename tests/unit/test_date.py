@@ -832,15 +832,11 @@ class TestDateCoverageImprovements:
 
     def test_from_iso_with_invalid_format_causing_value_error(self):
         """Test from_iso with format that causes ValueError (lines 345-346)."""
-        from unittest.mock import patch
-        from eones.errors import InvalidTimezoneError
+        from eones.errors import InvalidFormatError
 
-        # Mock datetime.fromisoformat to raise ValueError
-        with patch("eones.core.date.datetime") as mock_datetime:
-            mock_datetime.fromisoformat.side_effect = ValueError("Invalid format")
-
-            with pytest.raises(InvalidTimezoneError):
-                Date.from_iso("invalid-format")
+        # Invalid ISO format should raise InvalidFormatError
+        with pytest.raises(InvalidFormatError):
+            Date.from_iso("invalid-format")
 
     def test_from_iso_with_invalid_timezone(self):
         """Test from_iso with invalid timezone causing ZoneInfoNotFoundError (line 351)."""
@@ -852,8 +848,8 @@ class TestDateCoverageImprovements:
 
     def test_from_iso_with_utc_timezone(self):
         """Test from_iso with datetime having timezone.utc (line 363)."""
-        from unittest.mock import patch
         from datetime import timezone
+        from unittest.mock import patch
 
         # Create a datetime with timezone.utc
         dt_with_utc = datetime(2024, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
@@ -901,8 +897,8 @@ class TestDateCoverageImprovements:
 
     def test_from_iso_with_fixed_offset_timezone(self):
         """Test from_iso with fixed offset timezone to trigger line 363."""
+        from datetime import timedelta, timezone
         from unittest.mock import patch
-        from datetime import timezone, timedelta
 
         # Create a datetime with a fixed offset (not timezone.utc)
         fixed_offset = timezone(timedelta(hours=5))

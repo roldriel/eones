@@ -1,6 +1,10 @@
+from datetime import datetime, timedelta, timezone
+
 import pytest
 
 from eones import format_date, parse_date
+from eones.core.date import Date
+from eones.core.parser import Parser
 
 
 def test_parse_format_parse_round_trip():
@@ -32,3 +36,48 @@ def test_parse_format_with_timezone_if_supported():
 def test_format_invalid_date_raises():
     with pytest.raises(TypeError):
         format_date("not a date object", "%Y-%m-%d")
+
+
+# ISO Parsing & Timezone Tests
+
+
+def test_iso_parsing_comprehensive():
+    """Test various ISO formats including edge cases and normalization."""
+    # None tz defaults to UTC
+    d1 = Date.from_iso("2024-01-01", tz=None)
+    assert d1.timezone == "UTC"
+
+    # Z suffix normalization
+    d2 = Date.from_iso("2024-01-01T12:00:00Z", tz="UTC")
+    assert d2.timezone == "UTC"
+
+    # Z with microseconds
+    d3 = Date.from_iso("2024-01-01T12:00:00.123456Z")
+    assert d3.year == 2024
+
+    # Offset without colon (+HHMM format)
+    d4 = Date.from_iso("2024-01-01T12:00:00+0530")
+    assert d4.year == 2024
+
+    # Offset variations (+0000, -0500)
+    d5 = Date.from_iso("2024-01-01T12:00:00+0000")
+    assert d5.timezone == "UTC"
+    d6 = Date.from_iso("2024-01-01T12:00:00-0500")
+    assert d6.year == 2024
+
+    # Naive datetime with custom timezone
+    d7 = Date.from_iso("2024-01-01T12:00:00", tz="Europe/Madrid")
+    assert "Europe/Madrid" in d7.timezone or "Madrid" in d7.timezone
+
+
+def test_parser_custom_formats():
+    """Test Parser with custom formats including timezone-aware."""
+    p = Parser(tz="UTC", formats=["%Y/%m/%d %z"])
+    d = p.parse("2024/01/01 +0200")
+    assert d.year == 2024
+
+
+def test_date_now_invalid_naive_parameter():
+    """Test Date.now() with invalid naive parameter."""
+    with pytest.raises(ValueError, match="Invalid 'naive' value"):
+        Date.now(naive="invalid")
