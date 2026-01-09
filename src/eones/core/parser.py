@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional, Union, cast
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-from eones.constants import VALID_KEYS, DEFAULT_FORMATS
+from eones.constants import DEFAULT_FORMATS, VALID_KEYS
 from eones.core.date import Date
 from eones.errors import InvalidFormatError, InvalidTimezoneError
 
@@ -21,6 +21,8 @@ class Parser:
     them based on provided format patterns. Useful for transforming loose or
     user-provided values into structured time representations.
     """
+
+    __slots__ = ("_zone", "_formats")
 
     def __init__(self, tz: str = "UTC", formats: Optional[List[str]] = None) -> None:
         """
@@ -115,6 +117,15 @@ class Parser:
         Raises:
             ValueError: If string does not match any known formats.
         """
+        # Optimization: Try extremely fast ISO parsing first
+        # ISO 8601 format starts with YYYY- (4 digits then hyphen)
+        try:
+            if len(date_str) >= 10 and date_str[4] == "-" and date_str[:4].isdigit():
+                return Date.from_iso(date_str, self._zone.key)
+
+        except ValueError:
+            pass
+
         for fmt in self._formats:
             try:
                 dt = datetime.strptime(date_str, fmt)

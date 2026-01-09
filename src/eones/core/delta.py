@@ -27,6 +27,8 @@ class Delta:
         The original input dictionary is preserved for accurate inversion and scaling.
     """
 
+    __slots__ = ("_input", "_calendar", "_duration")
+
     def __init__(self, **kwargs: int) -> None:
         """Initialize a Delta with calendar and/or duration parts."""
         invalid_keys = set(kwargs) - DELTA_KEYS

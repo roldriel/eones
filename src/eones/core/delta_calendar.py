@@ -28,6 +28,8 @@ class DeltaCalendar:
         target month has fewer days.
     """
 
+    __slots__ = ("_input", "years", "months")
+
     def __init__(self, years: int = 0, months: int = 0) -> None:
         """
         Initialize a calendar-based delta.

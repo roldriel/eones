@@ -24,6 +24,8 @@ class DeltaDuration:
         - Input validation ensures only integers are accepted (not bools).
     """
 
+    __slots__ = ("_input", "timedelta")
+
     def __init__(self, **kwargs: int) -> None:
         """
         Initialize a DeltaDuration from keyword arguments.

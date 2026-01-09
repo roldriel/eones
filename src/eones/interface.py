@@ -14,6 +14,9 @@ from eones.formats import is_valid_format
 
 EonesLike = Union[str, datetime, Dict[str, int], Date]
 
+# Optimization: Reuse a default parser for standard UTC calls
+_DEFAULT_PARSER = None
+
 
 class Eones:
     """
@@ -22,6 +25,9 @@ class Eones:
     formatting, delta application, comparisons, and range boundaries.
     A natural interface for working with time as a concept, not just a datatype.
     """
+
+    # pylint: disable=too-many-public-methods
+    __slots__ = ("_date", "_parser")
 
     def __init__(
         self,
@@ -40,23 +46,87 @@ class Eones:
         if formats and additional_formats:
             raise ValueError("Use either 'formats' or 'additional_formats', not both.")
 
-        if isinstance(formats, str):
-            formats = [formats]
+        # Shared Global Parser Logic
+        global _DEFAULT_PARSER  # pylint: disable=global-statement
 
-        if isinstance(additional_formats, str):
-            additional_formats = [additional_formats]
+        if formats or additional_formats:
+            # Custom formats case - must create new Parser immediately
+            if isinstance(formats, str):
+                formats = [formats]
 
-        if formats:
-            resolved_formats = formats
+            if isinstance(additional_formats, str):
+                additional_formats = [additional_formats]
 
-        elif additional_formats:
-            resolved_formats = DEFAULT_FORMATS + additional_formats
+            if formats:
+                resolved_formats = formats
+            else:
+                resolved_formats = DEFAULT_FORMATS + (additional_formats or [])
+
+            self._parser = Parser(tz=tz, formats=resolved_formats)
+            self._date = self._parser.parse(value)
+
+        elif tz == "UTC":
+            # Fast path: Standard UTC call, no custom formats
+
+            # Optimization: Inline ISO8601 Check
+            # Skip parser for standard ISO strings (YYYY-...)
+            # logic: len >= 10, value[4] == '-', value[:4].isdigit()
+            if (
+                isinstance(value, str)
+                and len(value) >= 10
+                and value[4] == "-"
+                and value[:4].isdigit()
+            ):
+                self._date = Date.from_iso(value)
+                return
+
+            # Lazy default parser usage.
+            # Avoid initialization if not strictly needed.
+
+            # If value is None, we just want "now".
+            if value is None:
+                # Optimization: Date(tz="UTC") is roughly "now"
+                self._date = Date(tz="UTC")
+                return
+
+            # If we actually need to parse 'value' right now, we need a parser.
+            if _DEFAULT_PARSER is None:
+                _DEFAULT_PARSER = Parser(tz="UTC", formats=DEFAULT_FORMATS)
+
+            # We don't save self._parser here to keep __init__ fast.
+            # We only use the global one to parse 'value'
+            self._date = _DEFAULT_PARSER.parse(value)
 
         else:
-            resolved_formats = DEFAULT_FORMATS
+            # Custom timezone, standard formats
+            # We must init a parser for this specific timezone, but we can do it
+            # only if we need to store it? No, if we have a custom timezone,
+            # future operations (like is_between) should probably use that timezone.
+            # But let's keep it simple: simpler to just init it here for non-UTC cases
+            # or refactor logic to rely on date.timezone?
 
-        self._parser = Parser(tz=tz, formats=resolved_formats)
-        self._date = self._parser.parse(value)
+            # Current behavior: create a parser for this instance with that TZ.
+            self._parser = Parser(tz=tz, formats=DEFAULT_FORMATS)
+            self._date = self._parser.parse(value)
+
+    @property
+    def parser(self) -> Parser:
+        """Lazy loader for the parser instance."""
+        try:
+            return self._parser
+
+        except AttributeError:
+            # It wasn't set in __init__ (fast path)
+            global _DEFAULT_PARSER  # pylint: disable=global-statement
+            if _DEFAULT_PARSER is None:
+                _DEFAULT_PARSER = Parser(tz="UTC", formats=DEFAULT_FORMATS)
+
+            # Note: We do NOT set self._parser = ... here permanently
+            # because we want to keep the object lightweight?
+            # Actually, Python "slots" already reserve the space.
+            # So setting it caches it for next time.
+            self._parser = _DEFAULT_PARSER
+            return self._parser
 
     def __repr__(self) -> str:
         """Return a debug-friendly string representation of the Eones instance.
@@ -89,17 +159,44 @@ class Eones:
         """
         return self._date
 
-    def add(self, **kwargs: int) -> None:
+    def add(self, **kwargs: int) -> Eones:
         """Add a delta to the current date.
+
         Accepts keyword arguments such as:
         years, months, days, hours, minutes, seconds.
         Updates the internal Date in place.
 
         Args:
             **kwargs: Components of the time delta.
+
+        Returns:
+            Eones: self, updated.
         """
         delta = Delta(**kwargs)
         self._date = self._date + delta
+        return self
+
+    def copy(self) -> Eones:
+        """Return a copy of the current Eones instance.
+
+        Returns:
+            Eones: A new instance with the same date and configuration.
+        """
+        new_instance = Eones.__new__(Eones)
+
+        # Copy parser only if it exists
+        try:
+            new_instance._parser = self._parser  # pylint: disable=protected-access
+
+        except AttributeError:
+            pass  # Leave it unset in the new instance too
+
+        new_instance._date = self._date  # pylint: disable=protected-access
+        return new_instance
+
+    def clone(self) -> Eones:
+        """Alias for copy()."""
+        return self.copy()
 
     def format(self, fmt: str) -> str:
         """Return the current date formatted using the given format string."""
@@ -177,6 +274,7 @@ class Eones:
         Returns:
             bool: True if the current date is between start and end.
         """
+        # Use property to ensure parser is loaded
         parser = Parser(self._date.timezone)
         start_date = parser.parse(start)
         end_date = parser.parse(end)
@@ -225,9 +323,10 @@ class Eones:
         if isinstance(compare, Date):
             return self._date.is_within(compare, check_month=check_month)
 
-        return self._date.is_within(
-            self._parser.parse(compare), check_month=check_month
+        to_return = self._date.is_within(
+            self.parser.parse(compare), check_month=check_month
         )
+        return to_return
 
     def range(self, mode: str = "month") -> tuple[datetime, datetime]:
         """Return the datetime range for the given period.
@@ -299,7 +398,7 @@ class Eones:
         if isinstance(other, Date):
             return other
 
-        return self._parser.parse(other)
+        return self.parser.parse(other)
 
     @staticmethod
     def sanitize_formats(formats: List[Any]) -> List[str]:

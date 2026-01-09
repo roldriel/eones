@@ -9,23 +9,20 @@ from typing import TYPE_CHECKING, Any, Literal, Optional, Union, cast
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from eones.constants import VALID_KEYS, is_weekend_day
-from eones.errors import InvalidTimezoneError
+from eones.errors import InvalidFormatError, InvalidTimezoneError
 from eones.humanize import diff_for_humans as _diff_for_humans
+
+# Optimization: Cached UTC zone
+_UTC_ZONE = ZoneInfo("UTC")
 
 if TYPE_CHECKING:  # pragma: no cover - import for type checking only
     from eones.core.delta import Delta
 
 
 class Date:  # pylint: disable=too-many-public-methods
-    """
-    Encapsulates a precise moment in time, drawn from the infinite thread of eons.
+    """Time manipulation wrapper for timezone-aware datetime operations."""
 
-    This class offers a rich set of operations for navigating,
-    formatting, and comparing temporal instances, while remaining rooted
-    in timezone-aware datetime logic.  It bridges raw timekeeping with
-    semantic clarity, allowing you to reason about durations, truncations,
-    alignments, and transitions in a way that feels both practical and timeless.
-    """
+    __slots__ = ("_dt", "_zone")
 
     def __init__(
         self,
@@ -37,7 +34,11 @@ class Date:  # pylint: disable=too-many-public-methods
             tz = "UTC"
 
         try:
-            self._zone = ZoneInfo(tz)
+            # Optimization: Fast path for UTC
+            if tz == "UTC":
+                self._zone = _UTC_ZONE
+            else:
+                self._zone = ZoneInfo(tz)
 
         except ZoneInfoNotFoundError as exc:
             raise InvalidTimezoneError(tz) from exc
@@ -103,15 +104,7 @@ class Date:  # pylint: disable=too-many-public-methods
         return self._with(self._dt + delta)
 
     def __add__(self, delta: Union[timedelta, "Delta"]) -> Date:
-        """Return a new :class:`Date` offset by ``delta``.
-
-        Both :class:`datetime.timedelta` and :class:`eones.core.delta.Delta`
-        instances are accepted. The operation returns a new ``Date`` shifted
-        forward by the provided amount.
-
-        Returns:
-            Date: The resulting shifted date.
-        """
+        """Add a Delta or timedelta to this date."""
         from eones.core.delta import Delta  # pylint: disable=import-outside-toplevel
 
         if isinstance(delta, Delta):
@@ -126,17 +119,7 @@ class Date:  # pylint: disable=too-many-public-methods
         self,
         other: Union[Date, timedelta, "Delta"],
     ) -> Union[Date, timedelta]:
-        """Subtract ``other`` from this date.
-
-        ``other`` may be a :class:`datetime.timedelta` or a
-        :class:`eones.core.delta.Delta`. Timedelta or Delta instances yield a new
-        ``Date`` shifted backward. When another ``Date`` is provided, the result
-        is the difference as a ``timedelta``.
-
-        Returns:
-            Union[Date, timedelta]: ``Date`` or time difference depending on the
-            operand type.
-        """
+        """Subtract a Date, Delta, or timedelta from this date."""
         from eones.core.delta import Delta  # pylint: disable=import-outside-toplevel
 
         if isinstance(other, Delta):
@@ -154,18 +137,7 @@ class Date:  # pylint: disable=too-many-public-methods
     def now(
         cls, tz: str = "UTC", naive: Literal["utc", "local", "raise"] = "raise"
     ) -> Date:
-        """
-        Create a Date for the current moment.
-
-        Args:
-            tz (str): Timezone to apply.
-            naive (str): How to interpret if the datetime is naive. Accepts
-                "utc", "local", or "raise". Only meaningful if tz is applied
-                after generation.
-
-        Returns:
-            Date: Instance representing now.
-        """
+        """Create a Date for the current moment."""
         dt = datetime.now()
 
         if naive == "utc":
@@ -352,6 +324,7 @@ class Date:  # pylint: disable=too-many-public-methods
                 (),
                 {"key": tz_name, "tzname": lambda self, dt: tz_name},
             )()
+
         else:
             date_instance._zone = ZoneInfo(tz_name)
 
@@ -405,6 +378,7 @@ class Date:  # pylint: disable=too-many-public-methods
 
         if minutes == 0:
             return f"UTC{sign}{hours:02d}"
+
         return f"UTC{sign}{hours:02d}:{minutes:02d}"
 
     @classmethod
@@ -446,8 +420,10 @@ class Date:  # pylint: disable=too-many-public-methods
             sign = "+" if total_seconds >= 0 else "-"
             if minutes == 0:
                 tz_name = f"UTC{sign}{hours:02d}"
+
             else:
                 tz_name = f"UTC{sign}{hours:02d}:{minutes:02d}"
+
         else:
             tz_name = "UTC"
 
@@ -462,35 +438,74 @@ class Date:  # pylint: disable=too-many-public-methods
 
     @classmethod
     def from_iso(cls, iso_str: str, tz: Optional[str] = "UTC") -> Date:
-        """Create a Date from an ISO 8601 string.
+        """Create a Date from an ISO 8601 string."""
+        if tz is None:
+            tz = "UTC"
 
-        Args:
-            iso_str (str): ISO date string. If it contains timezone info,
-                          that timezone will be preserved. Otherwise, the tz parameter
-                          will be used.
-            tz (str, optional): Timezone to use if the ISO string doesn't contain
-                               timezone info. Defaults to "UTC".
-
-        Returns:
-            Date: Parsed Date with appropriate timezone.
-        """
         try:
-            # Normalize the ISO string to be compatible with fromisoformat
-            normalized_iso = cls._normalize_iso_format(iso_str)
-            dt = datetime.fromisoformat(normalized_iso)
+            # Optimization: Try native parsing first (fastest for Py 3.11+)
+            # Fast Path: UTC optimization using string concat (+00:00).
+            # Avoids expensive .replace(tzinfo=...) calls.
+            # Conds: tz="UTC", no '+', no 'Z', max 2 '-' (no negative offset)
+            if (
+                tz == "UTC"
+                and "Z" not in iso_str
+                and "+" not in iso_str
+                and iso_str.count("-") <= 2
+            ):
+                try:
+                    # Date-only (YYYY-MM-DD): Must append T00:00:00+00:00
+                    # to force timezone awareness (otherwise naive).
+                    if len(iso_str) == 10:
+                        dt = datetime.fromisoformat(iso_str + "T00:00:00+00:00")
 
-        except ValueError as exc:
-            raise InvalidTimezoneError(tz or "UTC") from exc
+                    else:
+                        # Timestamps: Appending +00:00 is sufficient.
+                        dt = datetime.fromisoformat(iso_str + "+00:00")
+
+                    # Success: We have a timezone-aware UTC datetime.
+                    # Bypass constructor validation.
+                    inst = cls.__new__(cls)
+                    inst._dt = dt
+                    inst._zone = _UTC_ZONE
+                    return inst
+
+                except ValueError:
+                    # Fallback to standard flow if the concatenation trick failed
+                    pass
+
+            dt = datetime.fromisoformat(iso_str)
+
+        except ValueError:
+            try:
+                # Fallback: Normalize the ISO string (legacy/edge cases)
+                normalized_iso = cls._normalize_iso_format(iso_str)
+                dt = datetime.fromisoformat(normalized_iso)
+
+            except ValueError as exc:
+                raise InvalidFormatError(
+                    f"Date string '{iso_str}' is not a valid ISO 8601 format"
+                ) from exc
 
         if dt.tzinfo is None:
-            # No timezone info in the ISO string, use the provided tz parameter
-            if tz is None:
-                tz = "UTC"
+            if tz == "UTC":
+                # Fast Path: Constructor Bypass
+                # We know dt is valid and we have the zone. Skip __init__ validation.
+                inst = cls.__new__(cls)
+                inst._dt = dt.replace(tzinfo=_UTC_ZONE)
+                inst._zone = _UTC_ZONE
+                return inst
+
             try:
-                dt = dt.replace(tzinfo=ZoneInfo(tz))
+                # Fast Path: Constructor Bypass for custom TZ
+                inst = cls.__new__(cls)
+                zone = ZoneInfo(tz)
+                inst._dt = dt.replace(tzinfo=zone)
+                inst._zone = zone
+                return inst
+
             except ZoneInfoNotFoundError as exc:
                 raise InvalidTimezoneError(tz) from exc
-            return cls(dt, tz)
 
         # Timezone info present in ISO string, preserve it
         return cls._create_date_with_timezone_info(dt)
@@ -532,6 +547,7 @@ class Date:  # pylint: disable=too-many-public-methods
             dt1 = self.to_datetime()
             dt2 = other.to_datetime()
             return dt1.year == dt2.year and dt1.month == dt2.month
+
         return self.to_datetime().year == other.to_datetime().year
 
     def is_between(
@@ -549,6 +565,7 @@ class Date:  # pylint: disable=too-many-public-methods
         """
         if inclusive:
             return start <= self._dt <= end
+
         return start < self._dt < end
 
     def is_same_week(self, other: Date) -> bool:
@@ -690,6 +707,7 @@ class Date:  # pylint: disable=too-many-public-methods
             raise ValueError(
                 f"Unsupported truncate unit '{unit}'. Valid units: {valid_units}"
             )
+
         # Cast to the expected Literal type for floor method
         unit_literal = cast(
             Literal["year", "month", "week", "day", "hour", "minute", "second"], unit
@@ -795,6 +813,7 @@ class Date:  # pylint: disable=too-many-public-methods
         dt = self._dt
         if unit == "week":
             dt -= timedelta(days=dt.weekday())
+
         replace_kwargs = cast(dict, truncate_map[unit])
         return self._with(dt.replace(**replace_kwargs))
 
@@ -879,6 +898,7 @@ class Date:  # pylint: disable=too-many-public-methods
         if d1 > d2:
             d1, d2 = d2, d1
             sign = -1
+
         else:
             sign = 1
 
@@ -904,6 +924,7 @@ class Date:  # pylint: disable=too-many-public-methods
         span = d2.year - d1.year
         if (d2.month, d2.day) < (d1.month, d1.day):
             span -= 1
+
         return span if self._dt <= other.to_datetime() else -span
 
     def to_dict(self) -> dict:
@@ -946,6 +967,7 @@ class Date:  # pylint: disable=too-many-public-methods
         # Calcular el primer día del mes siguiente
         if month == 12:
             next_month = datetime(year + 1, 1, 1, tzinfo=self._dt.tzinfo)
+
         else:
             next_month = datetime(year, month + 1, 1, tzinfo=self._dt.tzinfo)
 
