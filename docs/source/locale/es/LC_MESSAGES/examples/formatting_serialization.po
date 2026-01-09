@@ -1,0 +1,122 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Rodrigo Ezequiel Roldán
+# This file is distributed under the same license as the Eones package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Eones \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-09 08:15-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/examples/formatting_serialization.md:1
+msgid "Advanced Formatting and Serialization in Eones"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:3
+msgid ""
+"Eones includes specialized utilities for formatting and serialization of "
+"`Date` and `Delta` objects."
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:5
+msgid "Date Formatting"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:7
+msgid "Basic Formatting"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:19
+msgid "Formatting with Timezone"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:30
+msgid "Duration Serialization"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:32
+msgid "ISO 8601 Serialization"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:43
+msgid "Special Duration Cases"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:57
+msgid "Common Use Cases"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:59
+msgid "Serialization for REST APIs"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:81
+msgid "Database Storage"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:105
+msgid "Structured Logging"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:121
+msgid "JSON Export"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:163
+msgid "JSON Import"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:196
+msgid "Locale-Specific Formatting"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:218
+msgid "Format Validation"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:235
+msgid "ISO 8601 Parsing with Timezone Offsets"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:237
+msgid ""
+"Eones provides comprehensive support for parsing ISO 8601 formatted "
+"strings with timezone offsets, both through the `Date.from_iso()` method "
+"and the `Parser` class."
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:239
+msgid "Using Date.from_iso()"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:263
+msgid "Supported Offset Formats"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:283
+msgid "Using Parser with ISO 8601 Formats"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:303
+msgid "Custom Timezone for Naive ISO Strings"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:319
+msgid "Timezone Preservation"
+msgstr ""
+
+#: ../../source/examples/formatting_serialization.md:333
+msgid "Error Handling for Invalid Offsets"
+msgstr ""
+

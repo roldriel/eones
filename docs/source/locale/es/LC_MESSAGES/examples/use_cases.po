@@ -1,0 +1,87 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Rodrigo Ezequiel Roldán
+# This file is distributed under the same license as the Eones package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Eones \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-09 08:15-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/examples/use_cases.md:1
+msgid "Common Use Cases with Eones"
+msgstr ""
+
+#: ../../source/examples/use_cases.md:3
+msgid ""
+"This file contains practical examples of using Eones in real-world "
+"situations."
+msgstr ""
+
+#: ../../source/examples/use_cases.md:5
+msgid "1. Calculate Age"
+msgstr ""
+
+#: ../../source/examples/use_cases.md:15
+msgid "2. Due Dates"
+msgstr ""
+
+#: ../../source/examples/use_cases.md:26
+msgid "3. Monthly Reports"
+msgstr ""
+
+#: ../../source/examples/use_cases.md:39
+msgid "4. Work Schedules"
+msgstr ""
+
+#: ../../source/examples/use_cases.md:53
+msgid "5. Invoice Validation"
+msgstr ""
+
+#: ../../source/examples/use_cases.md:63
+msgid "6. Calculate Remaining Days"
+msgstr ""
+
+#: ../../source/examples/use_cases.md:73
+msgid "7. Fiscal Quarter Detection"
+msgstr ""
+
+#: ../../source/examples/use_cases.md:82
+msgid "8. Period Report"
+msgstr ""
+
+#: ../../source/examples/use_cases.md:91
+msgid "9. Next Cutoff Date"
+msgstr ""
+
+#: ../../source/examples/use_cases.md:100
+msgid "10. Work Calendar"
+msgstr ""
+
+#: ../../source/examples/use_cases.md:122
+msgid "11. Calculate Next Working Days"
+msgstr ""
+
+#: ../../source/examples/use_cases.md:138
+msgid "12. API Formatting"
+msgstr ""
+
+#: ../../source/examples/use_cases.md:150
+msgid "13. Database Storage"
+msgstr ""
+
+#: ../../source/examples/use_cases.md:162
+msgid "14. Structured Logs"
+msgstr ""
+

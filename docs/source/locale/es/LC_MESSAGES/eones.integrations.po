@@ -1,0 +1,67 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Rodrigo Ezequiel Roldán
+# This file is distributed under the same license as the Eones package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Eones \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-09 11:29-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/eones.integrations.rst:2
+msgid "eones.integrations package"
+msgstr ""
+
+#: eones.integrations:1 of
+msgid "Core module initializer for Eones."
+msgstr ""
+
+#: ../../source/eones.integrations.rst:10
+msgid "Submodules"
+msgstr ""
+
+#: ../../source/eones.integrations.rst:13
+msgid "eones.integrations.django module"
+msgstr ""
+
+#: eones.integrations.django:1 of
+msgid "Django integration helpers (optional)."
+msgstr ""
+
+#: eones.integrations.django.DateTimeField:1 of
+msgid "Custom Django model field to store Date as DateTime."
+msgstr ""
+
+#: ../../source/eones.integrations.rst:21
+msgid "eones.integrations.serializers module"
+msgstr ""
+
+#: eones.integrations.serializers.eones_encoder:1 of
+msgid "Generic JSON encoder for Date."
+msgstr ""
+
+#: ../../source/eones.integrations.rst:29
+msgid "eones.integrations.sqlalchemy module"
+msgstr ""
+
+#: eones.integrations.sqlalchemy.EonesType:1 of
+msgid "SQLAlchemy-compatible type for storing Eones instances."
+msgstr ""
+
+#~ msgid "Bases: :py:class:`~django.db.models.DateTimeField`"
+#~ msgstr ""
+
+#~ msgid "Bases: :py:class:`~sqlalchemy.types.TypeDecorator`"
+#~ msgstr ""
+

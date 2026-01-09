@@ -1,0 +1,57 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Rodrigo Ezequiel Roldán
+# This file is distributed under the same license as the Eones package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Eones \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-09 08:15-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/eones.locales.rst:2
+msgid "eones.locales package"
+msgstr ""
+
+#: eones.locales:1 of
+msgid "Helpers for loading locale messages used by ``diff_for_humans``."
+msgstr ""
+
+#: eones.locales.get_messages:1 of
+msgid "Load locale messages dynamically from ``eones.locales`` modules."
+msgstr ""
+
+#: eones.locales.get_messages:3 of
+msgid "Falls back to English if the given locale is not available."
+msgstr ""
+
+#: ../../source/eones.locales.rst:10
+msgid "Submodules"
+msgstr ""
+
+#: ../../source/eones.locales.rst:13
+msgid "eones.locales.en module"
+msgstr ""
+
+#: eones.locales.en:1 of
+msgid "English messages used by ``diff_for_humans``."
+msgstr ""
+
+#: ../../source/eones.locales.rst:21
+msgid "eones.locales.es module"
+msgstr ""
+
+#: eones.locales.es:1 of
+msgid "Mensajes en español para ``diff_for_humans``."
+msgstr ""
+

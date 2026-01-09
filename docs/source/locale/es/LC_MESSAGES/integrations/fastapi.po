@@ -1,0 +1,58 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Rodrigo Ezequiel Roldán
+# This file is distributed under the same license as the Eones package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Eones \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-09 08:15-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/integrations/fastapi.md:1
+msgid "FastAPI & Pydantic Integration"
+msgstr ""
+
+#: ../../source/integrations/fastapi.md:3
+msgid ""
+"Eones works seamlessly with FastAPI and Pydantic. You can create custom "
+"types to automatically validate and serialize dates."
+msgstr ""
+
+#: ../../source/integrations/fastapi.md:5
+msgid "Custom Pydantic Type"
+msgstr ""
+
+#: ../../source/integrations/fastapi.md:7
+msgid ""
+"To use `Eones` or `Date` as a Pydantic field, you can define an annotated"
+" type with a `BeforeValidator` or a custom class with "
+"`__get_pydantic_core_schema__`."
+msgstr ""
+
+#: ../../source/integrations/fastapi.md:9
+msgid "Simple Validator Approach"
+msgstr ""
+
+#: ../../source/integrations/fastapi.md:32
+msgid "Response Serialization"
+msgstr ""
+
+#: ../../source/integrations/fastapi.md:34
+msgid ""
+"To ensure Eones objects are serialized correctly to JSON in FastAPI "
+"responses, you can configure your Pydantic models to use a custom encoder"
+" or simply ensure your `Eones` objects are converted to strings/IS0 "
+"formats before return, or register a custom encoder in FastAPI."
+msgstr ""
+

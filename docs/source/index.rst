@@ -7,6 +7,7 @@ Welcome to Eones's documentation!
 
    eones
    readme
+   benchmarks/readme
    license
    changelog
 
@@ -21,6 +22,13 @@ Welcome to Eones's documentation!
    examples/formatting_serialization
    examples/use_cases
    examples/week_configuration
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Integrations:
+
+   integrations/fastapi
+   integrations/sqlalchemy
 
 Indices and tables
 ==================

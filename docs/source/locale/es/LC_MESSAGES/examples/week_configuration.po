@@ -1,0 +1,192 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Rodrigo Ezequiel Roldán
+# This file is distributed under the same license as the Eones package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Eones \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-09 08:15-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/examples/week_configuration.md:1
+msgid "Configuración del Primer Día de la Semana"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:3
+msgid ""
+"Eones v1.4.0 introduce la capacidad de configurar el primer día de la "
+"semana para adaptarse a diferentes estándares culturales y regionales."
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:5
+msgid "Configuración Global"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:7
+msgid ""
+"Por defecto, Eones utiliza el estándar ISO donde el lunes es el primer "
+"día de la semana (valor 0). Puedes cambiar esto modificando la constante "
+"`FIRST_DAY_OF_WEEK`:"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:19
+msgid "Impacto en los Métodos"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:21
+msgid "is_weekend()"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:23
+msgid "El método `is_weekend()` se adapta automáticamente a la configuración:"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:42
+msgid "week_range()"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:44
+msgid ""
+"El método `week_range()` también acepta un parámetro opcional para "
+"especificar el primer día:"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:63
+msgid "Funciones Helper"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:65
+msgid ""
+"Eones proporciona funciones helper para convertir entre sistemas de "
+"numeración:"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:85
+msgid "Sistemas de Numeración"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:87
+msgid "ISO (Estándar Internacional)"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:88
+msgid "0: Lunes"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:89
+msgid "1: Martes"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:90
+msgid "2: Miércoles"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:91
+msgid "3: Jueves"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:92
+msgid "4: Viernes"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:93
+msgid "5: Sábado"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:94
+msgid "6: Domingo"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:95
+msgid "**Fin de semana**: Sábado y Domingo"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:97
+msgid "US (Estándar Estadounidense)"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:98
+msgid "0: Domingo"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:99
+msgid "1: Lunes"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:100
+msgid "2: Martes"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:101
+msgid "3: Miércoles"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:102
+msgid "4: Jueves"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:103
+msgid "5: Viernes"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:104
+msgid "6: Sábado"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:105
+msgid "**Fin de semana**: Viernes y Sábado (en numeración ISO: 4 y 5)"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:107
+msgid "Casos de Uso"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:109
+msgid "Aplicaciones Internacionales"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:119
+msgid "Reportes de Negocio"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:131
+msgid "Notas Importantes"
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:133
+msgid ""
+"**Compatibilidad**: El cambio de `FIRST_DAY_OF_WEEK` afecta globalmente a"
+" todos los métodos que dependen de la configuración de semana."
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:135
+msgid ""
+"**Persistencia**: La configuración se mantiene durante toda la sesión de "
+"Python. Para cambios permanentes, considera configurarla al inicio de tu "
+"aplicación."
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:137
+msgid ""
+"**Thread Safety**: Ten cuidado al cambiar la configuración en "
+"aplicaciones multi-hilo, ya que afecta globalmente."
+msgstr ""
+
+#: ../../source/examples/week_configuration.md:139
+msgid ""
+"**Retrocompatibilidad**: Por defecto, Eones mantiene el comportamiento "
+"ISO existente, por lo que el código existente seguirá funcionando sin "
+"cambios."
+msgstr ""
+

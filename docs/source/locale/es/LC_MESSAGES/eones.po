@@ -1,0 +1,548 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Rodrigo Ezequiel Roldán
+# This file is distributed under the same license as the Eones package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Eones \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-09 11:29-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/eones.rst:2
+msgid "eones package"
+msgstr ""
+
+#: eones:1 of
+msgid "Eones: Navigate time with elegance."
+msgstr ""
+
+#: eones:3 of
+msgid ""
+"This package provides a semantically rich interface for handling dates "
+"and temporal logic. From parsing and formatting to complex deltas and "
+"period framing, Eones offers tools to  handling reason about time — not "
+"just measure it."
+msgstr ""
+
+#: eones.interface.Eones:1 of
+msgid ""
+"Central entrypoint for time manipulation, reasoning, and exploration. "
+"Acts as a façade for Date and its helpers — abstracting parsing, "
+"formatting, delta application, comparisons, and range boundaries. A "
+"natural interface for working with time as a concept, not just a "
+"datatype."
+msgstr ""
+
+#: eones.interface.Eones.add:1 of
+msgid "Add a delta to the current date."
+msgstr ""
+
+#: eones.interface.Eones.add:3 of
+msgid ""
+"Accepts keyword arguments such as: years, months, days, hours, minutes, "
+"seconds. Updates the internal Date in place."
+msgstr ""
+
+#: ../../source/eones.rst
+msgid "Parameters"
+msgstr ""
+
+#: eones.interface.Eones.add:7 of
+msgid "Components of the time delta."
+msgstr ""
+
+#: ../../source/eones.rst
+msgid "Returns"
+msgstr ""
+
+#: eones.interface.Eones.add:9 eones.interface.Eones.round:3 of
+msgid "self, updated."
+msgstr ""
+
+#: ../../source/eones.rst
+msgid "Return type"
+msgstr ""
+
+#: eones.interface.Eones.ceil:1 of
+msgid "Advance the current date to the end of the specified temporal unit."
+msgstr ""
+
+#: eones.interface.Eones.ceil:3 of
+msgid ""
+"The unit to ceil to. Valid options are: \"year\", \"month\", \"week\", "
+"\"day\", \"hour\", \"minute\", \"second\"."
+msgstr ""
+
+#: eones.interface.Eones.ceil:7 of
+msgid "The same instance, updated to the ceiled date."
+msgstr ""
+
+#: eones.interface.Eones.clone:1 of
+msgid "Alias for copy()."
+msgstr ""
+
+#: eones.interface.Eones.copy:1 of
+msgid "Return a copy of the current Eones instance."
+msgstr ""
+
+#: eones.interface.Eones.copy:3 of
+msgid "A new instance with the same date and configuration."
+msgstr ""
+
+#: eones.interface.Eones.diff_for_humans:1 of
+msgid "Return a human-readable difference between dates."
+msgstr ""
+
+#: eones.interface.Eones.difference:1 of
+msgid "Calculate the difference between this date and another."
+msgstr ""
+
+#: eones.interface.Eones.difference:3 of
+msgid "The other date to compare with."
+msgstr ""
+
+#: eones.interface.Eones.difference:4 of
+msgid ""
+"The unit for the difference calculation. Options are 'days', 'weeks', "
+"'months', or 'years'."
+msgstr ""
+
+#: eones.interface.Eones.difference:7 of
+msgid "The time difference expressed in the specified unit."
+msgstr ""
+
+#: eones.interface.Eones.end_of:1 of
+msgid "Set the datetime to the end of the specified unit."
+msgstr ""
+
+#: eones.interface.Eones.end_of:3 eones.interface.Eones.start_of:3 of
+msgid "Unit to align to."
+msgstr ""
+
+#: eones.interface.Eones.end_of:6 eones.interface.Eones.start_of:6 of
+msgid "Self, updated."
+msgstr ""
+
+#: eones.interface.Eones.floor:1 of
+msgid "Truncate the current date down to the start of the unit."
+msgstr ""
+
+#: eones.interface.Eones.format:1 of
+msgid "Return the current date formatted using the given format string."
+msgstr ""
+
+#: eones.interface.Eones.is_between:1 of
+msgid "Check if the current date is between two given dates."
+msgstr ""
+
+#: eones.interface.Eones.is_between:3 of
+msgid "Start date (str, dict, datetime, or Date)."
+msgstr ""
+
+#: eones.interface.Eones.is_between:4 of
+msgid "End date (same formats as start)."
+msgstr ""
+
+#: eones.interface.Eones.is_between:5 of
+msgid "Whether to include the endpoints."
+msgstr ""
+
+#: eones.interface.Eones.is_between:7 of
+msgid "True if the current date is between start and end."
+msgstr ""
+
+#: eones.interface.Eones.is_same_week:1 of
+msgid "Check if another date falls within the same ISO week as this one."
+msgstr ""
+
+#: eones.interface.Eones.is_same_week:3 of
+msgid "The date to compare with. Can be Eones, Date, datetime, dict, or str."
+msgstr ""
+
+#: eones.interface.Eones.is_same_week:7 of
+msgid "True if both dates are in the same ISO week, False otherwise."
+msgstr ""
+
+#: eones.formats.is_valid_format:1 eones.interface.Eones.is_valid_format:1 of
+msgid "Check if a date string matches any of the provided formats."
+msgstr ""
+
+#: eones.interface.Eones.is_valid_format:3 of
+msgid "The date string to validate"
+msgstr ""
+
+#: eones.interface.Eones.is_valid_format:4 of
+msgid "List of accepted datetime format strings"
+msgstr ""
+
+#: eones.interface.Eones.is_valid_format:6 of
+msgid "True if the string matches at least one format"
+msgstr ""
+
+#: eones.interface.Eones.is_within:1 of
+msgid "Check if current date is within same month/year as 'compare'."
+msgstr ""
+
+#: eones.interface.Eones.is_within:3 of
+msgid "The other date to compare against."
+msgstr ""
+
+#: eones.interface.Eones.is_within:4 of
+msgid "Whether to compare month and year (True) or just year (False)."
+msgstr ""
+
+#: eones.interface.Eones.is_within:6 of
+msgid "True if in same period."
+msgstr ""
+
+#: eones.interface.Eones.next_weekday:1 of
+msgid "Get the next occurrence of a given weekday from the current date."
+msgstr ""
+
+#: eones.interface.Eones.next_weekday:3 of
+msgid "Integer (0=Monday, ..., 6=Sunday)."
+msgstr ""
+
+#: eones.interface.Eones.next_weekday:5 of
+msgid "A new Date representing that next weekday."
+msgstr ""
+
+#: eones.interface.Eones.now:1 of
+msgid "Return the current internal Date."
+msgstr ""
+
+#: eones.interface.Eones.now:3 of
+msgid "The current date object."
+msgstr ""
+
+#: eones.Eones.parser:1 eones.interface.Eones.parser:1 of
+msgid "Lazy loader for the parser instance."
+msgstr ""
+
+#: eones.interface.Eones.range:1 of
+msgid "Return the datetime range for the given period."
+msgstr ""
+
+#: eones.interface.Eones.range:3 of
+msgid "One of \"day\", \"month\", or \"year\"."
+msgstr ""
+
+#: eones.interface.Eones.range:5 of
+msgid "Start and end datetimes for the period."
+msgstr ""
+
+#: ../../source/eones.rst
+msgid "Raises"
+msgstr ""
+
+#: eones.interface.Eones.range:8 of
+msgid "If the mode is invalid."
+msgstr ""
+
+#: eones.interface.Eones.replace:1 of
+msgid "Replace date parts and update internal Date instance."
+msgstr ""
+
+#: eones.interface.Eones.replace:3 of
+msgid "Example: e.replace(day=1, month=1)"
+msgstr ""
+
+#: eones.interface.Eones.replace:5 of
+msgid "Components to replace (year, month, day, etc)."
+msgstr ""
+
+#: eones.interface.Eones.replace:7 of
+msgid "self, updated with new internal date."
+msgstr ""
+
+#: eones.interface.Eones.round:1 of
+msgid "Round the datetime to the nearest unit (\"minute\", \"hour\", or \"day\")."
+msgstr ""
+
+#: eones.interface.Eones.sanitize_formats:1 of
+msgid "Remove duplicates and invalid formats from a format list."
+msgstr ""
+
+#: eones.interface.Eones.sanitize_formats:3 of
+msgid "List of format strings (may contain duplicates or invalid types)"
+msgstr ""
+
+#: eones.interface.Eones.sanitize_formats:5 of
+msgid "Clean list of unique format strings"
+msgstr ""
+
+#: eones.interface.Eones.start_of:1 of
+msgid "Set the datetime to the start of the specified unit."
+msgstr ""
+
+#: eones.errors.InvalidFormatError:1 of
+msgid "Raised when an invalid or unsupported format string is used."
+msgstr ""
+
+#: eones.errors.InvalidTimezoneError:1 of
+msgid "Raised when an invalid timezone string is provided."
+msgstr ""
+
+#: eones.add_days:1 of
+msgid "Add days to a date."
+msgstr ""
+
+#: eones.add_days:3 eones.from_timestamp:6 of
+msgid "Date object"
+msgstr ""
+
+#: eones.add_days:4 of
+msgid "Number of days to add (can be negative)"
+msgstr ""
+
+#: eones.add_days:6 of
+msgid "New date with days added"
+msgstr ""
+
+#: eones.date_diff_days:1 of
+msgid "Calculate the difference in days between two dates."
+msgstr ""
+
+#: eones.date_diff_days:3 of
+msgid "First date"
+msgstr ""
+
+#: eones.date_diff_days:4 of
+msgid "Second date"
+msgstr ""
+
+#: eones.date_diff_days:6 of
+msgid "Difference in days (date2 - date1)"
+msgstr ""
+
+#: eones.date_range:1 of
+msgid "Generate a range of dates from start to end."
+msgstr ""
+
+#: eones.date_range:3 of
+msgid "Start date"
+msgstr ""
+
+#: eones.date_range:4 of
+msgid "End date (inclusive)"
+msgstr ""
+
+#: eones.date_range:5 of
+msgid "Step size in days"
+msgstr ""
+
+#: eones.date_range:7 of
+msgid "List of dates in the range"
+msgstr ""
+
+#: eones.format_date:1 of
+msgid "Format a date using the given format string."
+msgstr ""
+
+#: eones.format_date:3 of
+msgid "Date object or datetime to format"
+msgstr ""
+
+#: eones.format_date:4 of
+msgid "Format string"
+msgstr ""
+
+#: eones.format_date:6 of
+msgid "Formatted date string"
+msgstr ""
+
+#: eones.from_timestamp:1 of
+msgid "Create a Date from Unix timestamp."
+msgstr ""
+
+#: eones.from_timestamp:3 of
+msgid "Unix timestamp (int or float)"
+msgstr ""
+
+#: eones.from_timestamp:4 of
+msgid "Timezone (default: \"UTC\")"
+msgstr ""
+
+#: eones.parse_date:1 of
+msgid "Parse a date from various input formats."
+msgstr ""
+
+#: eones.parse_date:3 of
+msgid "Date input (string, dict, or datetime)"
+msgstr ""
+
+#: eones.parse_date:4 of
+msgid "Timezone string"
+msgstr ""
+
+#: eones.parse_date:5 of
+msgid "List of format strings for parsing"
+msgstr ""
+
+#: eones.parse_date:7 of
+msgid "Parsed date object"
+msgstr ""
+
+#: eones.to_timestamp:1 of
+msgid "Convert a date to Unix timestamp."
+msgstr ""
+
+#: eones.to_timestamp:3 of
+msgid "Date object or datetime"
+msgstr ""
+
+#: eones.to_timestamp:5 of
+msgid "Unix timestamp"
+msgstr ""
+
+#: ../../source/eones.rst:10
+msgid "Subpackages"
+msgstr ""
+
+#: ../../source/eones.rst:20
+msgid "Submodules"
+msgstr ""
+
+#: ../../source/eones.rst:23
+msgid "eones.constants module"
+msgstr ""
+
+#: eones.constants:1 of
+msgid "contants.py"
+msgstr ""
+
+#: eones.constants.is_weekend_day:1 of
+msgid "Check if a given weekday is a weekend day."
+msgstr ""
+
+#: eones.constants.is_weekend_day:3 eones.constants.iso_to_us_weekday:3
+#: eones.constants.us_to_iso_weekday:6 of
+msgid "ISO weekday number (0=Monday, 6=Sunday)"
+msgstr ""
+
+#: eones.constants.is_weekend_day:5 of
+msgid "First day of week (0=Monday, 6=Sunday)"
+msgstr ""
+
+#: eones.constants.is_weekend_day:8 of
+msgid "True if the weekday is a weekend day"
+msgstr ""
+
+#: eones.constants.iso_to_us_weekday:1 of
+msgid "Convert ISO weekday (0=Monday) to US weekday (0=Sunday)."
+msgstr ""
+
+#: eones.constants.iso_to_us_weekday:6 eones.constants.us_to_iso_weekday:3 of
+msgid "US weekday number (0=Sunday, 6=Saturday)"
+msgstr ""
+
+#: eones.constants.us_to_iso_weekday:1 of
+msgid "Convert US weekday (0=Sunday) to ISO weekday (0=Monday)."
+msgstr ""
+
+#: ../../source/eones.rst:31
+msgid "eones.errors module"
+msgstr ""
+
+#: eones.errors:1 of
+msgid "errors.py"
+msgstr ""
+
+#: eones.errors.EonesError:1 of
+msgid "Base exception class for all Eones errors."
+msgstr ""
+
+#: eones.errors.InvalidDateError:1 of
+msgid "Raised when a provided date is invalid or cannot be parsed."
+msgstr ""
+
+#: eones.errors.UnsupportedInputError:1 of
+msgid "Raised when the input type is not supported by the parser."
+msgstr ""
+
+#: ../../source/eones.rst:39
+msgid "eones.formats module"
+msgstr ""
+
+#: eones.formats:1 of
+msgid "formats.py"
+msgstr ""
+
+#: eones.formats.is_valid_format:3 of
+msgid "The date string to validate."
+msgstr ""
+
+#: eones.formats.is_valid_format:4 of
+msgid "A list of accepted datetime format strings."
+msgstr ""
+
+#: eones.formats.is_valid_format:5 of
+msgid "True if the string matches at least one format."
+msgstr ""
+
+#: eones.formats.sanitize_formats:1 of
+msgid "Remove duplicates and ensure all formats are strings."
+msgstr ""
+
+#: eones.formats.sanitize_formats:3 of
+msgid "A list of format definitions."
+msgstr ""
+
+#: eones.formats.sanitize_formats:4 of
+msgid "Cleaned list with unique and valid format strings."
+msgstr ""
+
+#: ../../source/eones.rst:47
+msgid "eones.humanize module"
+msgstr ""
+
+#: eones.humanize:1 of
+msgid "Utility functions for human-friendly time differences."
+msgstr ""
+
+#: eones.humanize.diff_for_humans:1 of
+msgid "Return a human-friendly representation of the difference."
+msgstr ""
+
+#: eones.humanize.diff_for_humans:3 of
+msgid "Base date to describe."
+msgstr ""
+
+#: eones.humanize.diff_for_humans:4 of
+msgid ""
+"Date to compare against. Defaults to ``Date.now`` in the same timezone as"
+" ``date``."
+msgstr ""
+
+#: eones.humanize.diff_for_humans:6 of
+msgid "Language key for messages."
+msgstr ""
+
+#: ../../source/eones.rst:55
+msgid "eones.interface module"
+msgstr ""
+
+#: eones.interface:1 of
+msgid "interface.py"
+msgstr ""
+
+#~ msgid "Bases: :py:class:`object`"
+#~ msgstr ""
+
+#~ msgid "Bases: :py:class:`~eones.errors.EonesError`"
+#~ msgstr ""
+
+#~ msgid "Bases: :py:class:`Exception`"
+#~ msgstr ""
+

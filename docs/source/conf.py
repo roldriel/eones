@@ -14,6 +14,10 @@ extensions = [
     "myst_parser",
 ]
 
+# Internationalization
+locale_dirs = ["locale/"]  # path is example but original file: root is `docs/source`
+gettext_compact = False  # optional
+
 templates_path = ["_templates"]
 exclude_patterns: list[str] = []
 

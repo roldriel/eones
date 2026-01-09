@@ -1,0 +1,485 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Rodrigo Ezequiel Roldán
+# This file is distributed under the same license as the Eones package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Eones \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-09 20:45-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/readme.md ../../source/readme.md:1
+msgid "Eones"
+msgstr ""
+
+#: ../../source/readme.md:2
+msgid ""
+"![Python](https://img.shields.io/badge/Python-3.9+-yellow?style=for-the-"
+"badge&logo=python) ![PyPI](https://img.shields.io/pypi/v/eones?style=for-"
+"the-badge) "
+"![Pylint](https://img.shields.io/badge/pylint-10.00-green?style=for-the-"
+"badge) ![Coverage](https://img.shields.io/badge/Coverage-100%25-red?style"
+"=for-the-badge) ![Build](https://img.shields.io/badge/Build-manual-"
+"green?style=for-the-badge) ![Tox](https://img.shields.io/badge/Tested"
+"%20tox-yellowgreen?style=for-the-badge)"
+msgstr ""
+
+#: ../../source/readme.md:2
+msgid "Python"
+msgstr ""
+
+#: ../../source/readme.md:2
+msgid "PyPI"
+msgstr ""
+
+#: ../../source/readme.md:2
+msgid "Pylint"
+msgstr ""
+
+#: ../../source/readme.md:2
+msgid "Coverage"
+msgstr ""
+
+#: ../../source/readme.md:2
+msgid "Build"
+msgstr ""
+
+#: ../../source/readme.md:2
+msgid "Tox"
+msgstr ""
+
+#: ../../source/readme.md:11
+msgid ""
+"Compatible with Python 3.9+ · No external dependencies · Portable and "
+"lightweight"
+msgstr ""
+
+#: ../../source/readme.md:15
+msgid "✨ What is Eones?"
+msgstr ""
+
+#: ../../source/readme.md:17
+msgid ""
+"Eones is a minimalist, dependency-free library for expressive, clear, and"
+" powerful date/time manipulation. Inspired by natural language semantics,"
+" it allows you to manipulate, compare, and transform dates as if they "
+"were living entities."
+msgstr ""
+
+#: ../../source/readme.md:19
+msgid ""
+"*\"That is not dead which can eternal lie, and with strange aeons even "
+"death may die.\"*   — *Abdul Alhazred*, Necronomicon"
+msgstr ""
+
+#: ../../source/readme.md:22
+msgid "Philosophy"
+msgstr ""
+
+#: ../../source/readme.md:24
+msgid "**Eones is not a datetime replacement. It's a temporal reasoning layer.**"
+msgstr ""
+
+#: ../../source/readme.md:26
+msgid ""
+"Eones exists to fill the gap between Python's low-level `datetime` and "
+"the need for semantic, calendar-aware date manipulation:"
+msgstr ""
+
+#: ../../source/readme.md:28
+msgid "Using **only the standard library** (Python 3.9+)"
+msgstr ""
+
+#: ../../source/readme.md:29
+msgid "Providing a **semantically rich and consistent API**"
+msgstr ""
+
+#: ../../source/readme.md:30
+msgid "Supporting modern timezone-aware design with `zoneinfo`"
+msgstr ""
+
+#: ../../source/readme.md:31
+msgid ""
+"Maintaining **modular and composable** architecture through clear "
+"separation of responsibilities (`Date`, `Delta`, `Range`)"
+msgstr ""
+
+#: ../../source/readme.md:33
+msgid "**Eones is for:**"
+msgstr ""
+
+#: ../../source/readme.md:34
+msgid ""
+"Developers who want to reason about time semantically, not just "
+"manipulate timestamps"
+msgstr ""
+
+#: ../../source/readme.md:35
+msgid "Teams that want **zero external dependencies** for maximum portability"
+msgstr ""
+
+#: ../../source/readme.md:36
+msgid ""
+"Projects where **timezones, truncation, deltas and ranges** are central "
+"domain logic"
+msgstr ""
+
+#: ../../source/readme.md:40
+msgid "📦 Installation"
+msgstr ""
+
+#: ../../source/readme.md:46
+msgid ""
+"If you're working with timezones on Windows or containers:   ⚠️ Also "
+"install `tzdata`:"
+msgstr ""
+
+#: ../../source/readme.md:54
+msgid "🧪 Basic Example"
+msgstr ""
+
+#: ../../source/readme.md:69
+msgid "🔍 Key Features"
+msgstr ""
+
+#: ../../source/readme.md:71
+msgid "✅ **Zero external dependencies**: Pure Python (Python 3.9+)"
+msgstr ""
+
+#: ../../source/readme.md:72
+msgid "✅ **Intuitive interface**: Simple, semantically rich and easy-to-use API"
+msgstr ""
+
+#: ../../source/readme.md:73
+msgid ""
+"✅ **Modern timezone support**: Robust handling with `zoneinfo` (not "
+"`pytz`)"
+msgstr ""
+
+#: ../../source/readme.md:74
+msgid ""
+"✅ **Flexible parsing**: Accepts multiple date formats automatically, "
+"including ISO 8601 with timezone offsets"
+msgstr ""
+
+#: ../../source/readme.md:75
+msgid ""
+"✅ **Advanced temporal operations**: Deltas, ranges and semantic "
+"comparisons"
+msgstr ""
+
+#: ../../source/readme.md:76
+msgid ""
+"✅ **Modular architecture**: Clear separation between `Date`, `Delta`, "
+"`Range` and utilities"
+msgstr ""
+
+#: ../../source/readme.md:77
+msgid "✅ **Localization**: Support for multiple languages"
+msgstr ""
+
+#: ../../source/readme.md:78
+msgid "✅ **Humanization**: Converts time differences to readable text"
+msgstr ""
+
+#: ../../source/readme.md:79
+msgid "✅ **Complete type hinting**: Fully typed following PEP 561"
+msgstr ""
+
+#: ../../source/readme.md:80
+msgid "✅ **Interoperability**: Compatible with Python's standard `datetime`"
+msgstr ""
+
+#: ../../source/readme.md:82
+msgid "Localization & Error Handling"
+msgstr ""
+
+#: ../../source/readme.md:84
+msgid ""
+"You can add more languages by creating a new file in `eones/locales/` "
+"with the translations for your locale. For example, `fr.py` for French."
+msgstr ""
+
+#: ../../source/readme.md:87
+msgid ""
+"Eones surfaces clear exceptions derived from `EonesError`. Invalid "
+"timezones raise `InvalidTimezoneError`, while unparsable strings raise "
+"`InvalidFormatError`."
+msgstr ""
+
+#: ../../source/readme.md:93
+msgid "🧾 Comparison with other libraries"
+msgstr ""
+
+#: ../../source/readme.md:95
+msgid "Why not Pendulum or Arrow?"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "Feature"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "Pendulum"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "Arrow"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "Delorean"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "dateutil"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "pytz"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "Modern timezone support"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "✅ (`zoneinfo`)"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "❌ (`pytz`)"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "✅"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "⚠️"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "External dependencies"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "✅ None"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "❌ Yes"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "Semantically rich API"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "✅ Rich"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "✅ Medium"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "❌"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "Modular/facade architecture"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "✅ Yes"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "❌ No"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "Complete type hinting & PEP 561"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "❌ Limited"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "**High Performance (~1M ops/sec)**"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "**✅ Yes**"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "**Memory Optimized (`__slots__`)**"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "Zero-dep Localization (No Babel)"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "Dedicated Range/Period API"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "⚠️ Basic"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "Date arithmetic (add/subtract)"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "Flexible parsing (string, dict, dt)"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "Coverage tested ≥ 97%"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "❓"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "Can replace native `datetime` directly"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "Permissive license (MIT / BSD)"
+msgstr ""
+
+#: ../../source/readme.md
+msgid "Actively maintained"
+msgstr ""
+
+#: ../../source/readme.md:115
+msgid ""
+"**See the numbers yourself:** For detailed performance metrics (Speed, "
+"Memory, Profiling), check out our **[Benchmark "
+"Suite](benchmarks/README.md)**."
+msgstr ""
+
+#: ../../source/readme.md:119
+msgid "📚 Documentation & Examples"
+msgstr ""
+
+#: ../../source/readme.md:121
+msgid "Comprehensive examples and documentation are available:"
+msgstr ""
+
+#: ../../source/readme.md:123
+msgid "📖 Core Examples"
+msgstr ""
+
+#: ../../source/readme.md:124
+msgid ""
+"**[Basic "
+"Usage](https://github.com/roldriel/eones/blob/master/examples/basic_usage.md)**"
+" - Library import, date creation, formatting, basic operations"
+msgstr ""
+
+#: ../../source/readme.md:125
+msgid ""
+"**[Advanced "
+"Usage](https://github.com/roldriel/eones/blob/master/examples/advanced_usage.md)**"
+" - Truncation, rounding, period ranges, comparisons"
+msgstr ""
+
+#: ../../source/readme.md:126
+msgid ""
+"**[Complete "
+"Deltas](https://github.com/roldriel/eones/blob/master/examples/complete_deltas.md)**"
+" - Dual delta architecture, calendar vs duration intervals"
+msgstr ""
+
+#: ../../source/readme.md:127
+msgid ""
+"**[Use "
+"Cases](https://github.com/roldriel/eones/blob/master/examples/use_cases.md)**"
+" - Real-world examples: age calculation, billing cycles, reports"
+msgstr ""
+
+#: ../../source/readme.md:128
+msgid ""
+"**[Error "
+"Handling](https://github.com/roldriel/eones/blob/master/examples/error_handling.md)**"
+" - Exception hierarchy, safe date creation, validation"
+msgstr ""
+
+#: ../../source/readme.md:129
+msgid ""
+"**[Formatting & "
+"Serialization](https://github.com/roldriel/eones/blob/master/examples/formatting_serialization.md)**"
+" - ISO 8601, JSON export/import, API integration"
+msgstr ""
+
+#: ../../source/readme.md:130
+msgid ""
+"**[Week "
+"Configuration](https://github.com/roldriel/eones/blob/master/examples/week_configuration.md)**"
+" - First day of week configuration, ISO vs US standards, weekend "
+"detection"
+msgstr ""
+
+#: ../../source/readme.md:132
+msgid "🔗 Integration Examples"
+msgstr ""
+
+#: ../../source/readme.md:133
+msgid "**Django**: Custom model fields"
+msgstr ""
+
+#: ../../source/readme.md:134
+msgid "**SQLAlchemy**: Specialized column types"
+msgstr ""
+
+#: ../../source/readme.md:135
+msgid "**REST APIs**: Serialization utilities"
+msgstr ""
+
+#: ../../source/readme.md:139
+msgid "🔧 Tests & Coverage"
+msgstr ""
+
+#: ../../source/readme.md:151
+msgid "📖 Requirements"
+msgstr ""
+
+#: ../../source/readme.md:153
+msgid "Python 3.9 or higher"
+msgstr ""
+
+#: ../../source/readme.md:154
+msgid ""
+"(Optional) `tzdata` if using timezones in systems without a local "
+"zoneinfo database"
+msgstr ""
+
+#: ../../source/readme.md:158
+msgid "📝 License"
+msgstr ""
+
+#: ../../source/readme.md:160
+msgid ""
+"MIT © 2025 — Rodrigo Ezequiel Roldán   [View full "
+"license](https://github.com/roldriel/eones/blob/master/LICENSE.md)"
+msgstr ""
+

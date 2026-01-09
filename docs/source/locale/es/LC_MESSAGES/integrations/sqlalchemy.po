@@ -1,0 +1,42 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Rodrigo Ezequiel Roldán
+# This file is distributed under the same license as the Eones package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Eones \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-09 08:15-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/integrations/sqlalchemy.md:1
+msgid "SQLAlchemy Integration"
+msgstr ""
+
+#: ../../source/integrations/sqlalchemy.md:3
+msgid ""
+"You can persist `Eones` or `Date` objects transparently using "
+"SQLAlchemy's `TypeDecorator`."
+msgstr ""
+
+#: ../../source/integrations/sqlalchemy.md:5
+msgid "Custom Column Type"
+msgstr ""
+
+#: ../../source/integrations/sqlalchemy.md:7
+msgid ""
+"Here is a recipe for a generic `EonesDateTime` column that stores data as"
+" UTC `DateTime` in the database but exposes `Date` (from Eones) in your "
+"models."
+msgstr ""
+

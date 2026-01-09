@@ -1,0 +1,139 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Rodrigo Ezequiel Roldán
+# This file is distributed under the same license as the Eones package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Eones \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-09 08:15-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/examples/error_handling.md:1
+msgid "Error Handling in Eones"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:3
+msgid ""
+"Eones defines a robust system of specific exceptions for different types "
+"of errors, all inheriting from a common base class `EonesError`."
+msgstr ""
+
+#: ../../source/examples/error_handling.md:5
+msgid "Exception Hierarchy"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:16
+msgid "`EonesError` - Base Exception"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:18
+msgid "All custom Eones exceptions inherit from this base class:"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:25
+msgid "This allows catching any Eones-specific error:"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:34
+msgid "`InvalidTimezoneError`"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:36
+msgid "Raised when an unrecognized timezone is provided:"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:47
+msgid "`InvalidDateFormatError`"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:49
+msgid "Raised when the date string cannot be parsed correctly:"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:60
+msgid "`InvalidDurationFormatError`"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:62
+msgid "Raised when an ISO 8601 duration string is invalid:"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:75
+msgid "Robust Error Handling"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:77
+msgid "Safe Creation Function"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:100
+msgid "Multiple Format Handling"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:129
+msgid "User Input Validation"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:166
+msgid "Error Logging"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:193
+msgid "Exception Usage Contexts"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:195
+msgid "These exceptions are used internally in:"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:196
+msgid "**`parser.py`**: When parsing invalid dates or durations"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:197
+msgid "**`Date` and `Delta`**: When initializing objects with incorrect data"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:198
+msgid "**`interface.py`**: When validating user inputs"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:199
+msgid "**Conversion methods**: When converting between formats"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:201
+msgid "Best Practices"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:203
+msgid "**Always catch specific exceptions** before the base exception"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:204
+msgid "**Provide helpful error messages** to the user"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:205
+msgid "**Implement sensible fallbacks** when possible"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:206
+msgid "**Log errors** for debugging and monitoring"
+msgstr ""
+
+#: ../../source/examples/error_handling.md:207
+msgid "**Validate inputs** before processing when critical"
+msgstr ""
+

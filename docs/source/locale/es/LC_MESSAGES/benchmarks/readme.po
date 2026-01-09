@@ -1,0 +1,492 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Rodrigo Ezequiel Roldán
+# This file is distributed under the same license as the Eones package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Eones \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-09 20:45-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/benchmarks/readme.md:1
+msgid "Eones Benchmark Suite"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:3
+msgid ""
+"This directory contains a comprehensive set of tools to evaluate the "
+"performance, memory usage, and behavior of `Eones`."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:5
+msgid "Directory Structure"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:7
+msgid "In a professional environment, benchmarks are organized by purpose:"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:9
+msgid "**Comparison (`comparison.py`):**"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:10
+msgid ""
+"**Purpose:** Evaluate `Eones` against competitors (`datetime`, "
+"`pendulum`, `arrow`, `dateutil`)."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:11
+msgid "**Use:** Marketing, competitive validation."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:12
+msgid "**Execute:** `python comparison.py`"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:14
+msgid "**Micro-benchmarks (`microbenchmarks.py`):**"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:15
+msgid ""
+"**Purpose:** Measure the performance of specific methods (instantiation, "
+"arithmetic, formatting) in isolation."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:16
+msgid "**Use:** Regression detection during development."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:17
+msgid "**Execute:** `python microbenchmarks.py`"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:19
+msgid "**Profiling (`profiling.py`):**"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:20
+msgid "**Purpose:** Deep analysis of where CPU time is spent (call stacks)."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:21
+msgid "**Use:** Bottleneck optimization."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:22
+msgid "**Execute:** `python profiling.py`"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:24
+msgid "**Memory (`memory.py`):**"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:25
+msgid "**Purpose:** Measure the memory footprint (bytes) of objects."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:26
+msgid "**Use:** Verify the effectiveness of `__slots__`."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:27
+msgid "**Execute:** `python memory.py` (Requires `pympler`)"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:29
+msgid "Requirements"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:31
+msgid "Install necessary dependencies:"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:37
+msgid "Key Results (v1.3.x)"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:39
+msgid "Overall Speed (Comparison)"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:41
+msgid ""
+"This benchmark measures the speed of **parsing an ISO-8601 date** "
+"(`\"2025-01-01\"`), one of the most frequent and costly operations."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:42
+msgid "**Metric:** Operations per second (Ops/sec). Higher is better."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:43
+msgid ""
+"**Context:** `datetime` (Native) is the gold standard (written in C). "
+"`Eones` aims to get as close as possible to this theoretical limit, "
+"significantly outperforming other high-level libraries."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "Library"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "Ops/sec"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "Relative"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "**Native (datetime)**"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "2,040,000"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "11.0x"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "**Eones**"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "**975,000**"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "**5.2x**"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "Pendulum"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "186,000"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "1.0x (Base)"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "dateutil"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "52,000"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "0.28x"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "Delorean"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "43,000"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "0.23x"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "Arrow"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "39,000"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "0.21x"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:54
+msgid ""
+"*Note: Eones is approximately 5 times faster than Pendulum in standard "
+"parsing operations.*"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:56
+msgid "Memory Usage"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:58
+msgid ""
+"This table shows the **RAM memory footprint** of a single instance. "
+"Python has significant per-object overhead; `Eones` minimizes this using "
+"`__slots__` and sharing heavy components."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:60
+msgid ""
+"**Eones (Scaled):** The actual per-object cost when you have many "
+"instances (e.g., 100k dates in a list). `Eones` shares the parser engine "
+"(`Parser`) across all instances, drastically reducing total consumption."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:61
+msgid ""
+"**Eones (Isolated):** The cost of creating a *single* isolated date. "
+"Includes the weight of the `Parser` that is initialized for the first "
+"time."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "Object"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "Size (Bytes)"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "Notes"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "48"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "Python standard (C structure)"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "**Eones (Scaled)**"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "**152**"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "**Real average cost (Shared State)**"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "**Eones (Isolated)**"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "368"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "First instance (Init Parser)"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "384"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "datetime subclass (+ overhead)"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "432"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "Heavy wrapper"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "840"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "Very heavy wrapper"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:74
+msgid "Micro-Operations"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:76
+msgid "Detailed breakdown of specific actions to identify internal bottlenecks."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:78
+msgid "Construction"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:79
+msgid "Time it takes to create an object from scratch."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "Time (s)"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "0.0552"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "1,811,693"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "0.0457"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "1,094,300"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "0.2542"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "196,719"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "1.0529"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "47,489"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "1.1076"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "45,144"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "1.2184"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "41,036"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:90
+msgid "Arithmetic (+1 Day)"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:91
+msgid ""
+"Time it takes to add a `timedelta` (e.g., `+ 1 day`). Here `Eones` is "
+"slower than native due to immutability and extra validations, but remains"
+" performant."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "0.0447"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "1,118,000"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "Eones"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "0.4044"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "123,640"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "0.5406"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "92,485"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "1.9439"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "25,721"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "2.1013"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md
+msgid "23,795"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:103
+msgid "Profiling of Eones"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:105
+msgid ""
+"This section analyzes **Eones exclusively** to identify which parts of "
+"our internal code consume the most CPU."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:107
+msgid "**Legend:**"
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:108
+msgid ""
+"**filename:lineno(function):** Source code file of `Eones` where the "
+"operation occurs."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:109
+msgid "`interface.py`: Public layer of the library."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:110
+msgid "`date.py`: Core logic (Date)."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:111
+msgid "**ncalls:** Number of times the function was called."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:112
+msgid ""
+"**tottime:** Total time spent INSIDE that function (excluding calls to "
+"other functions)."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:113
+msgid "**percall:** Average time per call."
+msgstr ""
+
+#: ../../source/benchmarks/readme.md:115
+msgid "**Results (100k object instantiation):**"
+msgstr ""
+

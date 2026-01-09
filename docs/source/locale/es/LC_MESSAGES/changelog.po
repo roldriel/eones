@@ -1,0 +1,404 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Rodrigo Ezequiel Roldán
+# This file is distributed under the same license as the Eones package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Eones \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-09 08:15-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/changelog.md:1
+msgid "Changelog"
+msgstr ""
+
+#: ../../source/changelog.md:3
+msgid "All notable changes to this project will be documented in this file."
+msgstr ""
+
+#: ../../source/changelog.md:5
+msgid ""
+"The format is based on [Keep a "
+"Changelog](https://keepachangelog.com/en/1.0.0/), and this project "
+"adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)."
+msgstr ""
+
+#: ../../source/changelog.md:8
+msgid "[Unreleased]"
+msgstr ""
+
+#: ../../source/changelog.md:9
+msgid "Changes since v1.3.6"
+msgstr ""
+
+#: ../../source/changelog.md:11
+msgid "[1.3.6] - 2025-01-19"
+msgstr ""
+
+#: ../../source/changelog.md:13 ../../source/changelog.md:24
+#: ../../source/changelog.md:34 ../../source/changelog.md:48
+#: ../../source/changelog.md:65 ../../source/changelog.md:121
+msgid "Fixed"
+msgstr ""
+
+#: ../../source/changelog.md:14
+msgid ""
+"Resolved context access warnings in GitHub Actions workflows "
+"([13069b4](https://github.com/roldriel/eones/commit/13069b4))"
+msgstr ""
+
+#: ../../source/changelog.md:15
+msgid "Fixed nested quotes syntax error in release workflow commit message"
+msgstr ""
+
+#: ../../source/changelog.md:16
+msgid "Added conditional checks for job outputs to prevent invalid context access"
+msgstr ""
+
+#: ../../source/changelog.md:18 ../../source/changelog.md:28
+#: ../../source/changelog.md:37 ../../source/changelog.md:43
+#: ../../source/changelog.md:53 ../../source/changelog.md:68
+#: ../../source/changelog.md:99 ../../source/changelog.md:117
+msgid "Changed"
+msgstr ""
+
+#: ../../source/changelog.md:19
+msgid "Updated version to 1.3.6 across all project files"
+msgstr ""
+
+#: ../../source/changelog.md:20
+msgid ""
+"Improved workflow robustness with fallback values for tag and version "
+"outputs"
+msgstr ""
+
+#: ../../source/changelog.md:22
+msgid "[1.3.5] - 2025-01-17"
+msgstr ""
+
+#: ../../source/changelog.md:25
+msgid "Updated example links to full GitHub URLs for PyPI compatibility"
+msgstr ""
+
+#: ../../source/changelog.md:26
+msgid "Fixed broken relative links in README files when displayed on PyPI"
+msgstr ""
+
+#: ../../source/changelog.md:29
+msgid ""
+"Updated version to 1.3.5 across all project files "
+"([0a2a63e](https://github.com/roldriel/eones/commit/0a2a63e))"
+msgstr ""
+
+#: ../../source/changelog.md:30
+msgid "Improved documentation accessibility on PyPI"
+msgstr ""
+
+#: ../../source/changelog.md:32
+msgid "[1.3.3] - 2025-08-26"
+msgstr ""
+
+#: ../../source/changelog.md:35
+msgid ""
+"Correct import formatting errors detected by isort "
+"([19752e6](https://github.com/roldriel/eones/commit/19752e6))"
+msgstr ""
+
+#: ../../source/changelog.md:38
+msgid "Updated version to 1.3.3"
+msgstr ""
+
+#: ../../source/changelog.md:39
+msgid "Improved code quality and formatting consistency"
+msgstr ""
+
+#: ../../source/changelog.md:41
+msgid "[1.3.2] - 2025-08-25"
+msgstr ""
+
+#: ../../source/changelog.md:44
+msgid ""
+"Version bump for development "
+"([652c2ac](https://github.com/roldriel/eones/commit/652c2ac))"
+msgstr ""
+
+#: ../../source/changelog.md:46
+msgid "[1.3.1] - 2025-08-25"
+msgstr ""
+
+#: ../../source/changelog.md:49
+msgid "Add missing is_valid_format static method to Eones class"
+msgstr ""
+
+#: ../../source/changelog.md:50
+msgid "Fix import-outside-toplevel pylint warning"
+msgstr ""
+
+#: ../../source/changelog.md:51
+msgid "Fix docstring syntax error"
+msgstr ""
+
+#: ../../source/changelog.md:54
+msgid "Update git-cliff-action from v2 to v3 for better stability"
+msgstr ""
+
+#: ../../source/changelog.md:55
+msgid "Add OUTPUT environment variable to release workflow"
+msgstr ""
+
+#: ../../source/changelog.md:56
+msgid ""
+"Version bump to 1.3.1 "
+"([288752f](https://github.com/roldriel/eones/commit/288752f))"
+msgstr ""
+
+#: ../../source/changelog.md:58
+msgid "[1.3.0] - 2025-08-25"
+msgstr ""
+
+#: ../../source/changelog.md:60 ../../source/changelog.md:93
+#: ../../source/changelog.md:111 ../../source/changelog.md:131
+msgid "Added"
+msgstr ""
+
+#: ../../source/changelog.md:61
+msgid ""
+"New range utilities "
+"([25d1d79](https://github.com/roldriel/eones/commit/25d1d79))"
+msgstr ""
+
+#: ../../source/changelog.md:62
+msgid ""
+"Delta utility properties and constructors "
+"([c8dffd9](https://github.com/roldriel/eones/commit/c8dffd9))"
+msgstr ""
+
+#: ../../source/changelog.md:63
+msgid ""
+"Support for delta in `__add__` and `__sub__` operations "
+"([6252687](https://github.com/roldriel/eones/commit/6252687))"
+msgstr ""
+
+#: ../../source/changelog.md:66
+msgid ""
+"Removed duplicate function "
+"([77cddba](https://github.com/roldriel/eones/commit/77cddba))"
+msgstr ""
+
+#: ../../source/changelog.md:69
+msgid ""
+"Updated documentation and added new examples "
+"([e41ffcc](https://github.com/roldriel/eones/commit/e41ffcc))"
+msgstr ""
+
+#: ../../source/changelog.md:70
+msgid ""
+"Updated main README and Spanish README "
+"([bc12e9a](https://github.com/roldriel/eones/commit/bc12e9a))"
+msgstr ""
+
+#: ../../source/changelog.md:71
+msgid ""
+"Refactored examples and added Spanish language examples "
+"([1325dad](https://github.com/roldriel/eones/commit/1325dad))"
+msgstr ""
+
+#: ../../source/changelog.md:72
+msgid ""
+"Updated tests with isort and black formatting "
+"([3f1d623](https://github.com/roldriel/eones/commit/3f1d623))"
+msgstr ""
+
+#: ../../source/changelog.md:73
+msgid ""
+"Minor performance improvements in modules "
+"([4c4058e](https://github.com/roldriel/eones/commit/4c4058e))"
+msgstr ""
+
+#: ../../source/changelog.md:74
+msgid ""
+"Updated Python configuration versions "
+"([b6f5465](https://github.com/roldriel/eones/commit/b6f5465))"
+msgstr ""
+
+#: ../../source/changelog.md:75
+msgid ""
+"Updated workflow configurations "
+"([9f9b94c](https://github.com/roldriel/eones/commit/9f9b94c))"
+msgstr ""
+
+#: ../../source/changelog.md:77
+msgid "Removed"
+msgstr ""
+
+#: ../../source/changelog.md:78
+msgid ""
+"Removed old tests and updated config.py, README.es "
+"([7d7c101](https://github.com/roldriel/eones/commit/7d7c101))"
+msgstr ""
+
+#: ../../source/changelog.md:80 ../../source/changelog.md:104
+msgid "Documentation"
+msgstr ""
+
+#: ../../source/changelog.md:81
+msgid ""
+"Added AGENTS.md and updated README.es.md "
+"([5a5c2de](https://github.com/roldriel/eones/commit/5a5c2de))"
+msgstr ""
+
+#: ../../source/changelog.md:82
+msgid ""
+"Documented new error classes "
+"([b118cab](https://github.com/roldriel/eones/commit/b118cab))"
+msgstr ""
+
+#: ../../source/changelog.md:84
+msgid "Tests"
+msgstr ""
+
+#: ../../source/changelog.md:85
+msgid ""
+"Added unit tests and integration tests "
+"([e932f5f](https://github.com/roldriel/eones/commit/e932f5f))"
+msgstr ""
+
+#: ../../source/changelog.md:86
+msgid ""
+"Added edge case testing "
+"([789856b](https://github.com/roldriel/eones/commit/789856b))"
+msgstr ""
+
+#: ../../source/changelog.md:91
+msgid "[1.2.0] - 2025-06-25"
+msgstr ""
+
+#: ../../source/changelog.md:94
+msgid "Locale-aware `diff_for_humans` via the new `humanize` module"
+msgstr ""
+
+#: ../../source/changelog.md:95
+msgid "`eones/locales/` package for language messages"
+msgstr ""
+
+#: ../../source/changelog.md:96
+msgid ""
+"Comparison helpers: `Date.is_same_day`, `Date.is_before`, `Date.is_after`"
+" and `Date.days_until`"
+msgstr ""
+
+#: ../../source/changelog.md:97
+msgid "`Date.as_local` property for local timezone conversion"
+msgstr ""
+
+#: ../../source/changelog.md:100
+msgid "Exposed `diff_for_humans` on `Date` and `Eones` classes"
+msgstr ""
+
+#: ../../source/changelog.md:101
+msgid "Renamed timezone conversion method to `as_zone`"
+msgstr ""
+
+#: ../../source/changelog.md:102
+msgid "Integration tests now skip if Django or SQLAlchemy are not installed"
+msgstr ""
+
+#: ../../source/changelog.md:105
+msgid "Documented language extensibility and added comprehensive tests"
+msgstr ""
+
+#: ../../source/changelog.md:109
+msgid "[1.1.0] - 2025-06-13"
+msgstr ""
+
+#: ../../source/changelog.md:112
+msgid "Docstrings to all methods and classes in source code and tests"
+msgstr ""
+
+#: ../../source/changelog.md:113
+msgid "Comprehensive tests for all methods and classes"
+msgstr ""
+
+#: ../../source/changelog.md:114
+msgid "Methods for handling ranges and periods"
+msgstr ""
+
+#: ../../source/changelog.md:115
+msgid "Test coverage reaching 99%"
+msgstr ""
+
+#: ../../source/changelog.md:118
+msgid "Updated `pyproject.toml` to version 1.1.0"
+msgstr ""
+
+#: ../../source/changelog.md:119
+msgid "Updated `README.md` to version 1.1.0"
+msgstr ""
+
+#: ../../source/changelog.md:122
+msgid "Bugs in comparison methods"
+msgstr ""
+
+#: ../../source/changelog.md:124
+msgid "Known Issues"
+msgstr ""
+
+#: ../../source/changelog.md:125
+msgid "Some bugs identified for future fixes"
+msgstr ""
+
+#: ../../source/changelog.md:129
+msgid "[1.0.0] - 2025-05-19"
+msgstr ""
+
+#: ../../source/changelog.md:132
+msgid "First stable release of the `eones` library"
+msgstr ""
+
+#: ../../source/changelog.md:133
+msgid "Unified parser for `str`, `dict`, and `datetime` objects"
+msgstr ""
+
+#: ../../source/changelog.md:134
+msgid "Timezone support using `ZoneInfo`"
+msgstr ""
+
+#: ../../source/changelog.md:135
+msgid "Truncation, aggregation, comparison, and range methods"
+msgstr ""
+
+#: ../../source/changelog.md:136
+msgid "Optional integrations for Django, SQLAlchemy, and serializers"
+msgstr ""
+
+#: ../../source/changelog.md:137
+msgid "Centralized interface using the `Eones` class"
+msgstr ""
+
+#: ../../source/changelog.md:139
+msgid "Project Goals"
+msgstr ""
+
+#: ../../source/changelog.md:140
+msgid "Minimalist design philosophy"
+msgstr ""
+
+#: ../../source/changelog.md:141
+msgid "Cross-platform compatibility"
+msgstr ""
+
+#: ../../source/changelog.md:142
+msgid "100% based on Python's standard library"
+msgstr ""
+

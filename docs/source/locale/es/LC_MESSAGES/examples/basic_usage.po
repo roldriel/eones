@@ -1,0 +1,81 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Rodrigo Ezequiel Roldán
+# This file is distributed under the same license as the Eones package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Eones \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-09 08:15-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/examples/basic_usage.md:1
+msgid "Basic Usage of Eones"
+msgstr ""
+
+#: ../../source/examples/basic_usage.md:3
+msgid "This file contains basic examples to get started with the Eones library."
+msgstr ""
+
+#: ../../source/examples/basic_usage.md:5
+msgid "Import"
+msgstr ""
+
+#: ../../source/examples/basic_usage.md:11
+msgid "Creating Dates"
+msgstr ""
+
+#: ../../source/examples/basic_usage.md:13
+msgid "Different ways to create dates"
+msgstr ""
+
+#: ../../source/examples/basic_usage.md:43
+msgid "Date Formatting"
+msgstr ""
+
+#: ../../source/examples/basic_usage.md:45
+msgid "Different output formats"
+msgstr ""
+
+#: ../../source/examples/basic_usage.md:57
+msgid "Adding and Subtracting Time"
+msgstr ""
+
+#: ../../source/examples/basic_usage.md:59
+msgid "Adding time to a date"
+msgstr ""
+
+#: ../../source/examples/basic_usage.md:73
+msgid "Differences Between Dates"
+msgstr ""
+
+#: ../../source/examples/basic_usage.md:75
+msgid "Calculate differences"
+msgstr ""
+
+#: ../../source/examples/basic_usage.md:94
+msgid "Custom Parsing"
+msgstr ""
+
+#: ../../source/examples/basic_usage.md:96
+msgid "Using custom formats"
+msgstr ""
+
+#: ../../source/examples/basic_usage.md:107
+msgid "Localization"
+msgstr ""
+
+#: ../../source/examples/basic_usage.md:109
+msgid "Support for multiple languages"
+msgstr ""
+

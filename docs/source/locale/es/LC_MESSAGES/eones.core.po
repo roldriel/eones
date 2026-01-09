@@ -1,0 +1,1021 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Rodrigo Ezequiel Roldán
+# This file is distributed under the same license as the Eones package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Eones \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-09 20:45-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/eones.core.rst:2
+msgid "eones.core package"
+msgstr ""
+
+#: eones.core:1 of
+msgid "core.__init__.py"
+msgstr ""
+
+#: ../../source/eones.core.rst:10
+msgid "Submodules"
+msgstr ""
+
+#: ../../source/eones.core.rst:13
+msgid "eones.core.date module"
+msgstr ""
+
+#: eones.core.date:1 of
+msgid "core.date.py"
+msgstr ""
+
+#: eones.core.date.Date:1 of
+msgid "Time manipulation wrapper for timezone-aware datetime operations."
+msgstr ""
+
+#: eones.core.date.Date.as_local:1 of
+msgid "Return the datetime converted to the system's local timezone."
+msgstr ""
+
+#: eones.core.date.Date.as_utc:1 of
+msgid "Convert to UTC timezone."
+msgstr ""
+
+#: ../../source/eones.core.rst
+msgid "Returns"
+msgstr ""
+
+#: eones.core.date.Date.as_utc:3 of
+msgid "Datetime in UTC."
+msgstr ""
+
+#: ../../source/eones.core.rst
+msgid "Return type"
+msgstr ""
+
+#: eones.core.date.Date.as_zone:1 of
+msgid "Convert to a specific timezone."
+msgstr ""
+
+#: ../../source/eones.core.rst
+msgid "Parameters"
+msgstr ""
+
+#: eones.core.date.Date.as_zone:3 of
+msgid "Target timezone name."
+msgstr ""
+
+#: eones.core.date.Date.as_zone:6 of
+msgid "Datetime in the new timezone."
+msgstr ""
+
+#: eones.core.date.Date.ceil:1 of
+msgid "Returns a new Date advanced to the end of the given unit."
+msgstr ""
+
+#: eones.core.date.Date.day:1 of
+msgid "Day component of the date."
+msgstr ""
+
+#: eones.core.date.Date.days_until:1 of
+msgid "Return the number of days until ``other``."
+msgstr ""
+
+#: eones.core.date.Date.days_until:3 of
+msgid "Positive if ``other`` is later; negative if earlier."
+msgstr ""
+
+#: eones.core.date.Date.diff:1 of
+msgid "Return the absolute difference in the specified unit."
+msgstr ""
+
+#: eones.core.date.Date.diff_for_humans:1 of
+msgid "Return a human-readable difference between two dates."
+msgstr ""
+
+#: eones.core.date.Date.end_of:1 of
+msgid "Returns the datetime aligned to the end of the given unit."
+msgstr ""
+
+#: eones.core.date.Date.end_of:3 eones.core.date.Date.start_of:3 of
+msgid "Temporal unit."
+msgstr ""
+
+#: eones.core.date.Date.end_of:6 eones.core.date.Date.start_of:6 of
+msgid "Aligned datetime."
+msgstr ""
+
+#: eones.core.date.Date.end_of_day:1 of
+msgid "Return a new Date instance representing the end of the current day."
+msgstr ""
+
+#: eones.core.date.Date.end_of_month:1 of
+msgid ""
+"Return a new Date instance representing the last moment of the current "
+"month (23:59:59.999999 UTC)."
+msgstr ""
+
+#: eones.core.date.Date.end_of_year:1 of
+msgid "Return a Date for the last moment of the current year."
+msgstr ""
+
+#: eones.core.date.Date.floor:1 of
+msgid "Return a new Date aligned to the start of the given unit."
+msgstr ""
+
+#: eones.core.date.Date.format:1 of
+msgid "Return formatted datetime as a string."
+msgstr ""
+
+#: eones.core.date.Date.from_iso:1 of
+msgid "Create a Date from an ISO 8601 string."
+msgstr ""
+
+#: eones.core.date.Date.from_timezone_aware_datetime:1 of
+msgid "Create a Date from a timezone-aware datetime, preserving the timezone."
+msgstr ""
+
+#: eones.core.date.Date.from_timezone_aware_datetime:3 of
+msgid ""
+"This is an internal method to handle timezone-aware datetimes without "
+"accessing protected members directly."
+msgstr ""
+
+#: eones.core.date.Date.from_timezone_aware_datetime:6 of
+msgid "A timezone-aware datetime object"
+msgstr ""
+
+#: eones.core.date.Date.from_timezone_aware_datetime:8 of
+msgid "A Date instance preserving the original timezone"
+msgstr ""
+
+#: eones.core.date.Date.from_unix:1 of
+msgid "Create a Date from a Unix timestamp."
+msgstr ""
+
+#: eones.core.date.Date.from_unix:3 of
+msgid "Seconds since epoch."
+msgstr ""
+
+#: eones.core.date.Date.from_unix:5 of
+msgid "Timezone. Defaults to \"UTC\"."
+msgstr ""
+
+#: eones.core.date.Date.from_unix:8 of
+msgid "Parsed Date."
+msgstr ""
+
+#: eones.core.date.Date.hour:1 of
+msgid "Hour component of the date."
+msgstr ""
+
+#: eones.core.date.Date.is_after:1 of
+msgid "Return True if the current date is after ``other``."
+msgstr ""
+
+#: eones.core.date.Date.is_before:1 of
+msgid "Return True if the current date is before ``other``."
+msgstr ""
+
+#: eones.core.date.Date.is_between:1 of
+msgid "Check if date is between two datetime bounds."
+msgstr ""
+
+#: eones.core.date.Date.is_between:3 of
+msgid "Start datetime."
+msgstr ""
+
+#: eones.core.date.Date.is_between:5 of
+msgid "End datetime."
+msgstr ""
+
+#: eones.core.date.Date.is_between:7 of
+msgid "Include boundaries. Defaults to True."
+msgstr ""
+
+#: eones.core.date.Date.is_between:10 of
+msgid "True if in range."
+msgstr ""
+
+#: eones.core.date.Date.is_friday:1 of
+msgid "Return True if the current date is a Friday."
+msgstr ""
+
+#: eones.core.date.Date.is_friday:3 of
+msgid "True if the date is Friday, False otherwise."
+msgstr ""
+
+#: eones.core.date.Date.is_leap_year:1 of
+msgid "Return True if the current year is a leap year."
+msgstr ""
+
+#: eones.core.date.Date.is_leap_year:3 of
+msgid "True if the year is a leap year, False otherwise."
+msgstr ""
+
+#: eones.core.date.Date.is_monday:1 of
+msgid "Return True if the current date is a Monday."
+msgstr ""
+
+#: eones.core.date.Date.is_monday:3 of
+msgid "True if the date is Monday, False otherwise."
+msgstr ""
+
+#: eones.core.date.Date.is_same_day:1 of
+msgid "Return True if both dates fall on the same calendar day."
+msgstr ""
+
+#: eones.core.date.Date.is_same_week:1 of
+msgid "Check if two dates fall in the same ISO calendar week."
+msgstr ""
+
+#: eones.core.date.Date.is_same_week:3 eones.core.date.Date.is_within:4 of
+msgid "Date to compare."
+msgstr ""
+
+#: eones.core.date.Date.is_same_week:6 of
+msgid "True if both dates share the same ISO week."
+msgstr ""
+
+#: eones.core.date.Date.is_saturday:1 of
+msgid "Return True if the current date is a Saturday."
+msgstr ""
+
+#: eones.core.date.Date.is_saturday:3 of
+msgid "True if the date is Saturday, False otherwise."
+msgstr ""
+
+#: eones.core.date.Date.is_sunday:1 of
+msgid "Return True if the current date is a Sunday."
+msgstr ""
+
+#: eones.core.date.Date.is_sunday:3 of
+msgid "True if the date is Sunday, False otherwise."
+msgstr ""
+
+#: eones.core.date.Date.is_thursday:1 of
+msgid "Return True if the current date is a Thursday."
+msgstr ""
+
+#: eones.core.date.Date.is_thursday:3 of
+msgid "True if the date is Thursday, False otherwise."
+msgstr ""
+
+#: eones.core.date.Date.is_tuesday:1 of
+msgid "Return True if the current date is a Tuesday."
+msgstr ""
+
+#: eones.core.date.Date.is_tuesday:3 of
+msgid "True if the date is Tuesday, False otherwise."
+msgstr ""
+
+#: eones.core.date.Date.is_wednesday:1 of
+msgid "Return True if the current date is a Wednesday."
+msgstr ""
+
+#: eones.core.date.Date.is_wednesday:3 of
+msgid "True if the date is Wednesday, False otherwise."
+msgstr ""
+
+#: eones.core.date.Date.is_weekend:1 of
+msgid "Return True if the current date falls on a weekend (Saturday or Sunday)."
+msgstr ""
+
+#: eones.core.date.Date.is_weekend:3 of
+msgid "True if the date is Saturday (5) or Sunday (6), False otherwise."
+msgstr ""
+
+#: eones.core.date.Date.is_within:1 of
+msgid "Check if the current date is within the same year/month as another Date."
+msgstr ""
+
+#: eones.core.date.Date.is_within:6 of
+msgid "If True, also check that months match."
+msgstr ""
+
+#: eones.core.date.Date.is_within:9 of
+msgid "True if within the same period."
+msgstr ""
+
+#: eones.core.date.Date.microsecond:1 of
+msgid "Microsecond component of the date."
+msgstr ""
+
+#: eones.core.date.Date.minute:1 of
+msgid "Minute component of the date."
+msgstr ""
+
+#: eones.core.date.Date.month:1 of
+msgid "Month component of the date."
+msgstr ""
+
+#: eones.core.date.Date.month_span_to:1 of
+msgid ""
+"Return the number of full calendar months between self and other. "
+"Positive if `other` is later. Negative if `other` is earlier."
+msgstr ""
+
+#: eones.core.date.Date.next_weekday:1 of
+msgid "Return the next date matching the specified weekday."
+msgstr ""
+
+#: eones.core.date.Date.next_weekday:3 eones.core.date.Date.previous_weekday:3
+#: of
+msgid "Target weekday (0 = Monday)."
+msgstr ""
+
+#: eones.core.date.Date.next_weekday:6 of
+msgid "The next date matching the weekday."
+msgstr ""
+
+#: eones.core.date.Date.now:1 of
+msgid "Create a Date for the current moment."
+msgstr ""
+
+#: eones.core.date.Date.previous_weekday:1 of
+msgid "Return the previous date matching the specified weekday."
+msgstr ""
+
+#: eones.core.date.Date.previous_weekday:6 of
+msgid "The previous date matching the weekday."
+msgstr ""
+
+#: eones.core.date.Date.replace:1 of
+msgid "Return a new Date with specific fields replaced."
+msgstr ""
+
+#: eones.core.date.Date.round:1 of
+msgid "Round the Date to the nearest specified unit."
+msgstr ""
+
+#: eones.core.date.Date.second:1 of
+msgid "Second component of the date."
+msgstr ""
+
+#: eones.core.date.Date.shift:1 of
+msgid "Return a new Date shifted by the given timedelta."
+msgstr ""
+
+#: eones.core.date.Date.start_of:1 of
+msgid "Returns the datetime aligned to the start of the given unit."
+msgstr ""
+
+#: eones.core.date.Date.start_of_day:1 of
+msgid "Return a new Date instance representing the start of the current day."
+msgstr ""
+
+#: eones.core.date.Date.start_of_month:1 of
+msgid "Return a new Date instance for the first moment of the current month."
+msgstr ""
+
+#: eones.core.date.Date.start_of_year:1 of
+msgid "Return a new Date instance for the first moment of the current year."
+msgstr ""
+
+#: eones.core.date.Date.timezone:1 of
+msgid "Return the key of the timezone in use."
+msgstr ""
+
+#: eones.core.date.Date.to_datetime:1 of
+msgid "Return the internal datetime object."
+msgstr ""
+
+#: eones.core.date.Date.to_datetime:3 of
+msgid "The timezone-aware datetime."
+msgstr ""
+
+#: eones.core.date.Date.to_dict:1 of
+msgid "Return a dictionary representation of the Date."
+msgstr ""
+
+#: eones.core.date.Date.to_iso:1 of
+msgid "Return ISO 8601 formatted string of the datetime."
+msgstr ""
+
+#: eones.core.date.Date.to_iso:3 of
+msgid "ISO format datetime string."
+msgstr ""
+
+#: eones.core.date.Date.to_unix:1 of
+msgid "Return Unix timestamp of the datetime."
+msgstr ""
+
+#: eones.core.date.Date.to_unix:3 of
+msgid "Unix timestamp."
+msgstr ""
+
+#: eones.core.date.Date.truncate:1 of
+msgid "Truncate the Date to the specified unit (e.g., 'day', 'hour', etc.)."
+msgstr ""
+
+#: eones.core.date.Date.year:1 of
+msgid "Year component of the date."
+msgstr ""
+
+#: eones.core.date.Date.year_span_to:1 of
+msgid ""
+"Return the number of full calendar years between self and other. Positive"
+" if `other` is later. Negative if `other` is earlier."
+msgstr ""
+
+#: eones.core.date.Date.year_span_to:5 of
+msgid "Example"
+msgstr ""
+
+#: eones.core.date.Date.year_span_to:6 of
+msgid ""
+"Date(\"2020-05-20\").year_span_to(Date(\"2024-05-19\")) == 3 "
+"Date(\"2020-05-20\").year_span_to(Date(\"2024-05-20\")) == 4"
+msgstr ""
+
+#: ../../source/eones.core.rst:21
+msgid "eones.core.delta module"
+msgstr ""
+
+#: eones.core.delta:1 of
+msgid "core.delta.py"
+msgstr ""
+
+#: eones.core.delta.Delta:1 of
+msgid ""
+"Represents a compound time delta composed of calendar (years, months) and"
+" duration (weeks, days, hours, minutes, seconds) components."
+msgstr ""
+
+#: eones.core.delta.Delta:4 of
+msgid ""
+"Calendar components are applied first, followed by duration components. "
+"This order preserves intuitive behavior when transitioning across "
+"irregular month lengths (e.g., Jan 31 + 1 month → Feb 28/29)."
+msgstr ""
+
+#: eones.core.delta.Delta:9 eones.core.delta_calendar.DeltaCalendar:11
+#: eones.core.delta_duration.DeltaDuration:8 of
+msgid "Examples"
+msgstr ""
+
+#: eones.core.delta.Delta:14 eones.core.delta_calendar.DeltaCalendar:16
+#: eones.core.delta_duration.DeltaDuration:13 of
+msgid "Notes"
+msgstr ""
+
+#: eones.core.delta.Delta:15 of
+msgid ""
+"The original input dictionary is preserved for accurate inversion and "
+"scaling."
+msgstr ""
+
+#: eones.core.delta.Delta.apply:1 of
+msgid "Apply this delta to a Date instance."
+msgstr ""
+
+#: eones.core.delta.Delta.apply:3 of
+msgid "The reference date."
+msgstr ""
+
+#: eones.core.delta.Delta.apply:5 of
+msgid "Whether to apply calendar delta (years/months)."
+msgstr ""
+
+#: eones.core.delta.Delta.apply:7 of
+msgid "Whether to apply duration delta (weeks to seconds)."
+msgstr ""
+
+#: eones.core.delta.Delta.apply:10 of
+msgid "A new shifted Date instance."
+msgstr ""
+
+#: ../../source/eones.core.rst
+msgid "Raises"
+msgstr ""
+
+#: eones.core.delta.Delta.apply:13 of
+msgid "If input is not a Date."
+msgstr ""
+
+#: eones.core.delta.Delta.apply_calendar:1 of
+msgid "Apply only the calendar part to a date."
+msgstr ""
+
+#: eones.core.delta.Delta.apply_calendar:3
+#: eones.core.delta.Delta.apply_duration:3 of
+msgid "The original date."
+msgstr ""
+
+#: eones.core.delta.Delta.apply_calendar:6 of
+msgid "Date with years/months applied."
+msgstr ""
+
+#: eones.core.delta.Delta.apply_duration:1 of
+msgid "Apply only the duration part to a date."
+msgstr ""
+
+#: eones.core.delta.Delta.apply_duration:6 of
+msgid "Date with weeks to seconds applied."
+msgstr ""
+
+#: eones.core.delta.Delta.from_iso:1 of
+msgid "Parse ISO 8601 delta string."
+msgstr ""
+
+#: eones.core.delta.Delta.from_iso:3 of
+msgid "ISO-compliant duration string."
+msgstr ""
+
+#: eones.core.delta.Delta.from_iso:6
+#: eones.core.delta_calendar.DeltaCalendar.from_iso:6 of
+msgid "Parsed instance."
+msgstr ""
+
+#: eones.core.delta.Delta.from_iso:9
+#: eones.core.delta_duration.DeltaDuration.from_iso:11 of
+msgid "If the format is invalid."
+msgstr ""
+
+#: eones.core.delta.Delta.from_timedelta:1 of
+msgid "Create a Delta instance from :class:`datetime.timedelta`."
+msgstr ""
+
+#: eones.core.delta.Delta.invert:1 of
+msgid "Return the inverse of this delta."
+msgstr ""
+
+#: eones.core.delta.Delta.invert:3 of
+msgid "Negated delta."
+msgstr ""
+
+#: eones.core.delta.Delta.is_zero:1 of
+msgid "Check if the delta has no effect."
+msgstr ""
+
+#: eones.core.delta.Delta.is_zero:3 of
+msgid "True if delta is zero."
+msgstr ""
+
+#: eones.core.delta.Delta.scale:1
+#: eones.core.delta_calendar.DeltaCalendar.scale:1 of
+msgid "Multiply the delta by a scalar."
+msgstr ""
+
+#: eones.core.delta.Delta.scale:3 of
+msgid "Scaling multiplier."
+msgstr ""
+
+#: eones.core.delta.Delta.scale:6 of
+msgid "A new instance."
+msgstr ""
+
+#: eones.core.delta.Delta.to_dict:1 of
+msgid "Return a normalized dict combining calendar and duration."
+msgstr ""
+
+#: eones.core.delta.Delta.to_dict:3 of
+msgid "Keys include 'years', 'months', 'days', 'hours', etc."
+msgstr ""
+
+#: eones.core.delta.Delta.to_input_dict:1 of
+msgid "Return the original input dictionary."
+msgstr ""
+
+#: eones.core.delta.Delta.to_input_dict:3 of
+msgid "User-specified delta components."
+msgstr ""
+
+#: eones.core.delta.Delta.to_iso:1 of
+msgid "Return ISO 8601-compliant string representation."
+msgstr ""
+
+#: eones.core.delta.Delta.to_iso:3 of
+msgid "Serialized delta (e.g., 'P1Y2M3DT4H30M')."
+msgstr ""
+
+#: eones.core.delta.Delta.total_months:1 of
+msgid "Return the calendar component expressed as total months."
+msgstr ""
+
+#: eones.core.delta.Delta.total_seconds:1 of
+msgid "Return the duration component expressed as total seconds."
+msgstr ""
+
+#: ../../source/eones.core.rst:29
+msgid "eones.core.delta\\_calendar module"
+msgstr ""
+
+#: eones.core.delta_calendar:1 of
+msgid "core.calendar.py"
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar:1 of
+msgid "Represents calendar-based deltas using months and years."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar:3 of
+msgid ""
+"Unlike timedelta-based durations, this class handles logical time shifts "
+"such as \"add 1 month\" or \"add 2 years\", accounting for month "
+"boundaries and varying month lengths."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar:7 of
+msgid ""
+"Internally, it normalizes the delta into absolute months and reconstructs"
+" years and months from that total."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar:17 of
+msgid ""
+"The day component of the input datetime may be truncated if the target "
+"month has fewer days."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.apply:1 of
+msgid "Apply the calendar delta to a datetime."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.apply:3 of
+msgid ""
+"Shifts the month and year while preserving the day when possible. If the "
+"resulting month has fewer days, the day is truncated."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.apply:6 of
+msgid "The original datetime."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.apply:9 of
+msgid "A new datetime with the delta applied."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.from_iso:1 of
+msgid "Parse an ISO 8601 calendar delta string."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.from_iso:3 of
+msgid "ISO string."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.from_iso:9 of
+msgid "If the string is not valid ISO format."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.invert:1 of
+msgid "Return a new DeltaCalendar with reversed direction."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.invert:3 of
+msgid "The inverse calendar delta."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.is_zero:1 of
+msgid "Check if the delta represents no change."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.is_zero:3 of
+msgid "True if both years and months are 0."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.scale:3 of
+msgid "Multiplier."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.scale:6 of
+msgid "A new scaled instance."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.to_dict:1 of
+msgid "Return a normalized version of the delta."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.to_dict:3 of
+msgid ""
+"This version reflects the internal normalized representation (e.g., "
+"years=1, months=13 → years=2, months=1)."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.to_dict:6 of
+msgid "Keys are \"years\" and \"months\"."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.to_input_dict:1 of
+msgid "Return the original input as passed by the user."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.to_input_dict:3 of
+msgid "The original unnormalized dictionary."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.to_iso:1 of
+msgid "Serialize to ISO 8601 calendar duration."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.to_iso:3 of
+msgid "ISO representation (e.g., 'P1Y2M')."
+msgstr ""
+
+#: eones.core.delta_calendar.DeltaCalendar.total_months:1 of
+msgid "Return the delta expressed as total months."
+msgstr ""
+
+#: ../../source/eones.core.rst:37
+msgid "eones.core.delta\\_duration module"
+msgstr ""
+
+#: eones.core.delta_duration:1 of
+msgid "core.delta_duration.py"
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration:1 of
+msgid "Represents a duration-based delta using standard time components."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration:3 of
+msgid ""
+"This class encapsulates time intervals expressed in weeks, days, hours, "
+"minutes, and seconds. Internally, it leverages Python's `timedelta` but "
+"preserves original input granularity for semantic clarity."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration:14 of
+msgid "Zero values are excluded from internal state."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration:15 of
+msgid "Input validation ensures only integers are accepted (not bools)."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.apply:1 of
+msgid "Apply the duration delta to a given datetime."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.apply:3 of
+msgid "The base datetime to shift."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.apply:6 of
+msgid "A new datetime offset by this delta."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.from_iso:1 of
+msgid "Parse an ISO 8601 duration string."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.from_iso:3 of
+msgid "Supports optional weeks (e.g., 'P2W') as per extended ISO 8601."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.from_iso:5 of
+msgid "Duration in ISO 8601 format."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.from_iso:8 of
+msgid "Parsed delta instance."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.from_timedelta:1 of
+msgid "Create a DeltaDuration from a :class:`datetime.timedelta`."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.invert:1 of
+msgid "Return a new DeltaDuration with negated values."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.invert:3 of
+msgid "The inverse duration."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.is_zero:1 of
+msgid "Check if the duration is equivalent to zero."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.is_zero:3 of
+msgid "True if total time is 0 seconds."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.scale:1 of
+msgid "Multiply the duration by a scalar factor."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.scale:3 of
+msgid "The scaling multiplier."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.scale:6 of
+msgid "A new instance with scaled values."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.to_dict:1 of
+msgid "Return a normalized breakdown of the duration into explicit units."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.to_dict:3 of
+msgid "Keys are days, hours, minutes, and seconds."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.to_input_dict:1 of
+msgid "Return the original dictionary passed to the constructor."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.to_input_dict:3 of
+msgid "User-provided keyword arguments (filtered and non-zero)."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.to_iso:1 of
+msgid "Serialize the duration to ISO 8601 format."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.to_iso:3 of
+msgid "ISO 8601-compliant duration string (e.g., 'P1DT2H30M')."
+msgstr ""
+
+#: eones.core.delta_duration.DeltaDuration.total_seconds:1 of
+msgid "Return the duration expressed in total seconds."
+msgstr ""
+
+#: ../../source/eones.core.rst:45
+msgid "eones.core.parser module"
+msgstr ""
+
+#: eones.core.parser:1 of
+msgid "core.parser.py"
+msgstr ""
+
+#: eones.core.parser.Parser:1 of
+msgid "Converts unshaped temporal input into meaningful Date form."
+msgstr ""
+
+#: eones.core.parser.Parser:3 of
+msgid ""
+"Accepts strings, dictionaries, datetimes, or Date instances, and "
+"interprets them based on provided format patterns. Useful for "
+"transforming loose or user-provided values into structured time "
+"representations."
+msgstr ""
+
+#: eones.core.parser.Parser.parse:1 of
+msgid "Parse an input into a Date."
+msgstr ""
+
+#: eones.core.parser.Parser.parse:3 of
+msgid "Input value (string, dict, datetime, Date, or None)."
+msgstr ""
+
+#: eones.core.parser.Parser.parse:5 of
+msgid "Parsed Date instance."
+msgstr ""
+
+#: eones.core.parser.Parser.parse:8 of
+msgid "If input type or content is not valid."
+msgstr ""
+
+#: eones.core.parser.Parser.to_eones_date:1 of
+msgid "Convert various types to a Date instance."
+msgstr ""
+
+#: eones.core.parser.Parser.to_eones_date:3 of
+msgid "A value of type Eones, Date, or input parseable to Date."
+msgstr ""
+
+#: eones.core.parser.Parser.to_eones_date:6 of
+msgid "Parsed or extracted Date."
+msgstr ""
+
+#: ../../source/eones.core.rst:53
+msgid "eones.core.range module"
+msgstr ""
+
+#: eones.core.range:1 of
+msgid "core.range.py"
+msgstr ""
+
+#: eones.core.range.Range:1 of
+msgid "Generates the start and end bounds of a temporal window."
+msgstr ""
+
+#: eones.core.range.Range:3 of
+msgid ""
+"Based on a given Date, this class exposes methods to calculate the exact "
+"datetime boundaries of days, months, and years — including edge-aligned "
+"timestamps suitable for querying, slicing, and framing temporal datasets."
+msgstr ""
+
+#: eones.core.range.Range.custom_range:1 of
+msgid "Return a range defined by applying deltas to the base date."
+msgstr ""
+
+#: eones.core.range.Range.custom_range:3 of
+msgid "Delta applied to generate the start."
+msgstr ""
+
+#: eones.core.range.Range.custom_range:5 of
+msgid "Delta applied to generate the end."
+msgstr ""
+
+#: eones.core.range.Range.custom_range:8 of
+msgid "Resulting start and end datetimes."
+msgstr ""
+
+#: eones.core.range.Range.day_range:1 of
+msgid "Return the start and end of the current day."
+msgstr ""
+
+#: eones.core.range.Range.day_range:3 of
+msgid "Start and end of the day."
+msgstr ""
+
+#: eones.core.range.Range.month_range:1 of
+msgid "Return the start and end of the current month."
+msgstr ""
+
+#: eones.core.range.Range.month_range:3 of
+msgid "Start and end of the month."
+msgstr ""
+
+#: eones.core.range.Range.quarter_range:1 of
+msgid "Return the start and end of the current quarter."
+msgstr ""
+
+#: eones.core.range.Range.quarter_range:3 of
+msgid "Start and end of the quarter."
+msgstr ""
+
+#: eones.core.range.Range.week_range:1 of
+msgid "Return the start and end of the current week."
+msgstr ""
+
+#: eones.core.range.Range.week_range:3 of
+msgid "First day of week (0=Monday, 6=Sunday)"
+msgstr ""
+
+#: eones.core.range.Range.week_range:6 of
+msgid "Start and end of the week."
+msgstr ""
+
+#: eones.core.range.Range.year_range:1 of
+msgid "Return the start and end of the current year."
+msgstr ""
+
+#: eones.core.range.Range.year_range:3 of
+msgid "Start and end of the year."
+msgstr ""
+
+#~ msgid "Bases: :py:class:`object`"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Encapsulates a precise moment in time,"
+#~ " drawn from the infinite thread of"
+#~ " eons."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This class offers a rich set of"
+#~ " operations for navigating, formatting, and"
+#~ " comparing temporal instances, while "
+#~ "remaining rooted in timezone-aware "
+#~ "datetime logic.  It bridges raw "
+#~ "timekeeping with semantic clarity, allowing"
+#~ " you to reason about durations, "
+#~ "truncations, alignments, and transitions in"
+#~ " a way that feels both practical "
+#~ "and timeless."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "ISO date string. If it contains "
+#~ "timezone info, that timezone will be "
+#~ "preserved. Otherwise, the tz parameter "
+#~ "will be used."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Timezone to use if the ISO string"
+#~ " doesn't contain timezone info. Defaults"
+#~ " to \"UTC\"."
+#~ msgstr ""
+
+#~ msgid "Parsed Date with appropriate timezone."
+#~ msgstr ""
+
+#~ msgid "Timezone to apply."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "How to interpret if the datetime "
+#~ "is naive. Accepts \"utc\", \"local\", or"
+#~ " \"raise\". Only meaningful if tz is"
+#~ " applied after generation."
+#~ msgstr ""
+
+#~ msgid "Instance representing now."
+#~ msgstr ""
+
