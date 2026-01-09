@@ -53,3 +53,45 @@ where = ["src"]
 
 [tool.isort]
 profile = "black"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+python_files = "test_*.py"
+
+[tool.pylint.master]
+ignore = "integrations"
+
+[tool.pylint."messages control"]
+disable = "R0903"
+
+[tool.pylint.format]
+max-line-length = 87
+
+[tool.pylint.reports]
+output-format = "colorized"
+score = true
+
+[tool.pylint.design]
+min-public-methods = 0
+
+[tool.coverage.run]
+source = ["eones"]
+omit = [
+    "*/__init__.py",
+    "tests/*",
+    "setup.py",
+    "src/eones/integrations/*"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError"
+]
+show_missing = true
+
+[tool.coverage.html]
+directory = "htmlcov"
