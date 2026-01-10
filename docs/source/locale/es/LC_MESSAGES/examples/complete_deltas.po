@@ -19,126 +19,123 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: ../../source/examples/time_deltas.md:1
+#: ../../source/examples/complete_deltas.md:1
 msgid "⏱️ Time Deltas"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:3
+#: ../../source/examples/complete_deltas.md:3
 msgid ""
 "Eones implements a sophisticated delta system with **dual architecture** "
 "that clearly separates time intervals into two categories."
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:5
+#: ../../source/examples/complete_deltas.md:5
 msgid "Dual Delta Architecture"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:7
+#: ../../source/examples/complete_deltas.md:7
 msgid "**`DeltaCalendar`**: For calendar-based intervals (years, months, days)"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:8
+#: ../../source/examples/complete_deltas.md:8
 msgid ""
 "**`DeltaDuration`**: For absolute duration-based intervals (days, hours, "
 "minutes, seconds)"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:10
+#: ../../source/examples/complete_deltas.md:10
 msgid "Main `Delta` Class"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:12
+#: ../../source/examples/complete_deltas.md:12
 msgid "The main `Delta` class acts as a facade that combines both types:"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:28
+#: ../../source/examples/complete_deltas.md:28
 msgid "Main Methods of `Delta`"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:53
+#: ../../source/examples/complete_deltas.md:53
 msgid "`DeltaCalendar` - Calendar Intervals"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:55
+#: ../../source/examples/complete_deltas.md:55
 msgid "Handles intervals that depend on calendar structure (years, months, days):"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:85
+#: ../../source/examples/complete_deltas.md:85
 msgid "`DeltaDuration` - Duration Intervals"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:87
+#: ../../source/examples/complete_deltas.md:87
 msgid "Handles absolute time intervals that don't depend on the calendar:"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:115
+#: ../../source/examples/complete_deltas.md:115
 msgid "When to Use Each Type"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:117
+#: ../../source/examples/complete_deltas.md:117
 msgid "**Use `DeltaCalendar` when:**"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:118
+#: ../../source/examples/complete_deltas.md:118
 msgid "Working with months and years (\"next month\", \"in 2 years\")"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:119
+#: ../../source/examples/complete_deltas.md:119
 msgid "Need to respect calendar boundaries (end of month, leap years)"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:120
+#: ../../source/examples/complete_deltas.md:120
 msgid "Performing due date or anniversary calculations"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:122
+#: ../../source/examples/complete_deltas.md:122
 msgid "**Use `DeltaDuration` when:**"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:123
+#: ../../source/examples/complete_deltas.md:123
 msgid "Working with precise time intervals (\"in 2 hours and 30 minutes\")"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:124
+#: ../../source/examples/complete_deltas.md:124
 msgid "Need absolute duration independent of calendar"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:125
+#: ../../source/examples/complete_deltas.md:125
 msgid "Performing elapsed time or timeout calculations"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:127
+#: ../../source/examples/complete_deltas.md:127
 msgid "**Use main `Delta` when:**"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:128
+#: ../../source/examples/complete_deltas.md:128
 msgid "Need to combine both types of intervals"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:129
+#: ../../source/examples/complete_deltas.md:129
 msgid "Want the simplest and most complete interface"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:130
+#: ../../source/examples/complete_deltas.md:130
 msgid "Working with automatically calculated differences"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:132
+#: ../../source/examples/complete_deltas.md:132
 msgid "Practical Examples"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:134
+#: ../../source/examples/complete_deltas.md:134
 msgid "Monthly Due Date"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:143
+#: ../../source/examples/complete_deltas.md:143
 msgid "Session Timeout"
 msgstr ""
 
-#: ../../source/examples/time_deltas.md:153
+#: ../../source/examples/complete_deltas.md:153
 msgid "Complex Reminder"
 msgstr ""
-
-#~ msgid "Working with Deltas in Eones"
-#~ msgstr ""
 

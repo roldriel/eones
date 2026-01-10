@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Eones \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 08:15-0300\n"
+"POT-Creation-Date: 2026-01-10 03:13-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Generated-By: Babel 2.17.0\n"
 
 #: ../../source/examples/error_handling.md:1
-msgid "Error Handling in Eones"
+msgid "🛡️ Error Handling"
 msgstr ""
 
 #: ../../source/examples/error_handling.md:3
@@ -136,4 +136,7 @@ msgstr ""
 #: ../../source/examples/error_handling.md:207
 msgid "**Validate inputs** before processing when critical"
 msgstr ""
+
+#~ msgid "Error Handling in Eones"
+#~ msgstr ""
 

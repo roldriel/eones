@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Eones \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 08:15-0300\n"
+"POT-Creation-Date: 2026-01-10 03:13-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -20,30 +20,47 @@ msgstr ""
 "Generated-By: Babel 2.17.0\n"
 
 #: ../../source/index.rst:4
-msgid "Contents:"
+msgid "🚀 Start Here"
 msgstr ""
 
-#: ../../source/index.rst:13
-msgid "Examples:"
+#: ../../source/index.rst:11
+msgid "💡 Guides & Tutorials"
 msgstr ""
 
-#: ../../source/index.rst:25
-msgid "Integrations:"
+#: ../../source/index.rst:23
+msgid "🧩 Integrations"
+msgstr ""
+
+#: ../../source/index.rst:30
+msgid "📚 API Reference"
+msgstr ""
+
+#: ../../source/index.rst:36
+msgid "📜 Project Info"
 msgstr ""
 
 #: ../../source/index.rst:2
 msgid "Welcome to Eones's documentation!"
 msgstr ""
 
-#: ../../source/index.rst:33
+#: ../../source/index.rst:44
 msgid "Indices and tables"
 msgstr ""
 
-#: ../../source/index.rst:34
+#: ../../source/index.rst:45
 msgid ":ref:`genindex`"
 msgstr ""
 
-#: ../../source/index.rst:35
+#: ../../source/index.rst:46
 msgid ":ref:`modindex`"
 msgstr ""
+
+#~ msgid "Contents:"
+#~ msgstr ""
+
+#~ msgid "Examples:"
+#~ msgstr ""
+
+#~ msgid "Integrations:"
+#~ msgstr ""
 

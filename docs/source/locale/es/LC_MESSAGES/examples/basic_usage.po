@@ -19,66 +19,63 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: ../../source/examples/quick_start.md:1
+#: ../../source/examples/basic_usage.md:1
 msgid "⚡ Quick Start"
 msgstr ""
 
-#: ../../source/examples/quick_start.md:3
+#: ../../source/examples/basic_usage.md:3
 msgid "This file contains basic examples to get started with the Eones library."
 msgstr ""
 
-#: ../../source/examples/quick_start.md:5
+#: ../../source/examples/basic_usage.md:5
 msgid "Import"
 msgstr ""
 
-#: ../../source/examples/quick_start.md:11
+#: ../../source/examples/basic_usage.md:11
 msgid "Creating Dates"
 msgstr ""
 
-#: ../../source/examples/quick_start.md:13
+#: ../../source/examples/basic_usage.md:13
 msgid "Different ways to create dates"
 msgstr ""
 
-#: ../../source/examples/quick_start.md:43
+#: ../../source/examples/basic_usage.md:43
 msgid "Date Formatting"
 msgstr ""
 
-#: ../../source/examples/quick_start.md:45
+#: ../../source/examples/basic_usage.md:45
 msgid "Different output formats"
 msgstr ""
 
-#: ../../source/examples/quick_start.md:57
+#: ../../source/examples/basic_usage.md:57
 msgid "Adding and Subtracting Time"
 msgstr ""
 
-#: ../../source/examples/quick_start.md:59
+#: ../../source/examples/basic_usage.md:59
 msgid "Adding time to a date"
 msgstr ""
 
-#: ../../source/examples/quick_start.md:73
+#: ../../source/examples/basic_usage.md:73
 msgid "Differences Between Dates"
 msgstr ""
 
-#: ../../source/examples/quick_start.md:75
+#: ../../source/examples/basic_usage.md:75
 msgid "Calculate differences"
 msgstr ""
 
-#: ../../source/examples/quick_start.md:98
+#: ../../source/examples/basic_usage.md:98
 msgid "Custom Parsing"
 msgstr ""
 
-#: ../../source/examples/quick_start.md:100
+#: ../../source/examples/basic_usage.md:100
 msgid "Using custom formats"
 msgstr ""
 
-#: ../../source/examples/quick_start.md:113
+#: ../../source/examples/basic_usage.md:113
 msgid "Localization"
 msgstr ""
 
-#: ../../source/examples/quick_start.md:115
+#: ../../source/examples/basic_usage.md:115
 msgid "Support for multiple languages"
 msgstr ""
-
-#~ msgid "Basic Usage of Eones"
-#~ msgstr ""
 

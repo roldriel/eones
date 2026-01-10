@@ -19,72 +19,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: ../../source/examples/real_world_scenarios.md:1
+#: ../../source/examples/use_cases.md:1
 msgid "💼 Real World Scenarios"
 msgstr ""
 
-#: ../../source/examples/real_world_scenarios.md:3
+#: ../../source/examples/use_cases.md:3
 msgid ""
 "This file contains practical examples of using Eones in real-world "
 "situations."
 msgstr ""
 
-#: ../../source/examples/real_world_scenarios.md:5
+#: ../../source/examples/use_cases.md:5
 msgid "1. Calculate Age"
 msgstr ""
 
-#: ../../source/examples/real_world_scenarios.md:15
+#: ../../source/examples/use_cases.md:15
 msgid "2. Due Dates"
 msgstr ""
 
-#: ../../source/examples/real_world_scenarios.md:26
+#: ../../source/examples/use_cases.md:26
 msgid "3. Monthly Reports"
 msgstr ""
 
-#: ../../source/examples/real_world_scenarios.md:39
+#: ../../source/examples/use_cases.md:39
 msgid "4. Work Schedules"
 msgstr ""
 
-#: ../../source/examples/real_world_scenarios.md:53
+#: ../../source/examples/use_cases.md:53
 msgid "5. Invoice Validation"
 msgstr ""
 
-#: ../../source/examples/real_world_scenarios.md:63
+#: ../../source/examples/use_cases.md:63
 msgid "6. Calculate Remaining Days"
 msgstr ""
 
-#: ../../source/examples/real_world_scenarios.md:73
+#: ../../source/examples/use_cases.md:73
 msgid "7. Fiscal Quarter Detection"
 msgstr ""
 
-#: ../../source/examples/real_world_scenarios.md:82
+#: ../../source/examples/use_cases.md:82
 msgid "8. Period Report"
 msgstr ""
 
-#: ../../source/examples/real_world_scenarios.md:91
+#: ../../source/examples/use_cases.md:91
 msgid "9. Next Cutoff Date"
 msgstr ""
 
-#: ../../source/examples/real_world_scenarios.md:100
+#: ../../source/examples/use_cases.md:100
 msgid "10. Work Calendar"
 msgstr ""
 
-#: ../../source/examples/real_world_scenarios.md:122
+#: ../../source/examples/use_cases.md:122
 msgid "11. Calculate Next Working Days"
 msgstr ""
 
-#: ../../source/examples/real_world_scenarios.md:138
+#: ../../source/examples/use_cases.md:138
 msgid "12. API Formatting"
 msgstr ""
 
-#: ../../source/examples/real_world_scenarios.md:150
+#: ../../source/examples/use_cases.md:150
 msgid "13. Database Storage"
 msgstr ""
 
-#: ../../source/examples/real_world_scenarios.md:162
+#: ../../source/examples/use_cases.md:162
 msgid "14. Structured Logs"
 msgstr ""
-
-#~ msgid "Common Use Cases with Eones"
-#~ msgstr ""
 

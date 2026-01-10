@@ -19,72 +19,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: ../../source/examples/advanced_patterns.md:1
+#: ../../source/examples/advanced_usage.md:1
 msgid "🛠️ Advanced Patterns"
 msgstr ""
 
-#: ../../source/examples/advanced_patterns.md:3
+#: ../../source/examples/advanced_usage.md:3
 msgid ""
 "This file contains advanced examples of date and time manipulation with "
 "Eones."
 msgstr ""
 
-#: ../../source/examples/advanced_patterns.md:5
+#: ../../source/examples/advanced_usage.md:5
 msgid "Advanced Date Manipulation"
 msgstr ""
 
-#: ../../source/examples/advanced_patterns.md:7
+#: ../../source/examples/advanced_usage.md:7
 msgid "Import"
 msgstr ""
 
-#: ../../source/examples/advanced_patterns.md:13
+#: ../../source/examples/advanced_usage.md:13
 msgid "Truncation and Rounding"
 msgstr ""
 
-#: ../../source/examples/advanced_patterns.md:42
+#: ../../source/examples/advanced_usage.md:42
 msgid "Start and End of Periods"
 msgstr ""
 
-#: ../../source/examples/advanced_patterns.md:60
+#: ../../source/examples/advanced_usage.md:60
 msgid "Component Replacement"
 msgstr ""
 
-#: ../../source/examples/advanced_patterns.md:74
+#: ../../source/examples/advanced_usage.md:74
 msgid "Comparisons and Validations"
 msgstr ""
 
-#: ../../source/examples/advanced_patterns.md:76
+#: ../../source/examples/advanced_usage.md:76
 msgid "Date Comparisons"
 msgstr ""
 
-#: ../../source/examples/advanced_patterns.md:96
+#: ../../source/examples/advanced_usage.md:96
 msgid "Next Weekdays"
 msgstr ""
 
-#: ../../source/examples/advanced_patterns.md:110
+#: ../../source/examples/advanced_usage.md:110
 msgid "Date Ranges"
 msgstr ""
 
-#: ../../source/examples/advanced_patterns.md:112
+#: ../../source/examples/advanced_usage.md:112
 msgid "Get period ranges"
 msgstr ""
 
-#: ../../source/examples/advanced_patterns.md:127
+#: ../../source/examples/advanced_usage.md:127
 msgid "Additional Methods of the Date Class"
 msgstr ""
 
-#: ../../source/examples/advanced_patterns.md:129
+#: ../../source/examples/advanced_usage.md:129
 msgid "Navigation by Weekdays"
 msgstr ""
 
-#: ../../source/examples/advanced_patterns.md:145
+#: ../../source/examples/advanced_usage.md:145
 msgid "Dictionary Conversion"
 msgstr ""
 
-#: ../../source/examples/advanced_patterns.md:165
+#: ../../source/examples/advanced_usage.md:165
 msgid "Specific Period Ranges"
 msgstr ""
-
-#~ msgid "Advanced Usage of Eones"
-#~ msgstr ""
 
