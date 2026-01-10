@@ -5,18 +5,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Eones &#8212; Eones 1.4.1 documentation</title>
+    <title>Eones &#8212; Eones 1.4.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
     <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
-    <script src="_static/documentation_options.js?v=350a9c04"></script>
+    <script src="_static/documentation_options.js?v=02f2166e"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="canonical" href="https://roldriel.github.io/eones/README.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Eones Benchmark Suite" href="benchmarks/README.html" />
-    <link rel="prev" title="eones.locales package" href="eones.locales.html" />
+    <link rel="prev" title="Welcome to Eones’s documentation!" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -93,12 +93,12 @@
 <h2>🧪 Basic Example<a class="headerlink" href="#basic-example" title="Link to this heading">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">eones</span><span class="w"> </span><span class="kn">import</span> <span class="n">Eones</span>
 
-<span class="n">z</span> <span class="o">=</span> <span class="n">Eones</span><span class="p">(</span><span class="s2">&quot;2025-06-15&quot;</span><span class="p">)</span>
-<span class="n">z</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">days</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># -&gt; add 3 days and 1 month</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">Eones</span><span class="p">(</span><span class="s2">&quot;2025-06-15&quot;</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">))</span>  <span class="c1"># → 2025-07-18</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">diff_for_humans</span><span class="p">(</span><span class="s2">&quot;2025-06-10&quot;</span><span class="p">))</span>  <span class="c1"># → in 5 days</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">diff_for_humans</span><span class="p">(</span><span class="s2">&quot;2025-06-20&quot;</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="s2">&quot;es&quot;</span><span class="p">))</span>  <span class="c1"># → hace 5 días</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">days</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>                       <span class="c1"># → Eones(date=2025-07-18T00:00:00+00:00, tz=&#39;UTC&#39;)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">))</span>                          <span class="c1"># → 2025-07-18</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">diff_for_humans</span><span class="p">(</span><span class="s2">&quot;2025-06-10&quot;</span><span class="p">))</span>               <span class="c1"># → in 1 month</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">diff_for_humans</span><span class="p">(</span><span class="s2">&quot;2025-06-20&quot;</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="s2">&quot;es&quot;</span><span class="p">))</span>  <span class="c1"># → en 4 semanas</span>
 </pre></div>
 </div>
 </section>
@@ -277,13 +277,13 @@ raise <code class="docutils literal notranslate"><span class="pre">InvalidTimezo
 <section id="core-examples">
 <h3>📖 Core Examples<a class="headerlink" href="#core-examples" title="Link to this heading">¶</a></h3>
 <ul class="simple">
-<li><p><strong><a class="reference external" href="https://github.com/roldriel/eones/blob/master/examples/basic_usage.md">Basic Usage</a></strong> - Library import, date creation, formatting, basic operations</p></li>
-<li><p><strong><a class="reference external" href="https://github.com/roldriel/eones/blob/master/examples/advanced_usage.md">Advanced Usage</a></strong> - Truncation, rounding, period ranges, comparisons</p></li>
-<li><p><strong><a class="reference external" href="https://github.com/roldriel/eones/blob/master/examples/complete_deltas.md">Complete Deltas</a></strong> - Dual delta architecture, calendar vs duration intervals</p></li>
-<li><p><strong><a class="reference external" href="https://github.com/roldriel/eones/blob/master/examples/use_cases.md">Use Cases</a></strong> - Real-world examples: age calculation, billing cycles, reports</p></li>
-<li><p><strong><a class="reference external" href="https://github.com/roldriel/eones/blob/master/examples/error_handling.md">Error Handling</a></strong> - Exception hierarchy, safe date creation, validation</p></li>
-<li><p><strong><a class="reference external" href="https://github.com/roldriel/eones/blob/master/examples/formatting_serialization.md">Formatting &amp; Serialization</a></strong> - ISO 8601, JSON export/import, API integration</p></li>
-<li><p><strong><a class="reference external" href="https://github.com/roldriel/eones/blob/master/examples/week_configuration.md">Week Configuration</a></strong> - First day of week configuration, ISO vs US standards, weekend detection</p></li>
+<li><p><strong><a class="reference external" href="https://github.com/roldriel/eones/blob/master/docs/source/examples/quick_start.md">Quick Start</a></strong> - Library import, date creation, formatting, basic operations</p></li>
+<li><p><strong><a class="reference external" href="https://github.com/roldriel/eones/blob/master/docs/source/examples/advanced_patterns.md">Advanced Patterns</a></strong> - Truncation, rounding, period ranges, comparisons</p></li>
+<li><p><strong><a class="reference external" href="https://github.com/roldriel/eones/blob/master/docs/source/examples/time_deltas.md">Time Deltas</a></strong> - Dual delta architecture, calendar vs duration intervals</p></li>
+<li><p><strong><a class="reference external" href="https://github.com/roldriel/eones/blob/master/docs/source/examples/real_world_scenarios.md">Real World Scenarios</a></strong> - Real-world examples: age calculation, billing cycles, reports</p></li>
+<li><p><strong><a class="reference external" href="https://github.com/roldriel/eones/blob/master/docs/source/examples/error_handling.md">Error Handling</a></strong> - Exception hierarchy, safe date creation, validation</p></li>
+<li><p><strong><a class="reference external" href="https://github.com/roldriel/eones/blob/master/docs/source/examples/formatting_serialization.md">Formatting &amp; Serialization</a></strong> - ISO 8601, JSON export/import, API integration</p></li>
+<li><p><strong><a class="reference external" href="https://github.com/roldriel/eones/blob/master/docs/source/examples/regional_configuration.md">Regional Configuration</a></strong> - First day of week configuration, ISO vs US standards, weekend detection</p></li>
 </ul>
 </section>
 <section id="integration-examples">
@@ -347,9 +347,8 @@ raise <code class="docutils literal notranslate"><span class="pre">InvalidTimezo
     </div>
 </search>
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">🚀 Start Here</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="eones.html">eones package</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Eones</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#what-is-eones">✨ What is Eones?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation">📦 Installation</a></li>
@@ -363,30 +362,37 @@ raise <code class="docutils literal notranslate"><span class="pre">InvalidTimezo
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="benchmarks/README.html">Eones Benchmark Suite</a></li>
-<li class="toctree-l1"><a class="reference internal" href="LICENSE.html">MIT License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CHANGELOG.html">Changelog</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<p class="caption" role="heading"><span class="caption-text">💡 Guides &amp; Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html">Basic Usage of Eones</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/advanced_usage.html">Advanced Usage of Eones</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/complete_deltas.html">Working with Deltas in Eones</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/error_handling.html">Error Handling in Eones</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/formatting_serialization.html">Advanced Formatting and Serialization in Eones</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/use_cases.html">Common Use Cases with Eones</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/week_configuration.html">Configuración del Primer Día de la Semana</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/quick_start.html">⚡ Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/advanced_patterns.html">🛠️ Advanced Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/time_deltas.html">⏱️ Time Deltas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/error_handling.html">🛡️ Error Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/formatting_serialization.html">🎨 Formatting &amp; Serialization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/real_world_scenarios.html">💼 Real World Scenarios</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/regional_configuration.html">🌍 Regional Configuration</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Integrations:</span></p>
+<p class="caption" role="heading"><span class="caption-text">🧩 Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="integrations/fastapi.html">FastAPI &amp; Pydantic Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="integrations/sqlalchemy.html">SQLAlchemy Integration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">📚 API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="eones.html">eones package</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">📜 Project Info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CHANGELOG.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LICENSE.html">MIT License</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="eones.locales.html" title="previous chapter">eones.locales package</a></li>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Eones’s documentation!</a></li>
       <li>Next: <a href="benchmarks/README.html" title="next chapter">Eones Benchmark Suite</a></li>
   </ul></li>
 </ul>

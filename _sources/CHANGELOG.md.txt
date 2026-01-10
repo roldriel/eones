@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changes since v1.4.1
 
+## [1.4.2] - 2026-01-10
+
+### Fixed
+- Huge documentation refactor: renamed files to match semantic titles (`Quick Start`, `Advanced Patterns`).
+- Standardized localized examples structure.
+- Corrected naive datetime usage in examples to align with strict timezone policy.
+- Removed unsupported `round()` units (`month`, `year`) from documentation.
+- Added icons to all documentation headers for better visual hierarchy.
+
 ## [1.4.1] - 2026-01-09
 
 ### Fixed

@@ -56,12 +56,12 @@ pip install "eones"
 ```python
 from eones import Eones
 
-z = Eones("2025-06-15")
-z.add(months=1, days=3)  # -> add 3 days and 1 month
+e = Eones("2025-06-15")
 
-print(z.format("%Y-%m-%d"))  # → 2025-07-18
-print(z.diff_for_humans("2025-06-10"))  # → in 5 days
-print(z.diff_for_humans("2025-06-20", locale="es"))  # → hace 5 días
+print(e.add(months=1, days=3))                       # → Eones(date=2025-07-18T00:00:00+00:00, tz='UTC')
+print(e.format("%Y-%m-%d"))                          # → 2025-07-18
+print(e.diff_for_humans("2025-06-10"))               # → in 1 month
+print(e.diff_for_humans("2025-06-20", locale="es"))  # → en 4 semanas
 ```
 
 ---
@@ -121,13 +121,13 @@ raise `InvalidTimezoneError`, while unparsable strings raise
 Comprehensive examples and documentation are available:
 
 ### 📖 Core Examples
-- **[Basic Usage](https://github.com/roldriel/eones/blob/master/examples/basic_usage.md)** - Library import, date creation, formatting, basic operations
-- **[Advanced Usage](https://github.com/roldriel/eones/blob/master/examples/advanced_usage.md)** - Truncation, rounding, period ranges, comparisons
-- **[Complete Deltas](https://github.com/roldriel/eones/blob/master/examples/complete_deltas.md)** - Dual delta architecture, calendar vs duration intervals
-- **[Use Cases](https://github.com/roldriel/eones/blob/master/examples/use_cases.md)** - Real-world examples: age calculation, billing cycles, reports
-- **[Error Handling](https://github.com/roldriel/eones/blob/master/examples/error_handling.md)** - Exception hierarchy, safe date creation, validation
-- **[Formatting & Serialization](https://github.com/roldriel/eones/blob/master/examples/formatting_serialization.md)** - ISO 8601, JSON export/import, API integration
-- **[Week Configuration](https://github.com/roldriel/eones/blob/master/examples/week_configuration.md)** - First day of week configuration, ISO vs US standards, weekend detection
+- **[Quick Start](https://github.com/roldriel/eones/blob/master/docs/source/examples/quick_start.md)** - Library import, date creation, formatting, basic operations
+- **[Advanced Patterns](https://github.com/roldriel/eones/blob/master/docs/source/examples/advanced_patterns.md)** - Truncation, rounding, period ranges, comparisons
+- **[Time Deltas](https://github.com/roldriel/eones/blob/master/docs/source/examples/time_deltas.md)** - Dual delta architecture, calendar vs duration intervals
+- **[Real World Scenarios](https://github.com/roldriel/eones/blob/master/docs/source/examples/real_world_scenarios.md)** - Real-world examples: age calculation, billing cycles, reports
+- **[Error Handling](https://github.com/roldriel/eones/blob/master/docs/source/examples/error_handling.md)** - Exception hierarchy, safe date creation, validation
+- **[Formatting & Serialization](https://github.com/roldriel/eones/blob/master/docs/source/examples/formatting_serialization.md)** - ISO 8601, JSON export/import, API integration
+- **[Regional Configuration](https://github.com/roldriel/eones/blob/master/docs/source/examples/regional_configuration.md)** - First day of week configuration, ISO vs US standards, weekend detection
 
 ### 🔗 Integration Examples
 - **Django**: Custom model fields

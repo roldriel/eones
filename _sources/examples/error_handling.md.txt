@@ -1,4 +1,4 @@
-# Error Handling in Eones
+# 🛡️ Error Handling
 
 Eones defines a robust system of specific exceptions for different types of errors, all inheriting from a common base class `EonesError`.
 
