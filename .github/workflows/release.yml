@@ -154,7 +154,6 @@ jobs:
   generate-changelog:
     name: Generate Changelog
     runs-on: ubuntu-22.04
-    permissions: {}
     needs: validate-release
     timeout-minutes: 10
     permissions:
@@ -173,7 +172,7 @@ jobs:
         uses: orhun/git-cliff-action@v4
         with:
           config: .github/cliff.toml
-          args: --verbose --tag ${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag || 'v0.0.0' }}
+          args: --verbose --tag ${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag-name || 'v0.0.0' }}
         env:
           OUTPUT: CHANGELOG.md
           GITHUB_REPO: ${{ github.repository }}
@@ -189,7 +188,6 @@ jobs:
   publish-pypi:
     name: Publish to PyPI
     runs-on: ubuntu-22.04
-    permissions: {}
     needs: [validate-release, build-distribution, generate-changelog]
     timeout-minutes: 15
     environment: release
@@ -227,7 +225,6 @@ jobs:
   update-docs:
     name: Update Documentation
     runs-on: ubuntu-22.04
-    permissions: {}
     needs: [validate-release, publish-pypi]
     timeout-minutes: 15
     permissions:
@@ -259,13 +256,12 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/_build/html
-          commit_message: "docs: update for release ${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag || 'v0.0.0' }}"
+          commit_message: "docs: update for release ${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag-name || 'v0.0.0' }}"
 
   # Creación de GitHub Release
   create-github-release:
     name: Create GitHub Release
     runs-on: ubuntu-22.04
-    permissions: {}
     needs: [validate-release, publish-pypi, generate-changelog]
     timeout-minutes: 10
     permissions:
@@ -287,8 +283,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag || 'v0.0.0' }}
-          name: Release ${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag || 'v0.0.0' }}
+          tag_name: ${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag-name || 'v0.0.0' }}
+          name: Release ${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag-name || 'v0.0.0' }}
           body_path: CHANGELOG.md
           files: |
             dist/*.tar.gz
@@ -307,7 +303,7 @@ jobs:
     steps:
       - name: Release Summary
         run: |
-          echo "🎉 Release Pipeline Summary for ${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag || 'v0.0.0' }}"
+          echo "🎉 Release Pipeline Summary for ${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag-name || 'v0.0.0' }}"
           echo "================================"
           echo "📋 Results:"
           echo "  - Validation: ${{ needs.validate-release.result }}"
@@ -317,7 +313,7 @@ jobs:
           echo ""
           echo "🔗 Links:"
           echo "  - PyPI: https://pypi.org/project/eones/${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.version || '0.0.0' }}/"
-          echo "  - GitHub Release: https://github.com/${{ github.repository }}/releases/tag/${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag || 'v0.0.0' }}"
+          echo "  - GitHub Release: https://github.com/${{ github.repository }}/releases/tag/${{ needs.validate-release.result == 'success' && needs.validate-release.outputs.tag-name || 'v0.0.0' }}"
           echo "  - Documentation: https://${{ github.repository_owner }}.github.io/eones/"
           
           if [[ "${{ needs.publish-pypi.result }}" == "success" ]] && 

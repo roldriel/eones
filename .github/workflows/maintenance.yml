@@ -27,7 +27,6 @@ jobs:
   update-dependencies:
     name: Update Dependencies
     runs-on: ubuntu-22.04
-    permissions: {}
     if: github.event.inputs.task == 'dependencies' || github.event.inputs.task == 'all' || github.event_name == 'schedule'
     timeout-minutes: 20
     permissions:
@@ -121,7 +120,6 @@ jobs:
   stale-management:
     name: Stale Issues Management
     runs-on: ubuntu-22.04
-    permissions: {}
     if: github.event.inputs.task == 'stale-issues' || github.event.inputs.task == 'all' || github.event_name == 'schedule'
     timeout-minutes: 10
     permissions:
@@ -167,7 +165,6 @@ jobs:
   cleanup:
     name: Cleanup Artifacts
     runs-on: ubuntu-22.04
-    permissions: {}
     if: github.event.inputs.task == 'cleanup' || github.event.inputs.task == 'all' || github.event_name == 'schedule'
     timeout-minutes: 10
     permissions:
@@ -214,7 +211,6 @@ jobs:
   security-audit:
     name: Security Audit
     runs-on: ubuntu-22.04
-    permissions: {}
     if: github.event.inputs.task == 'security-audit' || github.event.inputs.task == 'all' || github.event_name == 'schedule'
     timeout-minutes: 15
     permissions:

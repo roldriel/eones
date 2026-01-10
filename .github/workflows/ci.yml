@@ -19,8 +19,8 @@ jobs:
     permissions: {}
     timeout-minutes: 5
     outputs:
-      should-run-tests: ${{ steps.changes.conclusion == 'success' && steps.changes.outputs.python || 'false' }}
-      should-run-docs: ${{ steps.changes.conclusion == 'success' && steps.changes.outputs.docs || 'false' }}
+      should-run-tests: ${{ (steps.changes.conclusion == 'success' && steps.changes.outputs.python == 'true') || startsWith(github.ref, 'refs/tags/') }}
+      should-run-docs: ${{ (steps.changes.conclusion == 'success' && steps.changes.outputs.docs == 'true') || startsWith(github.ref, 'refs/tags/') }}
     steps:
       - uses: actions/checkout@v4
       - name: Check for changes
@@ -126,12 +126,7 @@ jobs:
           echo "🔍 Running code quality checks..."
           tox -e lint
 
-      - name: Check code formatting
-        run: |
-          echo "📝 Checking code formatting..."
-          pip install black isort
-          black --check --diff src/ tests/
-          isort --check-only --diff src/ tests/
+      # Formatting is now checked by tox -e lint
 
       - name: Type checking
         run: |

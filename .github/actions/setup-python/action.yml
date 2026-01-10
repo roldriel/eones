@@ -25,16 +25,15 @@ runs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ inputs.python-version }}
+        cache: 'pip'
+        cache-dependency-path: |
+          pyproject.toml
+          tox.ini
+          requirements*.txt
 
-    - name: Cache pip dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ inputs.python-version }}-${{ inputs.cache-key-suffix }}-${{ hashFiles('**/pyproject.toml', '**/tox.ini', '**/requirements*.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-${{ inputs.python-version }}-${{ inputs.cache-key-suffix }}-
-          ${{ runner.os }}-pip-${{ inputs.python-version }}-
-          ${{ runner.os }}-pip-
+    - name: Legacy cache step removed
+      shell: bash
+      run: echo "Cache is now handled by setup-python action"
 
     - name: Install base tools
       shell: bash
