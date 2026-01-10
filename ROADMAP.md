@@ -35,6 +35,8 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 ## 🚀 Funcionalidades Pendientes
 
 ---
+- **Current Version:** v1.4.2
+- **Next Milestone:** v1.5.0 (Performance & Extensions)
 
 ## 🔥 **CRÍTICO - Completar Funcionalidades Existentes**
 

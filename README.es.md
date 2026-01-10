@@ -119,13 +119,13 @@ Eones muestra excepciones claras derivadas de `EonesError`. Las zonas horarias n
 Ejemplos completos y documentación disponibles:
 
 ### 📖 Ejemplos Principales
-- **[Uso Básico](https://github.com/roldriel/eones/blob/master/examples/es/uso_basico.md)** - Importación de librería, creación de fechas, formateo, operaciones básicas
-- **[Uso Avanzado](https://github.com/roldriel/eones/blob/master/examples/es/uso_avanzado.md)** - Truncamiento, redondeo, rangos de períodos, comparaciones
-- **[Deltas Completos](https://github.com/roldriel/eones/blob/master/examples/es/deltas_completo.md)** - Arquitectura dual de deltas, intervalos de calendario vs duración
-- **[Casos de Uso](https://github.com/roldriel/eones/blob/master/examples/es/casos_de_uso.md)** - Ejemplos del mundo real: cálculo de edad, ciclos de facturación, reportes
+- **[Guía Rápida](https://github.com/roldriel/eones/blob/master/examples/es/guia_rapida.md)** - Importación de librería, creación de fechas, formateo, operaciones básicas
+- **[Patrones Avanzados](https://github.com/roldriel/eones/blob/master/examples/es/patrones_avanzados.md)** - Truncamiento, redondeo, rangos de períodos, comparaciones
+- **[Deltas de Tiempo](https://github.com/roldriel/eones/blob/master/examples/es/deltas_de_tiempo.md)** - Arquitectura dual de deltas, intervalos de calendario vs duración
+- **[Escenarios Reales](https://github.com/roldriel/eones/blob/master/examples/es/escenarios_reales.md)** - Ejemplos del mundo real: cálculo de edad, ciclos de facturación, reportes
 - **[Manejo de Errores](https://github.com/roldriel/eones/blob/master/examples/es/manejo_errores.md)** - Jerarquía de excepciones, creación segura de fechas, validación
 - **[Formateo y Serialización](https://github.com/roldriel/eones/blob/master/examples/es/formateo_serializacion.md)** - ISO 8601, exportación/importación JSON, integración con APIs
-- **[Configuración de Semana](https://github.com/roldriel/eones/blob/master/examples/es/configuracion_semana.md)** - Configuración del primer día de semana, estándares ISO vs US, detección de fin de semana
+- **[Configuración Regional](https://github.com/roldriel/eones/blob/master/examples/es/configuracion_regional.md)** - Configuración del primer día de semana, estándares ISO vs US, detección de fin de semana
 
 ### 🔗 Ejemplos de Integración
 - **Django**: Campos personalizados para modelos

@@ -2,6 +2,15 @@
 
 Todas las versiones están documentadas en este archivo.
 
+## [1.4.2] - 10-01-2026
+
+### Fixed
+- Gran refactorización de documentación: renombramiento de archivos para coincidir con títulos semánticos.
+- Estandarización de estructura de ejemplos localizados.
+- Corrección de uso de datetime naive en ejemplos para alinear con la política estricta de zonas horarias.
+- Eliminación de unidades no soportadas en `round()` (`mes`, `año`) de la documentación.
+- Agregados íconos a todos los encabezados de documentación para mejor jerarquía visual.
+
 ## [1.4.1] - 09-01-2026
 
 ### Corregido

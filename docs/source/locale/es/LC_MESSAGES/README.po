@@ -389,33 +389,52 @@ msgstr ""
 msgid "📖 Core Examples"
 msgstr ""
 
-#: ../../source/readme.md:124
+#: ../../source/README.md:124
 msgid ""
-"**[Basic "
-"Usage](https://github.com/roldriel/eones/blob/master/examples/basic_usage.md)**"
-" - Library import, date creation, formatting, basic operations"
+"**[Quick "
+"Start](https://github.com/roldriel/eones/blob/master/docs/source/examples/"
+"quick_start.md)** - Library import, date creation, formatting, basic "
+"operations"
 msgstr ""
+"**[Guía "
+"Rápida](https://github.com/roldriel/eones/blob/master/examples/es/"
+"guia_rapida.md)** - Importación de librería, creación de fechas, formateo, "
+"operaciones básicas"
 
-#: ../../source/readme.md:125
+#: ../../source/README.md:125
 msgid ""
 "**[Advanced "
-"Usage](https://github.com/roldriel/eones/blob/master/examples/advanced_usage.md)**"
-" - Truncation, rounding, period ranges, comparisons"
+"Patterns](https://github.com/roldriel/eones/blob/master/docs/source/"
+"examples/advanced_patterns.md)** - Truncation, rounding, period ranges, "
+"comparisons"
 msgstr ""
+"**[Patrones "
+"Avanzados](https://github.com/roldriel/eones/blob/master/examples/es/"
+"patrones_avanzados.md)** - Truncamiento, redondeo, rangos de períodos, "
+"comparaciones"
 
-#: ../../source/readme.md:126
+#: ../../source/README.md:126
 msgid ""
-"**[Complete "
-"Deltas](https://github.com/roldriel/eones/blob/master/examples/complete_deltas.md)**"
-" - Dual delta architecture, calendar vs duration intervals"
+"**[Time "
+"Deltas](https://github.com/roldriel/eones/blob/master/docs/source/examples/"
+"time_deltas.md)** - Dual delta architecture, calendar vs duration intervals"
 msgstr ""
+"**[Deltas de "
+"Tiempo](https://github.com/roldriel/eones/blob/master/examples/es/"
+"deltas_de_tiempo.md)** - Arquitectura dual de deltas, intervalos de "
+"calendario vs duración"
 
-#: ../../source/readme.md:127
+#: ../../source/README.md:127
 msgid ""
-"**[Use "
-"Cases](https://github.com/roldriel/eones/blob/master/examples/use_cases.md)**"
-" - Real-world examples: age calculation, billing cycles, reports"
+"**[Real World "
+"Scenarios](https://github.com/roldriel/eones/blob/master/docs/source/"
+"examples/real_world_scenarios.md)** - Real-world examples: age calculation, "
+"billing cycles, reports"
 msgstr ""
+"**[Escenarios "
+"Reales](https://github.com/roldriel/eones/blob/master/examples/es/"
+"escenarios_reales.md)** - Ejemplos del mundo real: cálculo de edad, ciclos "
+"de facturación, reportes"
 
 #: ../../source/readme.md:128
 msgid ""
@@ -431,13 +450,17 @@ msgid ""
 " - ISO 8601, JSON export/import, API integration"
 msgstr ""
 
-#: ../../source/readme.md:130
+#: ../../source/README.md:130
 msgid ""
-"**[Week "
-"Configuration](https://github.com/roldriel/eones/blob/master/examples/week_configuration.md)**"
-" - First day of week configuration, ISO vs US standards, weekend "
-"detection"
+"**[Regional "
+"Configuration](https://github.com/roldriel/eones/blob/master/docs/source/"
+"examples/regional_configuration.md)** - First day of week configuration, "
+"ISO vs US standards, weekend detection"
 msgstr ""
+"**[Configuración "
+"Regional](https://github.com/roldriel/eones/blob/master/examples/es/"
+"configuracion_regional.md)** - Configuración del primer día de semana, "
+"estándares ISO vs US, detección de fin de semana"
 
 #: ../../source/readme.md:132
 msgid "🔗 Integration Examples"
