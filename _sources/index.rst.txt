@@ -6,10 +6,10 @@ Welcome to Eones's documentation!
    :caption: Contents:
 
    eones
-   readme
-   benchmarks/readme
-   license
-   changelog
+   README
+   benchmarks/README
+   LICENSE
+   CHANGELOG
 
 .. toctree::
    :maxdepth: 2
