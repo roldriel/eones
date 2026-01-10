@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Eones"
-version = "1.4.0"
+version = "1.4.1"
 description = "Elegant time manipulation and reasoning library"
 readme = {file = "README.md", content-type = "text/markdown"}
 license = {file = "LICENSE.md"}

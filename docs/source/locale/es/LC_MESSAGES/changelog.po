@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Eones \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 08:15-0300\n"
+"POT-Creation-Date: 2026-01-09 22:01-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -39,366 +39,489 @@ msgid "[Unreleased]"
 msgstr ""
 
 #: ../../source/changelog.md:9
-msgid "Changes since v1.3.6"
+msgid "Changes since v1.4.1"
 msgstr ""
 
 #: ../../source/changelog.md:11
-msgid "[1.3.6] - 2025-01-19"
+msgid "[1.4.1] - 2026-01-09"
 msgstr ""
 
-#: ../../source/changelog.md:13 ../../source/changelog.md:24
-#: ../../source/changelog.md:34 ../../source/changelog.md:48
-#: ../../source/changelog.md:65 ../../source/changelog.md:121
+#: ../../source/changelog.md:13 ../../source/changelog.md:49
+#: ../../source/changelog.md:60 ../../source/changelog.md:70
+#: ../../source/changelog.md:84 ../../source/changelog.md:101
+#: ../../source/changelog.md:157
 msgid "Fixed"
 msgstr ""
 
 #: ../../source/changelog.md:14
 msgid ""
+"Fixed documentation build failure due to case-sensitive filename issue in"
+" `docs/source/benchmarks/README.md`"
+msgstr ""
+
+#: ../../source/changelog.md:15
+msgid ""
+"Removed invalid `install-project` input from docs workflow to resolve "
+"warning"
+msgstr ""
+
+#: ../../source/changelog.md:16
+msgid ""
+"Ensured proper release pipeline execution by bumping version to avoid "
+"PyPI conflicts"
+msgstr ""
+
+#: ../../source/changelog.md:18
+msgid "[1.4.0] - 2026-01-09"
+msgstr ""
+
+#: ../../source/changelog.md:20 ../../source/changelog.md:96
+#: ../../source/changelog.md:129 ../../source/changelog.md:147
+#: ../../source/changelog.md:167
+msgid "Added"
+msgstr ""
+
+#: ../../source/changelog.md:21
+msgid "Comprehensive benchmark suite with 4 scripts:"
+msgstr ""
+
+#: ../../source/changelog.md:22
+msgid ""
+"`comparison.py`: Performance comparison against competitors (Pendulum, "
+"Arrow, dateutil, Delorean)"
+msgstr ""
+
+#: ../../source/changelog.md:23
+msgid "`microbenchmarks.py`: Isolated method performance testing"
+msgstr ""
+
+#: ../../source/changelog.md:24
+msgid "`memory.py`: Memory footprint analysis with pympler"
+msgstr ""
+
+#: ../../source/changelog.md:25
+msgid "`profiling.py`: CPU profiling with cProfile"
+msgstr ""
+
+#: ../../source/changelog.md:26
+msgid "Benchmark documentation integrated in Sphinx (`docs/source/benchmarks/`)"
+msgstr ""
+
+#: ../../source/changelog.md:27
+msgid "Enhanced README comparison tables with Performance and Memory rows"
+msgstr ""
+
+#: ../../source/changelog.md:28
+msgid "Project roadmap (`ROADMAP.md`) documenting future development plans"
+msgstr ""
+
+#: ../../source/changelog.md:30
+msgid "Performance"
+msgstr ""
+
+#: ../../source/changelog.md:31
+#, python-format
+msgid "Lazy parser initialization: 20% faster date instantiation"
+msgstr ""
+
+#: ../../source/changelog.md:32
+msgid "Fast path optimizations for ISO parsing with string concatenation"
+msgstr ""
+
+#: ../../source/changelog.md:33
+msgid "Constructor bypass for known-valid dates in `from_iso`"
+msgstr ""
+
+#: ../../source/changelog.md:35
+msgid "Improved"
+msgstr ""
+
+#: ../../source/changelog.md:36
+msgid "Test coverage increased from 94% to 98% (+439 tests now passing)"
+msgstr ""
+
+#: ../../source/changelog.md:37
+msgid "All Pylint warnings resolved (10/10 score achieved)"
+msgstr ""
+
+#: ../../source/changelog.md:38
+msgid "All Mypy type errors fixed (clean type checking)"
+msgstr ""
+
+#: ../../source/changelog.md:39
+msgid "Consolidated project configuration in `pyproject.toml`"
+msgstr ""
+
+#: ../../source/changelog.md:40
+msgid "Reorganized integration tests for better maintainability"
+msgstr ""
+
+#: ../../source/changelog.md:42 ../../source/changelog.md:54
+#: ../../source/changelog.md:64 ../../source/changelog.md:73
+#: ../../source/changelog.md:79 ../../source/changelog.md:89
+#: ../../source/changelog.md:104 ../../source/changelog.md:135
+#: ../../source/changelog.md:153
+msgid "Changed"
+msgstr ""
+
+#: ../../source/changelog.md:43
+msgid ""
+"Removed `.coveragerc`, `.pylintrc`, `pytest.ini` (migrated to "
+"`pyproject.toml`)"
+msgstr ""
+
+#: ../../source/changelog.md:44
+msgid ""
+"Updated `tox.ini` to fix `allowlist_externals` and `pip-audit` "
+"configuration"
+msgstr ""
+
+#: ../../source/changelog.md:45
+msgid "Compacted docstrings in `date.py` to reduce module line count"
+msgstr ""
+
+#: ../../source/changelog.md:47
+msgid "[1.3.6] - 2025-01-19"
+msgstr ""
+
+#: ../../source/changelog.md:50
+msgid ""
 "Resolved context access warnings in GitHub Actions workflows "
 "([13069b4](https://github.com/roldriel/eones/commit/13069b4))"
 msgstr ""
 
-#: ../../source/changelog.md:15
+#: ../../source/changelog.md:51
 msgid "Fixed nested quotes syntax error in release workflow commit message"
 msgstr ""
 
-#: ../../source/changelog.md:16
+#: ../../source/changelog.md:52
 msgid "Added conditional checks for job outputs to prevent invalid context access"
 msgstr ""
 
-#: ../../source/changelog.md:18 ../../source/changelog.md:28
-#: ../../source/changelog.md:37 ../../source/changelog.md:43
-#: ../../source/changelog.md:53 ../../source/changelog.md:68
-#: ../../source/changelog.md:99 ../../source/changelog.md:117
-msgid "Changed"
-msgstr ""
-
-#: ../../source/changelog.md:19
+#: ../../source/changelog.md:55
 msgid "Updated version to 1.3.6 across all project files"
 msgstr ""
 
-#: ../../source/changelog.md:20
+#: ../../source/changelog.md:56
 msgid ""
 "Improved workflow robustness with fallback values for tag and version "
 "outputs"
 msgstr ""
 
-#: ../../source/changelog.md:22
+#: ../../source/changelog.md:58
 msgid "[1.3.5] - 2025-01-17"
 msgstr ""
 
-#: ../../source/changelog.md:25
+#: ../../source/changelog.md:61
 msgid "Updated example links to full GitHub URLs for PyPI compatibility"
 msgstr ""
 
-#: ../../source/changelog.md:26
+#: ../../source/changelog.md:62
 msgid "Fixed broken relative links in README files when displayed on PyPI"
 msgstr ""
 
-#: ../../source/changelog.md:29
+#: ../../source/changelog.md:65
 msgid ""
 "Updated version to 1.3.5 across all project files "
 "([0a2a63e](https://github.com/roldriel/eones/commit/0a2a63e))"
 msgstr ""
 
-#: ../../source/changelog.md:30
+#: ../../source/changelog.md:66
 msgid "Improved documentation accessibility on PyPI"
 msgstr ""
 
-#: ../../source/changelog.md:32
+#: ../../source/changelog.md:68
 msgid "[1.3.3] - 2025-08-26"
 msgstr ""
 
-#: ../../source/changelog.md:35
+#: ../../source/changelog.md:71
 msgid ""
 "Correct import formatting errors detected by isort "
 "([19752e6](https://github.com/roldriel/eones/commit/19752e6))"
 msgstr ""
 
-#: ../../source/changelog.md:38
+#: ../../source/changelog.md:74
 msgid "Updated version to 1.3.3"
 msgstr ""
 
-#: ../../source/changelog.md:39
+#: ../../source/changelog.md:75
 msgid "Improved code quality and formatting consistency"
 msgstr ""
 
-#: ../../source/changelog.md:41
+#: ../../source/changelog.md:77
 msgid "[1.3.2] - 2025-08-25"
 msgstr ""
 
-#: ../../source/changelog.md:44
+#: ../../source/changelog.md:80
 msgid ""
 "Version bump for development "
 "([652c2ac](https://github.com/roldriel/eones/commit/652c2ac))"
 msgstr ""
 
-#: ../../source/changelog.md:46
+#: ../../source/changelog.md:82
 msgid "[1.3.1] - 2025-08-25"
 msgstr ""
 
-#: ../../source/changelog.md:49
+#: ../../source/changelog.md:85
 msgid "Add missing is_valid_format static method to Eones class"
 msgstr ""
 
-#: ../../source/changelog.md:50
+#: ../../source/changelog.md:86
 msgid "Fix import-outside-toplevel pylint warning"
 msgstr ""
 
-#: ../../source/changelog.md:51
+#: ../../source/changelog.md:87
 msgid "Fix docstring syntax error"
 msgstr ""
 
-#: ../../source/changelog.md:54
+#: ../../source/changelog.md:90
 msgid "Update git-cliff-action from v2 to v3 for better stability"
 msgstr ""
 
-#: ../../source/changelog.md:55
+#: ../../source/changelog.md:91
 msgid "Add OUTPUT environment variable to release workflow"
 msgstr ""
 
-#: ../../source/changelog.md:56
+#: ../../source/changelog.md:92
 msgid ""
 "Version bump to 1.3.1 "
 "([288752f](https://github.com/roldriel/eones/commit/288752f))"
 msgstr ""
 
-#: ../../source/changelog.md:58
+#: ../../source/changelog.md:94
 msgid "[1.3.0] - 2025-08-25"
 msgstr ""
 
-#: ../../source/changelog.md:60 ../../source/changelog.md:93
-#: ../../source/changelog.md:111 ../../source/changelog.md:131
-msgid "Added"
-msgstr ""
-
-#: ../../source/changelog.md:61
+#: ../../source/changelog.md:97
 msgid ""
 "New range utilities "
 "([25d1d79](https://github.com/roldriel/eones/commit/25d1d79))"
 msgstr ""
 
-#: ../../source/changelog.md:62
+#: ../../source/changelog.md:98
 msgid ""
 "Delta utility properties and constructors "
 "([c8dffd9](https://github.com/roldriel/eones/commit/c8dffd9))"
 msgstr ""
 
-#: ../../source/changelog.md:63
+#: ../../source/changelog.md:99
 msgid ""
 "Support for delta in `__add__` and `__sub__` operations "
 "([6252687](https://github.com/roldriel/eones/commit/6252687))"
 msgstr ""
 
-#: ../../source/changelog.md:66
+#: ../../source/changelog.md:102
 msgid ""
 "Removed duplicate function "
 "([77cddba](https://github.com/roldriel/eones/commit/77cddba))"
 msgstr ""
 
-#: ../../source/changelog.md:69
+#: ../../source/changelog.md:105
 msgid ""
 "Updated documentation and added new examples "
 "([e41ffcc](https://github.com/roldriel/eones/commit/e41ffcc))"
 msgstr ""
 
-#: ../../source/changelog.md:70
+#: ../../source/changelog.md:106
 msgid ""
 "Updated main README and Spanish README "
 "([bc12e9a](https://github.com/roldriel/eones/commit/bc12e9a))"
 msgstr ""
 
-#: ../../source/changelog.md:71
+#: ../../source/changelog.md:107
 msgid ""
 "Refactored examples and added Spanish language examples "
 "([1325dad](https://github.com/roldriel/eones/commit/1325dad))"
 msgstr ""
 
-#: ../../source/changelog.md:72
+#: ../../source/changelog.md:108
 msgid ""
 "Updated tests with isort and black formatting "
 "([3f1d623](https://github.com/roldriel/eones/commit/3f1d623))"
 msgstr ""
 
-#: ../../source/changelog.md:73
+#: ../../source/changelog.md:109
 msgid ""
 "Minor performance improvements in modules "
 "([4c4058e](https://github.com/roldriel/eones/commit/4c4058e))"
 msgstr ""
 
-#: ../../source/changelog.md:74
+#: ../../source/changelog.md:110
 msgid ""
 "Updated Python configuration versions "
 "([b6f5465](https://github.com/roldriel/eones/commit/b6f5465))"
 msgstr ""
 
-#: ../../source/changelog.md:75
+#: ../../source/changelog.md:111
 msgid ""
 "Updated workflow configurations "
 "([9f9b94c](https://github.com/roldriel/eones/commit/9f9b94c))"
 msgstr ""
 
-#: ../../source/changelog.md:77
+#: ../../source/changelog.md:113
 msgid "Removed"
 msgstr ""
 
-#: ../../source/changelog.md:78
+#: ../../source/changelog.md:114
 msgid ""
 "Removed old tests and updated config.py, README.es "
 "([7d7c101](https://github.com/roldriel/eones/commit/7d7c101))"
 msgstr ""
 
-#: ../../source/changelog.md:80 ../../source/changelog.md:104
+#: ../../source/changelog.md:116 ../../source/changelog.md:140
 msgid "Documentation"
 msgstr ""
 
-#: ../../source/changelog.md:81
+#: ../../source/changelog.md:117
 msgid ""
 "Added AGENTS.md and updated README.es.md "
 "([5a5c2de](https://github.com/roldriel/eones/commit/5a5c2de))"
 msgstr ""
 
-#: ../../source/changelog.md:82
+#: ../../source/changelog.md:118
 msgid ""
 "Documented new error classes "
 "([b118cab](https://github.com/roldriel/eones/commit/b118cab))"
 msgstr ""
 
-#: ../../source/changelog.md:84
+#: ../../source/changelog.md:120
 msgid "Tests"
 msgstr ""
 
-#: ../../source/changelog.md:85
+#: ../../source/changelog.md:121
 msgid ""
 "Added unit tests and integration tests "
 "([e932f5f](https://github.com/roldriel/eones/commit/e932f5f))"
 msgstr ""
 
-#: ../../source/changelog.md:86
+#: ../../source/changelog.md:122
 msgid ""
 "Added edge case testing "
 "([789856b](https://github.com/roldriel/eones/commit/789856b))"
 msgstr ""
 
-#: ../../source/changelog.md:91
+#: ../../source/changelog.md:127
 msgid "[1.2.0] - 2025-06-25"
 msgstr ""
 
-#: ../../source/changelog.md:94
+#: ../../source/changelog.md:130
 msgid "Locale-aware `diff_for_humans` via the new `humanize` module"
 msgstr ""
 
-#: ../../source/changelog.md:95
+#: ../../source/changelog.md:131
 msgid "`eones/locales/` package for language messages"
 msgstr ""
 
-#: ../../source/changelog.md:96
+#: ../../source/changelog.md:132
 msgid ""
 "Comparison helpers: `Date.is_same_day`, `Date.is_before`, `Date.is_after`"
 " and `Date.days_until`"
 msgstr ""
 
-#: ../../source/changelog.md:97
+#: ../../source/changelog.md:133
 msgid "`Date.as_local` property for local timezone conversion"
 msgstr ""
 
-#: ../../source/changelog.md:100
+#: ../../source/changelog.md:136
 msgid "Exposed `diff_for_humans` on `Date` and `Eones` classes"
 msgstr ""
 
-#: ../../source/changelog.md:101
+#: ../../source/changelog.md:137
 msgid "Renamed timezone conversion method to `as_zone`"
 msgstr ""
 
-#: ../../source/changelog.md:102
+#: ../../source/changelog.md:138
 msgid "Integration tests now skip if Django or SQLAlchemy are not installed"
 msgstr ""
 
-#: ../../source/changelog.md:105
+#: ../../source/changelog.md:141
 msgid "Documented language extensibility and added comprehensive tests"
 msgstr ""
 
-#: ../../source/changelog.md:109
+#: ../../source/changelog.md:145
 msgid "[1.1.0] - 2025-06-13"
 msgstr ""
 
-#: ../../source/changelog.md:112
+#: ../../source/changelog.md:148
 msgid "Docstrings to all methods and classes in source code and tests"
 msgstr ""
 
-#: ../../source/changelog.md:113
+#: ../../source/changelog.md:149
 msgid "Comprehensive tests for all methods and classes"
 msgstr ""
 
-#: ../../source/changelog.md:114
+#: ../../source/changelog.md:150
 msgid "Methods for handling ranges and periods"
 msgstr ""
 
-#: ../../source/changelog.md:115
+#: ../../source/changelog.md:151
 msgid "Test coverage reaching 99%"
 msgstr ""
 
-#: ../../source/changelog.md:118
+#: ../../source/changelog.md:154
 msgid "Updated `pyproject.toml` to version 1.1.0"
 msgstr ""
 
-#: ../../source/changelog.md:119
+#: ../../source/changelog.md:155
 msgid "Updated `README.md` to version 1.1.0"
 msgstr ""
 
-#: ../../source/changelog.md:122
+#: ../../source/changelog.md:158
 msgid "Bugs in comparison methods"
 msgstr ""
 
-#: ../../source/changelog.md:124
+#: ../../source/changelog.md:160
 msgid "Known Issues"
 msgstr ""
 
-#: ../../source/changelog.md:125
+#: ../../source/changelog.md:161
 msgid "Some bugs identified for future fixes"
 msgstr ""
 
-#: ../../source/changelog.md:129
+#: ../../source/changelog.md:165
 msgid "[1.0.0] - 2025-05-19"
 msgstr ""
 
-#: ../../source/changelog.md:132
+#: ../../source/changelog.md:168
 msgid "First stable release of the `eones` library"
 msgstr ""
 
-#: ../../source/changelog.md:133
+#: ../../source/changelog.md:169
 msgid "Unified parser for `str`, `dict`, and `datetime` objects"
 msgstr ""
 
-#: ../../source/changelog.md:134
+#: ../../source/changelog.md:170
 msgid "Timezone support using `ZoneInfo`"
 msgstr ""
 
-#: ../../source/changelog.md:135
+#: ../../source/changelog.md:171
 msgid "Truncation, aggregation, comparison, and range methods"
 msgstr ""
 
-#: ../../source/changelog.md:136
+#: ../../source/changelog.md:172
 msgid "Optional integrations for Django, SQLAlchemy, and serializers"
 msgstr ""
 
-#: ../../source/changelog.md:137
+#: ../../source/changelog.md:173
 msgid "Centralized interface using the `Eones` class"
 msgstr ""
 
-#: ../../source/changelog.md:139
+#: ../../source/changelog.md:175
 msgid "Project Goals"
 msgstr ""
 
-#: ../../source/changelog.md:140
+#: ../../source/changelog.md:176
 msgid "Minimalist design philosophy"
 msgstr ""
 
-#: ../../source/changelog.md:141
+#: ../../source/changelog.md:177
 msgid "Cross-platform compatibility"
 msgstr ""
 
-#: ../../source/changelog.md:142
+#: ../../source/changelog.md:178
 msgid "100% based on Python's standard library"
 msgstr ""
+
+#~ msgid "Changes since v1.3.6"
+#~ msgstr ""
 

@@ -25,7 +25,7 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 - **Truncamiento y redondeo**: `floor`, `ceil`, `round`
 - **Serialización**: `to_dict`, `to_string`, `to_datetime`
 
-### 🚀 Performance y Calidad (v1.4.0)
+### 🚀 Performance y Calidad (v1.4.1)
 - **Benchmarks**: Suite completa de comparación y profiling
 - **Optimización**: Lazy parser y fast paths (20% más rápido)
 - **Calidad**: 98% coverage y typing estático completo
@@ -240,7 +240,7 @@ Si deseas contribuir a alguna funcionalidad:
 > - 📈 **ORDEN:** Primero completar, luego innovar
 
 > 📅 **Última actualización:** Enero 2025  
-> 🔖 **Versión actual:** 1.4.0
+> 🔖 **Versión actual:** 1.4.1
 
 ---
 
