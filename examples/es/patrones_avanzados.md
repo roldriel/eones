@@ -1,4 +1,4 @@
-# Uso Avanzado de Eones
+# 🛠️ Patrones Avanzados
 
 Este archivo contiene ejemplos avanzados de manipulación de fechas y horas con Eones.
 
@@ -21,8 +21,10 @@ fecha.ceil("month")    # 2024-06-30 23:59:59
 fecha.ceil("year")     # 2024-12-31 23:59:59
 
 # Redondear a la unidad más cercana
+fecha.round("day")     # Redondea al día más cercano
 fecha.round("hour")    # Redondea a la hora más cercana
-fecha.round("day")     # Redondea al día más cercana
+fecha.round("minute")  # Redondea al minuto más cercano
+fecha.round("second")  # Redondea al segundo más cercano
 ```
 
 ### Inicio y Final de Períodos

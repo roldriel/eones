@@ -1,8 +1,14 @@
-# Advanced Usage of Eones
+# 🛠️ Advanced Patterns
 
 This file contains advanced examples of date and time manipulation with Eones.
 
 ## Advanced Date Manipulation
+
+### Import
+
+```python
+from eones import Eones
+```
 
 ### Truncation and Rounding
 
@@ -10,19 +16,27 @@ This file contains advanced examples of date and time manipulation with Eones.
 date = Eones("2024-06-15 14:30:45")
 
 # Truncate to the start of different units
-date.floor("day")     # 2024-06-15 00:00:00
-date.floor("month")   # 2024-06-01 00:00:00
-date.floor("year")    # 2024-01-01 00:00:00
-date.floor("hour")    # 2024-06-15 14:00:00
+date.floor("day")     # Eones(date=2024-06-15T00:00:00+00:00, tz='UTC')
+date.floor("month")   # Eones(date=2024-06-01T00:00:00+00:00, tz='UTC')
+date.floor("year")    # Eones(date=2024-01-01T00:00:00+00:00, tz='UTC')
+date.floor("hour")    # Eones(date=2024-06-15T14:00:00+00:00, tz='UTC')
+date.floor("minute")  # Eones(date=2024-06-15T14:30:00+00:00, tz='UTC')
+date.floor("second")  # Eones(date=2024-06-15T14:30:45+00:00, tz='UTC')
 
 # Advance to the end of different units
-date.ceil("day")      # 2024-06-15 23:59:59
-date.ceil("month")    # 2024-06-30 23:59:59
-date.ceil("year")     # 2024-12-31 23:59:59
+date.ceil("day")      # Eones(date=2024-01-01T23:59:59.999999+00:00, tz='UTC')
+date.ceil("month")    # Eones(date=2024-01-31T23:59:59.999999+00:00, tz='UTC')
+date.ceil("year")     # Eones(date=2024-12-31T23:59:59.999999+00:00, tz='UTC')
+date.ceil("hour")     # Eones(date=2024-01-31T23:59:59.999999+00:00, tz='UTC')
+date.ceil("minute")   # Eones(date=2024-12-31T23:59:59.999999+00:00, tz='UTC')
+date.ceil("second")   # Eones(date=2024-12-31T23:59:59.999999+00:00, tz='UTC')
 
 # Round to the nearest unit
-date.round("hour")    # Round to the nearest hour
 date.round("day")     # Round to the nearest day
+date.round("hour")    # Round to the nearest hour
+date.round("minute")  # Round to the nearest minute
+date.round("second")  # Round to the nearest second
+
 ```
 
 ### Start and End of Periods

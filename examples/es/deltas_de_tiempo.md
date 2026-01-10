@@ -1,4 +1,4 @@
-# Trabajando con Deltas en Eones
+# ⏱️ Deltas de Tiempo
 
 Eones implementa un sistema sofisticado de deltas con **arquitectura dual** que separa claramente los intervalos de tiempo en dos categorías.
 

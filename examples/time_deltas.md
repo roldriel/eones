@@ -1,4 +1,4 @@
-# Working with Deltas in Eones
+# ⏱️ Time Deltas
 
 Eones implements a sophisticated delta system with **dual architecture** that clearly separates time intervals into two categories.
 

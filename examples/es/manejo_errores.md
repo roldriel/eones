@@ -1,4 +1,4 @@
-# Manejo de Errores en Eones
+# 🛡️ Manejo de Errores
 
 Eones define un sistema robusto de excepciones específicas para diferentes tipos de errores, todas heredando de una clase base común `EonesError`.
 

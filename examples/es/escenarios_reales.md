@@ -1,4 +1,4 @@
-# Casos de Uso Comunes con Eones
+# 💼 Escenarios Reales
 
 Este archivo contiene ejemplos prácticos de uso de Eones en situaciones del mundo real.
 

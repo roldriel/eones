@@ -1,4 +1,4 @@
-# Basic Usage of Eones
+# ⚡ Quick Start
 
 This file contains basic examples to get started with the Eones library.
 
@@ -25,14 +25,14 @@ date4 = Eones("2024-12-25 15:30:00")
 # From dictionary
 date5 = Eones({"year": 2024, "month": 12, "day": 25, "hour": 15})
 
-# From Python datetime
-from datetime import datetime
-date6 = Eones(datetime.now())
+# From Python datetime (must be timezone-aware)
+from datetime import datetime, timezone
+date6 = Eones(datetime.now(timezone.utc))
 
 # From ISO 8601 strings (with timezone support)
-date7 = Eones("2024-12-25T15:30:00Z")           # UTC
-date8 = Eones("2024-12-25T15:30:00+03:00")      # With positive offset
-date9 = Eones("2024-12-25T15:30:00-05:00")      # With negative offset
+date7 = Eones("2024-12-25T15:30:00Z")               # UTC
+date8 = Eones("2024-12-25T15:30:00+03:00")          # With positive offset
+date9 = Eones("2024-12-25T15:30:00-05:00")          # With negative offset
 date10 = Eones("2024-12-25T15:30:00.123456+02:30")  # With microseconds and offset
 
 # With specific timezone
@@ -48,10 +48,10 @@ mexico_date = Eones("2024-12-25", tz="America/Mexico_City")
 date = Eones("2024-12-25 15:30:00")
 
 # Different output formats
-print(date.format("%Y-%m-%d"))           # 2024-12-25
-print(date.format("%d/%m/%Y"))           # 25/12/2024
-print(date.format("%d de %B de %Y"))     # 25 de December de 2024
-print(date.format("%H:%M:%S"))           # 15:30:00
+print(date.format("%Y-%m-%d"))  # 2024-12-25
+print(date.format("%d/%m/%Y"))  # 25/12/2024
+print(date.format("%d %B %Y"))  # 25 December 2024
+print(date.format("%H:%M:%S"))  # 15:30:00
 ```
 
 ## Adding and Subtracting Time
@@ -62,12 +62,12 @@ print(date.format("%H:%M:%S"))           # 15:30:00
 date = Eones("2024-01-15")
 
 # Add time
-date.add(days=10)          # Add 10 days
-date.add(months=2)         # Add 2 months
-date.add(years=1, days=5)  # Add 1 year and 5 days
-date.add(hours=3, minutes=30)  # Add 3 hours and 30 minutes
+date.add(days=10)              # Eones(date=2024-01-25T00:00:00+00:00, tz='UTC')
+date.add(months=2)             # Eones(date=2024-03-25T00:00:00+00:00, tz='UTC')
+date.add(years=1, days=5)      # Eones(date=2025-03-30T00:00:00+00:00, tz='UTC')
+date.add(hours=3, minutes=30)  # Eones(date=2025-03-30T03:30:00+00:00, tz='UTC')
 
-print(date.format("%Y-%m-%d %H:%M"))  # Result after additions
+print(date.format("%Y-%m-%d %H:%M"))  # 2025-03-30 03:30
 ```
 
 ## Differences Between Dates
@@ -80,15 +80,19 @@ date2 = Eones("2024-12-31")
 
 # Calculate difference
 difference = date2.difference(date1)
-print(difference)  # Shows the difference in Delta format
+print(difference)  # 365
 
 # Difference in specific units
 days_difference = date2.difference(date1, unit="days")
 months_difference = date2.difference(date1, unit="months")
+years_difference = date2.difference(date1, unit="years")
+print(days_difference)    # 365
+print(months_difference)  # 11
+print(years_difference)   # 0
 
 # Human-readable difference
-print(date2.diff_for_humans(date1))  # "11 months ago" (in English)
-print(date2.diff_for_humans(date1, locale="es"))  # "hace 11 meses" (in Spanish)
+print(date2.diff_for_humans(date1))  # in 1 year
+print(date2.diff_for_humans(date1, locale="es"))  # en 1 año
 ```
 
 ## Custom Parsing
@@ -99,9 +103,11 @@ print(date2.diff_for_humans(date1, locale="es"))  # "hace 11 meses" (in Spanish)
 # Use custom formats
 custom_formats = ["%d-%m-%Y", "%Y/%m/%d"]
 date = Eones("15-06-2024", formats=custom_formats)
+print(date)  # Eones(date=2024-06-15T00:00:00+00:00, tz='UTC')
 
 # Add additional formats to defaults
 date = Eones("15-06-2024", additional_formats=["%d-%m-%Y"])
+print(date)  # Eones(date=2024-06-15T00:00:00+00:00, tz='UTC')
 ```
 
 ## Localization
@@ -113,8 +119,8 @@ date1 = Eones("2024-01-01")
 date2 = Eones("2024-01-15")
 
 # In English (default)
-print(date2.diff_for_humans(date1))  # "2 weeks ago"
+print(date2.diff_for_humans(date1))  # in 2 weeks
 
 # In Spanish
-print(date2.diff_for_humans(date1, locale="es"))  # "hace 2 semanas"
+print(date2.diff_for_humans(date1, locale="es"))  # en 2 semanas
 ```

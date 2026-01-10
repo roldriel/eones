@@ -1,4 +1,4 @@
-# Uso Básico de Eones
+# ⚡ Guía Rápida
 
 Este archivo contiene ejemplos básicos para comenzar a usar la librería Eones.
 
@@ -25,9 +25,9 @@ fecha4 = Eones("2024-12-25 15:30:00")
 # Desde diccionario
 fecha5 = Eones({"year": 2024, "month": 12, "day": 25, "hour": 15})
 
-# Desde datetime de Python
-from datetime import datetime
-fecha6 = Eones(datetime.now())
+# Desde datetime de Python (debe tener zona horaria)
+from datetime import datetime, timezone
+fecha6 = Eones(datetime.now(timezone.utc))
 
 # Desde cadenas ISO 8601 (con soporte de zona horaria)
 fecha7 = Eones("2024-12-25T15:30:00Z")           # UTC

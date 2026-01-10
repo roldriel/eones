@@ -1,4 +1,4 @@
-# Common Use Cases with Eones
+# 💼 Real World Scenarios
 
 This file contains practical examples of using Eones in real-world situations.
 

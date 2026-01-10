@@ -1,4 +1,4 @@
-# Configuración del Primer Día de la Semana
+# 🌍 Configuración Regional
 
 Eones v1.4.0 introduce la capacidad de configurar el primer día de la semana para adaptarse a diferentes estándares culturales y regionales.
 
