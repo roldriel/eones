@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.4.1] - 2026-01-09
 
 ### Fixed
-- Fixed documentation build failure due to case-sensitive filename issue in `docs/source/benchmarks/README.md`
+- Standardized all documentation filenames to uppercase (`README.md`, `LICENSE.md`, `CHANGELOG.md`) for ensuring Linux CI compatibility
 - Removed invalid `install-project` input from docs workflow to resolve warning
 - Ensured proper release pipeline execution by bumping version to avoid PyPI conflicts
 

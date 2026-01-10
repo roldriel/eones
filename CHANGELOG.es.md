@@ -5,7 +5,7 @@ Todas las versiones están documentadas en este archivo.
 ## [1.4.1] - 09-01-2026
 
 ### Corregido
-- Se corrigió el fallo de construcción de documentación debido a un problema de distinción de mayúsculas/minúsculas en `docs/source/benchmarks/README.md`
+- Se estandarizaron todos los nombres de archivo de documentación a mayúsculas (`README.md`, `LICENSE.md`, `CHANGELOG.md`) para asegurar compatibilidad con CI en Linux
 - Se eliminó el input inválido `install-project` del workflow de documentación para resolver advertencia
 - Se aseguró la correcta ejecución del pipeline de release incrementando la versión para evitar conflictos en PyPI
 
