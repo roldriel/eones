@@ -110,7 +110,7 @@ Eones muestra excepciones claras derivadas de `EonesError`. Las zonas horarias n
 | Licencia permisiva (MIT / BSD)          | ✅    | ✅        | ✅    | ✅        | ✅        | ✅   |
 | Mantenimiento activo                    | ✅    | ✅        | ✅    | ❌        | ✅        | ⚠️   |
 
-> **Mirá los números:** Para métricas detalladas de rendimiento (Velocidad, Memoria, Perfilado), revisá nuestra **[Suite de Benchmarks](benchmarks/README.md)**.
+> **Mirá los números:** Para métricas detalladas de rendimiento (Velocidad, Memoria, Perfilado), revisá nuestra **[Suite de Benchmarks](https://github.com/roldriel/eones/blob/master/benchmarks/README.md)**.
 
 ---
 

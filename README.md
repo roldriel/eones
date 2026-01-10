@@ -112,7 +112,7 @@ raise `InvalidTimezoneError`, while unparsable strings raise
 | Permissive license (MIT / BSD)          | ✅    | ✅        | ✅    | ✅        | ✅        | ✅   |
 | Actively maintained                     | ✅    | ✅        | ✅    | ❌        | ✅        | ⚠️   |
 
-> **See the numbers yourself:** For detailed performance metrics (Speed, Memory, Profiling), check out our **[Benchmark Suite](benchmarks/README.md)**.
+> **See the numbers yourself:** For detailed performance metrics (Speed, Memory, Profiling), check out our **[Benchmark Suite](https://github.com/roldriel/eones/blob/master/benchmarks/README.md)**.
 
 ---
 

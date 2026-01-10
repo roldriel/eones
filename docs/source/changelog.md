@@ -6,7 +6,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Changes since v1.3.6
+### Changes since v1.4.0
+
+## [1.4.0] - 2026-01-09
+
+### Added
+- Comprehensive benchmark suite with 4 scripts:
+  - `comparison.py`: Performance comparison against competitors (Pendulum, Arrow, dateutil, Delorean)
+  - `microbenchmarks.py`: Isolated method performance testing
+  - `memory.py`: Memory footprint analysis with pympler
+  - `profiling.py`: CPU profiling with cProfile
+- Benchmark documentation integrated in Sphinx (`docs/source/benchmarks/`)
+- Enhanced README comparison tables with Performance and Memory rows
+- Project roadmap (`ROADMAP.md`) documenting future development plans
+
+### Performance
+- Lazy parser initialization: 20% faster date instantiation
+- Fast path optimizations for ISO parsing with string concatenation
+- Constructor bypass for known-valid dates in `from_iso`
+
+### Improved
+- Test coverage increased from 94% to 98% (+439 tests now passing)
+- All Pylint warnings resolved (10/10 score achieved)
+- All Mypy type errors fixed (clean type checking)
+- Consolidated project configuration in `pyproject.toml`
+- Reorganized integration tests for better maintainability
+
+### Changed
+- Removed `.coveragerc`, `.pylintrc`, `pytest.ini` (migrated to `pyproject.toml`)
+- Updated `tox.ini` to fix `allowlist_externals` and `pip-audit` configuration
+- Compacted docstrings in `date.py` to reduce module line count
 
 ## [1.3.6] - 2025-01-19
 

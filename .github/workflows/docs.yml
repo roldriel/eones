@@ -97,7 +97,6 @@ jobs:
         with:
           python-version: '3.11'
           cache-key-suffix: docs-build
-          install-project: true
           extra-deps: 'sphinx sphinx-rtd-theme myst-parser sphinx-autodoc-typehints'
 
       - name: Install documentation dependencies

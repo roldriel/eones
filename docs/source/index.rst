@@ -7,7 +7,7 @@ Welcome to Eones's documentation!
 
    eones
    readme
-   benchmarks/readme
+   benchmarks/README
    license
    changelog
 
