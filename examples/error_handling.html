@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Error Handling in Eones &#8212; Eones 1.4.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=9172181d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="canonical" href="https://roldriel.github.io/eones/examples/error_handling.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Advanced Formatting and Serialization in Eones" href="formatting_serialization.html" />
+    <link rel="prev" title="Working with Deltas in Eones" href="complete_deltas.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="error-handling-in-eones">
+<h1>Error Handling in Eones<a class="headerlink" href="#error-handling-in-eones" title="Link to this heading">¶</a></h1>
+<p>Eones defines a robust system of specific exceptions for different types of errors, all inheriting from a common base class <code class="docutils literal notranslate"><span class="pre">EonesError</span></code>.</p>
+<section id="exception-hierarchy">
+<h2>Exception Hierarchy<a class="headerlink" href="#exception-hierarchy" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">eones.errors</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">EonesError</span><span class="p">,</span>                    <span class="c1"># Base exception</span>
+    <span class="n">InvalidTimezoneError</span><span class="p">,</span>          <span class="c1"># Invalid timezone</span>
+    <span class="n">InvalidDateFormatError</span><span class="p">,</span>        <span class="c1"># Invalid date format</span>
+    <span class="n">InvalidDurationFormatError</span>     <span class="c1"># Invalid duration format</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="eoneserror-base-exception">
+<h2><code class="docutils literal notranslate"><span class="pre">EonesError</span></code> - Base Exception<a class="headerlink" href="#eoneserror-base-exception" title="Link to this heading">¶</a></h2>
+<p>All custom Eones exceptions inherit from this base class:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">EonesError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>This allows catching any Eones-specific error:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">Eones</span><span class="p">(</span><span class="s2">&quot;invalid-date&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;Nonexistent/Zone&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">EonesError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Eones error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="invalidtimezoneerror">
+<h2><code class="docutils literal notranslate"><span class="pre">InvalidTimezoneError</span></code><a class="headerlink" href="#invalidtimezoneerror" title="Link to this heading">¶</a></h2>
+<p>Raised when an unrecognized timezone is provided:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">Eones</span><span class="p">(</span><span class="s2">&quot;2024-01-01&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;Nonexistent/Zone&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">InvalidTimezoneError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid timezone: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Use default timezone</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">Eones</span><span class="p">(</span><span class="s2">&quot;2024-01-01&quot;</span><span class="p">)</span>  <span class="c1"># UTC by default</span>
+</pre></div>
+</div>
+</section>
+<section id="invaliddateformaterror">
+<h2><code class="docutils literal notranslate"><span class="pre">InvalidDateFormatError</span></code><a class="headerlink" href="#invaliddateformaterror" title="Link to this heading">¶</a></h2>
+<p>Raised when the date string cannot be parsed correctly:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">Eones</span><span class="p">(</span><span class="s2">&quot;completely-invalid-date&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">InvalidDateFormatError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid date format: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Try with specific format</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">Eones</span><span class="p">(</span><span class="s2">&quot;2024-01-01&quot;</span><span class="p">,</span> <span class="n">formats</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+<section id="invaliddurationformaterror">
+<h2><code class="docutils literal notranslate"><span class="pre">InvalidDurationFormatError</span></code><a class="headerlink" href="#invaliddurationformaterror" title="Link to this heading">¶</a></h2>
+<p>Raised when an ISO 8601 duration string is invalid:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">eones.delta</span><span class="w"> </span><span class="kn">import</span> <span class="n">Delta</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">Delta</span><span class="o">.</span><span class="n">from_iso</span><span class="p">(</span><span class="s2">&quot;P1Y2M3D4H5M6S-INVALID&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">InvalidDurationFormatError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid ISO duration format: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Create delta manually</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">Delta</span><span class="p">(</span><span class="n">years</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">months</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">days</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">hours</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="robust-error-handling">
+<h2>Robust Error Handling<a class="headerlink" href="#robust-error-handling" title="Link to this heading">¶</a></h2>
+<section id="safe-creation-function">
+<h3>Safe Creation Function<a class="headerlink" href="#safe-creation-function" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">create_safe_date</span><span class="p">(</span><span class="n">date_str</span><span class="p">,</span> <span class="n">tz_str</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a date safely with error handling.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Eones</span><span class="p">(</span><span class="n">date_str</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">tz_str</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">InvalidDateFormatError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid date format: </span><span class="si">{</span><span class="n">date_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">except</span> <span class="n">InvalidTimezoneError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid timezone: </span><span class="si">{</span><span class="n">tz_str</span><span class="si">}</span><span class="s2">, using UTC&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Eones</span><span class="p">(</span><span class="n">date_str</span><span class="p">)</span>  <span class="c1"># UTC by default</span>
+    <span class="k">except</span> <span class="n">EonesError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;General Eones error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<span class="c1"># Usage</span>
+<span class="n">date</span> <span class="o">=</span> <span class="n">create_safe_date</span><span class="p">(</span><span class="s2">&quot;2024-12-25&quot;</span><span class="p">,</span> <span class="s2">&quot;Europe/Madrid&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">date</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Date created: </span><span class="si">{</span><span class="n">date</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %Z&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="multiple-format-handling">
+<h3>Multiple Format Handling<a class="headerlink" href="#multiple-format-handling" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">parse_flexible_date</span><span class="p">(</span><span class="n">date_str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Attempts to parse a date with multiple strategies.&quot;&quot;&quot;</span>
+    <span class="n">formats</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%m/%Y&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">-%m-%Y&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span>
+    <span class="p">]</span>
+    
+    <span class="k">for</span> <span class="n">format_str</span> <span class="ow">in</span> <span class="n">formats</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Eones</span><span class="p">(</span><span class="n">date_str</span><span class="p">,</span> <span class="n">formats</span><span class="o">=</span><span class="p">[</span><span class="n">format_str</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">InvalidDateFormatError</span><span class="p">:</span>
+            <span class="k">continue</span>
+    
+    <span class="c1"># If no format works</span>
+    <span class="k">raise</span> <span class="n">InvalidDateFormatError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not parse date: </span><span class="si">{</span><span class="n">date_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Usage</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">parse_flexible_date</span><span class="p">(</span><span class="s2">&quot;25/12/2024&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parsed date: </span><span class="si">{</span><span class="n">date</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">InvalidDateFormatError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="user-input-validation">
+<h3>User Input Validation<a class="headerlink" href="#user-input-validation" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">validate_user_input</span><span class="p">(</span><span class="n">date_input</span><span class="p">,</span> <span class="n">tz_input</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validates and processes user input with detailed feedback.&quot;&quot;&quot;</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1"># Validate date</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">Eones</span><span class="p">(</span><span class="n">date_input</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">tz_input</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">InvalidDateFormatError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid date format: &#39;</span><span class="si">{</span><span class="n">date_input</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Valid formats: YYYY-MM-DD, DD/MM/YYYY, DD-MM-YYYY&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">InvalidTimezoneError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid timezone: &#39;</span><span class="si">{</span><span class="n">tz_input</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Valid timezone example: &#39;Europe/Madrid&#39;, &#39;America/New_York&#39;&quot;</span><span class="p">)</span>
+        <span class="c1"># Try without timezone</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">date</span> <span class="o">=</span> <span class="n">Eones</span><span class="p">(</span><span class="n">date_input</span><span class="p">)</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Using UTC as default timezone&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">InvalidDateFormatError</span><span class="p">:</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Could not parse date without timezone either&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">EonesError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">date</span><span class="p">,</span> <span class="n">errors</span>
+
+<span class="c1"># Usage</span>
+<span class="n">date</span><span class="p">,</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">validate_user_input</span><span class="p">(</span><span class="s2">&quot;25/12/2024&quot;</span><span class="p">,</span> <span class="s2">&quot;Europe/Madrid&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">errors</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⚠️  </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">date</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ Valid date: </span><span class="si">{</span><span class="n">date</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %Z&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="error-logging">
+<h3>Error Logging<a class="headerlink" href="#error-logging" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">process_date_with_logging</span><span class="p">(</span><span class="n">date_str</span><span class="p">,</span> <span class="n">tz_str</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Processes date with detailed error logging.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">Eones</span><span class="p">(</span><span class="n">date_str</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">tz_str</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Date processed successfully: </span><span class="si">{</span><span class="n">date</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %Z&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">date</span>
+    <span class="k">except</span> <span class="n">InvalidDateFormatError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Date format error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input received: &#39;</span><span class="si">{</span><span class="n">date_str</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+        <span class="k">raise</span>
+    <span class="k">except</span> <span class="n">InvalidTimezoneError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid timezone: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrying with UTC...&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Eones</span><span class="p">(</span><span class="n">date_str</span><span class="p">)</span>  <span class="c1"># Fallback to UTC</span>
+    <span class="k">except</span> <span class="n">EonesError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected Eones error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="exception-usage-contexts">
+<h2>Exception Usage Contexts<a class="headerlink" href="#exception-usage-contexts" title="Link to this heading">¶</a></h2>
+<p>These exceptions are used internally in:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">parser.py</span></code></strong>: When parsing invalid dates or durations</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">Date</span></code> and <code class="docutils literal notranslate"><span class="pre">Delta</span></code></strong>: When initializing objects with incorrect data</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">interface.py</span></code></strong>: When validating user inputs</p></li>
+<li><p><strong>Conversion methods</strong>: When converting between formats</p></li>
+</ul>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Always catch specific exceptions</strong> before the base exception</p></li>
+<li><p><strong>Provide helpful error messages</strong> to the user</p></li>
+<li><p><strong>Implement sensible fallbacks</strong> when possible</p></li>
+<li><p><strong>Log errors</strong> for debugging and monitoring</p></li>
+<li><p><strong>Validate inputs</strong> before processing when critical</p></li>
+</ol>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Eones</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../eones.html">eones package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks/readme.html">Eones Benchmark Suite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">MIT License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="basic_usage.html">Basic Usage of Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_usage.html">Advanced Usage of Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="complete_deltas.html">Working with Deltas in Eones</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Error Handling in Eones</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#exception-hierarchy">Exception Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#eoneserror-base-exception"><code class="docutils literal notranslate"><span class="pre">EonesError</span></code> - Base Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#invalidtimezoneerror"><code class="docutils literal notranslate"><span class="pre">InvalidTimezoneError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#invaliddateformaterror"><code class="docutils literal notranslate"><span class="pre">InvalidDateFormatError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#invaliddurationformaterror"><code class="docutils literal notranslate"><span class="pre">InvalidDurationFormatError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#robust-error-handling">Robust Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exception-usage-contexts">Exception Usage Contexts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#best-practices">Best Practices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="formatting_serialization.html">Advanced Formatting and Serialization in Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases.html">Common Use Cases with Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week_configuration.html">Configuración del Primer Día de la Semana</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Integrations:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/fastapi.html">FastAPI &amp; Pydantic Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/sqlalchemy.html">SQLAlchemy Integration</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="complete_deltas.html" title="previous chapter">Working with Deltas in Eones</a></li>
+      <li>Next: <a href="formatting_serialization.html" title="next chapter">Advanced Formatting and Serialization in Eones</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Rodrigo Ezequiel Roldán.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/examples/error_handling.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

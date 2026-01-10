@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>FastAPI &amp; Pydantic Integration &#8212; Eones 1.4.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=9172181d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="canonical" href="https://roldriel.github.io/eones/integrations/fastapi.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="SQLAlchemy Integration" href="sqlalchemy.html" />
+    <link rel="prev" title="Configuración del Primer Día de la Semana" href="../examples/week_configuration.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="fastapi-pydantic-integration">
+<h1>FastAPI &amp; Pydantic Integration<a class="headerlink" href="#fastapi-pydantic-integration" title="Link to this heading">¶</a></h1>
+<p>Eones works seamlessly with FastAPI and Pydantic. You can create custom types to automatically validate and serialize dates.</p>
+<section id="custom-pydantic-type">
+<h2>Custom Pydantic Type<a class="headerlink" href="#custom-pydantic-type" title="Link to this heading">¶</a></h2>
+<p>To use <code class="docutils literal notranslate"><span class="pre">Eones</span></code> or <code class="docutils literal notranslate"><span class="pre">Date</span></code> as a Pydantic field, you can define an annotated type with a <code class="docutils literal notranslate"><span class="pre">BeforeValidator</span></code> or a custom class with <code class="docutils literal notranslate"><span class="pre">__get_pydantic_core_schema__</span></code>.</p>
+<section id="simple-validator-approach">
+<h3>Simple Validator Approach<a class="headerlink" href="#simple-validator-approach" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">BeforeValidator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">eones</span><span class="w"> </span><span class="kn">import</span> <span class="n">Eones</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_eones</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="nb">any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Eones</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Eones</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">v</span>
+    <span class="k">return</span> <span class="n">Eones</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+<span class="n">EonesField</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Eones</span><span class="p">,</span> <span class="n">BeforeValidator</span><span class="p">(</span><span class="n">validate_eones</span><span class="p">)]</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Event</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">start_time</span><span class="p">:</span> <span class="n">EonesField</span>
+
+<span class="c1"># Usage</span>
+<span class="n">event</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Meeting&quot;</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="s2">&quot;2025-10-01&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">))</span>  <span class="c1"># 2025-10-01</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="response-serialization">
+<h2>Response Serialization<a class="headerlink" href="#response-serialization" title="Link to this heading">¶</a></h2>
+<p>To ensure Eones objects are serialized correctly to JSON in FastAPI responses, you can configure your Pydantic models to use a custom encoder or simply ensure your <code class="docutils literal notranslate"><span class="pre">Eones</span></code> objects are converted to strings/IS0 formats before return, or register a custom encoder in FastAPI.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.encoders</span><span class="w"> </span><span class="kn">import</span> <span class="n">jsonable_encoder</span>
+
+<span class="c1"># ...</span>
+<span class="n">json_compatible_item_data</span> <span class="o">=</span> <span class="n">jsonable_encoder</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">custom_encoder</span><span class="o">=</span><span class="p">{</span>
+    <span class="n">Eones</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">to_iso</span><span class="p">()</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Eones</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../eones.html">eones package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks/readme.html">Eones Benchmark Suite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">MIT License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/basic_usage.html">Basic Usage of Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/advanced_usage.html">Advanced Usage of Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/complete_deltas.html">Working with Deltas in Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/error_handling.html">Error Handling in Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/formatting_serialization.html">Advanced Formatting and Serialization in Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/use_cases.html">Common Use Cases with Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/week_configuration.html">Configuración del Primer Día de la Semana</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Integrations:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FastAPI &amp; Pydantic Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#custom-pydantic-type">Custom Pydantic Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#response-serialization">Response Serialization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sqlalchemy.html">SQLAlchemy Integration</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../examples/week_configuration.html" title="previous chapter">Configuración del Primer Día de la Semana</a></li>
+      <li>Next: <a href="sqlalchemy.html" title="next chapter">SQLAlchemy Integration</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Rodrigo Ezequiel Roldán.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/integrations/fastapi.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

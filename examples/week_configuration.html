@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Configuración del Primer Día de la Semana &#8212; Eones 1.4.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=9172181d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="canonical" href="https://roldriel.github.io/eones/examples/week_configuration.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="FastAPI &amp; Pydantic Integration" href="../integrations/fastapi.html" />
+    <link rel="prev" title="Common Use Cases with Eones" href="use_cases.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="configuracion-del-primer-dia-de-la-semana">
+<h1>Configuración del Primer Día de la Semana<a class="headerlink" href="#configuracion-del-primer-dia-de-la-semana" title="Link to this heading">¶</a></h1>
+<p>Eones v1.4.0 introduce la capacidad de configurar el primer día de la semana para adaptarse a diferentes estándares culturales y regionales.</p>
+<section id="configuracion-global">
+<h2>Configuración Global<a class="headerlink" href="#configuracion-global" title="Link to this heading">¶</a></h2>
+<p>Por defecto, Eones utiliza el estándar ISO donde el lunes es el primer día de la semana (valor 0). Puedes cambiar esto modificando la constante <code class="docutils literal notranslate"><span class="pre">FIRST_DAY_OF_WEEK</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">eones</span><span class="w"> </span><span class="kn">import</span> <span class="n">constants</span>
+
+<span class="c1"># Configurar para estándar ISO (lunes primero) - por defecto</span>
+<span class="n">constants</span><span class="o">.</span><span class="n">FIRST_DAY_OF_WEEK</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Configurar para estándar US (domingo primero)</span>
+<span class="n">constants</span><span class="o">.</span><span class="n">FIRST_DAY_OF_WEEK</span> <span class="o">=</span> <span class="mi">6</span>
+</pre></div>
+</div>
+</section>
+<section id="impacto-en-los-metodos">
+<h2>Impacto en los Métodos<a class="headerlink" href="#impacto-en-los-metodos" title="Link to this heading">¶</a></h2>
+<section id="is-weekend">
+<h3>is_weekend()<a class="headerlink" href="#is-weekend" title="Link to this heading">¶</a></h3>
+<p>El método <code class="docutils literal notranslate"><span class="pre">is_weekend()</span></code> se adapta automáticamente a la configuración:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">eones</span><span class="w"> </span><span class="kn">import</span> <span class="n">Date</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">eones</span><span class="w"> </span><span class="kn">import</span> <span class="n">constants</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="c1"># Crear una fecha de viernes</span>
+<span class="n">viernes</span> <span class="o">=</span> <span class="n">Date</span><span class="p">(</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>  <span class="c1"># Viernes</span>
+
+<span class="c1"># Estándar ISO (lunes primero): viernes NO es fin de semana</span>
+<span class="n">constants</span><span class="o">.</span><span class="n">FIRST_DAY_OF_WEEK</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ISO - Viernes es fin de semana: </span><span class="si">{</span><span class="n">viernes</span><span class="o">.</span><span class="n">is_weekend</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># False</span>
+
+<span class="c1"># Estándar US (domingo primero): viernes SÍ es fin de semana</span>
+<span class="n">constants</span><span class="o">.</span><span class="n">FIRST_DAY_OF_WEEK</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;US - Viernes es fin de semana: </span><span class="si">{</span><span class="n">viernes</span><span class="o">.</span><span class="n">is_weekend</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>   <span class="c1"># True</span>
+</pre></div>
+</div>
+</section>
+<section id="week-range">
+<h3>week_range()<a class="headerlink" href="#week-range" title="Link to this heading">¶</a></h3>
+<p>El método <code class="docutils literal notranslate"><span class="pre">week_range()</span></code> también acepta un parámetro opcional para especificar el primer día:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">eones</span><span class="w"> </span><span class="kn">import</span> <span class="n">Date</span><span class="p">,</span> <span class="n">Range</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="c1"># Martes, 10 de junio de 2025</span>
+<span class="n">fecha</span> <span class="o">=</span> <span class="n">Date</span><span class="p">(</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">Range</span><span class="p">(</span><span class="n">fecha</span><span class="p">)</span>
+
+<span class="c1"># Semana ISO (lunes a domingo)</span>
+<span class="n">start_iso</span><span class="p">,</span> <span class="n">end_iso</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">week_range</span><span class="p">(</span><span class="n">first_day_of_week</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Semana ISO: </span><span class="si">{</span><span class="n">start_iso</span><span class="o">.</span><span class="n">day</span><span class="si">}</span><span class="s2"> al </span><span class="si">{</span><span class="n">end_iso</span><span class="o">.</span><span class="n">day</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># 9 al 15</span>
+
+<span class="c1"># Semana US (domingo a sábado)</span>
+<span class="n">start_us</span><span class="p">,</span> <span class="n">end_us</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">week_range</span><span class="p">(</span><span class="n">first_day_of_week</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Semana US: </span><span class="si">{</span><span class="n">start_us</span><span class="o">.</span><span class="n">day</span><span class="si">}</span><span class="s2"> al </span><span class="si">{</span><span class="n">end_us</span><span class="o">.</span><span class="n">day</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>    <span class="c1"># 8 al 14</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="funciones-helper">
+<h2>Funciones Helper<a class="headerlink" href="#funciones-helper" title="Link to this heading">¶</a></h2>
+<p>Eones proporciona funciones helper para convertir entre sistemas de numeración:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">eones.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">iso_to_us_weekday</span><span class="p">,</span> <span class="n">us_to_iso_weekday</span><span class="p">,</span> <span class="n">is_weekend_day</span>
+
+<span class="c1"># Convertir de ISO a US</span>
+<span class="n">iso_monday</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Lunes en ISO</span>
+<span class="n">us_monday</span> <span class="o">=</span> <span class="n">iso_to_us_weekday</span><span class="p">(</span><span class="n">iso_monday</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Lunes ISO (</span><span class="si">{</span><span class="n">iso_monday</span><span class="si">}</span><span class="s2">) = Lunes US (</span><span class="si">{</span><span class="n">us_monday</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>  <span class="c1"># 0 = 1</span>
+
+<span class="c1"># Convertir de US a ISO</span>
+<span class="n">us_sunday</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Domingo en US</span>
+<span class="n">iso_sunday</span> <span class="o">=</span> <span class="n">us_to_iso_weekday</span><span class="p">(</span><span class="n">us_sunday</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Domingo US (</span><span class="si">{</span><span class="n">us_sunday</span><span class="si">}</span><span class="s2">) = Domingo ISO (</span><span class="si">{</span><span class="n">iso_sunday</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>  <span class="c1"># 0 = 6</span>
+
+<span class="c1"># Verificar fin de semana con configuración específica</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;¿Viernes es fin de semana en ISO? </span><span class="si">{</span><span class="n">is_weekend_day</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># False</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;¿Viernes es fin de semana en US? </span><span class="si">{</span><span class="n">is_weekend_day</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>   <span class="c1"># True</span>
+</pre></div>
+</div>
+</section>
+<section id="sistemas-de-numeracion">
+<h2>Sistemas de Numeración<a class="headerlink" href="#sistemas-de-numeracion" title="Link to this heading">¶</a></h2>
+<section id="iso-estandar-internacional">
+<h3>ISO (Estándar Internacional)<a class="headerlink" href="#iso-estandar-internacional" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>0: Lunes</p></li>
+<li><p>1: Martes</p></li>
+<li><p>2: Miércoles</p></li>
+<li><p>3: Jueves</p></li>
+<li><p>4: Viernes</p></li>
+<li><p>5: Sábado</p></li>
+<li><p>6: Domingo</p></li>
+<li><p><strong>Fin de semana</strong>: Sábado y Domingo</p></li>
+</ul>
+</section>
+<section id="us-estandar-estadounidense">
+<h3>US (Estándar Estadounidense)<a class="headerlink" href="#us-estandar-estadounidense" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>0: Domingo</p></li>
+<li><p>1: Lunes</p></li>
+<li><p>2: Martes</p></li>
+<li><p>3: Miércoles</p></li>
+<li><p>4: Jueves</p></li>
+<li><p>5: Viernes</p></li>
+<li><p>6: Sábado</p></li>
+<li><p><strong>Fin de semana</strong>: Viernes y Sábado (en numeración ISO: 4 y 5)</p></li>
+</ul>
+</section>
+</section>
+<section id="casos-de-uso">
+<h2>Casos de Uso<a class="headerlink" href="#casos-de-uso" title="Link to this heading">¶</a></h2>
+<section id="aplicaciones-internacionales">
+<h3>Aplicaciones Internacionales<a class="headerlink" href="#aplicaciones-internacionales" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configurar según la región del usuario</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">configurar_semana_por_region</span><span class="p">(</span><span class="n">region</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">region</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;US&#39;</span><span class="p">,</span> <span class="s1">&#39;CA&#39;</span><span class="p">,</span> <span class="s1">&#39;MX&#39;</span><span class="p">]:</span>  <span class="c1"># América del Norte</span>
+        <span class="n">constants</span><span class="o">.</span><span class="n">FIRST_DAY_OF_WEEK</span> <span class="o">=</span> <span class="mi">6</span>  <span class="c1"># Domingo primero</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># Europa, Asia, etc.</span>
+        <span class="n">constants</span><span class="o">.</span><span class="n">FIRST_DAY_OF_WEEK</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Lunes primero</span>
+</pre></div>
+</div>
+</section>
+<section id="reportes-de-negocio">
+<h3>Reportes de Negocio<a class="headerlink" href="#reportes-de-negocio" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generar reporte semanal adaptado a la cultura local</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">generar_reporte_semanal</span><span class="p">(</span><span class="n">fecha</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="s1">&#39;ISO&#39;</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">Range</span><span class="p">(</span><span class="n">fecha</span><span class="p">)</span>
+    <span class="n">first_day</span> <span class="o">=</span> <span class="mi">6</span> <span class="k">if</span> <span class="n">region</span> <span class="o">==</span> <span class="s1">&#39;US&#39;</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">week_range</span><span class="p">(</span><span class="n">first_day_of_week</span><span class="o">=</span><span class="n">first_day</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reporte semanal del </span><span class="si">{</span><span class="n">start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">/%m/%Y&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> al </span><span class="si">{</span><span class="n">end</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">/%m/%Y&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="notas-importantes">
+<h2>Notas Importantes<a class="headerlink" href="#notas-importantes" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Compatibilidad</strong>: El cambio de <code class="docutils literal notranslate"><span class="pre">FIRST_DAY_OF_WEEK</span></code> afecta globalmente a todos los métodos que dependen de la configuración de semana.</p></li>
+<li><p><strong>Persistencia</strong>: La configuración se mantiene durante toda la sesión de Python. Para cambios permanentes, considera configurarla al inicio de tu aplicación.</p></li>
+<li><p><strong>Thread Safety</strong>: Ten cuidado al cambiar la configuración en aplicaciones multi-hilo, ya que afecta globalmente.</p></li>
+<li><p><strong>Retrocompatibilidad</strong>: Por defecto, Eones mantiene el comportamiento ISO existente, por lo que el código existente seguirá funcionando sin cambios.</p></li>
+</ol>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Eones</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../eones.html">eones package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks/readme.html">Eones Benchmark Suite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">MIT License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="basic_usage.html">Basic Usage of Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_usage.html">Advanced Usage of Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="complete_deltas.html">Working with Deltas in Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="error_handling.html">Error Handling in Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formatting_serialization.html">Advanced Formatting and Serialization in Eones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases.html">Common Use Cases with Eones</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuración del Primer Día de la Semana</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#configuracion-global">Configuración Global</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#impacto-en-los-metodos">Impacto en los Métodos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#funciones-helper">Funciones Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sistemas-de-numeracion">Sistemas de Numeración</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#casos-de-uso">Casos de Uso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#notas-importantes">Notas Importantes</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Integrations:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/fastapi.html">FastAPI &amp; Pydantic Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrations/sqlalchemy.html">SQLAlchemy Integration</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="use_cases.html" title="previous chapter">Common Use Cases with Eones</a></li>
+      <li>Next: <a href="../integrations/fastapi.html" title="next chapter">FastAPI &amp; Pydantic Integration</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Rodrigo Ezequiel Roldán.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/examples/week_configuration.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
