@@ -2,6 +2,37 @@
 
 Todas las versiones están documentadas en este archivo.
 
+## [1.4.0] - 09-01-2026
+
+### Agregado
+- Suite completo de benchmarks con 4 scripts:
+  - `comparison.py`: Comparación de rendimiento contra competidores (Pendulum, Arrow, dateutil, Delorean)
+  - `microbenchmarks.py`: Testing de rendimiento de métodos aislados
+  - `memory.py`: Análisis de huella de memoria con pympler
+  - `profiling.py`: Perfilado de CPU con cProfile
+- Documentación de benchmarks integrada en Sphinx (`docs/source/benchmarks/`)
+- Tablas de comparación mejoradas en README con filas de Performance y Memory
+- Roadmap del proyecto (`ROADMAP.md`) documentando planes de desarrollo futuros
+
+### Rendimiento
+- Inicialización lazy del parser: 20% más rápido en instanciación de fechas
+- Optimizaciones de fast path para parsing ISO con concatenación de strings
+- Bypass del constructor para fechas conocidas como válidas en `from_iso`
+
+### Mejorado
+- Cobertura de tests incrementada de 94% a 98% (+439 tests pasando ahora)
+- Todos los warnings de Pylint resueltos (puntaje 10/10 alcanzado)
+- Todos los errores de tipo de Mypy corregidos (type checking limpio)
+- Configuración del proyecto consolidada en `pyproject.toml`
+- Tests de integración reorganizados para mejor mantenibilidad
+
+### Cambiado
+- Eliminados `.coveragerc`, `.pylintrc`, `pytest.ini` (migrados a `pyproject.toml`)
+- Actualizado `tox.ini` para corregir configuración de `allowlist_externals` y `pip-audit`
+- Docstrings compactados en `date.py` para reducir cantidad de líneas del módulo
+
+---
+
 ## [1.3.6] - 19-01-2025
 
 ### Corregido

@@ -22,7 +22,13 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 - **Navegación por días de la semana**: `next_weekday`, `previous_weekday`
 - **Operaciones temporales**: suma, resta, comparaciones
 - **Truncamiento y redondeo**: `floor`, `ceil`, `round`
+- **Truncamiento y redondeo**: `floor`, `ceil`, `round`
 - **Serialización**: `to_dict`, `to_string`, `to_datetime`
+
+### 🚀 Performance y Calidad (v1.4.0)
+- **Benchmarks**: Suite completa de comparación y profiling
+- **Optimización**: Lazy parser y fast paths (20% más rápido)
+- **Calidad**: 98% coverage y typing estático completo
 
 ---
 
@@ -32,7 +38,7 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 
 ## 🔥 **CRÍTICO - Completar Funcionalidades Existentes**
 
-### 🔖 **v1.4.0 – Extensiones Críticas de Funcionalidades Actuales**
+### 🔖 **v1.5.0 – Extensiones Críticas de Funcionalidades Actuales**
 
 **Prioridad:** CRÍTICA | **Estado:** Inmediato
 
@@ -63,7 +69,7 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 
 ## 🆕 **NUEVAS FUNCIONALIDADES**
 
-### 🔖 **v1.4.0 – Funcionalidades Especiales y Parsing Avanzado**
+### 🔖 **v1.5.0 – Funcionalidades Especiales y Parsing Avanzado**
 
 **Prioridad:** Alta | **Estado:** Planeado
 
@@ -76,7 +82,7 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 
 ---
 
-### 🔖 **v1.5.0 – Calendario Laboral y Métricas**
+### 🔖 **v1.6.0 – Calendario Laboral y Métricas**
 
 **Prioridad:** Alta | **Estado:** Planeado
 
@@ -91,7 +97,7 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 
 ---
 
-### 🔖 **v1.6.0 – Internacionalización Avanzada**
+### 🔖 **v1.7.0 – Internacionalización Avanzada**
 
 **Prioridad:** Media | **Estado:** Planeado
 
@@ -106,7 +112,7 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 
 ---
 
-### 🔖 **v1.7.0 – Extensiones ISO y Precisión**
+### 🔖 **v1.8.0 – Extensiones ISO y Precisión**
 
 **Prioridad:** Media | **Estado:** Planeado
 
@@ -128,7 +134,7 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 
 ---
 
-### 🔖 **v1.8.0 – Calendarios Alternativos Básicos**
+### 🔖 **v1.9.0 – Calendarios Alternativos Básicos**
 
 **Prioridad:** Baja | **Estado:** Planeado
 
@@ -146,7 +152,9 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 
 ---
 
-### 🔖 **v1.9.0 – Calendarios Alternativos Avanzados**
+- [ ] **Soporte extendido para calendario Juliano** *(Extiende v1.9.0)*
+
+### 🔖 **v1.10.0 – Calendarios Alternativos Avanzados**
 
 **Prioridad:** Muy Baja | **Estado:** Investigación
 
@@ -162,7 +170,7 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 
 ---
 
-### 🔖 **v1.10.0 – Recurrencias y Reglas Avanzadas**
+### 🔖 **v1.11.0 – Recurrencias y Reglas Avanzadas**
 
 **Prioridad:** Media | **Estado:** Muy Largo Plazo
 
@@ -190,7 +198,7 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 
 ---
 
-### 🔖 **v1.11.0 – Calendarios Especializados Avanzados**
+### 🔖 **v1.12.0 – Calendarios Especializados Avanzados**
 
 **Prioridad:** Muy Baja | **Estado:** Futuro Lejano
 
@@ -232,7 +240,7 @@ Si deseas contribuir a alguna funcionalidad:
 > - 📈 **ORDEN:** Primero completar, luego innovar
 
 > 📅 **Última actualización:** Enero 2025  
-> 🔖 **Versión actual:** 1.3.0
+> 🔖 **Versión actual:** 1.4.0
 
 ---
 
