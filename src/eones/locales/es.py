@@ -1,4 +1,4 @@
-"""Mensajes en español para ``diff_for_humans``."""
+"""src/eones/locales/es.py"""
 
 MESSAGES = {
     "past": "hace",

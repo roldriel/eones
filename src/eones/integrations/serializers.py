@@ -1,4 +1,9 @@
-def eones_encoder(obj):
+"""src/eones/integrations/serializers.py"""
+
+from typing import Any
+
+
+def eones_encoder(obj: Any) -> Any:
     """Generic JSON encoder for Date."""
     from eones.core.date import Date
 

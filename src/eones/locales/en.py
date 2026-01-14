@@ -1,4 +1,4 @@
-"""English messages used by ``diff_for_humans``."""
+"""src/eones/locales/en.py"""
 
 MESSAGES = {
     "past": "ago",

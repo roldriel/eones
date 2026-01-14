@@ -1,10 +1,10 @@
-"""Helpers for loading locale messages used by ``diff_for_humans``."""
+"""src/eones/locales/__init__.py"""
 
 from __future__ import annotations
 
 from functools import lru_cache
 from importlib import import_module
-from typing import Dict, Tuple, Union
+from typing import Any, Dict, Tuple, Union, cast
 
 DEFAULT_LOCALE = "en"
 
@@ -21,4 +21,4 @@ def get_messages(locale: str) -> Dict[str, Union[str, Tuple[str, str]]]:
     except ModuleNotFoundError:
         module = import_module(f"eones.locales.{DEFAULT_LOCALE}")
 
-    return getattr(module, "MESSAGES")
+    return cast(Dict[str, Union[str, Tuple[str, str]]], getattr(module, "MESSAGES"))

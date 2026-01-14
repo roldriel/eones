@@ -1,1 +1,1 @@
-"""Core module initializer for Eones."""
+"""src/eones/integrations/__init__.py"""
