@@ -1,3 +1,5 @@
+"""tests/unit/test_errors.py"""
+
 import pytest
 
 from eones.errors import (

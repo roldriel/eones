@@ -1,3 +1,5 @@
+"""tests/unit/test_delta_calendar.py"""
+
 import pytest
 
 from eones.core.delta_calendar import DeltaCalendar

@@ -53,14 +53,17 @@ jobs:
           fi
           echo "✅ Tag exists in git history"
 
-      - name: Verify version in pyproject.toml
+      - name: Verify version in source
         run: |
-          PYPROJECT_VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
-          if [[ "$PYPROJECT_VERSION" != "${{ steps.tag.outputs.version }}" ]]; then
-            echo "❌ Version mismatch: tag=${{ steps.tag.outputs.version }}, pyproject.toml=$PYPROJECT_VERSION"
+          # Extract version directly from the single source of truth
+          SRC_VERSION=$(python3 -c "import sys; sys.path.append('src'); import eones; print(eones.__version__)")
+          echo "📝 Version in src/eones/__init__.py: $SRC_VERSION"
+          
+          if [[ "$SRC_VERSION" != "${{ steps.tag.outputs.version }}" ]]; then
+            echo "❌ Version mismatch: tag=${{ steps.tag.outputs.version }}, src=$SRC_VERSION"
             exit 1
           fi
-          echo "✅ Version matches in pyproject.toml: $PYPROJECT_VERSION"
+          echo "✅ Version matches in source: $SRC_VERSION"
 
   # Tests finales antes del release
   pre-release-tests:

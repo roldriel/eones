@@ -1,4 +1,6 @@
-from datetime import datetime
+"""tests/unit/test_range.py"""
+
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 import pytest
@@ -180,3 +182,22 @@ def test_custom_range_swapped_order():
     start_dt, end_dt = range_obj.custom_range(start_delta, end_delta)
     # Should swap the order automatically
     assert start_dt <= end_dt
+
+
+def test_range_iter_core():
+    start = Date(datetime(2023, 1, 1), naive="utc")
+    end = Date(datetime(2023, 1, 3), naive="utc")
+    step = timedelta(days=1)
+
+    gen = Range.range_iter(start, end, step)
+    results = list(gen)
+    assert len(results) == 3
+    assert results[0] == start
+    assert results[2] == end
+
+    # Reverse range
+    gen_rev = Range.range_iter(end, start, step)
+    results_rev = list(gen_rev)
+    assert len(results_rev) == 3
+    assert results_rev[0] == end
+    assert results_rev[2] == start

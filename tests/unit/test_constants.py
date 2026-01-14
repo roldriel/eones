@@ -1,4 +1,4 @@
-"""Tests for constants module."""
+"""tests/unit/test_constants.py"""
 
 import pytest
 

@@ -1,4 +1,5 @@
-"""
+"""src/eones/__init__.py"
+
 Eones: Navigate time with elegance.
 
 This package provides a semantically rich interface for
@@ -8,7 +9,7 @@ reason about time — not just measure it.
 """
 
 from datetime import datetime, timedelta
-from typing import Any, List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 from eones.core.date import Date
 from eones.core.parser import Parser
@@ -18,7 +19,7 @@ from eones.interface import Eones
 
 # Utility functions for backward compatibility and convenience
 def parse_date(
-    value: Union[str, dict, datetime],
+    value: Union[str, Dict[str, Any], datetime],
     tz: str = "UTC",
     formats: Optional[List[str]] = None,
 ) -> Date:
@@ -32,18 +33,6 @@ def parse_date(
     Returns:
         Date: Parsed date object
     """
-    # Include common datetime formats including ISO with timezone if none provided
-    if formats is None:
-        formats = [
-            "%Y-%m-%d",
-            "%d/%m/%Y",
-            "%Y-%m-%d %H:%M:%S",
-            "%Y-%m-%d %H:%M",
-            "%d/%m/%Y %H:%M:%S",
-            "%d/%m/%Y %H:%M",
-            "%Y-%m-%dT%H:%M:%S%z",
-            "%Y-%m-%dT%H:%M:%S",
-        ]
     parser = Parser(tz=tz, formats=formats)
     return parser.parse(value)
 
@@ -148,7 +137,7 @@ def from_timestamp(timestamp: Union[int, float], tz: str = "UTC") -> Date:
     return Date.from_unix(float(timestamp), tz=tz)
 
 
-__version__ = "1.4.2"
+__version__ = "1.5.0"
 __all__ = [
     "Eones",
     "InvalidFormatError",

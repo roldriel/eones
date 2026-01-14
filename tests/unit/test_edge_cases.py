@@ -1,3 +1,5 @@
+"""tests/unit/test_edge_cases.py"""
+
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 

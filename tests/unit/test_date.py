@@ -1,3 +1,5 @@
+"""tests/unit/test_date.py"""
+
 from datetime import datetime, timedelta
 from typing import cast
 from zoneinfo import ZoneInfo
@@ -141,6 +143,29 @@ def test_date_replace_fields_returns_updated_date():
     assert new.month == 12
     assert new.day == 25
     assert isinstance(new, Date)
+
+
+def test_json_serialization():
+    d = Date(datetime(2023, 1, 1), naive="utc")
+    assert d.for_json() == "2023-01-01T00:00:00+00:00"
+
+
+def test_date_properties_v150():
+    d = Date(datetime(2023, 5, 20), naive="utc")
+    assert d.quarter == 2
+    assert d.iso_week == 20
+    assert d.iso_year == 2023
+
+
+def test_fiscal_methods():
+    d = Date(datetime(2023, 3, 31), naive="utc")
+    # Default starts in April (4)
+    assert d.fiscal_year() == 2022
+    assert d.fiscal_quarter() == 4
+
+    d2 = Date(datetime(2023, 4, 1), naive="utc")
+    assert d2.fiscal_year() == 2023
+    assert d2.fiscal_quarter() == 1
 
 
 # ==== Shift / Add / Subtract ====

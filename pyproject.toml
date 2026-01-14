@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Eones"
-version = "1.4.2"
+dynamic = ["version"]
 description = "Elegant time manipulation and reasoning library"
 readme = {file = "README.md", content-type = "text/markdown"}
 license = {file = "LICENSE.md"}
@@ -32,13 +32,12 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
-dependencies = [
-    "tzdata"
-]
+dependencies = []
 
 [project.optional-dependencies]
 docs = ["sphinx", "myst-parser"]
 test = ["pytest", "coverage"]
+tz = ["tzdata"]
 
 [project.urls]
 repository = "https://github.com/roldriel/eones"
@@ -47,6 +46,9 @@ documentation = "https://roldriel.github.io/eones/"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
+
+[tool.setuptools.dynamic]
+version = {attr = "eones.__version__"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -82,7 +84,7 @@ omit = [
     "*/__init__.py",
     "tests/*",
     "setup.py",
-    "src/eones/integrations/*"
+    "*/integrations/*"
 ]
 
 [tool.coverage.report]
@@ -92,6 +94,17 @@ exclude_lines = [
     "raise NotImplementedError"
 ]
 show_missing = true
+fail_under = 97
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+ignore_missing_imports = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+# Use explicit path instead of exclude to avoid analyzing site-packages
+files = ["src"]
 
 [tool.coverage.html]
 directory = "htmlcov"

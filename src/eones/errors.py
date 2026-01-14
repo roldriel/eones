@@ -1,4 +1,4 @@
-"""errors.py"""
+"""src/eones/errors.py"""
 
 
 class EonesError(Exception):

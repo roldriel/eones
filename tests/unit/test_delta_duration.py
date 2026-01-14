@@ -1,3 +1,5 @@
+"""tests/unit/test_delta_duration.py"""
+
 import pytest
 
 from eones.core.delta_duration import DeltaDuration

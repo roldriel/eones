@@ -1,4 +1,4 @@
-"""Tests for humanize module."""
+"""tests/unit/test_humanize.py"""
 
 import pytest
 

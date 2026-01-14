@@ -1,12 +1,14 @@
+"""tests/unit/test_delta.py"""
+
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 import pytest
 
 from eones.core.date import Date
-from eones.core.delta import Delta
+from eones.core.delta import Delta, DeltaCalendar, DeltaDuration
 
-# ==== DIFF COMPATIBILITY ====
+# ==== DELTA CALENDAR ====TIBILITY ====
 
 
 @pytest.mark.parametrize(
@@ -260,6 +262,11 @@ def test_total_properties_and_from_timedelta():
     combined = Delta(years=1, months=2, days=1, hours=1)
     assert combined.total_months == 14
     assert combined.total_seconds == timedelta(days=1, hours=1).total_seconds()
+
+
+def test_json_serialization():
+    delta = Delta(days=1)
+    assert delta.for_json() == "P1D"
 
 
 # ==== Coverage Tests ====

@@ -1,6 +1,8 @@
-# test_version.py
+"""tests/unit/test_version.py"""
+
 import eones
 
 
 def test_version():
-    assert eones.__version__ == "1.4.2"
+    assert isinstance(eones.__version__, str)
+    assert len(eones.__version__) > 0

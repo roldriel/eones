@@ -1,18 +1,22 @@
+"""tests/unit/test_parser.py"""
+
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
 import pytest
 
-from eones import Eones, InvalidFormatError, InvalidTimezoneError
 from eones.core.date import Date
+from eones.core.delta import Delta
 from eones.core.parser import Parser
+from eones.errors import InvalidFormatError, InvalidTimezoneError
+from eones.interface import Eones
 
 # ==== FIXTURE ====
 
 
 @pytest.fixture
 def parser():
-    return Parser(tz="UTC", formats=["%Y-%m-%d"])  # solo año-mes-día
+    return Parser(tz="UTC", formats=["%Y-%m-%d"])  # only year-month-day
 
 
 def test_invalid_timezone_raises():
@@ -56,7 +60,7 @@ def test_parse_invalid_inputs_raise(parser, invalid_input, exc):
 @pytest.mark.parametrize(
     "invalid_dict",
     [
-        {"year": 2025, "month": 13, "day": 32},  # fecha imposible
+        {"year": 2025, "month": 13, "day": 32},  # impossible date
     ],
 )
 def test_from_dict_invalid_inputs_raise(parser, invalid_dict):
@@ -235,6 +239,19 @@ class TestParserIso8601:
         """Test that parser properly handles invalid ISO 8601 strings."""
         with pytest.raises((ValueError, InvalidFormatError)):
             iso_parser.parse(invalid_iso)
+
+
+def test_day_first_parsing():
+    # Ambiguous date 10/11/2023
+    # day_first=True (default) -> Nov 10
+    e1 = Eones("10/11/2023", day_first=True)
+    assert e1.now().day == 10
+    assert e1.now().month == 11
+
+    # day_first=False -> Oct 11
+    e2 = Eones("10/11/2023", day_first=False)
+    assert e2.now().day == 11
+    assert e2.now().month == 10
 
 
 # ==== PARSER COVERAGE IMPROVEMENTS TESTS ====

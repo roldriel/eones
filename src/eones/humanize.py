@@ -1,4 +1,4 @@
-"""Utility functions for human-friendly time differences."""
+"""src/eones/humanize.py"""
 
 from __future__ import annotations
 

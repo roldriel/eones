@@ -1,10 +1,14 @@
-from datetime import datetime
+"""tests/unit/test_interface.py"""
+
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 import pytest
 
-from eones import Eones
 from eones.core.date import Date
+from eones.core.delta import Delta
+from eones.errors import InvalidFormatError
+from eones.interface import Eones
 
 # ==== INIT ====
 
@@ -57,6 +61,50 @@ def test_eones_equality_same_value():
 def test_eones_equality_not_instance():
     a = Eones("2024-01-01", tz="UTC")
     assert a != "2024-01-01"
+
+
+def test_ergonomic_add_subtract():
+    e = Eones("2023-01-01")
+    delta = Delta(days=2)
+
+    # Positional Delta
+    e.add(delta)
+    assert e.now().day == 3
+
+    # Positional timedelta
+    e.add(timedelta(days=1))
+    assert e.now().day == 4
+
+    # Keyword arguments
+    e.add(days=1)
+    assert e.now().day == 5
+
+    # Subtract positional
+    e.subtract(delta)
+    assert e.now().day == 3
+
+
+def test_range_iter():
+    start = Date(datetime(2023, 1, 1), naive="utc")
+    end = Date(datetime(2023, 1, 5), naive="utc")
+    step = timedelta(days=1)
+
+    dates = list(Eones.range_iter(start, end, step))
+    assert len(dates) == 5
+    assert dates[0].day == 1
+    assert dates[-1].day == 5
+
+
+def test_easter_date():
+    # Easter 2024 is March 31
+    ed = Eones.easter_date(2024)
+    assert ed.month == 3
+    assert ed.day == 31
+
+    # Easter 2025 is April 20
+    ed2 = Eones.easter_date(2025)
+    assert ed2.month == 4
+    assert ed2.day == 20
 
 
 # ==== TIME TRANSFORMATIONS ====
@@ -207,3 +255,63 @@ def test_diff_for_humans_english_and_spanish():
 
     assert start.diff_for_humans(end, locale="es") == "hace 1 semana"
     assert end.diff_for_humans(start, locale="es") == "en 1 semana"
+
+
+# ==== PARSING COHERENCE ====
+
+
+@pytest.mark.parametrize(
+    "value",
+    [
+        "2024-01-15",
+        "2024-01-15T10:30:00",
+        "2024-01-15T10:30:00Z",
+        "15/01/2024",
+        "2024-01-15 13:45:00",
+        {"year": 2024, "month": 1, "day": 15},
+        datetime(2024, 1, 15, 10, 30, tzinfo=ZoneInfo("UTC")),
+    ],
+)
+def test_parsing_coherence_between_entrypoints(value):
+    """Verify that Eones and parse_date (utility) yield identical results."""
+    from eones import parse_date
+
+    e1 = Eones(value)
+    e2 = parse_date(value)
+
+    assert e1.now() == e2
+    assert e1.now().to_datetime() == e2.to_datetime()
+    assert e1.now().timezone == e2.timezone
+
+
+def test_parsing_error_coherence():
+    """Verify that both entrypoints raise the same errors for bad inputs."""
+    from eones import parse_date
+
+    bad_value = "invalid format string"
+    with pytest.raises(InvalidFormatError):
+        Eones(bad_value)
+    with pytest.raises(InvalidFormatError):
+        parse_date(bad_value)
+
+    bad_logical_value = "2024-02-30"  # Invalid day
+    with pytest.raises(ValueError, match="day is out of range"):
+        Eones(bad_logical_value)
+    with pytest.raises(ValueError, match="day is out of range"):
+        parse_date(bad_logical_value)
+
+
+def test_parsing_coherence_with_custom_tz():
+    """Verify coherence when using a custom timezone."""
+    from eones import parse_date
+
+    tz = "America/New_York"
+    value = "2024-01-15 10:30:00"
+
+    e1 = Eones(value, tz=tz)
+    # Note: parse_date also uses DEFAULT_FORMATS and should support this
+    e2 = parse_date(value, tz=tz)
+
+    assert e1.now() == e2
+    assert e1.now().timezone == tz
+    assert e2.timezone == tz
