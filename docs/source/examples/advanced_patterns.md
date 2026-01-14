@@ -123,6 +123,37 @@ year_range = date.range("year")     # (year_start, year_end)
 start, end = month_range
 print(f"Month: from {start} to {end}")
 ```
+ 
+### Range Iteration
+ 
+You can iterate over a range of dates using a generator for better memory efficiency.
+ 
+```python
+from datetime import timedelta
+ 
+start = Eones("2023-01-01")
+end = Eones("2023-01-05")
+ 
+# Iterate with a specific step
+for date in Eones.range_iter(start, end, timedelta(days=1)):
+    print(date.format("%Y-%m-%d"))
+# Output:
+# 2023-01-01
+# 2023-01-02
+# 2023-01-03
+# 2023-01-04
+# 2023-01-05
+```
+ 
+### Special Dates (Easter)
+ 
+Eones can calculate special religious or astronomical dates.
+ 
+```python
+# Calculate Easter Sunday for a given year
+easter_2024 = Eones.easter_date(2024)
+print(easter_2024.format("%A, %B %d"))  # "Sunday, March 31"
+```
 
 ## Additional Methods of the Date Class
 

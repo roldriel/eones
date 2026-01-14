@@ -159,6 +159,32 @@ data = {
 json_str = json.dumps(data, cls=EonesJSONEncoder, indent=2)
 print(json_str)
 ```
+ 
+### Serialización JSON Nativa
+ 
+Los objetos Eones `Date` y `Delta` incluyen un método nativo `.for_json()` que devuelve strings compatibles con los encoders JSON estándar.
+ 
+```python
+# Soporte nativo .for_json()
+fecha = Date(2023, 1, 1, naive="utc")
+print(fecha.for_json())  # "2023-01-01T00:00:00+00:00"
+ 
+delta = Delta(days=1, hours=2)
+print(delta.for_json())  # "P1DT2H"
+```
+ 
+Puedes usar esto en tus propios encoders para serializar fácilmente objetos Eones:
+ 
+```python
+def eones_json_serializer(obj):
+    if hasattr(obj, 'for_json'):
+        return obj.for_json()
+    raise TypeError(f"Objeto de tipo {type(obj).__name__} no es serializable")
+ 
+# Uso
+datos = {"vencimiento": Date(2024, 12, 25), "duracion": Delta(weeks=1)}
+print(json.dumps(datos, default=eones_json_serializer))
+```
 
 ### Importación desde JSON
 

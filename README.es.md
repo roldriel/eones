@@ -12,6 +12,18 @@
 
 ---
 
+## 🚀 TL;DR
+
+```python
+from eones import Eones
+# 1.3M ops/sec - El datetime semántico más rápido en Python
+ahora = Eones() 
+proximo_mes = ahora.add(months=1)
+print(proximo_mes.format("%Y-%m-%d"))
+```
+
+---
+
 ## ✨ ¿Qué es Eones?
 
 Eones es una librería minimalista, sin dependencias externas, para trabajar con fechas y operaciones de tiempo de manera expresiva, clara y poderosa. Inspirada en la semántica natural del lenguaje, permite manipular, comparar y transformar fechas como si fueran entidades vivas.
@@ -40,14 +52,15 @@ Eones existe para llenar el vacío entre el `datetime` de bajo nivel de Python y
 ## 📦 Instalación
 
 ```bash
-pip install "eones"
+pip install eones
 ```
 
-> Si vas a trabajar con zonas horarias en Windows o contenedores:  
-> ⚠️ Instala también `tzdata`:
-> ```bash
-> pip install tzdata
-> ```
+### Soporte de zonas horarias (Opcional)
+Si trabajás en Windows o en entornos sin datos nativos de zoneinfo, instalá el extra de zonas horarias:
+
+```bash
+pip install "eones[tz]"
+```
 
 ---
 
@@ -99,7 +112,7 @@ Eones muestra excepciones claras derivadas de `EonesError`. Las zonas horarias n
 | API semánticamente rica                 | ✅ Rica | ✅ Media | ✅ Media | ⚠️ | ❌ | ❌ |
 | Arquitectura modular/facade             | ✅ Sí | ❌ No | ❌ No | ❌ No | ❌ No | ❌ No |
 | Type hinting completo y PEP 561         | ✅ Sí | ❌ Limitado | ❌ Limitado | ❌ No | ❌ No | ❌ No |
-| **Alto Rendimiento (~1M ops/sec)**      | **✅ Sí** | ❌ No | ❌ No | ❌ No | ❌ No | ❌ No |
+| **Alto Rendimiento (>1.3M ops/sec)**      | **✅ Sí** | ❌ No | ❌ No | ❌ No | ❌ No | ❌ No |
 | **Memoria Optimizada (`__slots__`)**    | **✅ Sí** | ❌ No | ❌ No | ❌ No | ❌ No | ❌ No |
 | Localización nativa (Sin Babel)         | ✅ Sí | ❌ No | ❌ No | ❌ No | ❌ No | ❌ No |
 | API dedicada de Rangos/Periodos         | ✅ Sí | ✅ Sí | ⚠️ Básico | ⚠️ Básico | ❌ No | ❌ No |

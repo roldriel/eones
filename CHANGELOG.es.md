@@ -2,6 +2,27 @@
 
 Todas las versiones están documentadas en este archivo.
 
+## [1.5.0] - 11-01-2026
+ 
+### Agregado
+- **Serialización JSON**: Método nativo `.for_json()` para las clases `Date` y `Delta`.
+- **Propiedades Extendidas**: Agregadas las propiedades `quarter`, `iso_week`, `iso_year` a la clase `Date`.
+- **Soporte Fiscal**: Agregados los métodos `fiscal_year()` y `fiscal_quarter()` a `Date`.
+- **Fechas Especiales**: Agregada la función `easter_date(year)` expuesta a través de `Eones.easter_date`.
+- **Iterador de Rangos**: Agregado `range_iter(start, end, step)` para generación de rangos eficiente en memoria.
+- **Parsing Ambiguo**: Agregadas opciones `day_first` y `year_first` a `Eones` y `Parser` para manejar ambigüedades regionales.
+- **Rendimiento**: Alcanzadas **>1.3M ops/sec** en parsing ISO, haciendo a Eones ~6.7x más rápida que Pendulum.
+ 
+### Mejorado
+- **API Ergonómica**: Refactorizados `add()` y `subtract()` en `Eones` para aceptar `Delta`/`timedelta` posicional o argumentos de palabra clave.
+- **Parsing Inteligente**: `DEFAULT_FORMATS` mejorados para incluir estilos US y soporte moderno de offsets ISO 8601.
+- **Suite de Pruebas**: Redistribución y optimización de tests para mejor mantenibilidad y rendimiento.
+- **Versionado**: Sincronización de versión integrada en todos los archivos meta del proyecto.
+ 
+### Corregido
+- **Dependencias Circulares**: Refactorización de imports en tests unitarios para usar rutas directas, resolviendo errores de colección.
+- **Documentación**: Actualizados todos los ejemplos (EN/ES), Readme y Roadmap para reflejar las mejoras de la v1.5.0.
+
 ## [1.4.2] - 10-01-2026
 
 ### Fixed

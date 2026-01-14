@@ -23,6 +23,17 @@ print(delta)  # Muestra la diferencia en formato legible
 
 # Los deltas pueden aplicarse a fechas
 fecha_nueva = fecha1.add(months=2, days=14)  # Equivalente al delta anterior
+ 
+# Aritmética Ergonómica (v1.5.0+)
+e = Eones("2023-01-01")
+ 
+# Usando Delta o timedelta posicional
+e.add(Delta(days=2))
+e.subtract(timedelta(days=1))
+ 
+# Usando argumentos de palabra clave directamente
+e.add(days=5, hours=12)
+e.subtract(months=1)
 ```
 
 ### Métodos Principales de `Delta`

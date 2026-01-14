@@ -15,6 +15,35 @@ constants.FIRST_DAY_OF_WEEK = 0
 # Configure for US standard (Sunday first)
 constants.FIRST_DAY_OF_WEEK = 6
 ```
+ 
+## Parsing Ambiguities
+ 
+Eones v1.5.0 improves how ambiguous dates (like `10/11/2023`) are parsed using `day_first` and `year_first` options.
+ 
+### day_first
+ 
+Controls whether the day comes before the month in ambiguous numerical dates.
+ 
+```python
+# 10/11/2023 can be Nov 10 (DMY) or Oct 11 (MDY)
+ 
+# day_first=True (Default, common in Europe/LATAM) -> Nov 10
+e1 = Eones("10/11/2023", day_first=True)
+print(e1.now().format("%B %d"))  # "November 10"
+ 
+# day_first=False (Common in US) -> Oct 11
+e2 = Eones("10/11/2023", day_first=False)
+print(e2.now().format("%B %d"))  # "October 11"
+```
+ 
+### year_first
+ 
+Controls whether the year comes first in ambiguous numerical dates (like `23/10/11`).
+ 
+```python
+# year_first=True -> 2023-10-11
+e = Eones("23/10/11", year_first=True)
+```
 
 ## Impact on Methods
 

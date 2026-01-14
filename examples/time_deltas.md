@@ -23,6 +23,17 @@ print(delta)  # Shows the difference in readable format
 
 # Deltas can be applied to dates
 new_date = date1.add(months=2, days=14)  # Equivalent to the previous delta
+ 
+# Ergonomic add/subtract (v1.5.0+)
+e = Eones("2023-01-01")
+ 
+# Using positional Delta or timedelta
+e.add(Delta(days=2))
+e.subtract(timedelta(days=1))
+ 
+# Using keyword arguments directly
+e.add(days=5, hours=12)
+e.subtract(months=1)
 ```
 
 ### Main Methods of `Delta`

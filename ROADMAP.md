@@ -35,8 +35,8 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 ## 🚀 Funcionalidades Pendientes
 
 ---
-- **Current Version:** v1.4.2
-- **Next Milestone:** v1.5.0 (Performance & Extensions)
+- **Current Version:** v1.5.0
+- **Next Milestone:** v1.6.0 (Calendario Laboral & Métricas)
 
 ## 🔥 **CRÍTICO - Completar Funcionalidades Existentes**
 
@@ -56,15 +56,15 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 - [x] **Parsing ISO 8601 con offset completo** *(Extiende parsing flexible actual)*
   - Soporte para `+03:00`, `-05:00` en parsing de strings
   - Extender parsing con `%z` para offsets horarios
-- [ ] **Método `.for_json()`** *(Completa serialización actual)*
+- [x] **Método `.for_json()`** *(Completa serialización actual)*
   - Serialización JSON directa en objetos Date/Eones
-- [ ] **Mejoras en interfaz Eones** *(Perfecciona interfaz actual)*
+- [x] **Mejoras en interfaz Eones** *(Perfecciona interfaz actual)*
   - Métodos declarativos mejorados: `add(...)` y `subtract(...)` con mejor ergonomía
   - Validaciones y mensajes de error más descriptivos
-- [ ] **Propiedades fiscales y ISO extendidas** *(Extiende rangos de períodos)*
+- [x] **Propiedades fiscales y ISO extendidas** *(Extiende rangos de períodos)*
   - `Date.quarter`, `fiscal_year(start_month)`, `fiscal_quarter(start_month)`
   - Exposición directa de propiedades ISO (número de semana, año ISO)
-- [ ] **Iterador de rangos** *(Completa rangos de períodos actuales)*
+- [x] **Iterador de rangos** *(Completa rangos de períodos actuales)*
   - Implementar `range_iter(start, end, step)` para iteración declarativa
 
 ---
@@ -73,12 +73,12 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 
 ### 🔖 **v1.5.0 – Funcionalidades Especiales y Parsing Avanzado**
 
-**Prioridad:** Alta | **Estado:** Planeado
+**Prioridad:** Alta | **Estado:** Inmediato
 
-- [ ] **Fecha de Pascua y fechas especiales** *(Nueva funcionalidad)*
+- [x] **Fecha de Pascua y fechas especiales** *(Nueva funcionalidad)*
   - `easter_date(year)` - Calcular fecha de Pascua para un año dado
   - Soporte para otras fechas especiales calculadas
-- [ ] **Normalización de entrada ambigua** *(Nueva funcionalidad)*
+- [x] **Normalización de entrada ambigua** *(Nueva funcionalidad)*
   - Manejo inteligente de formatos de fecha ambiguos (DD/MM vs MM/DD)
   - Configuración de preferencias regionales para parsing ambiguo
 
@@ -114,14 +114,17 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 
 ---
 
-### 🔖 **v1.8.0 – Extensiones ISO y Precisión**
+### 🔖 **v1.8.0 – Extensiones ISO, Precisión y Confiabilidad**
 
 **Prioridad:** Media | **Estado:** Planeado
 
-> **Completa soporte ISO 8601 y mejora precisión temporal**
+> **Completa soporte ISO 8601 y mejora la integridad técnica del núcleo**
 
 - [ ] **Métodos para ISO 8601 semana/año** *(Extiende propiedades ISO actuales)*
   - `from_iso_week()`, `.iso_week`
+- [ ] **Monotonic Drift Protection** *(Nueva funcionalidad de confiabilidad)*
+  - Implementar protección contra saltos de reloj del sistema (NTP sync) usando `time.monotonic()`
+  - Garantizar que las duraciones calculadas entre instancias en memoria sean inmunes a cambios de hora del SO
 - [ ] **Año fiscal y calendario contable** *(Extiende rangos de períodos)*
   - `fiscal_quarter(date, fiscal_start_month=4)`
   - `fiscal_year(date, fiscal_start_month=4)`
@@ -132,91 +135,79 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
   - `time_until_weekend()`, `time_until_business_day()`
 - [ ] **Soporte para precisión subsegundo** *(Mejora precisión actual)*
   - Microsegundos y nanosegundos para sistemas de alta resolución
-  - Métodos `.microsecond`, `.nanosecond` si se justifica por casos de uso
 
 ---
 
-### 🔖 **v1.9.0 – Calendarios Alternativos Básicos**
+### 🔖 **v1.9.0 – Razonamiento Avanzado: Intervalos y Calendarios Básicos**
 
-**Prioridad:** Baja | **Estado:** Planeado
+**Prioridad:** Media | **Estado:** Planeado
 
-> **Funcionalidades especializadas de menor prioridad**
+> **Introduce álgebra de tiempo y primeros calendarios alternativos**
 
-- [ ] **Soporte parcial para calendario Juliano** *(Nueva funcionalidad especializada)*
+- [ ] **Continuous Timespans / Intervals** *(Nueva funcionalidad mayor)*
+  - Abstracción de lapsos de tiempo dinámicos (no atados a períodos fijos)
+  - **Álgebra de Intervalos:** Métodos `.overlaps(other)`, `.intersect(other)`, `.union(other)`
+  - **Relaciones de Allen:** Implementación de las 13 relaciones formales
+- [ ] **Soporte parcial para calendario Juliano** *(Funcionalidad especializada)*
   - `from_julian()`, `to_julian()`
   - Conversión básica entre gregoriano y juliano
+- [ ] **ISO 8601 completo**
+  - Soporte completo para semanas ISO: `.iso_week_date()`, `.from_iso_week_date()`
 
 ---
 
-- [ ] **ISO 8601 completo** *(Extiende soporte ISO actual)*
-  - Soporte completo para semanas ISO
-  - `.iso_week_date()`, `.from_iso_week_date()`
+### 🔖 **v1.10.0 – Productividad (DX) y Calendarios Avanzados**
+
+**Prioridad:** Media | **Estado:** Planeado
+
+> **Herramientas de desarrollo y expansión calendárica**
+
+- [ ] **Temporal Anchoring / Native Mocking** *(Nueva funcionalidad de testing)*
+  - Sistema de "congelación" de tiempo nativo (`Eones.freeze()`, `Eones.travel()`)
+  - Context managers para tests deterministas sin dependencias externas
+- [ ] **Semantic Temporal Adjusters** *(Nueva funcionalidad de ergonomía)*
+  - Implementar ajustadores declarativos: `.adjust(LastDayOfMonth())`, `.adjust(NextBusinessDay())`
+  - Soporte para reglas complejas: `.adjust(NthWeekdayInMonth(2, "Monday"))`
+- [ ] **Soporte extendido para calendario Juliano**
+  - Conversión completa y métodos `.to_julian_day()`, `.from_julian_day()`
+- [ ] **Soporte básico para calendarios no gregorianos**
+  - Calendario hebreo e islámico (funcionalidades básicas de conversión)
 
 ---
 
-- [ ] **Soporte extendido para calendario Juliano** *(Extiende v1.9.0)*
+### 🔖 **v1.11.0 – Recurrencias y Procesamiento de Lenguaje**
 
-### 🔖 **v1.10.0 – Calendarios Alternativos Avanzados**
+**Prioridad:** Media | **Estado:** Planeado
 
-**Prioridad:** Muy Baja | **Estado:** Investigación
+> **Funcionalidades para sistemas de eventos y agendamiento**
 
-> **Funcionalidades muy especializadas - solo si hay demanda**
-
-- [ ] **Soporte extendido para calendario Juliano** *(Extiende v1.9.0)*
-  - Conversión completa entre gregoriano y juliano
-  - Métodos `.to_julian_day()`, `.from_julian_day()`
-- [ ] **Soporte básico para calendarios no gregorianos** *(Nueva funcionalidad muy especializada)*
-  - Calendario hebreo (básico)
-  - Calendario islámico (básico)
-  - Solo si hay demanda real de usuarios
-
----
-
-### 🔖 **v1.11.0 – Recurrencias y Reglas Avanzadas**
-
-**Prioridad:** Media | **Estado:** Muy Largo Plazo
-
-> **Funcionalidades completamente nuevas de alta complejidad**
-
-- [ ] **API para reglas recurrentes simples** *(Nueva funcionalidad mayor)*
-  - `every("month", on_day=15)`
-  - `every("week", on_weekday="monday")`
-  - `every("year", on_month=6, on_day=15)`
-- [ ] **Soporte básico para expresiones cron** *(Nueva funcionalidad)*
-  - Parsing y evaluación de expresiones cron simples
-  - `from_cron("0 9 * * 1-5")` para días laborables a las 9 AM
-- [ ] **Recurrencias condicionales** *(Funcionalidad avanzada)*
-  - "segundo lunes no feriado del mes"
-  - "último día hábil del mes"
-  - Lógica condicional avanzada
-- [ ] **Soporte para filtros condicionales** *(Extiende calendario laboral)*
-  - Ej: "excluir feriados" o "solo días hábiles"
-- [ ] **Soporte nativo de RRULE completo (RFC 2445)** *(Funcionalidad muy avanzada)*
-  - Implementación nativa de reglas de recurrencia RFC 2445
-  - Parsing y generación de RRULE strings
-  - Compatibilidad con especificación completa de iCalendar
-- [ ] **Integración opcional con `dateutil.rrule`** *(Solo si es necesario)*
-  - Para RRULE completas manteniendo filosofía sin dependencias
+- [ ] **Fuzzy Parsing (Parseo Difuso)** *(Nueva funcionalidad avanzada)*
+  - Soporte para lenguaje natural: "next friday", "3 days ago", "tomorrow at 5pm"
+- [ ] **API para reglas recurrentes y expresiones cron**
+  - `every("month", on_day=15)`, `from_cron("0 9 * * 1-5")`
+  - Recurrencias condicionales (ej: "segundo lunes no feriado del mes")
+- [ ] **Soporte nativo de RRULE completo (RFC 2445)**
+  - Implementación nativa de reglas de recurrencia iCalendar
+- [ ] **Filtros condicionales avanzados**
+  - "excluir feriados" o "solo días hábiles" en recurrencias
 
 ---
 
-### 🔖 **v1.12.0 – Calendarios Especializados Avanzados**
+### 🔖 **v1.12.0 – Precisión Científica y Especialización Empresarial**
 
-**Prioridad:** Muy Baja | **Estado:** Futuro Lejano
+**Prioridad:** Baja | **Estado:** Investigación
 
-> **Extiende funcionalidades de calendario laboral para casos muy específicos**
+> **Funcionalidades para casos de uso extremos y alta especialización**
 
-- [ ] **Calendarios especializados** *(Extiende calendario laboral v1.6.0)*
-  - Calendario bancario (días hábiles bancarios)
-  - Calendario escolar (períodos lectivos)
-  - Calendario corporativo personalizable
-- [ ] **Ajuste automático a días hábiles** *(Extiende días hábiles v1.6.0)*
-  - `adjust_to_business_day(date, direction='forward')`
-  - `adjust_to_business_day(date, direction='backward')`
-  - `adjust_to_business_day(date, direction='nearest')`
-- [ ] **Soporte para múltiples calendarios simultáneos** *(Funcionalidad muy avanzada)*
+- [ ] **Precisión Astronómica/Científica** *(Nueva funcionalidad especializada)*
+  - Soporte para **Julian Day Numbers (JDN)** y Leap Seconds
+  - Soporte para escalas de tiempo alternativas (TDB)
+- [ ] **Calendarios empresariales especializados**
+  - Calendario bancario, escolar y corporativo personalizable
+- [ ] **Ajuste automático a días hábiles**
+  - `adjust_to_business_day(date, direction='forward/backward/nearest')`
+- [ ] **Soporte para múltiples calendarios simultáneos**
   - Intersección de calendarios (ej: bancario + feriados nacionales)
-  - `is_business_day(date, calendars=['banking', 'national'])`
 
 ---
 
@@ -241,8 +232,8 @@ Si deseas contribuir a alguna funcionalidad:
 > - 🆕 **NUEVAS:** Funcionalidades completamente nuevas
 > - 📈 **ORDEN:** Primero completar, luego innovar
 
-> 📅 **Última actualización:** Enero 2025  
-> 🔖 **Versión actual:** 1.4.1
+> 📅 **Última actualización:** Enero 2026  
+> 🔖 **Versión actual:** 1.5.0
 
 ---
 

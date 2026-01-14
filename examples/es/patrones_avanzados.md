@@ -111,6 +111,37 @@ rango_año = fecha.range("year")     # (inicio_año, fin_año)
 inicio, fin = rango_mes
 print(f"Mes: desde {inicio} hasta {fin}")
 ```
+ 
+### Iteración de Rangos
+ 
+Puedes iterar sobre un rango de fechas usando un generador para mayor eficiencia de memoria.
+ 
+```python
+from datetime import timedelta
+ 
+inicio = Eones("2023-01-01")
+fin = Eones("2023-01-05")
+ 
+# Iterar con un paso específico
+for fecha in Eones.range_iter(inicio, fin, timedelta(days=1)):
+    print(fecha.format("%Y-%m-%d"))
+# Salida:
+# 2023-01-01
+# 2023-01-02
+# 2023-01-03
+# 2023-01-04
+# 2023-01-05
+```
+ 
+### Fechas Especiales (Pascua)
+ 
+Eones puede calcular fechas religiosas o astronómicas especiales.
+ 
+```python
+# Calcular el domingo de Pascua para un año dado
+pascua_2024 = Eones.easter_date(2024)
+print(pascua_2024.format("%A, %B %d"))  # "Sunday, March 31"
+```
 
 ## Métodos Adicionales de la Clase Date
 

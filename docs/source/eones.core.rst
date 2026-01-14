@@ -56,3 +56,11 @@ eones.core.range module
    :members:
    :show-inheritance:
    :undoc-members:
+
+eones.core.special\_dates module
+--------------------------------
+
+.. automodule:: eones.core.special_dates
+   :members:
+   :show-inheritance:
+   :undoc-members:
