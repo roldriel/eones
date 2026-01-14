@@ -14,7 +14,7 @@ def run_profile():
         Eones("2025-01-01")
     profiler.disable()
 
-    with open("benchmarks/profile_output.txt", "w") as f:
+    with open("profiling.txt", "w") as f:
         stats = pstats.Stats(profiler, stream=f)
         stats.strip_dirs()
         stats.sort_stats(

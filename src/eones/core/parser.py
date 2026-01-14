@@ -1,9 +1,9 @@
-"""core.parser.py"""
+"""src/eones/core/parser.py"""
 
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Union, cast
+from typing import Any, Dict, List, Optional, Union
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from eones.constants import DEFAULT_FORMATS, VALID_KEYS
@@ -22,15 +22,23 @@ class Parser:
     user-provided values into structured time representations.
     """
 
-    __slots__ = ("_zone", "_formats")
+    __slots__ = ("_zone", "_formats", "_day_first", "_year_first")
 
-    def __init__(self, tz: str = "UTC", formats: Optional[List[str]] = None) -> None:
+    def __init__(
+        self,
+        tz: str = "UTC",
+        formats: Optional[List[str]] = None,
+        day_first: bool = True,
+        year_first: bool = True,
+    ) -> None:
         """
         Initialize the parser with optional timezone and format list.
 
         Args:
             tz (str): Timezone string (e.g., 'UTC', 'America/New_York').
             formats (Optional[List[str]]): List of datetime string formats to try.
+            day_first (bool): Interpret '10/11' as Nov 10 (True).
+            year_first (bool): Interpret '20-01-01' as 2020-01-01 (True).
         """
         try:
             self._zone = ZoneInfo(tz)
@@ -40,6 +48,8 @@ class Parser:
 
         # Use centralized default formats from constants
         self._formats = formats if formats else DEFAULT_FORMATS
+        self._day_first = day_first
+        self._year_first = year_first
 
     def parse(
         self, value: Union[str, Dict[str, int], datetime, "Date", None]
@@ -101,8 +111,7 @@ class Parser:
             "microsecond": int(date_parts.get("microsecond", 0)),
             "tzinfo": self._zone,
         }
-        datetime_kwargs = cast(dict, parts)
-        return Date(datetime(**datetime_kwargs), tz=self._zone.key)
+        return Date(datetime(**parts), tz=self._zone.key)
 
     def _from_str(self, date_str: str) -> "Date":
         """
@@ -118,15 +127,36 @@ class Parser:
             ValueError: If string does not match any known formats.
         """
         # Optimization: Try extremely fast ISO parsing first
-        # ISO 8601 format starts with YYYY- (4 digits then hyphen)
+        # Robust ISO 8601 detection: Starts with YYYY-MM-DD
         try:
-            if len(date_str) >= 10 and date_str[4] == "-" and date_str[:4].isdigit():
+            if (
+                len(date_str) >= 10
+                and date_str[4] == "-"
+                and date_str[7] == "-"
+                and date_str[:4].isdigit()
+            ):
                 return Date.from_iso(date_str, self._zone.key)
-
-        except ValueError:
+        except InvalidFormatError:
+            # Not a valid ISO structure, fall back to other formats
             pass
+        # Note: ValueErrors (logical garbage) bubble up as per contract
 
-        for fmt in self._formats:
+        # Adjust formats based on day_first/year_first if they match ambiguous patterns
+        # Try matching string against common ambiguous patterns
+        # and reorder formats if needed.
+        # But a better way is to just use the sorted formats.
+
+        formats_to_try = list(self._formats)
+
+        if not self._day_first:
+            # Prioritize MM/DD over DD/MM (US)
+            us_formats = ["%m/%d/%Y", "%m-%d-%Y", "%m.%d.%Y"]
+            for f in reversed(us_formats):
+                if f in formats_to_try:
+                    formats_to_try.remove(f)
+                    formats_to_try.insert(0, f)
+
+        for fmt in formats_to_try:
             try:
                 dt = datetime.strptime(date_str, fmt)
 

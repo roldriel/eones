@@ -127,7 +127,7 @@ def run_benchmarks():
         benchmarks.append(("Add 1 Day (Delorean)", bench_add_day_delorean))
 
     for name, func in benchmarks:
-        number = 50_000  # Reduced for slower libs
+        number = 100_000  # Reduced for slower libs
         total_time = timeit.timeit(func, number=number)
         ops_sec = number / total_time
         print(f"{name:<30} | {number:<10} | {total_time:.4f}     | {ops_sec:,.0f}")

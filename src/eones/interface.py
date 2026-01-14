@@ -1,15 +1,25 @@
-"""interface.py"""
+"""src/eones/interface.py"""
 
 from __future__ import annotations
 
-from datetime import datetime
-from typing import Any, Dict, List, Literal, Optional, Union, cast
+from datetime import datetime, timedelta
+from typing import (
+    Any,
+    Dict,
+    Generator,
+    List,
+    Literal,
+    Optional,
+    Union,
+    cast,
+)
 
 from eones.constants import DEFAULT_FORMATS
 from eones.core.date import Date
 from eones.core.delta import Delta
 from eones.core.parser import Parser
 from eones.core.range import Range
+from eones.core.special_dates import easter_date
 from eones.formats import is_valid_format
 
 EonesLike = Union[str, datetime, Dict[str, int], Date]
@@ -18,6 +28,7 @@ EonesLike = Union[str, datetime, Dict[str, int], Date]
 _DEFAULT_PARSER = None
 
 
+# pylint: disable=too-many-public-methods
 class Eones:
     """
     Central entrypoint for time manipulation, reasoning, and exploration.
@@ -26,51 +37,30 @@ class Eones:
     A natural interface for working with time as a concept, not just a datatype.
     """
 
-    # pylint: disable=too-many-public-methods
+    _date: Date
+    _parser: Parser
+
     __slots__ = ("_date", "_parser")
 
+    # pylint: disable=too-many-arguments, too-many-positional-arguments, too-many-branches
     def __init__(
         self,
-        value: Optional[Union[str, Dict[str, int], datetime]] = None,
+        value: Optional[EonesLike] = None,
         tz: str = "UTC",
-        formats: Optional[List[str]] = None,
-        additional_formats: Optional[List[str]] = None,
+        formats: Optional[Union[List[str], str]] = None,
+        additional_formats: Optional[Union[List[str], str]] = None,
+        day_first: bool = True,
+        year_first: bool = True,
     ):
-        """Initialize a Eones instance.
-
-        Args:
-            value: The initial date (string, dict or datetime).
-            tz: Timezone for this date.
-            formats: List of string formats for parsing if input is string.
-        """
-        if formats and additional_formats:
-            raise ValueError("Use either 'formats' or 'additional_formats', not both.")
-
-        # Shared Global Parser Logic
-        global _DEFAULT_PARSER  # pylint: disable=global-statement
-
-        if formats or additional_formats:
-            # Custom formats case - must create new Parser immediately
-            if isinstance(formats, str):
-                formats = [formats]
-
-            if isinstance(additional_formats, str):
-                additional_formats = [additional_formats]
-
-            if formats:
-                resolved_formats = formats
-            else:
-                resolved_formats = DEFAULT_FORMATS + (additional_formats or [])
-
-            self._parser = Parser(tz=tz, formats=resolved_formats)
-            self._date = self._parser.parse(value)
-
-        elif tz == "UTC":
-            # Fast path: Standard UTC call, no custom formats
-
-            # Optimization: Inline ISO8601 Check
-            # Skip parser for standard ISO strings (YYYY-...)
-            # logic: len >= 10, value[4] == '-', value[:4].isdigit()
+        """Initialize a Eones instance."""
+        # ULTRA FAST PATH: Default UTC construction with ISO string or None
+        if (
+            tz == "UTC"
+            and day_first
+            and year_first
+            and not formats
+            and not additional_formats
+        ):
             if (
                 isinstance(value, str)
                 and len(value) >= 10
@@ -79,34 +69,59 @@ class Eones:
             ):
                 self._date = Date.from_iso(value)
                 return
-
-            # Lazy default parser usage.
-            # Avoid initialization if not strictly needed.
-
-            # If value is None, we just want "now".
             if value is None:
-                # Optimization: Date(tz="UTC") is roughly "now"
                 self._date = Date(tz="UTC")
                 return
+            if isinstance(value, datetime):
+                self._date = Date(value, tz="UTC")
+                return
 
-            # If we actually need to parse 'value' right now, we need a parser.
-            if _DEFAULT_PARSER is None:
-                _DEFAULT_PARSER = Parser(tz="UTC", formats=DEFAULT_FORMATS)
+        if formats and additional_formats:
+            raise ValueError("Use either 'formats' or 'additional_formats', not both.")
 
-            # We don't save self._parser here to keep __init__ fast.
-            # We only use the global one to parse 'value'
-            self._date = _DEFAULT_PARSER.parse(value)
+        # VERY FAST PATH: Direct instance injection
+        if isinstance(value, Eones):
+            self._date = value._date
+            self._parser = value._parser
+            return
 
+        if isinstance(value, Date):
+            self._date = value
+            return
+
+        # Initialize core objects
+        global _DEFAULT_PARSER  # pylint: disable=global-statement
+
+        if formats or additional_formats:
+            # Custom parsing path
+            if isinstance(formats, str):
+                formats = [formats]
+            if isinstance(additional_formats, str):
+                additional_formats = [additional_formats]
+
+            resolved_formats = (
+                formats if formats else DEFAULT_FORMATS + (additional_formats or [])
+            )
+            self._parser = Parser(
+                tz=tz,
+                formats=resolved_formats,
+                day_first=day_first,
+                year_first=year_first,
+            )
+            self._date = self._parser.parse(value)
         else:
-            # Custom timezone, standard formats
-            # We must init a parser for this specific timezone, but we can do it
-            # only if we need to store it? No, if we have a custom timezone,
-            # future operations (like is_between) should probably use that timezone.
-            # But let's keep it simple: simpler to just init it here for non-UTC cases
-            # or refactor logic to rely on date.timezone?
-
-            # Current behavior: create a parser for this instance with that TZ.
-            self._parser = Parser(tz=tz, formats=DEFAULT_FORMATS)
+            # Standard/Default parsing path
+            if tz == "UTC" and day_first and year_first:
+                if _DEFAULT_PARSER is None:
+                    _DEFAULT_PARSER = Parser(tz="UTC", formats=DEFAULT_FORMATS)
+                self._parser = _DEFAULT_PARSER
+            else:
+                self._parser = Parser(
+                    tz=tz,
+                    formats=DEFAULT_FORMATS,
+                    day_first=day_first,
+                    year_first=year_first,
+                )
             self._date = self._parser.parse(value)
 
     @property
@@ -159,21 +174,71 @@ class Eones:
         """
         return self._date
 
-    def add(self, **kwargs: int) -> Eones:
+    def to_datetime(self) -> datetime:
+        """Return the underlying datetime object.
+
+        Returns:
+            datetime: The internal datetime.
+        """
+        return self._date.to_datetime()
+
+    def add(
+        self, delta: Optional[Union[Delta, timedelta]] = None, **kwargs: int
+    ) -> Eones:
         """Add a delta to the current date.
 
-        Accepts keyword arguments such as:
-        years, months, days, hours, minutes, seconds.
-        Updates the internal Date in place.
+        Accepts either a Delta/timedelta instance or keyword arguments
+        (years, months, days, etc.).
 
         Args:
-            **kwargs: Components of the time delta.
+            delta (Optional[Union[Delta, timedelta]]): Pre-computed delta instance.
+            **kwargs: Individual components of the time delta.
 
         Returns:
             Eones: self, updated.
         """
-        delta = Delta(**kwargs)
-        self._date = self._date + delta
+        if delta is not None:
+            if kwargs:
+                raise ValueError(
+                    "Use either a pre-computed 'delta' or 'kwargs', not both."
+                )
+            self._date = self._date + delta
+        else:
+            # Optimization: If only duration fields are used, use timedelta + shift
+            # which is significantly faster than creating a Delta instance.
+            if kwargs and "months" not in kwargs and "years" not in kwargs:
+                self._date = self._date.shift(timedelta(**kwargs))
+            else:
+                self._date = self._date + Delta(**kwargs)
+        return self
+
+    def subtract(
+        self, other: Optional[Union[Delta, timedelta]] = None, **kwargs: int
+    ) -> Eones:
+        """Subtract a delta or other date from the current date.
+
+        Accepts either a Delta/timedelta instance or keyword arguments
+        (years, months, days, etc.).
+
+        Args:
+            other (Optional[Union[Delta, timedelta]]): Pre-computed delta instance.
+            **kwargs: Individual components of the time delta.
+
+        Returns:
+            Eones: self, updated.
+        """
+        if other is not None:
+            if kwargs:
+                raise ValueError(
+                    "Use either a pre-computed 'other' or 'kwargs', not both."
+                )
+            self._date = cast(Date, self._date - other)
+        else:
+            # Optimization: Duration-only bypass
+            if kwargs and "months" not in kwargs and "years" not in kwargs:
+                self._date = self._date.shift(-timedelta(**kwargs))
+            else:
+                self._date = cast(Date, self._date - Delta(**kwargs))
         return self
 
     def copy(self) -> Eones:
@@ -201,6 +266,14 @@ class Eones:
     def format(self, fmt: str) -> str:
         """Return the current date formatted using the given format string."""
         return self._date.format(fmt)
+
+    def for_json(self) -> str:
+        """Return ISO 8601 string for JSON serialization.
+
+        Returns:
+            str: ISO format datetime string.
+        """
+        return self._date.for_json()
 
     def difference(self, other: EonesLike, unit: Optional[str] = None) -> int:
         """Calculate the difference between this date and another.
@@ -351,6 +424,37 @@ class Eones:
             return r.year_range()
         raise ValueError("Invalid range mode. Choose from: day, month, year.")
 
+    @staticmethod
+    def range_iter(
+        start: EonesLike, end: EonesLike, step: Union[Delta, timedelta]
+    ) -> Generator[Date, None, None]:
+        """Iterate from start to end by step.
+
+        Args:
+            start (EonesLike): Starting date.
+            end (EonesLike): Ending date.
+            step (Union[Delta, timedelta]): Interval between each step.
+
+        Yields:
+            Generator[Date, None, None]: Sequence of Date objects.
+        """
+        parser = Parser()  # Uses default UTC/formats
+        start_date = parser.to_eones_date(start)
+        end_date = parser.to_eones_date(end)
+        return Range.range_iter(start_date, end_date, step)
+
+    @staticmethod
+    def easter_date(year: int) -> Date:
+        """Calculate the date of Easter Sunday for a given year.
+
+        Args:
+            year (int): Year to calculate Easter for.
+
+        Returns:
+            Date: Date object representing Easter Sunday.
+        """
+        return easter_date(year)
+
     def round(self, unit: Literal["minute", "hour", "day"]) -> "Eones":
         """
         Round the datetime to the nearest unit ("minute", "hour", or "day").
@@ -391,7 +495,7 @@ class Eones:
         self._date = self._date.end_of(unit)
         return self
 
-    def _coerce_to_date(self, other) -> "Date":
+    def _coerce_to_date(self, other: Any) -> Date:
         if isinstance(other, Eones):
             return other.now()
 

@@ -1,4 +1,4 @@
-"""formats.py"""
+"""src/eones/formats.py"""
 
 from datetime import datetime
 from typing import List

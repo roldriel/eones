@@ -34,7 +34,7 @@ Install necessary dependencies:
 pip install -r comparison_requirements.txt
 ```
 
-## Key Results (v1.3.x)
+## Key Results (v1.5.x)
 
 ### Overall Speed (Comparison)
 
@@ -44,14 +44,14 @@ This benchmark measures the speed of **parsing an ISO-8601 date** (`"2025-01-01"
 
 | Library | Ops/sec | Relative |
 | :--- | :--- | :--- |
-| **Native (datetime)** | 2,040,000 | 11.0x |
-| **Eones** | **975,000** | **5.2x** |
-| Pendulum | 186,000 | 1.0x (Base) |
-| dateutil | 52,000 | 0.28x |
-| Delorean | 43,000 | 0.23x |
-| Arrow | 39,000 | 0.21x |
+| **Native (datetime)** | 2,052,000 | 10.2x |
+| **Eones** | **1,347,000** | **6.7x** |
+| Pendulum | 201,000 | 1.0x (Base) |
+| dateutil | 54,000 | 0.27x |
+| Delorean | 44,000 | 0.22x |
+| Arrow | 41,000 | 0.20x |
 
-> *Note: Eones is approximately 5 times faster than Pendulum in standard parsing operations.*
+> *Note: Eones is approximately 6.7 times faster than Pendulum in standard parsing operations.*
 
 ### Memory Usage
 
@@ -80,23 +80,23 @@ Time it takes to create an object from scratch.
 
 | Library | Time (s) | Ops/sec |
 | :--- | :--- | :--- |
-| **Native (datetime)** | 0.0552 | 1,811,693 |
-| **Eones** | 0.0457 | 1,094,300 |
-| Pendulum | 0.2542 | 196,719 |
-| dateutil | 1.0529 | 47,489 |
-| Delorean | 1.1076 | 45,144 |
-| Arrow | 1.2184 | 41,036 |
+| **Native (datetime)** | 0.0486 | 2,058,765 |
+| **Eones** | 0.0757 | 1,320,151 |
+| Pendulum | 0.5153 | 194,068 |
+| dateutil | 1.8738 | 53,369 |
+| Delorean | 2.2165 | 45,117 |
+| Arrow | 2.4377 | 41,022 |
 
 #### Arithmetic (+1 Day)
 Time it takes to add a `timedelta` (e.g., `+ 1 day`). Here `Eones` is slower than native due to immutability and extra validations, but remains performant.
 
 | Library | Time (s) | Ops/sec |
 | :--- | :--- | :--- |
-| **Native (datetime)** | 0.0447 | 1,118,000 |
-| Eones | 0.4044 | 123,640 |
-| Pendulum | 0.5406 | 92,485 |
-| Delorean | 1.9439 | 25,721 |
-| Arrow | 2.1013 | 23,795 |
+| **Native (datetime)** | 0.0846 | 1,182,103 |
+| Eones | 0.1614 | 619,625 |
+| Pendulum | 1.0518 | 95,073 |
+| Delorean | 3.9112 | 25,568 |
+| Arrow | 4.1812 | 23,916 |
 
 ---
 
@@ -116,8 +116,8 @@ This section analyzes **Eones exclusively** to identify which parts of our inter
 
 ```text
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-   100000    0.081    0.000    0.243    0.000 interface.py:31(__init__) # Main constructor
-   100000    0.074    0.000    0.130    0.000 date.py:476(from_iso)     # Optimized ISO parsing
-   100000    0.018    0.000    0.018    0.000 {method 'count' of 'str'} # Internal string validation
-   100000    0.018    0.000    0.018    0.000 {built-in fromisoformat}  # Native C call
+   100000    0.075    0.000    0.192    0.000 interface.py:46(__init__)
+   100000    0.053    0.000    0.091    0.000 date.py:512(from_iso)
+   100000    0.018    0.000    0.018    0.000 {built-in method fromisoformat}
+   200000    0.015    0.000    0.015    0.000 {built-in method builtins.len}
 ```

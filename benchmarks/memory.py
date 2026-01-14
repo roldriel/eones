@@ -66,14 +66,20 @@ def run_memory_bench():
 
     print("-" * 60)
     print("\n[REAL WORLD METRIC] Marginal Cost Analysis (100k instances)")
-    print("Because Eones shares one Parser for all standard instances, the")
-    print("shared data (1800B) is only paid ONCE. The real cost per object is:")
 
     gc.collect()
     n = 100_000
     objs = [Eones("2025-01-01") for _ in range(n)]
     total_size = asizeof.asizeof(objs)
     avg_size = total_size / n
+
+    # Calculate shared cost approximation
+    # If 1 instance is size_eones (e.g. 368) and average is avg_size (e.g. 152)
+    # The shared overhead is roughly (size_eones - avg_size)
+    # This isn't perfect math because of list overhead, but it illustrates the point dynamically
+
+    print(f"Because Eones shares one Parser for all standard instances, the")
+    print(f"heavy components are paid ONCE. The real cost per object is:")
     print(f"Average Eones Size: {avg_size:.2f} bytes (Effective Footprint)")
 
 
