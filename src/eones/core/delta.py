@@ -1,4 +1,4 @@
-"""core.delta.py"""
+"""src/eones/core/delta.py"""
 
 import re
 from datetime import timedelta
@@ -252,6 +252,14 @@ class Delta:
             iso += "T" + "".join(time_parts)
 
         return iso or "P0D"
+
+    def for_json(self) -> str:
+        """Return ISO 8601 string for JSON serialization.
+
+        Returns:
+            str: ISO format duration string.
+        """
+        return self.to_iso()
 
     @classmethod
     def from_iso(cls, iso: str) -> "Delta":

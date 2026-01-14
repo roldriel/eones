@@ -1,4 +1,4 @@
-"""core.calendar.py"""
+"""src/eones/core/delta_calendar.py"""
 
 from __future__ import annotations
 

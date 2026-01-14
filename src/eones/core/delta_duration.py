@@ -1,4 +1,4 @@
-"""core.delta_duration.py"""
+"""src/eones/core/delta_duration.py"""
 
 from __future__ import annotations
 

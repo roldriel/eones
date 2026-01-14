@@ -1,10 +1,10 @@
-"""core.range.py"""
+"""src/eones/core/range.py"""
 
 from __future__ import annotations
 
 from calendar import monthrange
 from datetime import datetime, time, timedelta
-from typing import Tuple
+from typing import Generator, Tuple, Union
 
 from eones.constants import FIRST_DAY_OF_WEEK
 from eones.core.date import Date
@@ -135,3 +135,27 @@ class Range:
         if start_dt > end_dt:
             start_dt, end_dt = end_dt, start_dt
         return start_dt, end_dt
+
+    @staticmethod
+    def range_iter(
+        start: Date, end: Date, step: Union[Delta, timedelta]
+    ) -> Generator[Date, None, None]:
+        """Iterate from start to end by step.
+
+        Args:
+            start (Date): Starting date.
+            end (Date): Ending date.
+            step (Union[Delta, timedelta]): Interval between each step.
+
+        Yields:
+            Generator[Date, None, None]: Sequence of Date objects.
+        """
+        current = start
+        if start <= end:
+            while current <= end:
+                yield current
+                current = current + step  # Date + Delta/timedelta returns Date
+        else:
+            while current >= end:
+                yield current
+                current = current - step  # type: ignore[assignment]

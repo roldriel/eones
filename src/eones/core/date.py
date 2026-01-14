@@ -1,11 +1,14 @@
-"""core.date.py"""
+"""src/eones/core/date.py"""
+
+# pylint: disable=too-many-lines
 
 from __future__ import annotations
 
 import re
 from calendar import monthrange
 from datetime import datetime, timedelta, timezone
-from typing import TYPE_CHECKING, Any, Literal, Optional, Union, cast
+from functools import total_ordering
+from typing import TYPE_CHECKING, Any, Dict, Literal, Optional, Union, cast
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from eones.constants import VALID_KEYS, is_weekend_day
@@ -19,6 +22,7 @@ if TYPE_CHECKING:  # pragma: no cover - import for type checking only
     from eones.core.delta import Delta
 
 
+@total_ordering
 class Date:  # pylint: disable=too-many-public-methods
     """Time manipulation wrapper for timezone-aware datetime operations."""
 
@@ -187,9 +191,64 @@ class Date:  # pylint: disable=too-many-public-methods
         return self._dt.microsecond
 
     @property
+    def quarter(self) -> int:
+        """Return the calendar quarter (1-4).
+
+        Returns:
+            int: The quarter of the year.
+        """
+        return (self._dt.month - 1) // 3 + 1
+
+    @property
+    def iso_week(self) -> int:
+        """Return the ISO week number.
+
+        Returns:
+            int: ISO week number.
+        """
+        return self._dt.isocalendar()[1]
+
+    @property
+    def iso_year(self) -> int:
+        """Return the ISO year number.
+
+        Returns:
+            int: ISO year.
+        """
+        return self._dt.isocalendar()[0]
+
+    @property
     def timezone(self) -> str:
         """Return the key of the timezone in use."""
         return self._zone.key
+
+    def fiscal_year(self, start_month: int = 4) -> int:
+        """Return the fiscal year based on a starting month.
+
+        Args:
+            start_month (int): The month the fiscal year begins (1-12).
+                Defaults to 4 (April).
+
+        Returns:
+            int: The fiscal year.
+        """
+        if self._dt.month >= start_month:
+            return self._dt.year
+        return self._dt.year - 1
+
+    def fiscal_quarter(self, start_month: int = 4) -> int:
+        """Return the fiscal quarter relative to a starting month.
+
+        Args:
+            start_month (int): The month the fiscal year begins (1-12).
+                Defaults to 4 (April).
+
+        Returns:
+            int: The fiscal quarter (1-4).
+        """
+        # Calculate month offset from the fiscal start
+        offset_month = (self._dt.month - start_month) % 12
+        return (offset_month // 3) + 1
 
     def _replace_fields(self, **kwargs: Any) -> Date:
         return self._with(self._dt.replace(**kwargs))
@@ -228,7 +287,7 @@ class Date:  # pylint: disable=too-many-public-methods
         if thresholds[unit](dt):
             dt += increments[unit]
 
-        return normalizers[unit](dt)
+        return cast(datetime, normalizers[unit](dt))
 
     def round(self, unit: str) -> Date:
         """Round the Date to the nearest specified unit."""
@@ -240,7 +299,13 @@ class Date:  # pylint: disable=too-many-public-methods
         return self._with(self._rounded(self._dt, unit))
 
     def _with(self, dt: datetime) -> Date:
-        return Date(dt=dt, tz=str(self._zone))
+        """Internal helper to create a new Date with a given datetime."""
+        # Optimization: Internal creation avoids expensive constructor logic
+        # pylint: disable=protected-access
+        inst = self.__class__.__new__(self.__class__)
+        inst._dt = dt
+        inst._zone = self._zone
+        return inst
 
     def to_datetime(self) -> datetime:
         """Return the internal datetime object.
@@ -269,6 +334,14 @@ class Date:  # pylint: disable=too-many-public-methods
             float: Unix timestamp.
         """
         return self._dt.timestamp()
+
+    def for_json(self) -> str:
+        """Return ISO 8601 string for JSON serialization.
+
+        Returns:
+            str: ISO format datetime string.
+        """
+        return self.to_iso()
 
     @classmethod
     def _normalize_iso_format(cls, iso_str: str) -> str:
@@ -345,7 +418,7 @@ class Date:  # pylint: disable=too-many-public-methods
 
         if hasattr(dt.tzinfo, "key"):
             # ZoneInfo object
-            return dt.tzinfo.key
+            return cast(str, dt.tzinfo.key)
 
         if dt.tzinfo == timezone.utc:
             # UTC timezone
@@ -439,53 +512,51 @@ class Date:  # pylint: disable=too-many-public-methods
     @classmethod
     def from_iso(cls, iso_str: str, tz: Optional[str] = "UTC") -> Date:
         """Create a Date from an ISO 8601 string."""
+        # pylint: disable=too-many-branches
         if tz is None:
             tz = "UTC"
 
         try:
-            # Optimization: Try native parsing first (fastest for Py 3.11+)
-            # Fast Path: UTC optimization using string concat (+00:00).
-            # Avoids expensive .replace(tzinfo=...) calls.
-            # Conds: tz="UTC", no '+', no 'Z', max 2 '-' (no negative offset)
-            if (
-                tz == "UTC"
-                and "Z" not in iso_str
-                and "+" not in iso_str
-                and iso_str.count("-") <= 2
-            ):
-                try:
-                    # Date-only (YYYY-MM-DD): Must append T00:00:00+00:00
-                    # to force timezone awareness (otherwise naive).
-                    if len(iso_str) == 10:
-                        dt = datetime.fromisoformat(iso_str + "T00:00:00+00:00")
+            # ULTRA FAST PATH: Default UTC case
+            if tz == "UTC":
+                # Check for standard ISO structure (optimized for speed)
+                if len(iso_str) == 10:
+                    dt = datetime.fromisoformat(iso_str + "T00:00:00+00:00")
+                elif "Z" not in iso_str and "+" not in iso_str:
+                    dt = datetime.fromisoformat(iso_str + "+00:00")
+                else:
+                    # Generic path for strings with explicit TZ info
+                    dt = datetime.fromisoformat(iso_str)
+                    if dt.tzinfo is not None:
+                        # If string has its own TZ, we must NOT force _UTC_ZONE
+                        # if it's not actually UTC.
+                        return cls.from_timezone_aware_datetime(dt)
 
-                    else:
-                        # Timestamps: Appending +00:00 is sufficient.
-                        dt = datetime.fromisoformat(iso_str + "+00:00")
-
-                    # Success: We have a timezone-aware UTC datetime.
-                    # Bypass constructor validation.
-                    inst = cls.__new__(cls)
-                    inst._dt = dt
-                    inst._zone = _UTC_ZONE
-                    return inst
-
-                except ValueError:
-                    # Fallback to standard flow if the concatenation trick failed
-                    pass
+                inst = cls.__new__(cls)
+                inst._dt = dt
+                inst._zone = _UTC_ZONE
+                return inst
 
             dt = datetime.fromisoformat(iso_str)
 
-        except ValueError:
+        except ValueError as exc:
+            # If it's a format error (e.g. bad structure), try normalization
+            # or raise InvalidFormatError.
+            if "Invalid isoformat string" not in str(exc):
+                raise
+
             try:
                 # Fallback: Normalize the ISO string (legacy/edge cases)
                 normalized_iso = cls._normalize_iso_format(iso_str)
                 dt = datetime.fromisoformat(normalized_iso)
 
-            except ValueError as exc:
-                raise InvalidFormatError(
-                    f"Date string '{iso_str}' is not a valid ISO 8601 format"
-                ) from exc
+            except ValueError as inner_exc:
+                if "Invalid isoformat string" in str(inner_exc):
+                    raise InvalidFormatError(
+                        f"Date string '{iso_str}' is not a valid ISO 8601 format"
+                    ) from inner_exc
+                # Logical value error even after normalization
+                raise
 
         if dt.tzinfo is None:
             if tz == "UTC":
@@ -814,8 +885,8 @@ class Date:  # pylint: disable=too-many-public-methods
         if unit == "week":
             dt -= timedelta(days=dt.weekday())
 
-        replace_kwargs = cast(dict, truncate_map[unit])
-        return self._with(dt.replace(**replace_kwargs))
+        replace_kwargs = truncate_map[unit]
+        return self._with(dt.replace(**replace_kwargs))  # type: ignore[arg-type]
 
     def ceil(self, unit: str) -> Date:
         """
@@ -927,7 +998,7 @@ class Date:  # pylint: disable=too-many-public-methods
 
         return span if self._dt <= other.to_datetime() else -span
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Dict[str, Union[int, str]]:
         """Return a dictionary representation of the Date."""
         return {
             "year": self.year,
