@@ -1,12 +1,10 @@
 # FastAPI & Pydantic Integration
 
-Eones works seamlessly with FastAPI and Pydantic. You can create custom types to automatically validate and serialize dates.
+Eones works with FastAPI and Pydantic using custom validators and the built-in `eones_encoder` for JSON serialization.
 
 ## Custom Pydantic Type
 
-To use `Eones` or `Date` as a Pydantic field, you can define an annotated type with a `BeforeValidator` or a custom class with `__get_pydantic_core_schema__`.
-
-### Simple Validator Approach
+To use `Eones` or `Date` as a Pydantic field, define an annotated type with a `BeforeValidator`:
 
 ```python
 from typing import Annotated
@@ -31,13 +29,25 @@ print(event.start_time.format("%Y-%m-%d"))  # 2025-10-01
 
 ## Response Serialization
 
-To ensure Eones objects are serialized correctly to JSON in FastAPI responses, you can configure your Pydantic models to use a custom encoder or simply ensure your `Eones` objects are converted to strings/IS0 formats before return, or register a custom encoder in FastAPI.
+Use the built-in `eones_encoder` from `eones.integrations.serializers` as the JSON encoder for FastAPI responses. It handles `Eones`, `Date`, and `Delta` objects automatically:
+
+```python
+import json
+from eones.integrations.serializers import eones_encoder
+
+# Works with json.dumps directly
+data = {"start": Eones("2025-10-01"), "name": "Meeting"}
+json.dumps(data, default=eones_encoder)
+# {"start": "2025-10-01T00:00:00+00:00", "name": "Meeting"}
+```
+
+### With FastAPI's jsonable_encoder
 
 ```python
 from fastapi.encoders import jsonable_encoder
+from eones import Eones
 
-# ...
 json_compatible_item_data = jsonable_encoder(event, custom_encoder={
-    Eones: lambda e: e.to_iso()
+    Eones: lambda e: e.for_json()
 })
 ```

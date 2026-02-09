@@ -1,19 +1,28 @@
-Welcome to Eones's documentation!
-=================================
+.. include:: intro/overview.md
+   :parser: myst_parser.sphinx_
 
 .. toctree::
-   :maxdepth: 2
+   :hidden:
    :caption: 🚀 Start Here
 
-   README
+   intro/overview
+   intro/installation
+   intro/basic_example
+   intro/features
+   intro/comparison
+   intro/requirements
    benchmarks/README
 
 .. toctree::
-   :maxdepth: 2
+   :hidden:
    :caption: 💡 Guides & Tutorials
 
-   examples/quick_start
-   examples/advanced_patterns
+   guides/quick_start_basics
+   guides/quick_start_formatting
+   guides/quick_start_math
+   guides/advanced_manipulation
+   guides/advanced_comparisons
+   guides/advanced_ranges
    examples/time_deltas
    examples/error_handling
    examples/formatting_serialization
@@ -21,26 +30,27 @@ Welcome to Eones's documentation!
    examples/regional_configuration
 
 .. toctree::
-   :maxdepth: 2
+   :hidden:
    :caption: 🧩 Integrations
 
+   integrations/django
+   integrations/drf
    integrations/fastapi
+   integrations/flask
+   integrations/celery
    integrations/sqlalchemy
+   integrations/marshmallow
+   integrations/mongodb
 
 .. toctree::
-   :maxdepth: 2
+   :hidden:
    :caption: 📚 API Reference
 
    eones
 
 .. toctree::
-   :maxdepth: 2
+   :hidden:
    :caption: 📜 Project Info
 
    CHANGELOG
    LICENSE
-
-Indices and tables
-==================
-* :ref:`genindex`
-* :ref:`modindex`
