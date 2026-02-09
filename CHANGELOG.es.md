@@ -2,8 +2,10 @@
 
 Todas las versiones están documentadas en este archivo.
 
-## [1.5.0] - 11-01-2026
- 
+## [No publicado]
+
+## [1.5.0] - 08-02-2026
+
 ### Agregado
 - **Serialización JSON**: Método nativo `.for_json()` para las clases `Date` y `Delta`.
 - **Propiedades Extendidas**: Agregadas las propiedades `quarter`, `iso_week`, `iso_year` a la clase `Date`.
@@ -12,16 +14,25 @@ Todas las versiones están documentadas en este archivo.
 - **Iterador de Rangos**: Agregado `range_iter(start, end, step)` para generación de rangos eficiente en memoria.
 - **Parsing Ambiguo**: Agregadas opciones `day_first` y `year_first` a `Eones` y `Parser` para manejar ambigüedades regionales.
 - **Rendimiento**: Alcanzadas **>1.3M ops/sec** en parsing ISO, haciendo a Eones ~6.7x más rápida que Pendulum.
- 
+- **Cumplimiento PEP 561**: Agregado archivo marcador `py.typed` para soporte de verificadores de tipos.
+- **Tests de integración**: Agregados tests comprehensivos para campo Django, tipo SQLAlchemy y serializadores.
+- **Documentación**: Agregadas guías de integración (Django, DRF, Flask, FastAPI, Celery, MongoDB, Marshmallow) y guías de inicio rápido/avanzadas.
+
 ### Mejorado
 - **API Ergonómica**: Refactorizados `add()` y `subtract()` en `Eones` para aceptar `Delta`/`timedelta` posicional o argumentos de palabra clave.
 - **Parsing Inteligente**: `DEFAULT_FORMATS` mejorados para incluir estilos US y soporte moderno de offsets ISO 8601.
 - **Suite de Pruebas**: Redistribución y optimización de tests para mejor mantenibilidad y rendimiento.
 - **Versionado**: Sincronización de versión integrada en todos los archivos meta del proyecto.
- 
+
 ### Corregido
 - **Dependencias Circulares**: Refactorización de imports en tests unitarios para usar rutas directas, resolviendo errores de colección.
 - **Documentación**: Actualizados todos los ejemplos (EN/ES), Readme y Roadmap para reflejar las mejoras de la v1.5.0.
+- **Integraciones**: Resueltos warnings de pylint y mypy en los módulos de Django, SQLAlchemy y serializadores.
+- **Documentación**: Corregidos warnings de build de Sphinx y configurado tema Furo.
+
+### Cambiado
+- **Build**: Actualizada configuración de tox y corregidas dependencias de CI.
+- **Build**: Actualizada metadata del proyecto en `pyproject.toml`.
 
 ## [1.4.2] - 10-01-2026
 

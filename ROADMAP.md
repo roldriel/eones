@@ -22,13 +22,27 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 - **Navegación por días de la semana**: `next_weekday`, `previous_weekday`
 - **Operaciones temporales**: suma, resta, comparaciones
 - **Truncamiento y redondeo**: `floor`, `ceil`, `round`
-- **Truncamiento y redondeo**: `floor`, `ceil`, `round`
 - **Serialización**: `to_dict`, `to_string`, `to_datetime`
 
-### 🚀 Performance y Calidad (v1.4.1)
+### 🚀 Performance y Calidad (v1.4.x)
 - **Benchmarks**: Suite completa de comparación y profiling
 - **Optimización**: Lazy parser y fast paths (20% más rápido)
 - **Calidad**: 98% coverage y typing estático completo
+
+### ✅ v1.5.0 — Completada (Febrero 2026)
+- **Serialización JSON**: `.for_json()` nativo en `Date` y `Delta`
+- **Propiedades extendidas**: `quarter`, `iso_week`, `iso_year` en `Date`
+- **Soporte fiscal**: `fiscal_year()`, `fiscal_quarter()` en `Date`
+- **Fechas especiales**: `easter_date(year)` expuesta a través de `Eones`
+- **Iterador de rangos**: `range_iter(start, end, step)` eficiente en memoria
+- **Parsing ambiguo**: Opciones `day_first` y `year_first` en `Eones` y `Parser`
+- **Rendimiento**: >1.3M ops/sec en ISO parsing (~6.7x más rápido que Pendulum)
+- **Operadores mejorados**: `__add__`/`__sub__` con `Delta` además de `timedelta`
+- **Parsing ISO 8601 con offset**: Soporte completo para `+03:00`, `-05:00`
+- **API ergonómica**: `add()` y `subtract()` con mejor interfaz declarativa
+- **PEP 561**: Marcador `py.typed` para soporte de verificadores de tipos
+- **Tests de integración**: Cobertura comprehensiva para Django, SQLAlchemy y serializers
+- **Documentación**: Guías de integración y documentación Sphinx con tema Furo
 
 ---
 
@@ -38,55 +52,11 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 - **Current Version:** v1.5.0
 - **Next Milestone:** v1.6.0 (Calendario Laboral & Métricas)
 
-## 🔥 **CRÍTICO - Completar Funcionalidades Existentes**
-
-### 🔖 **v1.5.0 – Extensiones Críticas de Funcionalidades Actuales**
-
-**Prioridad:** CRÍTICA | **Estado:** Inmediato
-
-> **Objetivo:** Completar y perfeccionar las funcionalidades ya implementadas antes de agregar nuevas características.
-
-- [x] **Métodos semánticos de calendario** *(Extiende clase Date actual)*
-  - `Date.is_leap_year()` - Verificar si el año es bisiesto
-  - `Date.is_weekend()` - Verificar si es fin de semana
-  - `Date.is_monday()`, `is_tuesday()`, etc. - Verificar día específico de la semana
-- [x] **Mejoras en operadores de Date** *(Completa operaciones temporales)*
-  - Soporte para `__add__` y `__sub__` con objetos `Delta` además de `timedelta`
-  - Operadores más intuitivos para suma/resta de períodos
-- [x] **Parsing ISO 8601 con offset completo** *(Extiende parsing flexible actual)*
-  - Soporte para `+03:00`, `-05:00` en parsing de strings
-  - Extender parsing con `%z` para offsets horarios
-- [x] **Método `.for_json()`** *(Completa serialización actual)*
-  - Serialización JSON directa en objetos Date/Eones
-- [x] **Mejoras en interfaz Eones** *(Perfecciona interfaz actual)*
-  - Métodos declarativos mejorados: `add(...)` y `subtract(...)` con mejor ergonomía
-  - Validaciones y mensajes de error más descriptivos
-- [x] **Propiedades fiscales y ISO extendidas** *(Extiende rangos de períodos)*
-  - `Date.quarter`, `fiscal_year(start_month)`, `fiscal_quarter(start_month)`
-  - Exposición directa de propiedades ISO (número de semana, año ISO)
-- [x] **Iterador de rangos** *(Completa rangos de períodos actuales)*
-  - Implementar `range_iter(start, end, step)` para iteración declarativa
-
----
-
-## 🆕 **NUEVAS FUNCIONALIDADES**
-
-### 🔖 **v1.5.0 – Funcionalidades Especiales y Parsing Avanzado**
-
-**Prioridad:** Alta | **Estado:** Inmediato
-
-- [x] **Fecha de Pascua y fechas especiales** *(Nueva funcionalidad)*
-  - `easter_date(year)` - Calcular fecha de Pascua para un año dado
-  - Soporte para otras fechas especiales calculadas
-- [x] **Normalización de entrada ambigua** *(Nueva funcionalidad)*
-  - Manejo inteligente de formatos de fecha ambiguos (DD/MM vs MM/DD)
-  - Configuración de preferencias regionales para parsing ambiguo
-
----
+## 🆕 **PRÓXIMAS FUNCIONALIDADES**
 
 ### 🔖 **v1.6.0 – Calendario Laboral y Métricas**
 
-**Prioridad:** Alta | **Estado:** Planeado
+**Prioridad:** Alta | **Estado:** Próximo
 
 > **Funcionalidades de alto valor para aplicaciones empresariales**
 
@@ -223,16 +193,13 @@ Si deseas contribuir a alguna funcionalidad:
 
 ## 📝 Notas
 
-> 🔥 **FILOSOFÍA DE PRIORIZACIÓN:** Este roadmap prioriza **COMPLETAR** las funcionalidades existentes antes que agregar nuevas. Las funcionalidades críticas (v1.4.0) extienden y perfeccionan lo ya implementado.
-
 > ⚠️ Este roadmap es incremental y flexible. Se priorizan funcionalidades de **alto impacto, bajo costo** y alineadas con la filosofía minimalista de Eones.
 
 > 📊 **ESTRUCTURA DE PRIORIDADES:**
-> - 🔥 **CRÍTICO:** Extensiones de funcionalidades existentes
 > - 🆕 **NUEVAS:** Funcionalidades completamente nuevas
 > - 📈 **ORDEN:** Primero completar, luego innovar
 
-> 📅 **Última actualización:** Enero 2026  
+> 📅 **Última actualización:** Febrero 2026
 > 🔖 **Versión actual:** 1.5.0
 
 ---
