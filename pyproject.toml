@@ -7,10 +7,10 @@ name = "Eones"
 dynamic = ["version"]
 description = "Elegant time manipulation and reasoning library"
 readme = {file = "README.md", content-type = "text/markdown"}
-license = {file = "LICENSE.md"}
+license = { text = "MIT" }
 requires-python = ">=3.9"
 authors = [
-    { name = "Rodrigo Ezequiel Roldán", email = "roldriel@gmail.com" }
+    { name = "Roldriel", email = "roldriel@gmail.com" }
 ]
 keywords = [
     "datetime",
@@ -21,7 +21,7 @@ keywords = [
     "timezones"
 ]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
@@ -30,12 +30,14 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Topic :: Software Development :: Libraries :: Python Modules"
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed"
 ]
 dependencies = []
 
 [project.optional-dependencies]
-docs = ["sphinx", "myst-parser"]
+docs = ["sphinx", "myst-parser", "furo"]
 test = ["pytest", "coverage"]
 tz = ["tzdata"]
 
@@ -50,6 +52,9 @@ package-dir = {"" = "src"}
 [tool.setuptools.dynamic]
 version = {attr = "eones.__version__"}
 
+[tool.setuptools.package-data]
+eones = ["py.typed"]
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
@@ -61,12 +66,6 @@ minversion = "6.0"
 addopts = "-ra -q"
 testpaths = ["tests"]
 python_files = "test_*.py"
-
-[tool.pylint.master]
-ignore = "integrations"
-
-[tool.pylint."messages control"]
-disable = "R0903"
 
 [tool.pylint.format]
 max-line-length = 87
@@ -84,7 +83,6 @@ omit = [
     "*/__init__.py",
     "tests/*",
     "setup.py",
-    "*/integrations/*"
 ]
 
 [tool.coverage.report]
