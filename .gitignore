@@ -58,3 +58,8 @@ Thumbs.db
 # Logs and backups
 *.log
 *.bak
+
+# Claude
+.claude/
+.claudeignore
+CLAUDE.md

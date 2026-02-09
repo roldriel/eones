@@ -117,7 +117,7 @@ jobs:
       - name: Setup Python Environment
         uses: ./.github/actions/setup-python
         with:
-          python-version: '3.11'
+          python-version: '3.12'
           cache-key-suffix: lint
           install-tox: true
 
