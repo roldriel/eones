@@ -16,24 +16,26 @@ extensions = [
     "myst_parser",
 ]
 
+myst_heading_anchors = 3
+
 # Internationalization
 locale_dirs = ["locale/"]  # path is example but original file: root is `docs/source`
 gettext_compact = False  # optional
 
 templates_path = ["_templates"]
-exclude_patterns: list[str] = []
+exclude_patterns: list[str] = [
+    "README.md",
+    "examples/advanced_patterns.md",
+    "examples/quick_start.md",
+]
 
+html_title = f"Eones {release}"
 html_baseurl = "https://roldriel.github.io/eones/"
-html_theme = "alabaster"
+html_theme = "furo"
 html_static_path = ["_static"]
 autodoc_mock_imports = ["django", "sqlalchemy"]
 html_theme_options = {
-    "canonical_url": "https://roldriel.github.io/eones/",
-}
-html_context = {
-    "display_github": True,
-    "github_user": "roldriel",
-    "github_repo": "eones",
-    "github_version": "master",
-    "conf_py_path": "/docs/",
+    "source_repository": "https://github.com/roldriel/eones",
+    "source_branch": "master",
+    "source_directory": "docs/source/",
 }

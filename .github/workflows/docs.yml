@@ -43,7 +43,7 @@ jobs:
         with:
           python-version: '3.11'
           cache-key-suffix: docs-check
-          extra-deps: 'sphinx sphinx-rtd-theme'
+          extra-deps: 'sphinx furo'
 
       - name: Check documentation syntax
         shell: bash
@@ -97,7 +97,7 @@ jobs:
         with:
           python-version: '3.11'
           cache-key-suffix: docs-build
-          extra-deps: 'sphinx sphinx-rtd-theme myst-parser sphinx-autodoc-typehints'
+          extra-deps: 'sphinx furo myst-parser sphinx-autodoc-typehints'
 
       - name: Install documentation dependencies
         run: |

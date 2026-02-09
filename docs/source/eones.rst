@@ -58,3 +58,4 @@ eones.interface module
    :members:
    :show-inheritance:
    :undoc-members:
+   :noindex:
