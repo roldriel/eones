@@ -12,6 +12,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   eones.calendars
    eones.core
    eones.integrations
    eones.locales
@@ -59,3 +60,11 @@ eones.interface module
    :show-inheritance:
    :undoc-members:
    :noindex:
+
+eones.locale\_format module
+---------------------------
+
+.. automodule:: eones.locale_format
+   :members:
+   :show-inheritance:
+   :undoc-members:

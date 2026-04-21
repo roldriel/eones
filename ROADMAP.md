@@ -49,42 +49,24 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 ## 🚀 Funcionalidades Pendientes
 
 ---
-- **Current Version:** v1.5.0
-- **Next Milestone:** v1.6.0 (Calendario Laboral & Métricas)
+- **Current Version:** v1.6.0
+- **Next Milestone:** v1.7.0 (Extensiones ISO, Precisión y Confiabilidad)
+
+### ✅ v1.6.0 — Completada (Febrero 2026)
+- **Calendarios de feriados**: 7 calendarios nacionales (`America/Argentina`, `America/US`, `Europe/France`, `Europe/Germany`, `Europe/Spain`, `Asia/Japan`, `Oceania/Australia`)
+- **Días hábiles**: `is_business_day()`, `next/previous_business_day()`, `add/subtract_business_days(n)`
+- **Métricas**: `count_business_days()`, `count_weekends()`, `count_holidays()`, `time_until_weekend()`, `time_until_business_day()`
+- **Registro custom**: `register_calendar()`, `available_calendars()`
+- **Formateo localizado**: `format_locale("DD de MMMM de YYYY", locale="es")` con tokens
+- **Locale japonés**: `diff_for_humans(locale="ja")` con sufijos
+- **Nombres localizados**: `MONTHS` y `DAYS` en 5 idiomas (en, es, fr, de, ja)
+- **Constructor con defaults**: `Eones(value, locale="es", calendar="America/Argentina")`
 
 ## 🆕 **PRÓXIMAS FUNCIONALIDADES**
 
-### 🔖 **v1.6.0 – Calendario Laboral y Métricas**
-
-**Prioridad:** Alta | **Estado:** Próximo
-
-> **Funcionalidades de alto valor para aplicaciones empresariales**
-
-- [ ] **Soporte de feriados y días hábiles** *(Nueva funcionalidad crítica)*
-  - `is_holiday(date, calendar='AR')` con soporte para calendario custom
-  - `is_business_day(date, weekend={5,6}, calendar='AR')`
-  - `next_business_day(date, direction='forward')`
-  - `add_business_days(n)`, `subtract_business_days(n)`
-  - `count_business_days(start, end)`, `count_weekends(start, end)`
-
 ---
 
-### 🔖 **v1.7.0 – Internacionalización Avanzada**
-
-**Prioridad:** Media | **Estado:** Planeado
-
-> **Extiende humanización localizada actual**
-
-- [ ] **Formateo localizado completo** *(Extiende capacidades actuales)*
-  - `format_locale("DD de MMMM de YYYY", locale="es")`
-  - Diccionarios internos de nombres de meses/días para idiomas comunes
-- [ ] **Soporte multilenguaje extendido** *(Extiende diff_for_humans actual)*
-  - Más idiomas para `diff_for_humans(locale=...)`
-  - Localización de nombres de meses y días de la semana
-
----
-
-### 🔖 **v1.8.0 – Extensiones ISO, Precisión y Confiabilidad**
+### 🔖 **v1.7.0 – Extensiones ISO, Precisión y Confiabilidad**
 
 **Prioridad:** Media | **Estado:** Planeado
 
@@ -99,16 +81,12 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
   - `fiscal_quarter(date, fiscal_start_month=4)`
   - `fiscal_year(date, fiscal_start_month=4)`
   - Métodos para períodos fiscales personalizados
-- [ ] **Métricas temporales integradas** *(Extiende funcionalidades de cálculo)*
-  - `count_weekends(start, end)` - Contar fines de semana en un rango
-  - `count_holidays(start, end, calendar='AR')` - Contar feriados
-  - `time_until_weekend()`, `time_until_business_day()`
 - [ ] **Soporte para precisión subsegundo** *(Mejora precisión actual)*
   - Microsegundos y nanosegundos para sistemas de alta resolución
 
 ---
 
-### 🔖 **v1.9.0 – Razonamiento Avanzado: Intervalos y Calendarios Básicos**
+### 🔖 **v1.8.0 – Razonamiento Avanzado: Intervalos y Calendarios Básicos**
 
 **Prioridad:** Media | **Estado:** Planeado
 
@@ -126,7 +104,7 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 
 ---
 
-### 🔖 **v1.10.0 – Productividad (DX) y Calendarios Avanzados**
+### 🔖 **v1.9.0 – Productividad (DX) y Calendarios Avanzados**
 
 **Prioridad:** Media | **Estado:** Planeado
 
@@ -145,7 +123,7 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 
 ---
 
-### 🔖 **v1.11.0 – Recurrencias y Procesamiento de Lenguaje**
+### 🔖 **v1.10.0 – Recurrencias y Procesamiento de Lenguaje**
 
 **Prioridad:** Media | **Estado:** Planeado
 
@@ -163,7 +141,7 @@ Eones busca ser la librería de fechas en Python más clara, minimalista y segur
 
 ---
 
-### 🔖 **v1.12.0 – Precisión Científica y Especialización Empresarial**
+### 🔖 **v1.11.0 – Precisión Científica y Especialización Empresarial**
 
 **Prioridad:** Baja | **Estado:** Investigación
 
@@ -200,7 +178,7 @@ Si deseas contribuir a alguna funcionalidad:
 > - 📈 **ORDEN:** Primero completar, luego innovar
 
 > 📅 **Última actualización:** Febrero 2026
-> 🔖 **Versión actual:** 1.5.0
+> 🔖 **Versión actual:** 1.6.0
 
 ---
 

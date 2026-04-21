@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-02-09
+
+### Added
+- **Holiday Calendars**: 7 national holiday calendars with hierarchical naming (`America/Argentina`, `America/US`, `Europe/France`, `Europe/Germany`, `Europe/Spain`, `Asia/Japan`, `Oceania/Australia`).
+- **Business Day Logic**: Full suite of business day operations — `is_business_day()`, `next_business_day()`, `previous_business_day()`, `add_business_days(n)`, `subtract_business_days(n)`.
+- **Business Day Metrics**: Static methods `count_business_days()`, `count_weekends()`, `count_holidays()`, `time_until_weekend()`, `time_until_business_day()`.
+- **Custom Calendar Registry**: `register_calendar()` and `available_calendars()` for extensibility.
+- **Locale-Aware Formatting**: `format_locale()` with token-based formatting (`MMMM`, `dddd`, `DD`, `YYYY`, etc.) using localized month/day names.
+- **Japanese Locale**: Added `ja` locale for `diff_for_humans` with suffix-style markers (e.g., "2 日前").
+- **Locale Month/Day Names**: `MONTHS` and `DAYS` dictionaries in all 5 locales (en, es, fr, de, ja).
+- **Constructor Defaults**: `locale` and `calendar` as orthogonal constructor parameters inherited by methods, with per-call override (`Eones(value, locale="es", calendar="America/Argentina")`).
+
+### Improved
+- **Type Safety**: Added `@overload` to `Date.__sub__` for proper return type narrowing (`Date - Date → timedelta`, `Date - timedelta → Date`).
+- **Pylance/Pyright Compatibility**: Reduced pyright errors from 39 to 4 (only `integrations/` excluded by design). Replaced `hasattr` checks with `isinstance(ZoneInfo)` for proper type narrowing.
+- **Code Quality**: Refactored `argentina.py` holiday_name from 16 if/return statements to dict lookup. Extracted `_TIME_UNITS` constant from `humanize.py`. Removed redundant `cast()` calls.
+- **Test Suite**: 761 tests passing with 97% branch coverage.
+
 ## [1.5.0] - 2026-02-08
 
 ### Added
@@ -20,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **PEP 561 compliance**: Added `py.typed` marker file for type checker support.
 - **Integration tests**: Added comprehensive tests for Django field, SQLAlchemy type, and serializers.
 - **Documentation**: Added integration guides (Django, DRF, Flask, FastAPI, Celery, MongoDB, Marshmallow) and quick start/advanced guides.
+- **Locales**: Added French (`fr`) and German (`de`) locale support for `diff_for_humans`.
 
 ### Improved
 - **Ergonomic API**: Refactored `add()` and `subtract()` in `Eones` to accept positional `Delta`/`timedelta` or keyword arguments.

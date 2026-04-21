@@ -33,6 +33,8 @@ html_title = f"Eones {release}"
 html_baseurl = "https://roldriel.github.io/eones/"
 html_theme = "furo"
 html_static_path = ["_static"]
+html_logo = "../../eones.png"
+html_favicon = "../../eones_ico.png"
 autodoc_mock_imports = ["django", "sqlalchemy"]
 html_theme_options = {
     "source_repository": "https://github.com/roldriel/eones",

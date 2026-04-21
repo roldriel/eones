@@ -9,6 +9,14 @@ eones.core package
 Submodules
 ----------
 
+eones.core.business module
+--------------------------
+
+.. automodule:: eones.core.business
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 eones.core.date module
 ----------------------
 

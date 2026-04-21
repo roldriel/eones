@@ -28,6 +28,8 @@
    examples/formatting_serialization
    examples/real_world_scenarios
    examples/regional_configuration
+   examples/business_calendar
+   examples/locale_formatting
 
 .. toctree::
    :hidden:
@@ -54,3 +56,4 @@
 
    CHANGELOG
    LICENSE
+   LOCALE_GUIDE
