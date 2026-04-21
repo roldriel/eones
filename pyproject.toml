@@ -65,6 +65,9 @@ eones = ["py.typed"]
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.black]
+target-version = ["py39"]
+
 [tool.isort]
 profile = "black"
 
