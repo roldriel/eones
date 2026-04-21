@@ -137,7 +137,7 @@ def from_timestamp(timestamp: Union[int, float], tz: str = "UTC") -> Date:
     return Date.from_unix(float(timestamp), tz=tz)
 
 
-__version__ = "1.5.0"
+__version__ = "1.6.0"
 __all__ = [
     "Eones",
     "InvalidFormatError",
