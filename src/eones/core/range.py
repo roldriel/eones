@@ -158,4 +158,4 @@ class Range:
         else:
             while current >= end:
                 yield current
-                current = current - step  # type: ignore[assignment]
+                current = current - step

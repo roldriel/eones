@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from typing import (
     Any,
     Dict,
+    FrozenSet,
     Generator,
     List,
     Literal,
@@ -21,6 +22,7 @@ from eones.core.parser import Parser
 from eones.core.range import Range
 from eones.core.special_dates import easter_date
 from eones.formats import is_valid_format
+from eones.locale_format import format_locale as _format_locale
 
 EonesLike = Union[str, datetime, Dict[str, int], Date]
 
@@ -39,20 +41,27 @@ class Eones:
 
     _date: Date
     _parser: Parser
+    _locale: str
+    _calendar: Optional[str]
 
-    __slots__ = ("_date", "_parser")
+    __slots__ = ("_date", "_parser", "_locale", "_calendar")
 
     # pylint: disable=too-many-arguments, too-many-positional-arguments, too-many-branches
     def __init__(
         self,
-        value: Optional[EonesLike] = None,
+        value: Union[EonesLike, "Eones", None] = None,
         tz: str = "UTC",
         formats: Optional[Union[List[str], str]] = None,
         additional_formats: Optional[Union[List[str], str]] = None,
         day_first: bool = True,
         year_first: bool = True,
+        locale: str = "en",
+        calendar: Optional[str] = None,
     ):
         """Initialize a Eones instance."""
+        self._locale = locale
+        self._calendar = calendar
+
         # ULTRA FAST PATH: Default UTC construction with ISO string or None
         if (
             tz == "UTC"
@@ -82,7 +91,12 @@ class Eones:
         # VERY FAST PATH: Direct instance injection
         if isinstance(value, Eones):
             self._date = value._date
-            self._parser = value._parser
+            try:
+                self._parser = value._parser
+            except AttributeError:
+                pass  # Parser not set in source; leave unset
+            self._locale = value._locale
+            self._calendar = value._calendar
             return
 
         if isinstance(value, Date):
@@ -232,13 +246,13 @@ class Eones:
                 raise ValueError(
                     "Use either a pre-computed 'other' or 'kwargs', not both."
                 )
-            self._date = cast(Date, self._date - other)
+            self._date = self._date - other
         else:
             # Optimization: Duration-only bypass
             if kwargs and "months" not in kwargs and "years" not in kwargs:
                 self._date = self._date.shift(-timedelta(**kwargs))
             else:
-                self._date = cast(Date, self._date - Delta(**kwargs))
+                self._date = self._date - Delta(**kwargs)
         return self
 
     def copy(self) -> Eones:
@@ -257,6 +271,8 @@ class Eones:
             pass  # Leave it unset in the new instance too
 
         new_instance._date = self._date  # pylint: disable=protected-access
+        new_instance._locale = self._locale  # pylint: disable=protected-access
+        new_instance._calendar = self._calendar  # pylint: disable=protected-access
         return new_instance
 
     def clone(self) -> Eones:
@@ -275,7 +291,35 @@ class Eones:
         """
         return self._date.for_json()
 
-    def difference(self, other: EonesLike, unit: Optional[str] = None) -> int:
+    def format_locale(self, fmt: str, locale: Optional[str] = None) -> str:
+        """Format the current date using locale-aware month/day names.
+
+        Supported tokens: MMMM, MMM, dddd, ddd, DD, D, MM, M, YYYY, YY, HH, mm, ss.
+
+        Args:
+            fmt: Format string with tokens.
+            locale: Language code. Uses instance default if not specified.
+
+        Returns:
+            str: Formatted date string.
+        """
+        resolved_locale = locale if locale is not None else self._locale
+        dt = self._date.to_datetime()
+        return _format_locale(
+            year=dt.year,
+            month=dt.month,
+            day=dt.day,
+            weekday=dt.weekday(),
+            hour=dt.hour,
+            minute=dt.minute,
+            second=dt.second,
+            fmt=fmt,
+            locale=resolved_locale,
+        )
+
+    def difference(
+        self, other: Union[EonesLike, "Eones"], unit: Optional[str] = None
+    ) -> int:
         """Calculate the difference between this date and another.
 
         Args:
@@ -286,14 +330,27 @@ class Eones:
         Returns:
             int: The time difference expressed in the specified unit.
         """
-        unit_type = Literal["days", "weeks", "months", "years"]
-        unit_literal = cast(unit_type, unit or "days")
+        unit_literal = cast(
+            Literal["days", "weeks", "months", "years"],
+            unit or "days",
+        )
         return self._date.diff(self._coerce_to_date(other), unit_literal)
 
-    def diff_for_humans(self, other: Any | None = None, locale: str = "en") -> str:
-        """Return a human-readable difference between dates."""
+    def diff_for_humans(
+        self, other: Any | None = None, locale: Optional[str] = None
+    ) -> str:
+        """Return a human-readable difference between dates.
+
+        Args:
+            other: The other date to compare with. If None, compares with now.
+            locale: Language code. Uses instance default if not specified.
+
+        Returns:
+            str: Human-readable difference string.
+        """
+        resolved_locale = locale if locale is not None else self._locale
         other_date = self._coerce_to_date(other) if other is not None else None
-        return self._date.diff_for_humans(other_date, locale=locale)
+        return self._date.diff_for_humans(other_date, locale=resolved_locale)
 
     def replace(self, **kwargs: Any) -> Eones:
         """
@@ -494,6 +551,246 @@ class Eones:
         """
         self._date = self._date.end_of(unit)
         return self
+
+    # --- Holiday methods ---
+
+    def is_holiday(self, calendar: Optional[str] = None) -> bool:
+        """Check if the current date is a holiday.
+
+        Args:
+            calendar: Calendar identifier. Uses instance default if not specified.
+
+        Returns:
+            bool: True if the date is a holiday. False if no calendar configured.
+        """
+        resolved_calendar = calendar if calendar is not None else self._calendar
+        if resolved_calendar is None:
+            return False
+        from eones import calendars  # pylint: disable=import-outside-toplevel
+
+        return calendars.get_calendar(resolved_calendar).is_holiday(self._date)
+
+    def holiday_name(self, calendar: Optional[str] = None) -> Optional[str]:
+        """Return the name of the holiday, or None.
+
+        Args:
+            calendar: Calendar identifier. Uses instance default if not specified.
+
+        Returns:
+            str or None: Holiday name, or None if not a holiday or no calendar.
+        """
+        resolved_calendar = calendar if calendar is not None else self._calendar
+        if resolved_calendar is None:
+            return None
+        from eones import calendars  # pylint: disable=import-outside-toplevel
+
+        return calendars.get_calendar(resolved_calendar).holiday_name(self._date)
+
+    # --- Business day methods ---
+
+    def is_business_day(
+        self,
+        weekend: FrozenSet[int] = frozenset({5, 6}),
+        calendar: Optional[str] = None,
+    ) -> bool:
+        """Check if the current date is a business day.
+
+        Args:
+            weekend: Weekday numbers considered weekend (0=Mon, 6=Sun).
+            calendar: Calendar identifier. Uses instance default if not specified.
+
+        Returns:
+            bool: True if neither a weekend nor a holiday.
+        """
+        resolved_calendar = calendar if calendar is not None else self._calendar
+        return self._date.is_business_day(weekend, resolved_calendar)
+
+    def next_business_day(
+        self,
+        weekend: FrozenSet[int] = frozenset({5, 6}),
+        calendar: Optional[str] = None,
+    ) -> Eones:
+        """Advance to the next business day.
+
+        Args:
+            weekend: Weekday numbers considered weekend.
+            calendar: Calendar identifier. Uses instance default if not specified.
+
+        Returns:
+            Eones: self, updated.
+        """
+        resolved_calendar = calendar if calendar is not None else self._calendar
+        self._date = self._date.next_business_day(weekend, resolved_calendar)
+        return self
+
+    def previous_business_day(
+        self,
+        weekend: FrozenSet[int] = frozenset({5, 6}),
+        calendar: Optional[str] = None,
+    ) -> Eones:
+        """Retreat to the previous business day.
+
+        Args:
+            weekend: Weekday numbers considered weekend.
+            calendar: Calendar identifier. Uses instance default if not specified.
+
+        Returns:
+            Eones: self, updated.
+        """
+        resolved_calendar = calendar if calendar is not None else self._calendar
+        self._date = self._date.previous_business_day(weekend, resolved_calendar)
+        return self
+
+    def add_business_days(
+        self,
+        days: int,
+        weekend: FrozenSet[int] = frozenset({5, 6}),
+        calendar: Optional[str] = None,
+    ) -> Eones:
+        """Add N business days to the current date.
+
+        Args:
+            days: Number of business days to add (can be negative).
+            weekend: Weekday numbers considered weekend.
+            calendar: Calendar identifier. Uses instance default if not specified.
+
+        Returns:
+            Eones: self, updated.
+        """
+        resolved_calendar = calendar if calendar is not None else self._calendar
+        self._date = self._date.add_business_days(days, weekend, resolved_calendar)
+        return self
+
+    def subtract_business_days(
+        self,
+        days: int,
+        weekend: FrozenSet[int] = frozenset({5, 6}),
+        calendar: Optional[str] = None,
+    ) -> Eones:
+        """Subtract N business days from the current date.
+
+        Args:
+            days: Number of business days to subtract.
+            weekend: Weekday numbers considered weekend.
+            calendar: Calendar identifier. Uses instance default if not specified.
+
+        Returns:
+            Eones: self, updated.
+        """
+        cal = calendar if calendar is not None else self._calendar
+        self._date = self._date.subtract_business_days(days, weekend, cal)
+        return self
+
+    def time_until_weekend(self, weekend: FrozenSet[int] = frozenset({5, 6})) -> int:
+        """Return days until next weekend day.
+
+        Returns 0 if already a weekend day.
+
+        Args:
+            weekend: Weekday numbers considered weekend.
+
+        Returns:
+            int: Days until weekend.
+        """
+        return self._date.time_until_weekend(weekend)
+
+    def time_until_business_day(
+        self,
+        weekend: FrozenSet[int] = frozenset({5, 6}),
+        calendar: Optional[str] = None,
+    ) -> int:
+        """Return days until next business day.
+
+        Returns 0 if already a business day.
+
+        Args:
+            weekend: Weekday numbers considered weekend.
+            calendar: Calendar identifier. Uses instance default if not specified.
+
+        Returns:
+            int: Days until business day.
+        """
+        resolved_calendar = calendar if calendar is not None else self._calendar
+        return self._date.time_until_business_day(weekend, resolved_calendar)
+
+    # --- Static business day methods ---
+
+    @staticmethod
+    def count_business_days(
+        start: EonesLike,
+        end: EonesLike,
+        weekend: FrozenSet[int] = frozenset({5, 6}),
+        calendar: Optional[str] = None,
+    ) -> int:
+        """Count business days between two dates (exclusive of end).
+
+        Args:
+            start: Start date.
+            end: End date.
+            weekend: Weekday numbers considered weekend.
+            calendar: Calendar identifier.
+
+        Returns:
+            int: Number of business days.
+        """
+        from eones.core import business  # pylint: disable=import-outside-toplevel
+
+        parser = Parser()
+        start_date = parser.to_eones_date(start)
+        end_date = parser.to_eones_date(end)
+        return business.count_business_days(start_date, end_date, weekend, calendar)
+
+    @staticmethod
+    def count_weekends(start: EonesLike, end: EonesLike) -> int:
+        """Count weekend days between two dates (exclusive of end).
+
+        Args:
+            start: Start date.
+            end: End date.
+
+        Returns:
+            int: Number of weekend days.
+        """
+        from eones.core import business  # pylint: disable=import-outside-toplevel
+
+        parser = Parser()
+        start_date = parser.to_eones_date(start)
+        end_date = parser.to_eones_date(end)
+        return business.count_weekends(start_date, end_date)
+
+    @staticmethod
+    def count_holidays(
+        start: EonesLike,
+        end: EonesLike,
+        calendar: Optional[str] = None,
+    ) -> int:
+        """Count holidays between two dates (exclusive of end).
+
+        Args:
+            start: Start date.
+            end: End date.
+            calendar: Calendar identifier.
+
+        Returns:
+            int: Number of holidays.
+        """
+        from eones.core import business  # pylint: disable=import-outside-toplevel
+
+        parser = Parser()
+        start_date = parser.to_eones_date(start)
+        end_date = parser.to_eones_date(end)
+        return business.count_holidays(start_date, end_date, calendar)
+
+    @staticmethod
+    def available_calendars() -> List[str]:
+        """Return sorted list of all registered calendar names.
+
+        Returns:
+            List[str]: Sorted calendar identifiers.
+        """
+        from eones import calendars  # pylint: disable=import-outside-toplevel
+
+        return calendars.available_calendars()
 
     def _coerce_to_date(self, other: Any) -> Date:
         if isinstance(other, Eones):

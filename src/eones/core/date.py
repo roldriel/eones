@@ -8,7 +8,17 @@ import re
 from calendar import monthrange
 from datetime import datetime, timedelta, timezone
 from functools import total_ordering
-from typing import TYPE_CHECKING, Any, Dict, Literal, Optional, Union, cast
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Dict,
+    FrozenSet,
+    Literal,
+    Optional,
+    Union,
+    cast,
+    overload,
+)
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from eones.constants import VALID_KEYS, is_weekend_day
@@ -118,6 +128,12 @@ class Date:  # pylint: disable=too-many-public-methods
             return self.shift(delta)
 
         return NotImplemented
+
+    @overload
+    def __sub__(self, other: "Date") -> timedelta: ...
+
+    @overload
+    def __sub__(self, other: Union[timedelta, "Delta"]) -> Date: ...
 
     def __sub__(
         self,
@@ -416,9 +432,13 @@ class Date:  # pylint: disable=too-many-public-methods
         if dt.tzinfo is None:
             return "UTC"  # Default fallback for naive datetime
 
-        if hasattr(dt.tzinfo, "key"):
-            # ZoneInfo object
-            return cast(str, dt.tzinfo.key)
+        if isinstance(dt.tzinfo, ZoneInfo):
+            return dt.tzinfo.key
+
+        # Handle mock zone objects with 'key' attribute (FixedOffset)
+        key = getattr(dt.tzinfo, "key", None)
+        if key is not None:
+            return cast(str, key)
 
         if dt.tzinfo == timezone.utc:
             # UTC timezone
@@ -471,8 +491,13 @@ class Date:  # pylint: disable=too-many-public-methods
             raise ValueError("datetime must be timezone-aware")
 
         # For ZoneInfo objects, we can use the normal constructor
-        if hasattr(dt.tzinfo, "key"):
+        if isinstance(dt.tzinfo, ZoneInfo):
             return cls(dt, tz=dt.tzinfo.key, naive="raise")
+
+        # Handle mock zone objects with 'key' attribute (FixedOffset)
+        key = getattr(dt.tzinfo, "key", None)
+        if key is not None:
+            return cls(dt, tz=cast(str, key), naive="raise")
 
         # For UTC timezone
         if dt.tzinfo == timezone.utc:
@@ -1044,7 +1069,7 @@ class Date:  # pylint: disable=too-many-public-methods
 
         # Restar un microsegundo para obtener el último instante del mes actual
         next_month_date = self._with(next_month)
-        return cast("Date", next_month_date - timedelta(microseconds=1))
+        return next_month_date - timedelta(microseconds=1)
 
     def start_of_year(self) -> "Date":
         """Return a new Date instance for the first moment of the current year."""
@@ -1056,4 +1081,135 @@ class Date:  # pylint: disable=too-many-public-methods
         """Return a Date for the last moment of the current year."""
         next_year = datetime(self._dt.year + 1, 1, 1, tzinfo=self._dt.tzinfo)
         next_year_date = self._with(next_year)
-        return cast("Date", next_year_date - timedelta(microseconds=1))
+        return next_year_date - timedelta(microseconds=1)
+
+    # --- Business day methods ---
+
+    def is_business_day(
+        self,
+        weekend: FrozenSet[int] = frozenset({5, 6}),
+        calendar: Optional[str] = None,
+    ) -> bool:
+        """Check if this date is a business day.
+
+        Args:
+            weekend: Weekday numbers considered weekend (0=Mon, 6=Sun).
+            calendar: Calendar identifier for holidays.
+
+        Returns:
+            True if neither a weekend nor a holiday.
+        """
+        from eones.core import business  # pylint: disable=import-outside-toplevel
+
+        return business.is_business_day(self, weekend, calendar)
+
+    def next_business_day(
+        self,
+        weekend: FrozenSet[int] = frozenset({5, 6}),
+        calendar: Optional[str] = None,
+    ) -> "Date":
+        """Return the next business day after this date.
+
+        Args:
+            weekend: Weekday numbers considered weekend.
+            calendar: Calendar identifier.
+
+        Returns:
+            The next business day.
+        """
+        from eones.core import business  # pylint: disable=import-outside-toplevel
+
+        return business.next_business_day(self, weekend, calendar)
+
+    def previous_business_day(
+        self,
+        weekend: FrozenSet[int] = frozenset({5, 6}),
+        calendar: Optional[str] = None,
+    ) -> "Date":
+        """Return the previous business day before this date.
+
+        Args:
+            weekend: Weekday numbers considered weekend.
+            calendar: Calendar identifier.
+
+        Returns:
+            The previous business day.
+        """
+        from eones.core import business  # pylint: disable=import-outside-toplevel
+
+        return business.previous_business_day(self, weekend, calendar)
+
+    def add_business_days(
+        self,
+        days: int,
+        weekend: FrozenSet[int] = frozenset({5, 6}),
+        calendar: Optional[str] = None,
+    ) -> "Date":
+        """Add N business days to this date.
+
+        Args:
+            days: Number of business days to add (can be negative).
+            weekend: Weekday numbers considered weekend.
+            calendar: Calendar identifier.
+
+        Returns:
+            Date after adding business days.
+        """
+        from eones.core import business  # pylint: disable=import-outside-toplevel
+
+        return business.add_business_days(self, days, weekend, calendar)
+
+    def subtract_business_days(
+        self,
+        days: int,
+        weekend: FrozenSet[int] = frozenset({5, 6}),
+        calendar: Optional[str] = None,
+    ) -> "Date":
+        """Subtract N business days from this date.
+
+        Args:
+            days: Number of business days to subtract.
+            weekend: Weekday numbers considered weekend.
+            calendar: Calendar identifier.
+
+        Returns:
+            Date after subtracting business days.
+        """
+        from eones.core import business  # pylint: disable=import-outside-toplevel
+
+        return business.subtract_business_days(self, days, weekend, calendar)
+
+    def time_until_weekend(self, weekend: FrozenSet[int] = frozenset({5, 6})) -> int:
+        """Return days until next weekend day.
+
+        Returns 0 if already a weekend day.
+
+        Args:
+            weekend: Weekday numbers considered weekend.
+
+        Returns:
+            Days until weekend.
+        """
+        from eones.core import business  # pylint: disable=import-outside-toplevel
+
+        return business.time_until_weekend(self, weekend)
+
+    def time_until_business_day(
+        self,
+        weekend: FrozenSet[int] = frozenset({5, 6}),
+        calendar: Optional[str] = None,
+    ) -> int:
+        """Return days until next business day.
+
+        Returns 0 if already a business day.
+
+        Args:
+            weekend: Weekday numbers considered weekend.
+            calendar: Calendar identifier.
+
+        Returns:
+            Days until business day.
+        """
+        from eones.core import business  # pylint: disable=import-outside-toplevel
+
+        return business.time_until_business_day(self, weekend, calendar)
