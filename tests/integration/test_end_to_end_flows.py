@@ -91,4 +91,4 @@ def test_date_sub_not_implemented():
     """Test __sub__ with invalid type returns NotImplemented."""
     d = Date.now(naive="utc")
     with pytest.raises(TypeError):
-        _ = d - 100
+        _ = d - 100  # type: ignore[operator]

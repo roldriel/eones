@@ -170,7 +170,7 @@ def test_custom_range_invalid_types():
     date = Date.now(tz="UTC", naive="utc")
     range_obj = Range(date)
     with pytest.raises(TypeError):
-        range_obj.custom_range("not_a_delta", Delta(days=1))
+        range_obj.custom_range("not_a_delta", Delta(days=1))  # type: ignore[arg-type]
 
 
 def test_custom_range_swapped_order():

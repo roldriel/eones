@@ -7,7 +7,7 @@ from eones.core.delta_calendar import DeltaCalendar
 
 def test_init_type_validation():
     with pytest.raises(TypeError):
-        DeltaCalendar(years="1")  # str no válido
+        DeltaCalendar(years="1")  # type: ignore[arg-type]  # str no válido
     with pytest.raises(TypeError):
         DeltaCalendar(months=True)  # bool no válido
 

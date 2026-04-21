@@ -110,7 +110,7 @@ def test_init_invalid_key():
 
 def test_init_invalid_type():
     with pytest.raises(TypeError):
-        Delta(days="1")
+        Delta(days="1")  # type: ignore[arg-type]
     with pytest.raises(TypeError):
         Delta(hours=True)
 
@@ -180,7 +180,7 @@ def test_apply_full():
 def test_apply_invalid_type():
     delta = Delta()
     with pytest.raises(TypeError):
-        delta.apply("not a date")
+        delta.apply("not a date")  # type: ignore[arg-type]
 
 
 def test_invert():
@@ -275,4 +275,4 @@ def test_json_serialization():
 def test_from_timedelta_invalid_type():
     """Test TypeError in Delta.from_timedelta (line 282)."""
     with pytest.raises(TypeError):
-        Delta.from_timedelta("not_a_timedelta")
+        Delta.from_timedelta("not_a_timedelta")  # type: ignore[arg-type]

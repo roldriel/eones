@@ -25,7 +25,9 @@ def test_dst_spring_forward_hour_skipped():
     shifted = dt + timedelta(hours=1)
     result = shifted.to_datetime()
     assert result.hour == 2
-    assert result.utcoffset().total_seconds() / 3600 == -5
+    offset = result.utcoffset()
+    assert offset is not None
+    assert offset.total_seconds() / 3600 == -5
 
 
 def test_add_then_subtract_symmetry():

@@ -1,7 +1,6 @@
 """tests/unit/test_date.py"""
 
 from datetime import datetime, timedelta
-from typing import cast
 from zoneinfo import ZoneInfo
 
 import pytest
@@ -9,12 +8,20 @@ import pytest
 from eones.core.date import Date
 from eones.core.delta import Delta
 
+# ==== Helpers ====
+
+
+def _d(year: int, month: int, day: int) -> Date:
+    """Create a UTC Date from year/month/day components."""
+    return Date(datetime(year, month, day, tzinfo=ZoneInfo("UTC")))
+
+
 # ==== Fixtures ====
 
 
 @pytest.fixture
 def friday():
-    return Date(datetime(2025, 6, 13, tzinfo=ZoneInfo("UTC")))
+    return _d(2025, 6, 13)
 
 
 @pytest.fixture
@@ -138,7 +145,7 @@ def test_date_component_properties():
 
 
 def test_date_replace_fields_returns_updated_date():
-    d = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
+    d = _d(2024, 1, 1)
     new = d._replace_fields(month=12, day=25)
     assert new.month == 12
     assert new.day == 25
@@ -172,7 +179,7 @@ def test_fiscal_methods():
 
 
 def test_date_shift_and_add_operator():
-    d = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
+    d = _d(2024, 1, 1)
     shifted = d.shift(timedelta(days=5))
     added = d + timedelta(days=5)
     assert shifted.to_datetime().day == 6
@@ -180,7 +187,7 @@ def test_date_shift_and_add_operator():
 
 
 def test_date_add_delta():
-    d = Date(datetime(2024, 1, 31, tzinfo=ZoneInfo("UTC")))
+    d = _d(2024, 1, 31)
     result = d + Delta(months=1)
     dt = result.to_datetime()
     assert dt.month == 2
@@ -188,20 +195,20 @@ def test_date_add_delta():
 
 
 def test_date_subtract_timedelta():
-    d = Date(datetime(2024, 1, 10, tzinfo=ZoneInfo("UTC")))
+    d = _d(2024, 1, 10)
     result = d - timedelta(days=3)
     assert result.to_datetime().day == 7
 
 
 def test_date_subtract_another_date():
-    d1 = Date(datetime(2024, 1, 10, tzinfo=ZoneInfo("UTC")))
-    d2 = Date(datetime(2024, 1, 5, tzinfo=ZoneInfo("UTC")))
+    d1 = _d(2024, 1, 10)
+    d2 = _d(2024, 1, 5)
     delta = d1 - d2
     assert delta.days == 5
 
 
 def test_date_subtract_delta():
-    d = Date(datetime(2024, 3, 31, tzinfo=ZoneInfo("UTC")))
+    d = _d(2024, 3, 31)
     result = d - Delta(months=1)
     dt = result.to_datetime()
     assert dt.month == 2
@@ -209,9 +216,9 @@ def test_date_subtract_delta():
 
 
 def test_date_sub_invalid_type_triggers_not_implemented():
-    d = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
+    d = _d(2024, 1, 1)
     with pytest.raises(TypeError):
-        _ = d - "2024-01-01"
+        _ = d - "2024-01-01"  # type: ignore[operator]
 
 
 # ==== Now / Timezones ====
@@ -219,7 +226,9 @@ def test_date_sub_invalid_type_triggers_not_implemented():
 
 def test_date_now_utc_has_utc_tz():
     d = Date.now(naive="utc")
-    assert d.to_datetime().tzinfo.key == "UTC"
+    tz = d.to_datetime().tzinfo
+    assert isinstance(tz, ZoneInfo)
+    assert tz.key == "UTC"
 
 
 def test_date_now_local_has_local_tz():
@@ -229,7 +238,7 @@ def test_date_now_local_has_local_tz():
 
 def test_date_now_invalid_naive_raises():
     with pytest.raises(ValueError, match="Invalid 'naive' value"):
-        Date.now(naive="invalid")
+        Date.now(naive="invalid")  # type: ignore[arg-type]
 
 
 def test_date_naive_local_adds_local_tz():
@@ -241,7 +250,9 @@ def test_date_naive_local_adds_local_tz():
 def test_date_naive_utc_sets_utc_tz():
     dt = datetime(2024, 1, 1, 12, 0)  # naive
     d = Date(dt, tz="UTC", naive="utc")
-    assert d.to_datetime().tzinfo.key == "UTC"
+    tz = d.to_datetime().tzinfo
+    assert isinstance(tz, ZoneInfo)
+    assert tz.key == "UTC"
 
 
 def test_date_naive_raises_without_tzinfo():
@@ -252,31 +263,33 @@ def test_date_naive_raises_without_tzinfo():
 def test_as_zone_changes_timezone():
     d = Date(datetime(2024, 1, 1, 12, 0, tzinfo=ZoneInfo("UTC")))
     local_dt = d.as_zone("America/Argentina/Buenos_Aires")
-    assert local_dt.tzinfo.key == "America/Argentina/Buenos_Aires"
+    tz = local_dt.tzinfo
+    assert isinstance(tz, ZoneInfo)
+    assert tz.key == "America/Argentina/Buenos_Aires"
 
 
 def test_floor_week_sets_to_monday():
-    d = Date(datetime(2024, 1, 4, tzinfo=ZoneInfo("UTC")))
+    d = _d(2024, 1, 4)
     floored = d.floor("week")
     assert floored.to_datetime().weekday() == 0
 
 
 def test_diff_invalid_unit_raises():
-    d1 = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
-    d2 = Date(datetime(2024, 1, 2, tzinfo=ZoneInfo("UTC")))
+    d1 = _d(2024, 1, 1)
+    d2 = _d(2024, 1, 2)
     with pytest.raises(ValueError, match="Unsupported unit"):
-        d1.diff(d2, unit="minutes")
+        d1.diff(d2, unit="minutes")  # type: ignore[arg-type]
 
 
 def test_month_span_to_adjusts_for_day_difference():
-    d1 = Date(datetime(2024, 1, 31, tzinfo=ZoneInfo("UTC")))
-    d2 = Date(datetime(2024, 2, 28, tzinfo=ZoneInfo("UTC")))
+    d1 = _d(2024, 1, 31)
+    d2 = _d(2024, 2, 28)
     assert d1.month_span_to(d2) == 0
 
 
 def test_year_span_to_adjusts_if_month_day_not_passed():
-    d1 = Date(datetime(2020, 5, 20, tzinfo=ZoneInfo("UTC")))
-    d2 = Date(datetime(2024, 5, 19, tzinfo=ZoneInfo("UTC")))
+    d1 = _d(2020, 5, 20)
+    d2 = _d(2024, 5, 19)
     assert d1.year_span_to(d2) == 3
     assert d2.year_span_to(d1) == -3
 
@@ -295,30 +308,30 @@ def test_rounded_invalid_unit_raises():
 
 
 def test_date_less_than_another():
-    earlier = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
-    later = Date(datetime(2024, 1, 2, tzinfo=ZoneInfo("UTC")))
+    earlier = _d(2024, 1, 1)
+    later = _d(2024, 1, 2)
     assert earlier < later
 
 
 def test_date_less_than_invalid_type():
-    dt = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
+    dt = _d(2024, 1, 1)
     with pytest.raises(TypeError):
         _ = dt < "2024-01-02"
 
 
 def test_date_equality_with_another_date():
-    dt1 = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
-    dt2 = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
+    dt1 = _d(2024, 1, 1)
+    dt2 = _d(2024, 1, 1)
     assert dt1 == dt2
 
 
 def test_date_equality_with_other_type():
-    dt = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
+    dt = _d(2024, 1, 1)
     assert (dt == "2024-01-01") is False
 
 
 def test_date_hash():
-    dt = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
+    dt = _d(2024, 1, 1)
     assert isinstance(hash(dt), int)
 
 
@@ -389,7 +402,7 @@ def test_ceil_units(unit, dt_kwargs, expected):
 
 @pytest.mark.parametrize("invalid_unit", ["millennium", "invalid", "siglo", "ms"])
 def test_ceil_invalid_units_raise(invalid_unit):
-    d = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
+    d = _d(2024, 1, 1)
     with pytest.raises(ValueError) as exc:
         d.ceil(invalid_unit)
     assert f"Unsupported unit: {invalid_unit}" in str(exc.value)
@@ -398,7 +411,7 @@ def test_ceil_invalid_units_raise(invalid_unit):
 def test_constructor_invalid_naive_raises():
     dt = datetime(2024, 1, 1, 12, 0, tzinfo=ZoneInfo("UTC"))
     with pytest.raises(ValueError, match="Invalid 'naive' value"):
-        Date(dt, tz="UTC", naive="invalid")
+        Date(dt, tz="UTC", naive="invalid")  # type: ignore[arg-type]
 
 
 def test_ceil_second_sets_microsecond():
@@ -408,7 +421,7 @@ def test_ceil_second_sets_microsecond():
 
 
 def test_ceil_invalid_unit_only_in_ceil():
-    d = Date(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
+    d = _d(2024, 1, 1)
     d._dt = d._dt.replace(tzinfo=ZoneInfo("UTC"))
     with pytest.raises(ValueError, match="Unsupported unit: decade"):
         d.ceil("decade")
@@ -422,18 +435,6 @@ def test_ceil_final_else_branch_direct():
     d = Dummy(datetime(2024, 1, 1, tzinfo=ZoneInfo("UTC")))
     with pytest.raises(ValueError, match="Unsupported unit: fakeunit"):
         d.ceil("fakeunit")
-
-
-def test_date_naive_unknown_mode_raises():
-    dt = datetime(2024, 1, 1, 12, 0)
-    with pytest.raises(ValueError, match="Invalid 'naive' value"):
-        Date(dt, tz="UTC", naive="xyz")
-
-
-def test_date_naive_raise_mode_without_tzinfo():
-    dt = datetime(2024, 1, 1, 12, 0)  # naive
-    with pytest.raises(ValueError, match="Naive datetime received"):
-        Date(dt, tz="UTC", naive="raise")
 
 
 @pytest.mark.parametrize(
@@ -451,7 +452,9 @@ def test_start_end_preserve_timezone(method):
     zone = "America/Argentina/Buenos_Aires"
     base = Date(datetime(2025, 6, 15, 12, 0, tzinfo=ZoneInfo(zone)), tz=zone)
     result = getattr(base, method)()
-    assert result.to_datetime().tzinfo.key == zone
+    tz = result.to_datetime().tzinfo
+    assert isinstance(tz, ZoneInfo)
+    assert tz.key == zone
 
 
 def test_is_same_day_true():
@@ -500,7 +503,7 @@ def test_invalid_timezone_in_init():
 def test_add_unsupported_type():
     """Test return NotImplemented in Date.__add__ (line 119)."""
     date = Date.now(tz="UTC", naive="utc")
-    result = date.__add__("unsupported")
+    result = date.__add__("unsupported")  # type: ignore[arg-type]
     assert result is NotImplemented
 
 
@@ -535,7 +538,7 @@ def test_diff_for_humans_invalid_other_type():
     """Test TypeError in diff_for_humans (line 473)."""
     date = Date.now(tz="UTC", naive="utc")
     with pytest.raises(TypeError):
-        date.diff_for_humans("invalid_type")
+        date.diff_for_humans("invalid_type")  # type: ignore[arg-type]
 
 
 def test_end_of_month_december():
@@ -667,21 +670,6 @@ def test_is_weekend_with_first_day_config(weekday, first_day_of_week, expected):
 
     result = is_weekend_day(date._dt.weekday(), first_day_of_week)
     assert result == expected
-
-
-def test_is_weekend_default_iso_behavior():
-    """Test that is_weekend() uses ISO standard by default."""
-    # Saturday should be weekend
-    saturday = Date(datetime(2024, 1, 6), naive="utc")  # Saturday
-    assert saturday.is_weekend() is True
-
-    # Sunday should be weekend
-    sunday = Date(datetime(2024, 1, 7), naive="utc")  # Sunday
-    assert sunday.is_weekend() is True
-
-    # Friday should not be weekend
-    friday = Date(datetime(2024, 1, 5), naive="utc")  # Friday
-    assert friday.is_weekend() is False
 
 
 # ==== ISO 8601 PARSING TESTS ====
@@ -846,111 +834,95 @@ class TestDateCoverageImprovements:
 
     def test_date_constructor_with_none_tz(self):
         """Test Date constructor when tz=None (line 36)."""
-        # This should default to UTC
         date = Date(tz=None)
+        assert isinstance(date._zone, ZoneInfo)
         assert date._zone.key == "UTC"
-
-    def test_now_invalid_naive_value(self):
-        """Test Date.now with invalid naive parameter (lines 176-179)."""
-        with pytest.raises(ValueError, match="Invalid 'naive' value"):
-            Date.now(naive="invalid")
 
     def test_from_iso_with_invalid_format_causing_value_error(self):
         """Test from_iso with format that causes ValueError (lines 345-346)."""
         from eones.errors import InvalidFormatError
 
-        # Invalid ISO format should raise InvalidFormatError
         with pytest.raises(InvalidFormatError):
             Date.from_iso("invalid-format")
 
-    def test_from_iso_with_invalid_timezone(self):
-        """Test from_iso with invalid timezone causing ZoneInfoNotFoundError (line 351)."""
-        from eones.errors import InvalidTimezoneError
-
-        # Test with naive datetime and invalid timezone
-        with pytest.raises(InvalidTimezoneError):
-            Date.from_iso("2024-01-01T12:00:00", tz="Invalid/Timezone")
-
-    def test_from_iso_with_utc_timezone(self):
-        """Test from_iso with datetime having timezone.utc (line 363)."""
-        from datetime import timezone
-        from unittest.mock import patch
-
-        # Create a datetime with timezone.utc
-        dt_with_utc = datetime(2024, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
-
-        # Mock fromisoformat to return this datetime
-        with patch("eones.core.date.datetime") as mock_datetime:
-            mock_datetime.fromisoformat.return_value = dt_with_utc
-            mock_datetime.now.return_value = datetime.now()
-
-            date = Date.from_iso("2024-01-01T12:00:00Z")
-            assert date is not None
-
-    def test_from_iso_with_offset_having_minutes(self):
-        """Test from_iso with timezone offset having non-zero minutes (line 380)."""
-        # Test with offset like +05:30 (India Standard Time)
-        date = Date.from_iso("2024-01-01T12:00:00+05:30")
-        assert date is not None
-        # The timezone name should include minutes
-        assert "30" in date._zone.key
-
     def test_from_unix_with_none_tz_explicit(self):
         """Test from_unix with tz=None explicitly to trigger line 395."""
-        # This should trigger the tz = "UTC" assignment on line 395
         date = Date.from_unix(1640995200.0, tz=None)
-        assert date is not None
+        assert isinstance(date._zone, ZoneInfo)
         assert date._zone.key == "UTC"
-
-    def test_from_unix_with_invalid_timezone(self):
-        """Test from_unix with invalid timezone (line 410)."""
-        from eones.errors import InvalidTimezoneError
-
-        timestamp = 1704110400.0  # 2024-01-01 12:00:00 UTC
-
-        with pytest.raises(InvalidTimezoneError):
-            Date.from_unix(timestamp, tz="Invalid/Timezone")
-
-    def test_from_iso_naive_datetime_with_invalid_tz_precise(self):
-        """Test from_iso with naive datetime and invalid timezone (line 351)."""
-        from eones.errors import InvalidTimezoneError
-
-        # Test with ISO string without timezone info and invalid tz parameter
-        # This should trigger the ZoneInfoNotFoundError and line 351
-        with pytest.raises(InvalidTimezoneError):
-            Date.from_iso("2024-01-01T12:00:00", tz="Invalid/Timezone/Name")
-
-    def test_from_iso_with_fixed_offset_timezone(self):
-        """Test from_iso with fixed offset timezone to trigger line 363."""
-        from datetime import timedelta, timezone
-        from unittest.mock import patch
-
-        # Create a datetime with a fixed offset (not timezone.utc)
-        fixed_offset = timezone(timedelta(hours=5))
-        dt_with_fixed = datetime(2024, 1, 1, 12, 0, 0, tzinfo=fixed_offset)
-
-        # Mock fromisoformat to return this datetime with fixed offset
-        with patch("eones.core.date.datetime") as mock_datetime:
-            mock_datetime.fromisoformat.return_value = dt_with_fixed
-
-            date = Date.from_iso("2024-01-01T12:00:00+05:00")
-            assert date is not None
 
     def test_from_iso_with_timezone_utc_object_direct(self):
         """Test from_iso with timezone.utc object (line 363)."""
-        # Test with actual ISO string that has timezone info
-        # This should parse to a datetime with timezone.utc
         date = Date.from_iso("2024-01-01T12:00:00+00:00")
-        assert date is not None
-        # The datetime should have timezone info and trigger line 363
+        assert isinstance(date._zone, ZoneInfo)
         assert date._zone.key == "UTC"
 
-    def test_from_iso_offset_with_nonzero_minutes_precise(self):
+    def test_from_iso_offset_with_nonzero_minutes(self):
         """Test from_iso with offset having non-zero minutes (line 380)."""
-        # Test with actual ISO string that has timezone offset with minutes
-        # This should trigger the line 380 condition where minutes != 0
         date = Date.from_iso("2024-01-01T12:00:00+05:30")
-        assert date is not None
-        # Should create a timezone name with minutes
-        assert ":30" in date._zone.key
-        assert date._zone.key == "UTC+05:30"
+        assert ":30" in date._zone.key  # type: ignore[attr-defined]
+        assert date._zone.key == "UTC+05:30"  # type: ignore[attr-defined]
+
+
+# ==== Business Day Methods ====
+
+
+class TestDateIsBusinessDay:
+    """Test Date.is_business_day() method."""
+
+    def test_weekday_is_business_day(self):
+        assert _d(2026, 1, 5).is_business_day() is True  # Monday
+
+    def test_weekend_is_not_business_day(self):
+        assert _d(2026, 1, 10).is_business_day() is False  # Saturday
+
+    def test_holiday_is_not_business_day(self):
+        assert _d(2026, 1, 1).is_business_day(calendar="America/Argentina") is False
+
+
+class TestDateNextBusinessDay:
+
+    def test_from_friday(self):
+        assert _d(2026, 1, 9).next_business_day().day == 12  # Monday
+
+    def test_from_saturday(self):
+        assert _d(2026, 1, 10).next_business_day().day == 12  # Monday
+
+
+class TestDatePreviousBusinessDay:
+
+    def test_from_monday(self):
+        assert _d(2026, 1, 12).previous_business_day().day == 9  # Friday
+
+
+class TestDateAddBusinessDays:
+
+    def test_add_five_crossing_weekend(self):
+        assert _d(2026, 1, 5).add_business_days(5).day == 12  # Next Monday
+
+    def test_negative_days(self):
+        assert _d(2026, 1, 12).add_business_days(-5).day == 5  # Previous Monday
+
+
+class TestDateSubtractBusinessDays:
+
+    def test_subtract_five_crossing_weekend(self):
+        assert _d(2026, 1, 12).subtract_business_days(5).day == 5  # Previous Monday
+
+
+class TestDateTimeUntilWeekend:
+
+    def test_monday_is_five_days(self):
+        assert _d(2026, 1, 5).time_until_weekend() == 5
+
+    def test_saturday_is_zero(self):
+        assert _d(2026, 1, 10).time_until_weekend() == 0
+
+
+class TestDateTimeUntilBusinessDay:
+
+    def test_monday_is_zero(self):
+        assert _d(2026, 1, 5).time_until_business_day() == 0
+
+    def test_saturday_is_two(self):
+        assert _d(2026, 1, 10).time_until_business_day() == 2

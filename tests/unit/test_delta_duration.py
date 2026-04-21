@@ -7,7 +7,7 @@ from eones.core.delta_duration import DeltaDuration
 
 def test_init_type_validation():
     with pytest.raises(TypeError):
-        DeltaDuration(days="5")
+        DeltaDuration(days="5")  # type: ignore[arg-type]
     with pytest.raises(TypeError):
         DeltaDuration(hours=True)
 
@@ -97,4 +97,4 @@ def test_from_iso_invalid():
 def test_from_timedelta_invalid_type():
     """Test TypeError in DeltaDuration.from_timedelta (line 156)."""
     with pytest.raises(TypeError):
-        DeltaDuration.from_timedelta("not_a_timedelta")
+        DeltaDuration.from_timedelta("not_a_timedelta")  # type: ignore[arg-type]

@@ -35,7 +35,7 @@ def test_parse_format_with_timezone_if_supported():
 
 def test_format_invalid_date_raises():
     with pytest.raises(TypeError):
-        format_date("not a date object", "%Y-%m-%d")
+        format_date("not a date object", "%Y-%m-%d")  # type: ignore[arg-type]
 
 
 # ISO Parsing & Timezone Tests
@@ -80,4 +80,4 @@ def test_parser_custom_formats():
 def test_date_now_invalid_naive_parameter():
     """Test Date.now() with invalid naive parameter."""
     with pytest.raises(ValueError, match="Invalid 'naive' value"):
-        Date.now(naive="invalid")
+        Date.now(naive="invalid")  # type: ignore[arg-type]

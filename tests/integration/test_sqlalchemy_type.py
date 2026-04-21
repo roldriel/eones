@@ -35,7 +35,7 @@ class TestCacheOk:
     """Tests for EonesType.cache_ok attribute."""
 
     def test_cache_ok_is_true(self):
-        assert EonesType.cache_ok is True
+        assert EonesType.cache_ok is True  # type: ignore[attr-defined]
 
 
 class TestProcessBindParam:
