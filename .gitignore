@@ -44,6 +44,7 @@ docs/.buildinfo
 *.js
 *.css
 *.png
+!eones.png
 *.svg
 
 # System files
