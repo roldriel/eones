@@ -30,9 +30,16 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "License :: OSI Approved :: MIT License",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Typing :: Typed"
+    "Typing :: Typed",
+    "Natural Language :: Spanish",
+    "Natural Language :: English",
+    "Natural Language :: French",
+    "Natural Language :: German",
+    "Natural Language :: Japanese"
 ]
 dependencies = []
 
@@ -77,6 +84,12 @@ score = true
 [tool.pylint.design]
 min-public-methods = 0
 
+[tool.pylint."messages_control"]
+disable = [
+    "cyclic-import",
+    "duplicate-code",
+]
+
 [tool.coverage.run]
 source = ["eones"]
 omit = [
@@ -103,6 +116,12 @@ disallow_untyped_defs = true
 check_untyped_defs = true
 # Use explicit path instead of exclude to avoid analyzing site-packages
 files = ["src"]
+
+[[tool.mypy.overrides]]
+module = "eones.integrations.*"
+# Integrations wrap optional third-party libraries (Django, SQLAlchemy)
+# whose stubs may not be installed, so their types resolve to Any.
+disallow_subclassing_any = false
 
 [tool.coverage.html]
 directory = "htmlcov"
