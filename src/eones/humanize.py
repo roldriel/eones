@@ -9,6 +9,17 @@ from eones.locales import get_messages
 if TYPE_CHECKING:  # pragma: no cover - for type hints only
     from eones.core.date import Date
 
+# Time units in descending order: (message key, seconds per unit)
+_TIME_UNITS = [
+    ("year", 31536000),
+    ("month", 2592000),
+    ("week", 604800),
+    ("day", 86400),
+    ("hour", 3600),
+    ("minute", 60),
+    ("second", 1),
+]
+
 
 def diff_for_humans(
     date: "Date", other: Optional["Date"] = None, locale: str = "en"
@@ -32,19 +43,8 @@ def diff_for_humans(
     future = diff_seconds > 0
     seconds = abs(int(diff_seconds))
 
-    # Define time units in descending order
-    units = [
-        ("year", 31536000),
-        ("month", 2592000),
-        ("week", 604800),
-        ("day", 86400),
-        ("hour", 3600),
-        ("minute", 60),
-        ("second", 1),
-    ]
-
     # Find the appropriate unit and count
-    for unit, unit_seconds in units:
+    for unit, unit_seconds in _TIME_UNITS:
         if seconds >= unit_seconds:
             count = seconds // unit_seconds
             unit_labels = cast(Tuple[str, str], messages[unit])
@@ -54,12 +54,13 @@ def diff_for_humans(
         return str(messages["just_now"])
 
     # Format the phrase based on locale
-    if locale == "en":
-        return (
-            f"{str(messages['future'])} {count} {label}"
-            if future
-            else f"{count} {label} {str(messages['past'])}"
-        )
+    marker = str(messages["future"]) if future else str(messages["past"])
+    position = messages.get("position")
 
-    prefix = str(messages["future"]) if future else str(messages["past"])
-    return f"{prefix} {count} {label}"
+    if position == "suffix":
+        return f"{count} {label}{marker}"
+
+    if locale == "en":
+        return f"{marker} {count} {label}" if future else f"{count} {label} {marker}"
+
+    return f"{marker} {count} {label}"
