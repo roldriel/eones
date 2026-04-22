@@ -1,6 +1,6 @@
 """tests/unit/test_date.py"""
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone, tzinfo
 from zoneinfo import ZoneInfo
 
 import pytest
@@ -926,3 +926,130 @@ class TestDateTimeUntilBusinessDay:
 
     def test_saturday_is_two(self):
         assert _d(2026, 1, 10).time_until_business_day() == 2
+
+
+# ==== Timezone and ISO edge cases (coverage gaps) ====
+
+
+def test_from_iso_with_z_suffix():
+    """ISO string with Zulu suffix should normalize to +00:00."""
+    d = Date.from_iso("2025-06-15T12:00:00Z")
+    assert d.to_datetime().isoformat() == "2025-06-15T12:00:00+00:00"
+
+
+def test_get_timezone_name_naive():
+    """Naive datetime should fallback to UTC name."""
+    naive = datetime(2025, 6, 15)
+    assert Date._get_timezone_name(naive) == "UTC"
+
+
+def test_get_timezone_name_zoneinfo():
+    """ZoneInfo object should return its key."""
+    dt = datetime(2025, 6, 15, tzinfo=ZoneInfo("America/Buenos_Aires"))
+    assert Date._get_timezone_name(dt) == "America/Buenos_Aires"
+
+
+def test_get_timezone_name_mock_key():
+    """Mock tzinfo with 'key' attribute should use it."""
+
+    class MockTZ(tzinfo):
+        key = "Mock/Zone"
+
+        def utcoffset(self, dt):
+            return timedelta(hours=3)
+
+        def tzname(self, dt):
+            return "Mock"
+
+    dt = datetime(2025, 6, 15, tzinfo=MockTZ())
+    assert Date._get_timezone_name(dt) == "Mock/Zone"
+
+
+def test_format_offset_timezone_name_naive():
+    """Naive datetime should fallback to UTC in offset formatter."""
+    naive = datetime(2025, 6, 15)
+    assert Date._format_offset_timezone_name(naive) == "UTC"
+
+
+def test_format_offset_timezone_name_zero_offset():
+    """UTC timezone should return UTC string, not offset."""
+    dt = datetime(2025, 6, 15, tzinfo=timezone.utc)
+    assert Date._format_offset_timezone_name(dt) == "UTC"
+
+
+def test_from_timezone_aware_datetime_zoneinfo():
+    """Preserve ZoneInfo timezone when creating Date from datetime."""
+    dt = datetime(2025, 6, 15, 12, 0, tzinfo=ZoneInfo("Europe/Paris"))
+    d = Date.from_timezone_aware_datetime(dt)
+    assert d.timezone == "Europe/Paris"
+
+
+def test_from_timezone_aware_datetime_mock_key():
+    """Preserve mock timezone with key attribute."""
+
+    class MockTZ(tzinfo):
+        key = "Europe/Paris"
+
+        def utcoffset(self, dt):
+            return timedelta(hours=2)
+
+        def tzname(self, dt):
+            return "Paris"
+
+    dt = datetime(2025, 6, 15, 12, 0, tzinfo=MockTZ())
+    d = Date.from_timezone_aware_datetime(dt)
+    assert d.timezone == "Europe/Paris"
+
+
+def test_from_timezone_aware_datetime_utc():
+    """Handle datetime with timezone.utc."""
+    dt = datetime(2025, 6, 15, 12, 0, tzinfo=timezone.utc)
+    d = Date.from_timezone_aware_datetime(dt)
+    assert d.timezone == "UTC"
+
+
+def test_from_iso_invalid_date_logic():
+    """Logical invalid date should raise ValueError, not InvalidFormatError."""
+    with pytest.raises(ValueError):
+        Date.from_iso("2025-02-30")
+
+
+def test_from_iso_naive_defaults_to_utc():
+    """ISO string without timezone should use UTC fast path."""
+    d = Date.from_iso("2025-06-15T10:30:00")
+    assert d.timezone == "UTC"
+    assert d.to_datetime().isoformat() == "2025-06-15T10:30:00+00:00"
+
+
+def test_normalize_iso_format_z_suffix():
+    """Z suffix should be replaced with +00:00."""
+    result = Date._normalize_iso_format("2025-06-15T12:00:00Z")
+    assert result == "2025-06-15T12:00:00+00:00"
+
+
+def test_create_date_with_timezone_info_zoneinfo():
+    """_create_date_with_timezone_info should preserve ZoneInfo."""
+    dt = datetime(2025, 6, 15, 12, 0, tzinfo=ZoneInfo("Europe/Paris"))
+    d = Date._create_date_with_timezone_info(dt)
+    assert d.timezone == "Europe/Paris"
+
+
+def test_from_timezone_aware_datetime_naive_raises():
+    """Naive datetime should raise ValueError."""
+    with pytest.raises(ValueError, match="timezone-aware"):
+        Date.from_timezone_aware_datetime(datetime(2025, 6, 15))
+
+
+def test_from_timezone_aware_datetime_zero_offset_mock():
+    """Mock tzinfo with zero offset (not timezone.utc) should yield UTC name."""
+
+    class MockTZ(tzinfo):
+        def utcoffset(self, dt):
+            return timedelta(0)
+
+        def tzname(self, dt):
+            return "Mock"
+
+    dt = datetime(2025, 6, 15, 12, 0, tzinfo=MockTZ())
+    d = Date.from_timezone_aware_datetime(dt)
+    assert d.timezone == "UTC"

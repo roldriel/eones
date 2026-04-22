@@ -9,7 +9,8 @@
 ![Python](https://img.shields.io/badge/Python-3.9+-yellow?style=for-the-badge&logo=python)
 ![PyPI](https://img.shields.io/pypi/v/eones?style=for-the-badge)
 ![Pylint](https://img.shields.io/badge/pylint-10.00-green?style=for-the-badge)
-![Coverage](https://img.shields.io/badge/Coverage-97%25-red?style=for-the-badge)
+![Coverage](https://img.shields.io/codecov/c/gh/roldriel/eones?style=for-the-badge)
+![Download](https://img.shields.io/pypi/dm/eones?style=for-the-badge&color=000)
 
 ---
 
