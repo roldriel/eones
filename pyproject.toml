@@ -45,7 +45,7 @@ dependencies = []
 
 [project.optional-dependencies]
 docs = ["sphinx", "myst-parser", "furo"]
-test = ["pytest>=9.0.3", "coverage"]
+test = ["pytest>=8.0.0", "coverage"]
 tz = ["tzdata"]
 
 [project.urls]
