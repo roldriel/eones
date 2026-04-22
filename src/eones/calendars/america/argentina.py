@@ -20,13 +20,12 @@ class Calendar(HolidayCalendar):
     """Argentina national holiday calendar (Ley 27.399).
 
     Includes 15 official holidays per year:
-    - Fixed holidays (9): New Year, Veterans Day, Day of Remembrance,
-      Labor Day, May Revolution, Güemes Day, Independence Day,
-      Immaculate Conception, Christmas.
-    - Easter-based holidays (3): Carnival Monday/Tuesday, Good Friday.
-    - Movable holidays (3): San Martín (3rd Monday of August),
-      Cultural Diversity (2nd Monday of October),
-      National Sovereignty (4th Monday of November).
+    Fixed (9): New Year, Veterans Day, Day of Remembrance, Labor Day,
+    May Revolution, Güemes Day, Independence Day, Immaculate Conception,
+    Christmas.
+    Easter-based (3): Carnival Monday/Tuesday, Good Friday.
+    Movable (3): San Martín (3rd Monday of August), Cultural Diversity
+    (2nd Monday of October), National Sovereignty (4th Monday of November).
     """
 
     __slots__ = ()

@@ -45,6 +45,7 @@ docs/.buildinfo
 *.css
 *.png
 !eones.png
+!eones_ico.png
 *.svg
 
 # System files
