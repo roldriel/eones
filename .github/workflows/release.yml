@@ -131,7 +131,7 @@ jobs:
       - name: Setup Python Environment
         uses: ./.github/actions/setup-python
         with:
-          python-version: '3.11'
+          python-version: '3.13'
           cache-key-suffix: build
           extra-deps: 'build twine'
 
@@ -245,7 +245,7 @@ jobs:
       - name: Setup Python Environment
         uses: ./.github/actions/setup-python
         with:
-          python-version: '3.11'
+          python-version: '3.13'
           cache-key-suffix: docs
           install-tox: true
 
